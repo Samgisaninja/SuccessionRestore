@@ -29,7 +29,7 @@
     NSString *deviceVersion = [[UIDevice currentDevice] systemVersion];
     NSLog(@"%@",deviceVersion);
     //Gets iOS device build number (ex 10.1.1 == 14B100 or 14B150
-    //Thanks, Apple, for releasing two versions of 10.1.1, you really make things hard on us.
+    //Thanks, Apple, for releasing two versions of 10.1.1, you really like making things hard on us.
     sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
     char *buildChar = malloc(size);
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
@@ -38,6 +38,30 @@
     NSLog(@"%@", deviceBuild);
 }
 
+ - (void)viewDidAppear:(BOOL)animated {
+    //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad to show the alert
+    BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/succession.app"];
+    if (isRoot == YES) {
+        
+    } else {
+        UIAlertController *notRunningAsRoot = [UIAlertController alertControllerWithTitle:@"Succession isn't running as root" message:@"You need a jailbreak to use this app" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *exitApp = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *closeApp) {
+            exit(0);
+            }];
+        [notRunningAsRoot addAction:exitApp];
+        [self presentViewController:notRunningAsRoot animated:YES completion:nil];
+    }
+    
+}
+
+
+- (IBAction)infoNotAccurateButton:(id)sender {
+    //Code that runs the "Information not correct alert"
+    UIAlertController *infoNotAccurateButtonInfo = [UIAlertController alertControllerWithTitle:@"Please provide your own DMG" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [infoNotAccurateButtonInfo addAction:okAction];
+    [self presentViewController:infoNotAccurateButtonInfo animated:YES completion:nil];
+}
 
 
 @end
