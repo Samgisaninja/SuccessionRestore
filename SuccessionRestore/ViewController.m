@@ -17,29 +17,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //Gets iOS device model (ex iPhone9,1 == iPhone 7 GSM)
+    //Gets iOS device model (ex iPhone9,1 == iPhone 7 GSM) and changes label.
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
     char *modelChar = malloc(size);
     sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
     NSString *deviceModel = [NSString stringWithUTF8String:modelChar];
     free(modelChar);
-    NSLog(@"%@",deviceModel);
-    //Gets iOS version (if you need an example, maybe you should learn about iOS more before learning to develop for it)
+    self.deviceModelLabel.text = [NSString stringWithFormat:@"%@", deviceModel];
+    //Gets iOS version (if you need an example, maybe you should learn about iOS more before learning to develop for it) and changes label.
     NSString *deviceVersion = [[UIDevice currentDevice] systemVersion];
-    NSLog(@"%@",deviceVersion);
-    //Gets iOS device build number (ex 10.1.1 == 14B100 or 14B150
+    NSLog(@"%@", deviceVersion);
+    self.iOSVersionLabel.text = [NSString stringWithFormat:@"%@", deviceVersion];
+    //Gets iOS device build number (ex 10.1.1 == 14B100 or 14B150) and changes label.
     //Thanks, Apple, for releasing two versions of 10.1.1, you really like making things hard on us.
     sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
     char *buildChar = malloc(size);
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
-    NSLog(@"%@", deviceBuild);
+    self.iOSBuildLabel.text = [NSString stringWithFormat:@"%@", deviceBuild];
 }
 
  - (void)viewDidAppear:(BOOL)animated {
-    //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers
+    //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers.
     BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
     if (isRoot == YES) {
         

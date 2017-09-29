@@ -10,6 +10,8 @@
 
 @interface ViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *deviceModelLabel;
+@property (weak, nonatomic) IBOutlet UILabel *iOSVersionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *iOSBuildLabel;
 
 @end
-
