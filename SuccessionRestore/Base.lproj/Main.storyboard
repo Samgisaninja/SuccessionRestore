@@ -37,11 +37,17 @@
                                 <rect key="frame" x="66" y="56" width="50" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Donate"/>
+                                <connections>
+                                    <action selector="donateButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aJQ-0f-cHa"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S0F-S6-ikK">
                                 <rect key="frame" x="200" y="56" width="56" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Contact"/>
+                                <connections>
+                                    <action selector="contactSupportButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f1g-Fi-Ni6"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device Info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rhB-vO-tJs">
                                 <rect key="frame" x="117" y="80" width="86" height="21"/>

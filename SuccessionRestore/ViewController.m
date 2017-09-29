@@ -39,8 +39,8 @@
 }
 
  - (void)viewDidAppear:(BOOL)animated {
-    //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad to show the alert
-    BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/succession.app"];
+    //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers
+    BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
     if (isRoot == YES) {
         
     } else {
@@ -54,9 +54,18 @@
     
 }
 
+- (IBAction)contactSupportButton:(id)sender {
+    //Opens a PM to my reddit
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"]];
+}
+
+- (IBAction)donateButton:(id)sender {
+    //Hey, someone actually decided to donate?! <3
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.paypal.me/Sam4Gardner/2"]];
+}
 
 - (IBAction)infoNotAccurateButton:(id)sender {
-    //Code that runs the "Information not correct alert"
+    //Code that runs the "Information not correct" button
     UIAlertController *infoNotAccurateButtonInfo = [UIAlertController alertControllerWithTitle:@"Please provide your own DMG" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [infoNotAccurateButtonInfo addAction:okAction];
