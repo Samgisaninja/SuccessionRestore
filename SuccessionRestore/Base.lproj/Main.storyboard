@@ -161,8 +161,10 @@
                     </view>
                     <connections>
                         <outlet property="deviceModelLabel" destination="5Z8-mG-XV3" id="VfZ-sd-ZJ3"/>
+                        <outlet property="downloadDMGButton" destination="C3s-O3-PD4" id="AXX-29-MY3"/>
                         <outlet property="iOSBuildLabel" destination="eEO-N4-nGY" id="4DR-yh-dmk"/>
                         <outlet property="iOSVersionLabel" destination="TU6-oy-6RV" id="2lB-UT-XuH"/>
+                        <outlet property="prepareToRestoreButton" destination="OyJ-6j-gtA" id="O5W-D6-iiI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

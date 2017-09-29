@@ -27,7 +27,6 @@
     self.deviceModelLabel.text = [NSString stringWithFormat:@"%@", deviceModel];
     //Gets iOS version (if you need an example, maybe you should learn about iOS more before learning to develop for it) and changes label.
     NSString *deviceVersion = [[UIDevice currentDevice] systemVersion];
-    NSLog(@"%@", deviceVersion);
     self.iOSVersionLabel.text = [NSString stringWithFormat:@"%@", deviceVersion];
     //Gets iOS device build number (ex 10.1.1 == 14B100 or 14B150) and changes label.
     //Thanks, Apple, for releasing two versions of 10.1.1, you really like making things hard on us.
@@ -37,6 +36,21 @@
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
     self.iOSBuildLabel.text = [NSString stringWithFormat:@"%@", deviceBuild];
+    //Checks to see if DMG has already been downloaded and sets features accordingly
+    BOOL DMGAlreadyDownloaded = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"];
+    if (DMGAlreadyDownloaded == YES) {
+        [_downloadDMGButton setTitle:@"Redownload clean rootfilesystem" forState:UIControlStateNormal];
+        [_prepareToRestoreButton setTitle:@"Prepare to restore!" forState:UIControlStateNormal];
+        [_prepareToRestoreButton setEnabled:YES];
+        [_prepareToRestoreButton setUserInteractionEnabled:YES];
+        [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:255.0/255.0 green:0/255.0 blue:0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    } else {
+        [_downloadDMGButton setTitle:@"Download a clean rootfilesystem" forState:UIControlStateNormal];
+        [_prepareToRestoreButton setTitle:@"Please download a rootfilesystem first" forState:UIControlStateNormal];
+        [_prepareToRestoreButton setEnabled:NO];
+        [_prepareToRestoreButton setUserInteractionEnabled:NO];
+        [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:173.0/255.0 green:173.0/255.0 blue:173.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    }
 }
 
  - (void)viewDidAppear:(BOOL)animated {
@@ -72,6 +86,7 @@
     [infoNotAccurateButtonInfo addAction:okAction];
     [self presentViewController:infoNotAccurateButtonInfo animated:YES completion:nil];
 }
+
 
 
 @end

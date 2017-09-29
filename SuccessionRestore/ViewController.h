@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *deviceModelLabel;
 @property (weak, nonatomic) IBOutlet UILabel *iOSVersionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *iOSBuildLabel;
-
+@property (weak, nonatomic) IBOutlet UIButton *downloadDMGButton;
+@property (weak, nonatomic) IBOutlet UIButton *prepareToRestoreButton;
 @end
