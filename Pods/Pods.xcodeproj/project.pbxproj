@@ -1,0 +1,725 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		144EAD5AE8513697630B7A9611B1AFF5 /* TCBlobDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A801F49FEE36DCE0926CECC9306A6E9 /* TCBlobDownloadManager.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		1ECAE8A2B2BC3CC9D2C0CCBEBDB87830 /* Pods-SuccessionRestoreUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 905F782D71E01F508793EB959D0D7295 /* Pods-SuccessionRestoreUITests-dummy.m */; };
+		20CCFD63AB40C94E0C5BD8E46D447398 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		2AEA6E796E891CD3666490056AE2C9F5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		2B979E28B5CB8762E2B04B5B51110ED7 /* TCBlobDownload-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3F21E3E7B7A8EF65F3DD17BBC000C2 /* TCBlobDownload-dummy.m */; };
+		53653ACF8FAF5BADA33C6740153D5B42 /* TCBlobDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F93B265456BD6C5F85C1A650C00B5A /* TCBlobDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6356F6D9F6DD2EAFEC578F102DCDCF55 /* Pods-SuccessionRestore-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C71F3247752500C119B40E329683475B /* Pods-SuccessionRestore-dummy.m */; };
+		922D5EEEE7916116E59E5F06294936DC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		95598F755162907DF8F366BAD6DF8C32 /* TCBlobDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E2ED4E26E868A4B9C92FE677A23F7E /* TCBlobDownloader.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		AF9EAA33EBE06C404AD85E80E1D6C373 /* TCBlobDownload.h in Headers */ = {isa = PBXBuildFile; fileRef = E4EFFFEAC31F4F3D5F81A5E49378921D /* TCBlobDownload.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2F51584C19DC0127A9ADA04EC897EA5 /* Pods-SuccessionRestoreTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE282BB2B24DB18EEAABD6CDE3C55FB /* Pods-SuccessionRestoreTests-dummy.m */; };
+		C25D3B86AB6BBC2103A39EA9DF4D180F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		D82B8F3DA97FA2971B6136A6B30E8269 /* TCBlobDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B94EF6E1B72B007AFBFAC47DB5412D00 /* TCBlobDownloadManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A4A3A00A0DF3A71F522E3BD98FDC58E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4FA426E2FD0F4C8318A014FA379D4A00;
+			remoteInfo = TCBlobDownload;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1A04DD64335343F1D317B0C7851D58E2 /* libPods-SuccessionRestoreTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-SuccessionRestoreTests.a"; path = "libPods-SuccessionRestoreTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		207DEB0122B5865BAA5DE6840651C387 /* Pods-SuccessionRestoreUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SuccessionRestoreUITests-resources.sh"; sourceTree = "<group>"; };
+		22D742FCA015C6379D6089F5676945D1 /* libPods-SuccessionRestoreUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-SuccessionRestoreUITests.a"; path = "libPods-SuccessionRestoreUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		22E2ED4E26E868A4B9C92FE677A23F7E /* TCBlobDownloader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TCBlobDownloader.m; path = TCBlobDownload/TCBlobDownload/TCBlobDownloader.m; sourceTree = "<group>"; };
+		2B73946375BE91417D066173EFFFB19F /* Pods-SuccessionRestore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SuccessionRestore.debug.xcconfig"; sourceTree = "<group>"; };
+		3F8C76C8A38A216523C85787ED947562 /* Pods-SuccessionRestore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SuccessionRestore.release.xcconfig"; sourceTree = "<group>"; };
+		42E91F10B7D4FA00C57D6904701A9DE7 /* Pods-SuccessionRestoreTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SuccessionRestoreTests-frameworks.sh"; sourceTree = "<group>"; };
+		4D640273D5FEA9ACD1BD051A0265A12D /* Pods-SuccessionRestoreUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SuccessionRestoreUITests.release.xcconfig"; sourceTree = "<group>"; };
+		514DBB0BFEA37A96517E1B59A67446FF /* Pods-SuccessionRestoreUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SuccessionRestoreUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		5B82E2C0711A76ADAF2DC3260BF4F28F /* TCBlobDownload.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TCBlobDownload.xcconfig; sourceTree = "<group>"; };
+		5CE282BB2B24DB18EEAABD6CDE3C55FB /* Pods-SuccessionRestoreTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SuccessionRestoreTests-dummy.m"; sourceTree = "<group>"; };
+		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		6A8F24CB5933E6B2FAF2FD43D63A51D7 /* Pods-SuccessionRestoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SuccessionRestoreTests.debug.xcconfig"; sourceTree = "<group>"; };
+		73E45F555C9787A171BC4A430728F90C /* Pods-SuccessionRestoreTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SuccessionRestoreTests-resources.sh"; sourceTree = "<group>"; };
+		89F93B265456BD6C5F85C1A650C00B5A /* TCBlobDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TCBlobDownloader.h; path = TCBlobDownload/TCBlobDownload/TCBlobDownloader.h; sourceTree = "<group>"; };
+		8A801F49FEE36DCE0926CECC9306A6E9 /* TCBlobDownloadManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TCBlobDownloadManager.m; path = TCBlobDownload/TCBlobDownload/TCBlobDownloadManager.m; sourceTree = "<group>"; };
+		8CAD4B8C82210578F2449A4A2A82DAD8 /* Pods-SuccessionRestore-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SuccessionRestore-acknowledgements.markdown"; sourceTree = "<group>"; };
+		8FFC88433F076B2DD4D0B9B315FB38CD /* Pods-SuccessionRestore-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SuccessionRestore-acknowledgements.plist"; sourceTree = "<group>"; };
+		905F782D71E01F508793EB959D0D7295 /* Pods-SuccessionRestoreUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SuccessionRestoreUITests-dummy.m"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9810071398D42E1FBA27E9ED2B193E12 /* Pods-SuccessionRestoreUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SuccessionRestoreUITests-frameworks.sh"; sourceTree = "<group>"; };
+		A6FCCA98FD1858D617417BE56BAF84FB /* libTCBlobDownload.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libTCBlobDownload.a; path = libTCBlobDownload.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B94EF6E1B72B007AFBFAC47DB5412D00 /* TCBlobDownloadManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TCBlobDownloadManager.h; path = TCBlobDownload/TCBlobDownload/TCBlobDownloadManager.h; sourceTree = "<group>"; };
+		BA504FE16DE6C85680593DA0D9C77AA4 /* Pods-SuccessionRestoreUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SuccessionRestoreUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C71F3247752500C119B40E329683475B /* Pods-SuccessionRestore-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SuccessionRestore-dummy.m"; sourceTree = "<group>"; };
+		C9E592ECB7562795F1FEADA123909079 /* Pods-SuccessionRestoreUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SuccessionRestoreUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+		CD23239D82F0A76A90A3409FE478B861 /* libPods-SuccessionRestore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-SuccessionRestore.a"; path = "libPods-SuccessionRestore.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D430E691F0ACC62161D40C2EEF3C7E5A /* TCBlobDownload-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TCBlobDownload-prefix.pch"; sourceTree = "<group>"; };
+		DA5F1FD3B62769B175A5652B4BD29E41 /* Pods-SuccessionRestore-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SuccessionRestore-frameworks.sh"; sourceTree = "<group>"; };
+		E4EFFFEAC31F4F3D5F81A5E49378921D /* TCBlobDownload.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TCBlobDownload.h; path = TCBlobDownload/TCBlobDownload/TCBlobDownload.h; sourceTree = "<group>"; };
+		E516F501718672DCFD70859A447889F5 /* Pods-SuccessionRestoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SuccessionRestoreTests.release.xcconfig"; sourceTree = "<group>"; };
+		ECD2D532B7D65CFFD3AD7058BB2BBDE8 /* Pods-SuccessionRestoreTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SuccessionRestoreTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		ED0B9511489DBA429182CFE36574B6C9 /* Pods-SuccessionRestore-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SuccessionRestore-resources.sh"; sourceTree = "<group>"; };
+		EE3F21E3E7B7A8EF65F3DD17BBC000C2 /* TCBlobDownload-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TCBlobDownload-dummy.m"; sourceTree = "<group>"; };
+		F7869ED7837D8E319A5591D293E710A2 /* Pods-SuccessionRestoreTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SuccessionRestoreTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6DA994CF888CA6C3A660BAD77A5BC791 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20CCFD63AB40C94E0C5BD8E46D447398 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9965B581621851519F286E986F1A865B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				922D5EEEE7916116E59E5F06294936DC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD5D86DF41EBA9DFD1D6E8B177E663B5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AEA6E796E891CD3666490056AE2C9F5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F30D2D0C07CD4E14A6E435B50409F6A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C25D3B86AB6BBC2103A39EA9DF4D180F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		201E11FC9ABCC4E8ADEF7ACA71B9D070 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5B82E2C0711A76ADAF2DC3260BF4F28F /* TCBlobDownload.xcconfig */,
+				EE3F21E3E7B7A8EF65F3DD17BBC000C2 /* TCBlobDownload-dummy.m */,
+				D430E691F0ACC62161D40C2EEF3C7E5A /* TCBlobDownload-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/TCBlobDownload";
+			sourceTree = "<group>";
+		};
+		260693DEADA03E9B171598C981B57DD8 /* Pods-SuccessionRestoreUITests */ = {
+			isa = PBXGroup;
+			children = (
+				514DBB0BFEA37A96517E1B59A67446FF /* Pods-SuccessionRestoreUITests-acknowledgements.markdown */,
+				C9E592ECB7562795F1FEADA123909079 /* Pods-SuccessionRestoreUITests-acknowledgements.plist */,
+				905F782D71E01F508793EB959D0D7295 /* Pods-SuccessionRestoreUITests-dummy.m */,
+				9810071398D42E1FBA27E9ED2B193E12 /* Pods-SuccessionRestoreUITests-frameworks.sh */,
+				207DEB0122B5865BAA5DE6840651C387 /* Pods-SuccessionRestoreUITests-resources.sh */,
+				BA504FE16DE6C85680593DA0D9C77AA4 /* Pods-SuccessionRestoreUITests.debug.xcconfig */,
+				4D640273D5FEA9ACD1BD051A0265A12D /* Pods-SuccessionRestoreUITests.release.xcconfig */,
+			);
+			name = "Pods-SuccessionRestoreUITests";
+			path = "Target Support Files/Pods-SuccessionRestoreUITests";
+			sourceTree = "<group>";
+		};
+		27003CC06C647E1B5FC6A396C5395043 /* Pods-SuccessionRestoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				F7869ED7837D8E319A5591D293E710A2 /* Pods-SuccessionRestoreTests-acknowledgements.markdown */,
+				ECD2D532B7D65CFFD3AD7058BB2BBDE8 /* Pods-SuccessionRestoreTests-acknowledgements.plist */,
+				5CE282BB2B24DB18EEAABD6CDE3C55FB /* Pods-SuccessionRestoreTests-dummy.m */,
+				42E91F10B7D4FA00C57D6904701A9DE7 /* Pods-SuccessionRestoreTests-frameworks.sh */,
+				73E45F555C9787A171BC4A430728F90C /* Pods-SuccessionRestoreTests-resources.sh */,
+				6A8F24CB5933E6B2FAF2FD43D63A51D7 /* Pods-SuccessionRestoreTests.debug.xcconfig */,
+				E516F501718672DCFD70859A447889F5 /* Pods-SuccessionRestoreTests.release.xcconfig */,
+			);
+			name = "Pods-SuccessionRestoreTests";
+			path = "Target Support Files/Pods-SuccessionRestoreTests";
+			sourceTree = "<group>";
+		};
+		34621A2E4DC18858185E0ACA3E8DB3B1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				86D27EB8A4C2DFAB1A38C2A2BFC388AC /* TCBlobDownload */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				34621A2E4DC18858185E0ACA3E8DB3B1 /* Pods */,
+				96C093CE3484BA71C63DF68CB28626DE /* Products */,
+				EEB8A334B4B18FC2E7AB1F7559DE3D3B /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		86D27EB8A4C2DFAB1A38C2A2BFC388AC /* TCBlobDownload */ = {
+			isa = PBXGroup;
+			children = (
+				E4EFFFEAC31F4F3D5F81A5E49378921D /* TCBlobDownload.h */,
+				89F93B265456BD6C5F85C1A650C00B5A /* TCBlobDownloader.h */,
+				22E2ED4E26E868A4B9C92FE677A23F7E /* TCBlobDownloader.m */,
+				B94EF6E1B72B007AFBFAC47DB5412D00 /* TCBlobDownloadManager.h */,
+				8A801F49FEE36DCE0926CECC9306A6E9 /* TCBlobDownloadManager.m */,
+				201E11FC9ABCC4E8ADEF7ACA71B9D070 /* Support Files */,
+			);
+			name = TCBlobDownload;
+			path = TCBlobDownload;
+			sourceTree = "<group>";
+		};
+		96C093CE3484BA71C63DF68CB28626DE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CD23239D82F0A76A90A3409FE478B861 /* libPods-SuccessionRestore.a */,
+				1A04DD64335343F1D317B0C7851D58E2 /* libPods-SuccessionRestoreTests.a */,
+				22D742FCA015C6379D6089F5676945D1 /* libPods-SuccessionRestoreUITests.a */,
+				A6FCCA98FD1858D617417BE56BAF84FB /* libTCBlobDownload.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D35AF013A5F0BAD4F32504907A52519E /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D35AF013A5F0BAD4F32504907A52519E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		EEB8A334B4B18FC2E7AB1F7559DE3D3B /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				EED4A47FA3C036BE57506EDFED6580B6 /* Pods-SuccessionRestore */,
+				27003CC06C647E1B5FC6A396C5395043 /* Pods-SuccessionRestoreTests */,
+				260693DEADA03E9B171598C981B57DD8 /* Pods-SuccessionRestoreUITests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		EED4A47FA3C036BE57506EDFED6580B6 /* Pods-SuccessionRestore */ = {
+			isa = PBXGroup;
+			children = (
+				8CAD4B8C82210578F2449A4A2A82DAD8 /* Pods-SuccessionRestore-acknowledgements.markdown */,
+				8FFC88433F076B2DD4D0B9B315FB38CD /* Pods-SuccessionRestore-acknowledgements.plist */,
+				C71F3247752500C119B40E329683475B /* Pods-SuccessionRestore-dummy.m */,
+				DA5F1FD3B62769B175A5652B4BD29E41 /* Pods-SuccessionRestore-frameworks.sh */,
+				ED0B9511489DBA429182CFE36574B6C9 /* Pods-SuccessionRestore-resources.sh */,
+				2B73946375BE91417D066173EFFFB19F /* Pods-SuccessionRestore.debug.xcconfig */,
+				3F8C76C8A38A216523C85787ED947562 /* Pods-SuccessionRestore.release.xcconfig */,
+			);
+			name = "Pods-SuccessionRestore";
+			path = "Target Support Files/Pods-SuccessionRestore";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C7AC27F83555DFC1FC058D1714CC4276 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF9EAA33EBE06C404AD85E80E1D6C373 /* TCBlobDownload.h in Headers */,
+				53653ACF8FAF5BADA33C6740153D5B42 /* TCBlobDownloader.h in Headers */,
+				D82B8F3DA97FA2971B6136A6B30E8269 /* TCBlobDownloadManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		4FA426E2FD0F4C8318A014FA379D4A00 /* TCBlobDownload */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9A00CE4FD3AA72A3B2D10712E8D38856 /* Build configuration list for PBXNativeTarget "TCBlobDownload" */;
+			buildPhases = (
+				B56416A205D0FFF04A0E774656A11A01 /* Sources */,
+				CD5D86DF41EBA9DFD1D6E8B177E663B5 /* Frameworks */,
+				C7AC27F83555DFC1FC058D1714CC4276 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TCBlobDownload;
+			productName = TCBlobDownload;
+			productReference = A6FCCA98FD1858D617417BE56BAF84FB /* libTCBlobDownload.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		8535B7D790901408E7C269BB1A0CA14B /* Pods-SuccessionRestoreUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 861D1992AF80F7CFE7854E489A81C498 /* Build configuration list for PBXNativeTarget "Pods-SuccessionRestoreUITests" */;
+			buildPhases = (
+				39502C33BD962D050697AFB4325F3E16 /* Sources */,
+				6DA994CF888CA6C3A660BAD77A5BC791 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-SuccessionRestoreUITests";
+			productName = "Pods-SuccessionRestoreUITests";
+			productReference = 22D742FCA015C6379D6089F5676945D1 /* libPods-SuccessionRestoreUITests.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		999898CED5A0D038D70B3439E04C738F /* Pods-SuccessionRestore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 707F8B6E310C72FE5668988EB88ECCEA /* Build configuration list for PBXNativeTarget "Pods-SuccessionRestore" */;
+			buildPhases = (
+				7A97A61FB9376A80028CB0D698FF7803 /* Sources */,
+				9965B581621851519F286E986F1A865B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				15B493E11E8BC5932B86BD2A58796F43 /* PBXTargetDependency */,
+			);
+			name = "Pods-SuccessionRestore";
+			productName = "Pods-SuccessionRestore";
+			productReference = CD23239D82F0A76A90A3409FE478B861 /* libPods-SuccessionRestore.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B73208AB85CB9ECABED2576B2478E539 /* Pods-SuccessionRestoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7C9DF0FA2BDCB340AEB09087DDE4363 /* Build configuration list for PBXNativeTarget "Pods-SuccessionRestoreTests" */;
+			buildPhases = (
+				0B7AD9CBD572FE63C6663DA8084E24C8 /* Sources */,
+				F30D2D0C07CD4E14A6E435B50409F6A2 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-SuccessionRestoreTests";
+			productName = "Pods-SuccessionRestoreTests";
+			productReference = 1A04DD64335343F1D317B0C7851D58E2 /* libPods-SuccessionRestoreTests.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 96C093CE3484BA71C63DF68CB28626DE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				999898CED5A0D038D70B3439E04C738F /* Pods-SuccessionRestore */,
+				B73208AB85CB9ECABED2576B2478E539 /* Pods-SuccessionRestoreTests */,
+				8535B7D790901408E7C269BB1A0CA14B /* Pods-SuccessionRestoreUITests */,
+				4FA426E2FD0F4C8318A014FA379D4A00 /* TCBlobDownload */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0B7AD9CBD572FE63C6663DA8084E24C8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2F51584C19DC0127A9ADA04EC897EA5 /* Pods-SuccessionRestoreTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39502C33BD962D050697AFB4325F3E16 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ECAE8A2B2BC3CC9D2C0CCBEBDB87830 /* Pods-SuccessionRestoreUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7A97A61FB9376A80028CB0D698FF7803 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6356F6D9F6DD2EAFEC578F102DCDCF55 /* Pods-SuccessionRestore-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B56416A205D0FFF04A0E774656A11A01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B979E28B5CB8762E2B04B5B51110ED7 /* TCBlobDownload-dummy.m in Sources */,
+				95598F755162907DF8F366BAD6DF8C32 /* TCBlobDownloader.m in Sources */,
+				144EAD5AE8513697630B7A9611B1AFF5 /* TCBlobDownloadManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		15B493E11E8BC5932B86BD2A58796F43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TCBlobDownload;
+			target = 4FA426E2FD0F4C8318A014FA379D4A00 /* TCBlobDownload */;
+			targetProxy = A4A3A00A0DF3A71F522E3BD98FDC58E7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		11E0C7A191D9E74C68509D75C3DAA9B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA504FE16DE6C85680593DA0D9C77AA4 /* Pods-SuccessionRestoreUITests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1A35B371C6B562F4B90302DBC509CD7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D640273D5FEA9ACD1BD051A0265A12D /* Pods-SuccessionRestoreUITests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		21EB005CA68FE1DDB78F2493BA09DC96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B82E2C0711A76ADAF2DC3260BF4F28F /* TCBlobDownload.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/TCBlobDownload/TCBlobDownload-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2F48FA77EDE9908C7CA9038552809701 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B82E2C0711A76ADAF2DC3260BF4F28F /* TCBlobDownload.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/TCBlobDownload/TCBlobDownload-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6F9224530522DD3C735EC96CF142642E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		82C24FDC355921D277C8DF4C19A76DEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F8C76C8A38A216523C85787ED947562 /* Pods-SuccessionRestore.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B57951D085A1B98A97F8A1062A5E5C5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		C170A9B43A248783797F24A884634039 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B73946375BE91417D066173EFFFB19F /* Pods-SuccessionRestore.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C1C50A0E2A13A182136B8551AE50A446 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E516F501718672DCFD70859A447889F5 /* Pods-SuccessionRestoreTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DF3F5ACD90C8DEA23B4011D2801CC515 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A8F24CB5933E6B2FAF2FD43D63A51D7 /* Pods-SuccessionRestoreTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B57951D085A1B98A97F8A1062A5E5C5B /* Debug */,
+				6F9224530522DD3C735EC96CF142642E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		707F8B6E310C72FE5668988EB88ECCEA /* Build configuration list for PBXNativeTarget "Pods-SuccessionRestore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C170A9B43A248783797F24A884634039 /* Debug */,
+				82C24FDC355921D277C8DF4C19A76DEA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		861D1992AF80F7CFE7854E489A81C498 /* Build configuration list for PBXNativeTarget "Pods-SuccessionRestoreUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				11E0C7A191D9E74C68509D75C3DAA9B9 /* Debug */,
+				1A35B371C6B562F4B90302DBC509CD7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9A00CE4FD3AA72A3B2D10712E8D38856 /* Build configuration list for PBXNativeTarget "TCBlobDownload" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21EB005CA68FE1DDB78F2493BA09DC96 /* Debug */,
+				2F48FA77EDE9908C7CA9038552809701 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7C9DF0FA2BDCB340AEB09087DDE4363 /* Build configuration list for PBXNativeTarget "Pods-SuccessionRestoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DF3F5ACD90C8DEA23B4011D2801CC515 /* Debug */,
+				C1C50A0E2A13A182136B8551AE50A446 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}

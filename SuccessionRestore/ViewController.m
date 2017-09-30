@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #include <sys/sysctl.h>
+#import <TCBlobDownload/TCBlobDownload.h>
 
 @interface ViewController ()
 
