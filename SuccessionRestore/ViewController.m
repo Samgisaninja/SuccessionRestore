@@ -53,7 +53,7 @@
     }
 }
 
-  /* - (void)viewDidAppear:(BOOL)animated {
+ - (void)viewDidAppear:(BOOL)animated {
     //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers.
     BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
     if (isRoot == YES) {
@@ -68,7 +68,7 @@
     }
     
 }
-*/
+
 - (IBAction)contactSupportButton:(id)sender {
     //Opens a PM to my reddit
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"]];
@@ -86,9 +86,7 @@
     [infoNotAccurateButtonInfo addAction:okAction];
     [self presentViewController:infoNotAccurateButtonInfo animated:YES completion:nil];
 }
-- (IBAction)testButton:(id)sender {
-    NSLog(@"It worked");
-}
+
+
 
 @end
-
