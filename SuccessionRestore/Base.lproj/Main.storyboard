@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -207,38 +208,52 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yL7-7e-eQf">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yL7-7e-eQf">
                                 <rect key="frame" x="65" y="239" width="190" height="2"/>
                             </progressView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZSD-cV-Qis">
-                                <rect key="frame" x="107" y="290" width="106" height="30"/>
-                                <state key="normal" title="Start Download"/>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1024 MB downloaded" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCu-W8-IUq">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1024 MB downloaded" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCu-W8-IUq">
                                 <rect key="frame" x="79" y="210" width="166" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xdp-3I-HFm">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xdp-3I-HFm">
                                 <rect key="frame" x="100" y="430" width="120" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Cancel Download"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" id="Ns3-x6-t09"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSt-aC-93s">
+                                <rect key="frame" x="107" y="326" width="106" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Start Download"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ZSD-cV-Qis" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="2SJ-Az-s3V"/>
+                            <constraint firstAttribute="bottom" secondItem="Xdp-3I-HFm" secondAttribute="bottom" constant="20" symbolic="YES" id="3cR-Rc-yEY"/>
                             <constraint firstItem="S42-3H-jHQ" firstAttribute="top" secondItem="Zo6-Yt-OWu" secondAttribute="bottom" id="72Q-b3-LnZ"/>
+                            <constraint firstItem="yL7-7e-eQf" firstAttribute="centerX" secondItem="Xdp-3I-HFm" secondAttribute="centerX" id="8mT-46-KAa"/>
                             <constraint firstItem="yL7-7e-eQf" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="9b2-0X-jOd"/>
-                            <constraint firstItem="ZSD-cV-Qis" firstAttribute="top" secondItem="yL7-7e-eQf" secondAttribute="bottom" constant="49" id="VN6-ft-Odc"/>
+                            <constraint firstItem="gCu-W8-IUq" firstAttribute="leading" secondItem="WeJ-BI-Rbk" secondAttribute="leadingMargin" constant="63" id="LQR-7V-weF"/>
+                            <constraint firstItem="yL7-7e-eQf" firstAttribute="leading" secondItem="WeJ-BI-Rbk" secondAttribute="leadingMargin" constant="49" id="Mn8-sc-S4y"/>
+                            <constraint firstItem="yL7-7e-eQf" firstAttribute="top" secondItem="gCu-W8-IUq" secondAttribute="bottom" constant="8" symbolic="YES" id="OG8-yz-Z8b"/>
                             <constraint firstItem="S42-3H-jHQ" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="gaH-My-jp3"/>
                             <constraint firstItem="yL7-7e-eQf" firstAttribute="centerY" secondItem="WeJ-BI-Rbk" secondAttribute="centerY" id="htf-ua-hPV"/>
+                            <constraint firstItem="yL7-7e-eQf" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="rcC-vE-LPx"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="epp-Uy-qaO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2cz-Aj-A9j">
+                    <rect key="frame" x="0.0" y="0.0" width="105" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Start download"/>
+                    <connections>
+                        <action selector="startDownloadButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XZo-AM-PGe"/>
+                    </connections>
+                </button>
             </objects>
             <point key="canvasLocation" x="708.75" y="-266.25"/>
         </scene>

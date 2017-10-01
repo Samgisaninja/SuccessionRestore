@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '999898CED5A0D038D70B3439E04C738F'
+               BlueprintIdentifier = '829FFB775638B709FC8665E6E5F09409'
                BlueprintName = 'Pods-SuccessionRestore'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-SuccessionRestore.a'>
