@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '5E5AF93C50A191EE08671CB87DB04066'
-               BlueprintName = 'Pods-SuccessionRestore'
+               BlueprintIdentifier = 'AFAFB55453D161D2BB5CFB30C68A54D5'
+               BlueprintName = 'AFNetworking'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libPods-SuccessionRestore.a'>
+               BuildableName = 'libAFNetworking.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

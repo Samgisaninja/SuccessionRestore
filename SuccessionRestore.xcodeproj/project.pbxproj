@@ -15,7 +15,6 @@
 		8D5BA2881F7C792E00A169BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2871F7C792E00A169BF /* main.m */; };
 		8D5BA2921F7C792F00A169BF /* SuccessionRestoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2911F7C792F00A169BF /* SuccessionRestoreTests.m */; };
 		8D5BA29D1F7C792F00A169BF /* SuccessionRestoreUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA29C1F7C792F00A169BF /* SuccessionRestoreUITests.m */; };
-		8D8A68451F816F38008EF3BC /* CDBDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8A68441F816F38008EF3BC /* CDBDownloader.m */; };
 		8DDFEA009B17AA1B3970D8B1 /* libPods-SuccessionRestoreTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E08D2B8BF091D52B390E57A7 /* libPods-SuccessionRestoreTests.a */; };
 		A94FDCB465EB5C2DCC861991 /* libPods-SuccessionRestoreUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C5D6E5BF734D6421E7D3C73 /* libPods-SuccessionRestoreUITests.a */; };
 		DD5EE671645A533BF4AB9AC0 /* libPods-SuccessionRestore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36F7363ED304EEDEE53E8FB9 /* libPods-SuccessionRestore.a */; };
@@ -59,11 +58,6 @@
 		8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA29C1F7C792F00A169BF /* SuccessionRestoreUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuccessionRestoreUITests.m; sourceTree = "<group>"; };
 		8D5BA29E1F7C792F00A169BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8D8A68431F816F31008EF3BC /* CDBDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDBDownloader.h; sourceTree = "<group>"; };
-		8D8A68441F816F38008EF3BC /* CDBDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDBDownloader.m; sourceTree = "<group>"; };
-		8D8A68461F816F3F008EF3BC /* CDBDownloader.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CDBDownloader.xcconfig; sourceTree = "<group>"; };
-		8D8A68471F816F3F008EF3BC /* CDBDownloader-dummy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CDBDownloader-dummy.m"; sourceTree = "<group>"; };
-		8D8A68481F816F3F008EF3BC /* CDBDownloader-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CDBDownloader-prefix.pch"; sourceTree = "<group>"; };
 		9C5D6E5BF734D6421E7D3C73 /* libPods-SuccessionRestoreUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SuccessionRestoreUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F36089571EEDC24F871C3C0 /* Pods-SuccessionRestoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuccessionRestoreTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SuccessionRestoreTests/Pods-SuccessionRestoreTests.release.xcconfig"; sourceTree = "<group>"; };
 		BFF004FE92A2EE6CF8FC9E9E /* Pods-SuccessionRestoreUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuccessionRestoreUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SuccessionRestoreUITests/Pods-SuccessionRestoreUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -126,9 +120,6 @@
 			children = (
 				8D5BA2781F7C792E00A169BF /* AppDelegate.h */,
 				8D5BA2791F7C792E00A169BF /* AppDelegate.m */,
-				8D8A68431F816F31008EF3BC /* CDBDownloader.h */,
-				8D8A68441F816F38008EF3BC /* CDBDownloader.m */,
-				8D8A68491F816F3F008EF3BC /* Support Files */,
 				8D5BA27B1F7C792E00A169BF /* ViewController.h */,
 				8D5BA27C1F7C792E00A169BF /* ViewController.m */,
 				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
@@ -156,17 +147,6 @@
 				8D5BA29E1F7C792F00A169BF /* Info.plist */,
 			);
 			path = SuccessionRestoreUITests;
-			sourceTree = "<group>";
-		};
-		8D8A68491F816F3F008EF3BC /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				8D8A68461F816F3F008EF3BC /* CDBDownloader.xcconfig */,
-				8D8A68471F816F3F008EF3BC /* CDBDownloader-dummy.m */,
-				8D8A68481F816F3F008EF3BC /* CDBDownloader-prefix.pch */,
-			);
-			name = "Support Files";
-			path = CDBDownloader;
 			sourceTree = "<group>";
 		};
 		C884139F30279B731C522CDC /* Pods */ = {
@@ -483,7 +463,6 @@
 			files = (
 				8D5BA27D1F7C792E00A169BF /* ViewController.m in Sources */,
 				8D5BA2881F7C792E00A169BF /* main.m in Sources */,
-				8D8A68451F816F38008EF3BC /* CDBDownloader.m in Sources */,
 				8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

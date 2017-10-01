@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -115,12 +114,10 @@
                                 <rect key="frame" x="93" y="445" width="134" height="30"/>
                                 <state key="normal" title="Prepare for restore!"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3s-O3-PD4">
-                                <rect key="frame" x="68.5" y="335" width="183" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1oR-gH-L5h">
+                                <rect key="frame" x="69" y="333" width="183" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Download clean filesystem"/>
-                                <connections>
-                                    <segue destination="iAG-Yy-aYr" kind="presentation" id="aJH-ud-One"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -148,21 +145,18 @@
                             <constraint firstItem="rhB-vO-tJs" firstAttribute="top" secondItem="4EC-dm-fKT" secondAttribute="bottom" constant="20" id="gtK-Tj-N11"/>
                             <constraint firstItem="mPx-3W-jp3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hf4-5o-kBU"/>
                             <constraint firstItem="sKZ-N3-YkL" firstAttribute="top" secondItem="abp-eL-6Z5" secondAttribute="bottom" constant="5" id="jY3-XC-aPl"/>
-                            <constraint firstItem="OyJ-6j-gtA" firstAttribute="top" secondItem="C3s-O3-PD4" secondAttribute="bottom" constant="80" id="l8y-fa-ElZ"/>
                             <constraint firstItem="eEO-N4-nGY" firstAttribute="top" secondItem="TU6-oy-6RV" secondAttribute="bottom" constant="5" id="laW-Ql-VsB"/>
                             <constraint firstItem="TU6-oy-6RV" firstAttribute="top" secondItem="5Z8-mG-XV3" secondAttribute="bottom" constant="5" id="p31-nL-LE8"/>
                             <constraint firstItem="Brv-x7-nVX" firstAttribute="top" secondItem="mPx-3W-jp3" secondAttribute="bottom" id="pGt-db-shS"/>
                             <constraint firstItem="4EC-dm-fKT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sV3-hk-jh5"/>
                             <constraint firstItem="rhB-vO-tJs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uzd-tu-Z7q"/>
                             <constraint firstItem="hGj-tl-f2h" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wws-ev-QB5"/>
-                            <constraint firstItem="C3s-O3-PD4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="x97-UI-bgj"/>
                             <constraint firstItem="S0F-S6-ikK" firstAttribute="top" secondItem="4EC-dm-fKT" secondAttribute="bottom" constant="1" id="ytr-hG-9OY"/>
                             <constraint firstItem="OyJ-6j-gtA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zrQ-jH-hjz"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="deviceModelLabel" destination="5Z8-mG-XV3" id="VfZ-sd-ZJ3"/>
-                        <outlet property="downloadDMGButton" destination="C3s-O3-PD4" id="AXX-29-MY3"/>
                         <outlet property="iOSBuildLabel" destination="eEO-N4-nGY" id="4DR-yh-dmk"/>
                         <outlet property="iOSVersionLabel" destination="TU6-oy-6RV" id="2lB-UT-XuH"/>
                         <outlet property="prepareToRestoreButton" destination="OyJ-6j-gtA" id="O5W-D6-iiI"/>
@@ -175,7 +169,7 @@
         <!--View Controller-->
         <scene sceneID="QX5-ud-tOl">
             <objects>
-                <viewController id="0pb-7p-nji" sceneMemberID="viewController">
+                <viewController id="0pb-7p-nji" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Akp-57-9Xh"/>
                         <viewControllerLayoutGuide type="bottom" id="5GU-aW-Q2C"/>
@@ -183,79 +177,22 @@
                     <view key="view" contentMode="scaleToFill" id="6hq-ns-Vo8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FxL-0u-7Wk">
+                                <rect key="frame" x="145" y="225" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Test"/>
+                                <connections>
+                                    <action selector="testButton:" destination="0pb-7p-nji" eventType="touchUpInside" id="D5w-pr-AMD"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="49D-k6-08i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="710" y="404"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="quC-Q0-Rzh">
-            <objects>
-                <viewController id="iAG-Yy-aYr" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Zo6-Yt-OWu"/>
-                        <viewControllerLayoutGuide type="bottom" id="Lq2-jv-d9O"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="WeJ-BI-Rbk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Downloader" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S42-3H-jHQ">
-                                <rect key="frame" x="114" y="20" width="92" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yL7-7e-eQf">
-                                <rect key="frame" x="65" y="239" width="190" height="2"/>
-                            </progressView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1024 MB downloaded" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCu-W8-IUq">
-                                <rect key="frame" x="79" y="210" width="166" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xdp-3I-HFm">
-                                <rect key="frame" x="100" y="430" width="120" height="30"/>
-                                <state key="normal" title="Cancel Download"/>
-                                <connections>
-                                    <segue destination="BYZ-38-t0r" kind="presentation" id="Ns3-x6-t09"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSt-aC-93s">
-                                <rect key="frame" x="107" y="326" width="106" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Start Download"/>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Xdp-3I-HFm" secondAttribute="bottom" constant="20" symbolic="YES" id="3cR-Rc-yEY"/>
-                            <constraint firstItem="S42-3H-jHQ" firstAttribute="top" secondItem="Zo6-Yt-OWu" secondAttribute="bottom" id="72Q-b3-LnZ"/>
-                            <constraint firstItem="yL7-7e-eQf" firstAttribute="centerX" secondItem="Xdp-3I-HFm" secondAttribute="centerX" id="8mT-46-KAa"/>
-                            <constraint firstItem="yL7-7e-eQf" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="9b2-0X-jOd"/>
-                            <constraint firstItem="gCu-W8-IUq" firstAttribute="leading" secondItem="WeJ-BI-Rbk" secondAttribute="leadingMargin" constant="63" id="LQR-7V-weF"/>
-                            <constraint firstItem="yL7-7e-eQf" firstAttribute="leading" secondItem="WeJ-BI-Rbk" secondAttribute="leadingMargin" constant="49" id="Mn8-sc-S4y"/>
-                            <constraint firstItem="yL7-7e-eQf" firstAttribute="top" secondItem="gCu-W8-IUq" secondAttribute="bottom" constant="8" symbolic="YES" id="OG8-yz-Z8b"/>
-                            <constraint firstItem="S42-3H-jHQ" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="gaH-My-jp3"/>
-                            <constraint firstItem="yL7-7e-eQf" firstAttribute="centerY" secondItem="WeJ-BI-Rbk" secondAttribute="centerY" id="htf-ua-hPV"/>
-                            <constraint firstItem="yL7-7e-eQf" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="rcC-vE-LPx"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="epp-Uy-qaO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2cz-Aj-A9j">
-                    <rect key="frame" x="0.0" y="0.0" width="105" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Start download"/>
-                    <connections>
-                        <action selector="startDownloadButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XZo-AM-PGe"/>
-                    </connections>
-                </button>
-            </objects>
-            <point key="canvasLocation" x="708.75" y="-266.25"/>
+            <point key="canvasLocation" x="713" y="-174"/>
         </scene>
     </scenes>
 </document>

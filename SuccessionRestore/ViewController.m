@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #include <sys/sysctl.h>
-#include "CDBDownloader.h"
 
 @interface ViewController ()
 
@@ -54,7 +53,7 @@
     }
 }
 
-/*  - (void)viewDidAppear:(BOOL)animated {
+  /* - (void)viewDidAppear:(BOOL)animated {
     //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers.
     BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
     if (isRoot == YES) {
@@ -68,8 +67,8 @@
         [self presentViewController:notRunningAsRoot animated:YES completion:nil];
     }
     
-} */
-
+}
+*/
 - (IBAction)contactSupportButton:(id)sender {
     //Opens a PM to my reddit
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"]];
@@ -87,11 +86,9 @@
     [infoNotAccurateButtonInfo addAction:okAction];
     [self presentViewController:infoNotAccurateButtonInfo animated:YES completion:nil];
 }
-
-- (IBAction)startDownloadButton:(id)sender {
-    NSLog(@"The button worked");
+- (IBAction)testButton:(id)sender {
+    NSLog(@"It worked");
 }
-
 
 @end
 
