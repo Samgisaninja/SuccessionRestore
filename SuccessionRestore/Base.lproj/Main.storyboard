@@ -192,7 +192,7 @@
         <!--View Controller-->
         <scene sceneID="quC-Q0-Rzh">
             <objects>
-                <viewController id="iAG-Yy-aYr" sceneMemberID="viewController">
+                <viewController id="iAG-Yy-aYr" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zo6-Yt-OWu"/>
                         <viewControllerLayoutGuide type="bottom" id="Lq2-jv-d9O"/>
@@ -200,6 +200,16 @@
                     <view key="view" contentMode="scaleToFill" id="WeJ-BI-Rbk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sav-SP-fAw">
+                                <rect key="frame" x="107" y="225" width="106" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Start Download"/>
+                                <connections>
+                                    <action selector="startDownloadingButton:" destination="iAG-Yy-aYr" eventType="touchUpInside" id="W2F-eH-nTi"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </viewController>

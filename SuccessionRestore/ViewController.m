@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #include <sys/sysctl.h>
+#import "CDBDownloader/CDBDownloader.h"
 
 @interface ViewController ()
 
@@ -53,7 +54,7 @@
     }
 }
 
- - (void)viewDidAppear:(BOOL)animated {
+/* - (void)viewDidAppear:(BOOL)animated {
     //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers.
     BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
     if (isRoot == YES) {
@@ -68,7 +69,7 @@
     }
     
 }
-
+*/
 - (IBAction)contactSupportButton:(id)sender {
     //Opens a PM to my reddit
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"]];
@@ -85,6 +86,29 @@
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [infoNotAccurateButtonInfo addAction:okAction];
     [self presentViewController:infoNotAccurateButtonInfo animated:YES completion:nil];
+}
+
+- (IBAction)startDownloadingButton:(id)sender {
+    //This code should look familiar, this time instead of setting labels, the information is used to download the right file.
+    size_t size;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char *modelChar = malloc(size);
+    sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
+    NSString *deviceModel = [NSString stringWithUTF8String:modelChar];
+    free(modelChar);
+    NSString *deviceVersion = [[UIDevice currentDevice] systemVersion];
+    sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
+    char *buildChar = malloc(size);
+    sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
+    NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
+    free(buildChar);
+    if ([deviceModel isEqualToString:@"iPhone4,1"]) {
+        if ([deviceVersion isEqualToString:@"9.3.5"]) {
+            if ([deviceBuild isEqualToString:@"13G36"]) {
+                NSLog(@"Downloader goes here once I have time to finish this");
+            }
+        }
+    }
 }
 
 

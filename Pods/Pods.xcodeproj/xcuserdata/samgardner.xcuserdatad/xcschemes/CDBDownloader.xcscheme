@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '829FFB775638B709FC8665E6E5F09409'
-               BlueprintName = 'Pods-SuccessionRestore'
+               BlueprintIdentifier = 'DF4DCF8C4B02CC4123B928B71D129F35'
+               BlueprintName = 'CDBDownloader'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libPods-SuccessionRestore.a'>
+               BuildableName = 'libCDBDownloader.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
