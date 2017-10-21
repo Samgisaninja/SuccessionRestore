@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #include <sys/sysctl.h>
 #import "CDBDownloader/CDBDownloader.h"
+#import "NSTask.h"
 
 @interface ViewController ()
 
@@ -53,8 +54,7 @@
         [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:173.0/255.0 green:173.0/255.0 blue:173.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     }
 }
-
-/* - (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers.
     BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
     if (isRoot == YES) {
@@ -69,7 +69,6 @@
     }
     
 }
-*/
 - (IBAction)contactSupportButton:(id)sender {
     //Opens a PM to my reddit
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"]];
@@ -102,15 +101,47 @@
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
+    void *downloadProgress = 0;
     if ([deviceModel isEqualToString:@"iPhone4,1"]) {
+        if ([deviceVersion isEqualToString:@"8.4.1"]){
+            NSURL * downloadURL = [NSURL URLWithString:@"http://appldnld.apple.com/ios8.4.1/031-31129-20150812-751A3CB8-3C8F-11E5-A8A5-A91A3A53DB92/iPhone4,1_8.4.1_12H321_Restore.ipsw"];
+            NSString * IPSWFilename = @"iPhone4,1_8.4.1_12H321_Restore.ipsw";
+            NSString * rootFilesystemName = @"058-24033-023.dmg";
+            NSString * rfsDecryptionKey = @"58-24033-023.dmg";
+            [CDBDownloader downloadFileAtURL:downloadURL progress:(__bridge void (^ _Nullable)(NSUInteger))(downloadProgress) completion:nil];
+            /* NSTask *renameIPSW;
+            renameIPSW = [[NSTask alloc] init];
+            [renameIPSW setLaunchPath:@"/bin/mv"];
+            NSArray *renameIPSWArguments = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/iPhone4,1_8.4.1_12H321_Restore.ipsw" @"/var/mobile/Media/Succession/ipsw.zip", nil];
+            [renameIPSW setArguments: renameIPSWArguments];
+            [renameIPSW launch];
+            NSTask *makeIPSWDestination;
+            makeIPSWDestination = [[NSTask alloc] init];
+            [makeIPSWDestination setLaunchPath:@"/bin/mkdir"];
+            NSArray *makeIPSWDestinationArguments = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/ipsw-contents", nil];
+            [makeIPSWDestination setArguments: makeIPSWDestinationArguments];
+            [makeIPSWDestination launch];
+            NSTask *unzipIPSW;
+            unzipIPSW = [[NSTask alloc] init];
+            [unzipIPSW setLaunchPath: @"/bin/unzip"];
+            NSArray *unzipIPSWarguments = [NSArray arrayWithObjects: @"/var/mobile/Meida/Succession/ipsw.zip", @"/var/mobile/Media/Succession/ipsw-contents/", nil];
+            [unzipIPSW setArguments: unzipIPSWarguments];
+            [unzipIPSW launch]; */
+
+        }
         if ([deviceVersion isEqualToString:@"9.3.5"]) {
             if ([deviceBuild isEqualToString:@"13G36"]) {
-                NSLog(@"Downloader goes here once I have time to finish this");
             }
         }
     }
+    else {
+        UIAlertController *deviceNotSupported = [UIAlertController alertControllerWithTitle:@"Device not supported" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *closeApp) {
+            exit(0);
+        }];
+        [deviceNotSupported addAction:okAction];
+        [self presentViewController:deviceNotSupported animated:YES completion:nil];;
+    }
 }
-
-
 
 @end
