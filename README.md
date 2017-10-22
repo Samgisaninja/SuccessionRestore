@@ -5,4 +5,4 @@ Alternative to Cydia Eraser that is much easier to update. Downloads and mounts 
 
 **How you can help**
 
-If you know how to download files from a url and export the progress to the progressbar in the downloadScreen ViewController, please submit a PR. Also if you know how to erase all content and settings program
+If you know how to erase all content and settings programatically, please submit a Pull Request.
