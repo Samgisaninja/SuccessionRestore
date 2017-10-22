@@ -251,6 +251,11 @@
 					8D5BA2741F7C792E00A169BF = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 					8D5BA28C1F7C792F00A169BF = {
 						CreatedOnToolsVersion = 9.0;
