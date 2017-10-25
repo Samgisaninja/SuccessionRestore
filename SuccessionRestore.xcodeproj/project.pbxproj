@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		002A8AF2031C82556F017675 /* libPods-SuccessionRestore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A1949DEEC85A996699C6F8 /* libPods-SuccessionRestore.a */; };
-		3C8790C8FC4A094FF76C1C1E /* libPods-SuccessionRestoreTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D70561E223C6DBB8CEDABA4 /* libPods-SuccessionRestoreTests.a */; };
 		8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2791F7C792E00A169BF /* AppDelegate.m */; };
 		8D5BA27D1F7C792E00A169BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA27C1F7C792E00A169BF /* ViewController.m */; };
 		8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA27E1F7C792E00A169BF /* Main.storyboard */; };
@@ -18,7 +16,6 @@
 		8D5BA2921F7C792F00A169BF /* SuccessionRestoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2911F7C792F00A169BF /* SuccessionRestoreTests.m */; };
 		8D5BA29D1F7C792F00A169BF /* SuccessionRestoreUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA29C1F7C792F00A169BF /* SuccessionRestoreUITests.m */; };
 		8DD1963A1F9D89AE0035DA48 /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = 8DD196391F9D89AE0035DA48 /* AppIcon.appiconset */; };
-		E4C516F295600A12E09AEDD2 /* libPods-SuccessionRestoreUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A4107F12E78A5F55C15DA8 /* libPods-SuccessionRestoreUITests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,9 +36,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		34A4107F12E78A5F55C15DA8 /* libPods-SuccessionRestoreUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SuccessionRestoreUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4D70561E223C6DBB8CEDABA4 /* libPods-SuccessionRestoreTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SuccessionRestoreTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		54DBC2E025F98A3676342A3C /* Pods-SuccessionRestoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuccessionRestoreTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SuccessionRestoreTests/Pods-SuccessionRestoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8D5BA2751F7C792E00A169BF /* SuccessionRestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuccessionRestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2781F7C792E00A169BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D5BA2791F7C792E00A169BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -60,12 +54,6 @@
 		8D5BA29E1F7C792F00A169BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DD196391F9D89AE0035DA48 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AppIcon.appiconset; sourceTree = "<group>"; };
 		8DE1CC9C1F9BD0EE002496EE /* NSTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTask.h; sourceTree = "<group>"; };
-		91D44F3677509A1346F8E835 /* Pods-SuccessionRestoreUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuccessionRestoreUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SuccessionRestoreUITests/Pods-SuccessionRestoreUITests.release.xcconfig"; sourceTree = "<group>"; };
-		9A4FF1F5FBEA6B9756CB91BE /* Pods-SuccessionRestore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuccessionRestore.release.xcconfig"; path = "Pods/Target Support Files/Pods-SuccessionRestore/Pods-SuccessionRestore.release.xcconfig"; sourceTree = "<group>"; };
-		B6A1949DEEC85A996699C6F8 /* libPods-SuccessionRestore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SuccessionRestore.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D63E665F729F403017C05B5D /* Pods-SuccessionRestoreUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuccessionRestoreUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SuccessionRestoreUITests/Pods-SuccessionRestoreUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		DE413D5C22A7E4017010CCEA /* Pods-SuccessionRestoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuccessionRestoreTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SuccessionRestoreTests/Pods-SuccessionRestoreTests.release.xcconfig"; sourceTree = "<group>"; };
-		EFE6AD1AEEBA8A88AC96CCA8 /* Pods-SuccessionRestore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuccessionRestore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SuccessionRestore/Pods-SuccessionRestore.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +61,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				002A8AF2031C82556F017675 /* libPods-SuccessionRestore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +68,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C8790C8FC4A094FF76C1C1E /* libPods-SuccessionRestoreTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,36 +75,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4C516F295600A12E09AEDD2 /* libPods-SuccessionRestoreUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6F19D71E21E6F116C9EE6C9C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B6A1949DEEC85A996699C6F8 /* libPods-SuccessionRestore.a */,
-				4D70561E223C6DBB8CEDABA4 /* libPods-SuccessionRestoreTests.a */,
-				34A4107F12E78A5F55C15DA8 /* libPods-SuccessionRestoreUITests.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6F8A95932AF450378538BD75 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				EFE6AD1AEEBA8A88AC96CCA8 /* Pods-SuccessionRestore.debug.xcconfig */,
-				9A4FF1F5FBEA6B9756CB91BE /* Pods-SuccessionRestore.release.xcconfig */,
-				54DBC2E025F98A3676342A3C /* Pods-SuccessionRestoreTests.debug.xcconfig */,
-				DE413D5C22A7E4017010CCEA /* Pods-SuccessionRestoreTests.release.xcconfig */,
-				D63E665F729F403017C05B5D /* Pods-SuccessionRestoreUITests.debug.xcconfig */,
-				91D44F3677509A1346F8E835 /* Pods-SuccessionRestoreUITests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		8D5BA26C1F7C792E00A169BF = {
 			isa = PBXGroup;
 			children = (
@@ -126,8 +88,6 @@
 				8D5BA2901F7C792F00A169BF /* SuccessionRestoreTests */,
 				8D5BA29B1F7C792F00A169BF /* SuccessionRestoreUITests */,
 				8D5BA2761F7C792E00A169BF /* Products */,
-				6F8A95932AF450378538BD75 /* Pods */,
-				6F19D71E21E6F116C9EE6C9C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -184,12 +144,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D5BA2A11F7C792F00A169BF /* Build configuration list for PBXNativeTarget "SuccessionRestore" */;
 			buildPhases = (
-				7DBBAF90C71D24A4477D4351 /* [CP] Check Pods Manifest.lock */,
 				8D5BA2711F7C792E00A169BF /* Sources */,
 				8D5BA2721F7C792E00A169BF /* Frameworks */,
 				8D5BA2731F7C792E00A169BF /* Resources */,
-				1127C9BE4AC1BA4CFBEFEA23 /* [CP] Embed Pods Frameworks */,
-				6C7A70BFD49DEAF87987D8F0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -204,12 +161,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D5BA2A41F7C792F00A169BF /* Build configuration list for PBXNativeTarget "SuccessionRestoreTests" */;
 			buildPhases = (
-				7AF17A41CB1C1248EF0298E2 /* [CP] Check Pods Manifest.lock */,
 				8D5BA2891F7C792F00A169BF /* Sources */,
 				8D5BA28A1F7C792F00A169BF /* Frameworks */,
 				8D5BA28B1F7C792F00A169BF /* Resources */,
-				2EEFCDEBE8724D5A5BFCB1B1 /* [CP] Embed Pods Frameworks */,
-				05D1B5D3C9C8B6C7FB07A340 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -225,12 +179,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D5BA2A71F7C792F00A169BF /* Build configuration list for PBXNativeTarget "SuccessionRestoreUITests" */;
 			buildPhases = (
-				F63FB51F2024ADED923BAD93 /* [CP] Check Pods Manifest.lock */,
 				8D5BA2941F7C792F00A169BF /* Sources */,
 				8D5BA2951F7C792F00A169BF /* Frameworks */,
 				8D5BA2961F7C792F00A169BF /* Resources */,
-				E841CFA242AC64B8C7A4F598 /* [CP] Embed Pods Frameworks */,
-				963591B56BC8D84006399AF8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -319,153 +270,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		05D1B5D3C9C8B6C7FB07A340 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SuccessionRestoreTests/Pods-SuccessionRestoreTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1127C9BE4AC1BA4CFBEFEA23 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SuccessionRestore/Pods-SuccessionRestore-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2EEFCDEBE8724D5A5BFCB1B1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SuccessionRestoreTests/Pods-SuccessionRestoreTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6C7A70BFD49DEAF87987D8F0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SuccessionRestore/Pods-SuccessionRestore-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7AF17A41CB1C1248EF0298E2 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SuccessionRestoreTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7DBBAF90C71D24A4477D4351 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SuccessionRestore-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		963591B56BC8D84006399AF8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SuccessionRestoreUITests/Pods-SuccessionRestoreUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E841CFA242AC64B8C7A4F598 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SuccessionRestoreUITests/Pods-SuccessionRestoreUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F63FB51F2024ADED923BAD93 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SuccessionRestoreUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D5BA2711F7C792E00A169BF /* Sources */ = {
@@ -635,7 +439,6 @@
 		};
 		8D5BA2A21F7C792F00A169BF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EFE6AD1AEEBA8A88AC96CCA8 /* Pods-SuccessionRestore.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -652,7 +455,6 @@
 		};
 		8D5BA2A31F7C792F00A169BF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9A4FF1F5FBEA6B9756CB91BE /* Pods-SuccessionRestore.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -669,7 +471,6 @@
 		};
 		8D5BA2A51F7C792F00A169BF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54DBC2E025F98A3676342A3C /* Pods-SuccessionRestoreTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -685,7 +486,6 @@
 		};
 		8D5BA2A61F7C792F00A169BF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DE413D5C22A7E4017010CCEA /* Pods-SuccessionRestoreTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -701,7 +501,6 @@
 		};
 		8D5BA2A81F7C792F00A169BF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D63E665F729F403017C05B5D /* Pods-SuccessionRestoreUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62PB6NV7YN;
@@ -716,7 +515,6 @@
 		};
 		8D5BA2A91F7C792F00A169BF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 91D44F3677509A1346F8E835 /* Pods-SuccessionRestoreUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62PB6NV7YN;

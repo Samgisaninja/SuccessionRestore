@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #include <sys/sysctl.h>
-#import "CDBDownloader/CDBDownloader.h"
 #import "NSTask.h"
 
 @interface ViewController ()
@@ -105,57 +104,20 @@
     void *downloadProgress = 0;
     if ([deviceModel isEqualToString:@"iPhone4,1"]) {
         if ([deviceVersion isEqualToString:@"8.4.1"]){
-            //Sets the download URL for CBDownloader
-            NSURL * downloadURL = [NSURL URLWithString:@"http://appldnld.apple.com/ios8.4.1/031-31129-20150812-751A3CB8-3C8F-11E5-A8A5-A91A3A53DB92/iPhone4,1_8.4.1_12H321_Restore.ipsw"];
-            //Sets name of rfs dmg and decryption key for later use by the dmg tool
-            NSString * rootFilesystemName = @"058-24033-023.dmg";
-            NSString * rfsDecryptionKey = @"8fd9823be521060b9160272962fc2f65520de7b5ab55fe574953997e3ee5306d7bab5e02";
-            //CBDownloader is a tool I got from cocoapods.org, I don't know why the "progress" has to be set up the way it is, but it wasn't working with just the varaible name and Xcode's "fix-it" feature suggested the "__bridge void" thing, it works so ¯\_(ツ)_/¯
-            [CDBDownloader downloadFileAtURL:downloadURL progress:(__bridge void (^ _Nullable)(NSUInteger))(downloadProgress) completion:^(NSURL * downloadedFileURL, NSError *error) {
-             if (error != nil) {
-                 //if the download error doesn't equal none, remove any partial dowloads and crash the app
-             [[NSFileManager new] removeItemAtURL:downloadedFileURL
-             error:nil];
-                 exit(0);
-             return;
-             }
-             else {
-             //if no errors, move the ipsw to the Media folder (accessible by USB even when jailed) and rename to a .zip
-                 //creates move task (NSTask is a "safer" alternative to a system call, although I'm not really using it the safe way. What could possibly go wrong with that?
-             NSTask *moveIPSW;
-             moveIPSW = [[NSTask alloc] init];
-                 //sets it up as an "mv" command
-             [moveIPSW setLaunchPath:@"/bin/mv"];
-                 //sets arguments of the command to send the file to the media folder and rename it
-             NSArray * moveIPSWArguments = [NSArray arrayWithObjects:downloadedFileURL, @"/var/mobile/Media/ipsw.zip", nil];
-                 //adds arguments to the task
-            [moveIPSW setArguments:moveIPSWArguments];
-                 //starts the task
-            [moveIPSW launch];
-                 //Same thing as above but to accomplish different things:
-            NSTask *makeIPSWDestination;
-            makeIPSWDestination = [[NSTask alloc] init];
-            [makeIPSWDestination setLaunchPath:@"/bin/mkdir"];
-            NSArray *makeIPSWDestinationArguments = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/ipsw-contents", nil];
-            [makeIPSWDestination setArguments: makeIPSWDestinationArguments];
-            [makeIPSWDestination launch];
-            NSTask *unzipIPSW;
-            unzipIPSW = [[NSTask alloc] init];
-            [unzipIPSW setLaunchPath: @"/bin/unzip"];
-            NSArray *unzipIPSWarguments = [NSArray arrayWithObjects: @"/var/mobile/Meida/Succession/ipsw.zip", @"/var/mobile/Media/Succession/ipsw-contents/", nil];
-            [unzipIPSW setArguments: unzipIPSWarguments];
-            [unzipIPSW launch];
-            NSTask *moveRootFilesystemDMG;
-            moveRootFilesystemDMG = [[NSTask alloc] init];
-                 [moveRootFilesystemDMG setLaunchPath:@"/bin/mv"];
-                 // At this point I realized I don't actually know exactly how the ipsw will unzip and should probably test it before pushing out new changes. Until next time...
-             }}];
+            [[NSFileManager defaultManager] moveItemAtPath:@"/Applications/SuccessionRestore/partialZipBrowser" toPath:@"/var/mobile/Media/Succession" error:nil];
+            /* NSTask *downloadDMG;
+            downloadDMG = [[NSTask alloc] init];
+            [downloadDMG setLaunchPath:@"/var/mobile/Media/Succession/partialZipBrowser"];
+            NSArray *downloadDMGArguments = [NSArray arrayWithObjects:@"http://appldnld.apple.com/ios8.4.1/031-31129-20150812-751A3CB8-3C8F-11E5-A8A5-A91A3A53DB92/iPhone4,1_8.4.1_12H321_Restore.ipsw", @"-g", @"058-24033-023.dmg" "-o", "rfs-partial.dmg", nil];
+            [downloadDMG setArguments:downloadDMGArguments];
+            [downloadDMG launch];
+            [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/rfs-partial.dmg" toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:nil]; */
+             };
         }
         if ([deviceVersion isEqualToString:@"9.3.5"]) {
             if ([deviceBuild isEqualToString:@"13G36"]) {
             }
         }
-    }
     else {
         UIAlertController *deviceNotSupported = [UIAlertController alertControllerWithTitle:@"Device not supported" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *closeApp) {
@@ -164,6 +126,6 @@
         [deviceNotSupported addAction:okAction];
         [self presentViewController:deviceNotSupported animated:YES completion:nil];;
     }
-}
 
+}
 @end
