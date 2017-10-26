@@ -105,6 +105,7 @@
     if ([deviceModel isEqualToString:@"iPhone4,1"]) {
         if ([deviceVersion isEqualToString:@"8.4.1"]){
             [[NSFileManager defaultManager] moveItemAtPath:@"/Applications/SuccessionRestore/partialZipBrowser" toPath:@"/var/mobile/Media/Succession" error:nil];
+            //Testing downloader in stages, that's why the code below is currently commented.
             /* NSTask *downloadDMG;
             downloadDMG = [[NSTask alloc] init];
             [downloadDMG setLaunchPath:@"/var/mobile/Media/Succession/partialZipBrowser"];
