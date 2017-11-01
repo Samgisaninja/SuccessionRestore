@@ -13,8 +13,6 @@
 		8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2811F7C792E00A169BF /* Assets.xcassets */; };
 		8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */; };
 		8D5BA2881F7C792E00A169BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2871F7C792E00A169BF /* main.m */; };
-		8D5BA2921F7C792F00A169BF /* SuccessionRestoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2911F7C792F00A169BF /* SuccessionRestoreTests.m */; };
-		8D5BA29D1F7C792F00A169BF /* SuccessionRestoreUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA29C1F7C792F00A169BF /* SuccessionRestoreUITests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,11 +44,7 @@
 		8D5BA2861F7C792E00A169BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D5BA2871F7C792E00A169BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D5BA28D1F7C792F00A169BF /* SuccessionRestoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D5BA2911F7C792F00A169BF /* SuccessionRestoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuccessionRestoreTests.m; sourceTree = "<group>"; };
-		8D5BA2931F7C792F00A169BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D5BA29C1F7C792F00A169BF /* SuccessionRestoreUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuccessionRestoreUITests.m; sourceTree = "<group>"; };
-		8D5BA29E1F7C792F00A169BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DE1CC9C1F9BD0EE002496EE /* NSTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTask.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,8 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				8D5BA2771F7C792E00A169BF /* SuccessionRestore */,
-				8D5BA2901F7C792F00A169BF /* SuccessionRestoreTests */,
-				8D5BA29B1F7C792F00A169BF /* SuccessionRestoreUITests */,
 				8D5BA2761F7C792E00A169BF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -114,24 +106,6 @@
 				8D5BA2871F7C792E00A169BF /* main.m */,
 			);
 			path = SuccessionRestore;
-			sourceTree = "<group>";
-		};
-		8D5BA2901F7C792F00A169BF /* SuccessionRestoreTests */ = {
-			isa = PBXGroup;
-			children = (
-				8D5BA2911F7C792F00A169BF /* SuccessionRestoreTests.m */,
-				8D5BA2931F7C792F00A169BF /* Info.plist */,
-			);
-			path = SuccessionRestoreTests;
-			sourceTree = "<group>";
-		};
-		8D5BA29B1F7C792F00A169BF /* SuccessionRestoreUITests */ = {
-			isa = PBXGroup;
-			children = (
-				8D5BA29C1F7C792F00A169BF /* SuccessionRestoreUITests.m */,
-				8D5BA29E1F7C792F00A169BF /* Info.plist */,
-			);
-			path = SuccessionRestoreUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,7 +256,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D5BA2921F7C792F00A169BF /* SuccessionRestoreTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,7 +263,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D5BA29D1F7C792F00A169BF /* SuccessionRestoreUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
