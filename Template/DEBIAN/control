@@ -1,0 +1,8 @@
+Package: com.samgisaninja.SuccessionRestore
+Name: SuccessionRestore
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Restore your devices file system!
+Maintainer: Samgisaninja
+Author: Samgisaninja
+Section: Utilities
