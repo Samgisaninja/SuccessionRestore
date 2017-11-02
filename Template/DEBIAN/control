@@ -1,5 +1,6 @@
 Package: com.samgisaninja.SuccessionRestore
 Name: SuccessionRestore
+Depends: xpwn
 Version: 0.0.2
 Architecture: iphoneos-arm
 Description: Restore your devices file system!

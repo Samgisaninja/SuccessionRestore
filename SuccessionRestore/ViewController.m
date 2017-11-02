@@ -23,6 +23,16 @@ static int dmgdl(char* url, char* dmg)
     return stat;
 }
 
+static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
+{
+    char *args[] = {"/Applications/Succession Restore.app/dmgdec", arg, dmg, flag, key, _out};
+    pid_t pid;
+    int stat;
+    posix_spawn(&pid, args[0], NULL, NULL, args, NULL);
+    waitpid(pid, &stat, 0);
+    return stat;
+}
+
 @interface ViewController ()
 
 @end
@@ -117,6 +127,8 @@ static int dmgdl(char* url, char* dmg)
     if ([deviceModel isEqualToString:@"iPhone4,1"]) {
         if ([deviceVersion isEqualToString:@"8.4.1"]){
             dmgdl("http://appldnld.apple.com/ios8.4.1/031-31129-20150812-751A3CB8-3C8F-11E5-A8A5-A91A3A53DB92/iPhone4,1_8.4.1_12H321_Restore.ipsw", "058-24033-023.dmg");
+            
+            dmgdec("extract", "/var/mobile/Media/Succession/rfs-partial.dmg", "-k", "8fd9823be521060b9160272962fc2f65520de7b5ab55fe574953997e3ee5306d7bab5e02", "/var/mobile/Media/Succession/rfs.dmg");
             //Credit: @Cryptiiiic
             };
         }
