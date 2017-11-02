@@ -101,19 +101,10 @@
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
-    void *downloadProgress = 0;
     if ([deviceModel isEqualToString:@"iPhone4,1"]) {
         if ([deviceVersion isEqualToString:@"8.4.1"]){
-            [[NSFileManager defaultManager] moveItemAtPath:@"/Applications/SuccessionRestore/partialZipBrowser" toPath:@"/var/mobile/Media/Succession" error:nil];
-            //Testing downloader in stages, that's why the code below is currently commented.
-            /* NSTask *downloadDMG;
-            downloadDMG = [[NSTask alloc] init];
-            [downloadDMG setLaunchPath:@"/var/mobile/Media/Succession/partialZipBrowser"];
-            NSArray *downloadDMGArguments = [NSArray arrayWithObjects:@"http://appldnld.apple.com/ios8.4.1/031-31129-20150812-751A3CB8-3C8F-11E5-A8A5-A91A3A53DB92/iPhone4,1_8.4.1_12H321_Restore.ipsw", @"-g", @"058-24033-023.dmg" "-o", "rfs-partial.dmg", nil];
-            [downloadDMG setArguments:downloadDMGArguments];
-            [downloadDMG launch];
-            [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/rfs-partial.dmg" toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:nil]; */
-             };
+            //Apparently partialZipBrowser isn't compiled for ARM processors. Trying to learn how to libpartialzip.
+            };
         }
         if ([deviceVersion isEqualToString:@"9.3.5"]) {
             if ([deviceBuild isEqualToString:@"13G36"]) {
