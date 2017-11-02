@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		668333771FAB11F100623CCF /* dmgdl in Resources */ = {isa = PBXBuildFile; fileRef = 668333761FAB11F100623CCF /* dmgdl */; };
 		8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2791F7C792E00A169BF /* AppDelegate.m */; };
 		8D5BA27D1F7C792E00A169BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA27C1F7C792E00A169BF /* ViewController.m */; };
 		8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA27E1F7C792E00A169BF /* Main.storyboard */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		668333761FAB11F100623CCF /* dmgdl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dmgdl; sourceTree = "<group>"; };
 		8D5BA2751F7C792E00A169BF /* SuccessionRestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuccessionRestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2781F7C792E00A169BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D5BA2791F7C792E00A169BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				8D5BA2791F7C792E00A169BF /* AppDelegate.m */,
 				8D5BA27B1F7C792E00A169BF /* ViewController.h */,
 				8D5BA27C1F7C792E00A169BF /* ViewController.m */,
+				668333761FAB11F100623CCF /* dmgdl */,
 				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
 				8D5BA2811F7C792E00A169BF /* Assets.xcassets */,
 				8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */,
@@ -220,6 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */,
+				668333771FAB11F100623CCF /* dmgdl in Resources */,
 				8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */,
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,
 			);

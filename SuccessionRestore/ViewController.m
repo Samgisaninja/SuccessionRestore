@@ -8,7 +8,20 @@
 
 #import "ViewController.h"
 #include <sys/sysctl.h>
+#include <CoreFoundation/CoreFoundation.h>
+#include <spawn.h>
+#include <sys/stat.h>
 #import "NSTask.h"
+
+static int dmgdl(char* url, char* dmg)
+{
+    char *args[] = {"/Applications/Succession Restore.app/dmgdl", url, dmg};
+    pid_t pid;
+    int stat;
+    posix_spawn(&pid, args[0], NULL, NULL, args, NULL);
+    waitpid(pid, &stat, 0);
+    return stat;
+}
 
 @interface ViewController ()
 
@@ -103,7 +116,8 @@
     free(buildChar);
     if ([deviceModel isEqualToString:@"iPhone4,1"]) {
         if ([deviceVersion isEqualToString:@"8.4.1"]){
-            //Apparently partialZipBrowser isn't compiled for ARM processors. Trying to learn how to libpartialzip.
+            dmgdl("http://appldnld.apple.com/ios8.4.1/031-31129-20150812-751A3CB8-3C8F-11E5-A8A5-A91A3A53DB92/iPhone4,1_8.4.1_12H321_Restore.ipsw", "058-24033-023.dmg");
+            //Credit: @Cryptiiiic
             };
         }
         if ([deviceVersion isEqualToString:@"9.3.5"]) {
