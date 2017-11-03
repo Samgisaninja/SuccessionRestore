@@ -15,7 +15,7 @@
 
 static int dmgdl(char* url, char* dmg)
 {
-    char *args[] = {"/Applications/Succession Restore.app/dmgdl", url, dmg};
+    char *args[] = {"/Applications/SuccessionRestore.app/dmgdl", url, dmg};
     pid_t pid;
     int stat;
     posix_spawn(&pid, args[0], NULL, NULL, args, NULL);
@@ -25,7 +25,7 @@ static int dmgdl(char* url, char* dmg)
 
 static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
 {
-    char *args[] = {"/Applications/Succession Restore.app/dmgdec", arg, dmg, flag, key, _out};
+    char *args[] = {"/Applications/SuccessionRestore.app/dmgdec", arg, dmg, flag, key, _out};
     pid_t pid;
     int stat;
     posix_spawn(&pid, args[0], NULL, NULL, args, NULL);

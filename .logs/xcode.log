@@ -1,0 +1,254 @@
+note: Planning build
+note: Constructing build description
+MkDir /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app
+    cd /Users/cryptic/SuccessionRestore
+    /bin/mkdir -p /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app
+
+ProcessProductPackaging /Users/cryptic/Library/MobileDevice/Provisioning\ Profiles/340ed61e-e4a8-4a37-9b09-dd11b9f85435.mobileprovision /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/embedded.mobileprovision
+    cd /Users/cryptic/SuccessionRestore
+    builtin-productPackagingUtility /Users/cryptic/Library/MobileDevice/Provisioning\ Profiles/340ed61e-e4a8-4a37-9b09-dd11b9f85435.mobileprovision -o /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/embedded.mobileprovision
+
+WriteAuxiliaryFile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources/Entitlements.plist
+    cd /Users/cryptic/SuccessionRestore
+    write-file /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources/Entitlements.plist
+
+ProcessProductPackaging /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources/Entitlements.plist /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore.app.xcent
+    cd /Users/cryptic/SuccessionRestore
+    builtin-productPackagingUtility /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources/Entitlements.plist -entitlements -format xml -o /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore.app.xcent
+
+WriteAuxiliaryFile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/all-product-headers.yaml
+    cd /Users/cryptic/SuccessionRestore
+    write-file /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/all-product-headers.yaml
+
+WriteAuxiliaryFile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore.hmap
+    cd /Users/cryptic/SuccessionRestore
+    write-file /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore.hmap
+
+WriteAuxiliaryFile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-project-headers.hmap
+    cd /Users/cryptic/SuccessionRestore
+    write-file /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-project-headers.hmap
+
+WriteAuxiliaryFile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-own-target-headers.hmap
+    cd /Users/cryptic/SuccessionRestore
+    write-file /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-generated-files.hmap
+    cd /Users/cryptic/SuccessionRestore
+    write-file /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-generated-files.hmap
+
+WriteAuxiliaryFile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-all-target-headers.hmap
+    cd /Users/cryptic/SuccessionRestore
+    write-file /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-all-non-framework-target-headers.hmap
+    cd /Users/cryptic/SuccessionRestore
+    write-file /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/SuccessionRestore.LinkFileList
+    cd /Users/cryptic/SuccessionRestore
+    write-file /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/SuccessionRestore.LinkFileList
+
+WriteAuxiliaryFile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/SuccessionRestore.LinkFileList
+    cd /Users/cryptic/SuccessionRestore
+    write-file /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/SuccessionRestore.LinkFileList
+
+CompileC /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/AppDelegate.o /Users/cryptic/SuccessionRestore/SuccessionRestore/AppDelegate.m normal arm64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+    cd /Users/cryptic/SuccessionRestore
+    export LANG=en_US.US-ASCII
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch arm64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu11 -fobjc-arc -fmodules -gmodules -fmodules-prune-interval=86400 -fmodules-prune-after=345600 -fbuild-session-file=/var/folders/_3/4cgtztqd5b3f6fljnbj4yn7m0000gn/C/org.llvm.clang/ModuleCache/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fpascal-strings -Os -fno-common -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wdocumentation -Wunreachable-code -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wnon-literal-null-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -DOBJC_OLD_DISPATCH_PROTOTYPES=0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -miphoneos-version-min=8.0 -g -fvisibility=hidden -Wno-sign-conversion -Winfinite-recursion -Wcomma -Wblock-capture-autoreleasing -Wstrict-prototypes -Wunguarded-availability -fembed-bitcode-marker -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-generated-files.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-own-target-headers.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-all-target-headers.hmap -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-project-headers.hmap -I/Users/cryptic/SuccessionRestore/build/Release-iphoneos/include -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources/arm64 -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources -F/Users/cryptic/SuccessionRestore/build/Release-iphoneos -MMD -MT dependencies -MF /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/AppDelegate.d --serialize-diagnostics /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/AppDelegate.dia -c /Users/cryptic/SuccessionRestore/SuccessionRestore/AppDelegate.m -o /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/AppDelegate.o
+
+CompileC /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/main.o /Users/cryptic/SuccessionRestore/SuccessionRestore/main.m normal arm64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+    cd /Users/cryptic/SuccessionRestore
+    export LANG=en_US.US-ASCII
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch arm64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu11 -fobjc-arc -fmodules -gmodules -fmodules-prune-interval=86400 -fmodules-prune-after=345600 -fbuild-session-file=/var/folders/_3/4cgtztqd5b3f6fljnbj4yn7m0000gn/C/org.llvm.clang/ModuleCache/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fpascal-strings -Os -fno-common -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wdocumentation -Wunreachable-code -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wnon-literal-null-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -DOBJC_OLD_DISPATCH_PROTOTYPES=0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -miphoneos-version-min=8.0 -g -fvisibility=hidden -Wno-sign-conversion -Winfinite-recursion -Wcomma -Wblock-capture-autoreleasing -Wstrict-prototypes -Wunguarded-availability -fembed-bitcode-marker -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-generated-files.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-own-target-headers.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-all-target-headers.hmap -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-project-headers.hmap -I/Users/cryptic/SuccessionRestore/build/Release-iphoneos/include -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources/arm64 -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources -F/Users/cryptic/SuccessionRestore/build/Release-iphoneos -MMD -MT dependencies -MF /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/main.d --serialize-diagnostics /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/main.dia -c /Users/cryptic/SuccessionRestore/SuccessionRestore/main.m -o /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/main.o
+
+CompileC /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/ViewController.o /Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m normal arm64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+    cd /Users/cryptic/SuccessionRestore
+    export LANG=en_US.US-ASCII
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch arm64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu11 -fobjc-arc -fmodules -gmodules -fmodules-prune-interval=86400 -fmodules-prune-after=345600 -fbuild-session-file=/var/folders/_3/4cgtztqd5b3f6fljnbj4yn7m0000gn/C/org.llvm.clang/ModuleCache/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fpascal-strings -Os -fno-common -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wdocumentation -Wunreachable-code -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wnon-literal-null-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -DOBJC_OLD_DISPATCH_PROTOTYPES=0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -miphoneos-version-min=8.0 -g -fvisibility=hidden -Wno-sign-conversion -Winfinite-recursion -Wcomma -Wblock-capture-autoreleasing -Wstrict-prototypes -Wunguarded-availability -fembed-bitcode-marker -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-generated-files.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-own-target-headers.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-all-target-headers.hmap -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-project-headers.hmap -I/Users/cryptic/SuccessionRestore/build/Release-iphoneos/include -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources/arm64 -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources -F/Users/cryptic/SuccessionRestore/build/Release-iphoneos -MMD -MT dependencies -MF /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/ViewController.d --serialize-diagnostics /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/ViewController.dia -c /Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m -o /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/ViewController.o
+In file included from /Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m:14:
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:21:29: warning: declaration of 'struct _NSZone' will not be visible outside of this function [-Wvisibility]
++ (id)allocWithZone:(struct _NSZone { }*)arg1;
+                            ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:7:27: warning: type of property 'arguments' does not match type of accessor 'setArguments:'
+@property (copy) NSArray *arguments;
+                          ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:37:1: note: declared here
+- (void)setArguments:(id)arg1;
+^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:8:28: warning: type of property 'currentDirectoryPath' does not match type of accessor 'setCurrentDirectoryPath:'
+@property (copy) NSString *currentDirectoryPath;
+                           ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:38:1: note: declared here
+- (void)setCurrentDirectoryPath:(id)arg1;
+^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:9:32: warning: type of property 'environment' does not match type of accessor 'setEnvironment:'
+@property (copy) NSDictionary *environment;
+                               ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:39:1: note: declared here
+- (void)setEnvironment:(id)arg1;
+^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:10:28: warning: type of property 'launchPath' does not match type of accessor 'setLaunchPath:'
+@property (copy) NSString *launchPath;
+                           ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:40:1: note: declared here
+- (void)setLaunchPath:(id)arg1;
+^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m:131:109: warning: data argument not used by format string [-Wformat-extra-args]
+            NSString *link = [NSString stringWithFormat:@"http://api.ipsw.me/v2/&@/%@/url/dl", deviceModel, deviceVersion];
+                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~               ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m:133:19: warning: passing 'const char * _Nullable' to parameter of type 'char *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+            dmgdl([link UTF8String], "058-24033-023.dmg"); // Some way to get this? Maybe using a json of the keys(forgot where it was) and get the rootfs filename
+                  ^~~~~~~~~~~~~~~~~
+/Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m:16:24: note: passing argument to parameter 'url' here
+static int dmgdl(char* url, char* dmg)
+                       ^
+7 warnings generated.
+
+CompileC /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/AppDelegate.o /Users/cryptic/SuccessionRestore/SuccessionRestore/AppDelegate.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+    cd /Users/cryptic/SuccessionRestore
+    export LANG=en_US.US-ASCII
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu11 -fobjc-arc -fmodules -gmodules -fmodules-prune-interval=86400 -fmodules-prune-after=345600 -fbuild-session-file=/var/folders/_3/4cgtztqd5b3f6fljnbj4yn7m0000gn/C/org.llvm.clang/ModuleCache/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fpascal-strings -Os -fno-common -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wdocumentation -Wunreachable-code -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wnon-literal-null-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -DOBJC_OLD_DISPATCH_PROTOTYPES=0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -miphoneos-version-min=8.0 -g -fvisibility=hidden -Wno-sign-conversion -Winfinite-recursion -Wcomma -Wblock-capture-autoreleasing -Wstrict-prototypes -Wunguarded-availability -fembed-bitcode-marker -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-generated-files.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-own-target-headers.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-all-target-headers.hmap -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-project-headers.hmap -I/Users/cryptic/SuccessionRestore/build/Release-iphoneos/include -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources/armv7 -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources -F/Users/cryptic/SuccessionRestore/build/Release-iphoneos -MMD -MT dependencies -MF /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/AppDelegate.d --serialize-diagnostics /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/AppDelegate.dia -c /Users/cryptic/SuccessionRestore/SuccessionRestore/AppDelegate.m -o /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/AppDelegate.o
+
+CompileC /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/main.o /Users/cryptic/SuccessionRestore/SuccessionRestore/main.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+    cd /Users/cryptic/SuccessionRestore
+    export LANG=en_US.US-ASCII
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu11 -fobjc-arc -fmodules -gmodules -fmodules-prune-interval=86400 -fmodules-prune-after=345600 -fbuild-session-file=/var/folders/_3/4cgtztqd5b3f6fljnbj4yn7m0000gn/C/org.llvm.clang/ModuleCache/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fpascal-strings -Os -fno-common -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wdocumentation -Wunreachable-code -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wnon-literal-null-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -DOBJC_OLD_DISPATCH_PROTOTYPES=0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -miphoneos-version-min=8.0 -g -fvisibility=hidden -Wno-sign-conversion -Winfinite-recursion -Wcomma -Wblock-capture-autoreleasing -Wstrict-prototypes -Wunguarded-availability -fembed-bitcode-marker -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-generated-files.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-own-target-headers.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-all-target-headers.hmap -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-project-headers.hmap -I/Users/cryptic/SuccessionRestore/build/Release-iphoneos/include -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources/armv7 -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources -F/Users/cryptic/SuccessionRestore/build/Release-iphoneos -MMD -MT dependencies -MF /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/main.d --serialize-diagnostics /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/main.dia -c /Users/cryptic/SuccessionRestore/SuccessionRestore/main.m -o /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/main.o
+
+CompileC /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/ViewController.o /Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+    cd /Users/cryptic/SuccessionRestore
+    export LANG=en_US.US-ASCII
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch armv7 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu11 -fobjc-arc -fmodules -gmodules -fmodules-prune-interval=86400 -fmodules-prune-after=345600 -fbuild-session-file=/var/folders/_3/4cgtztqd5b3f6fljnbj4yn7m0000gn/C/org.llvm.clang/ModuleCache/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fpascal-strings -Os -fno-common -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wdocumentation -Wunreachable-code -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wnon-literal-null-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -DNS_BLOCK_ASSERTIONS=1 -DOBJC_OLD_DISPATCH_PROTOTYPES=0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -miphoneos-version-min=8.0 -g -fvisibility=hidden -Wno-sign-conversion -Winfinite-recursion -Wcomma -Wblock-capture-autoreleasing -Wstrict-prototypes -Wunguarded-availability -fembed-bitcode-marker -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-generated-files.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-own-target-headers.hmap -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-all-target-headers.hmap -iquote /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore-project-headers.hmap -I/Users/cryptic/SuccessionRestore/build/Release-iphoneos/include -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources/armv7 -I/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/DerivedSources -F/Users/cryptic/SuccessionRestore/build/Release-iphoneos -MMD -MT dependencies -MF /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/ViewController.d --serialize-diagnostics /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/ViewController.dia -c /Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m -o /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/ViewController.o
+In file included from /Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m:14:
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:21:29: warning: declaration of 'struct _NSZone' will not be visible outside of this function [-Wvisibility]
++ (id)allocWithZone:(struct _NSZone { }*)arg1;
+                            ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:7:27: warning: type of property 'arguments' does not match type of accessor 'setArguments:'
+@property (copy) NSArray *arguments;
+                          ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:37:1: note: declared here
+- (void)setArguments:(id)arg1;
+^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:8:28: warning: type of property 'currentDirectoryPath' does not match type of accessor 'setCurrentDirectoryPath:'
+@property (copy) NSString *currentDirectoryPath;
+                           ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:38:1: note: declared here
+- (void)setCurrentDirectoryPath:(id)arg1;
+^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:9:32: warning: type of property 'environment' does not match type of accessor 'setEnvironment:'
+@property (copy) NSDictionary *environment;
+                               ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:39:1: note: declared here
+- (void)setEnvironment:(id)arg1;
+^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:10:28: warning: type of property 'launchPath' does not match type of accessor 'setLaunchPath:'
+@property (copy) NSString *launchPath;
+                           ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/NSTask.h:40:1: note: declared here
+- (void)setLaunchPath:(id)arg1;
+^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m:131:109: warning: data argument not used by format string [-Wformat-extra-args]
+            NSString *link = [NSString stringWithFormat:@"http://api.ipsw.me/v2/&@/%@/url/dl", deviceModel, deviceVersion];
+                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~               ^
+/Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m:133:19: warning: passing 'const char * _Nullable' to parameter of type 'char *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+            dmgdl([link UTF8String], "058-24033-023.dmg"); // Some way to get this? Maybe using a json of the keys(forgot where it was) and get the rootfs filename
+                  ^~~~~~~~~~~~~~~~~
+/Users/cryptic/SuccessionRestore/SuccessionRestore/ViewController.m:16:24: note: passing argument to parameter 'url' here
+static int dmgdl(char* url, char* dmg)
+                       ^
+7 warnings generated.
+
+Ld /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/SuccessionRestore normal arm64
+    cd /Users/cryptic/SuccessionRestore
+    export IPHONEOS_DEPLOYMENT_TARGET=8.0
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk -L/Users/cryptic/SuccessionRestore/build/Release-iphoneos -F/Users/cryptic/SuccessionRestore/build/Release-iphoneos -filelist /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/SuccessionRestore.LinkFileList -Xlinker -rpath -Xlinker @executable_path/Frameworks -miphoneos-version-min=8.0 -dead_strip -Xlinker -object_path_lto -Xlinker /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/SuccessionRestore_lto.o -fembed-bitcode-marker -fobjc-arc -fobjc-link-runtime -Xlinker -dependency_info -Xlinker /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/SuccessionRestore_dependency_info.dat -o /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/SuccessionRestore
+
+Ld /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/SuccessionRestore normal armv7
+    cd /Users/cryptic/SuccessionRestore
+    export IPHONEOS_DEPLOYMENT_TARGET=8.0
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch armv7 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.1.sdk -L/Users/cryptic/SuccessionRestore/build/Release-iphoneos -F/Users/cryptic/SuccessionRestore/build/Release-iphoneos -filelist /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/SuccessionRestore.LinkFileList -Xlinker -rpath -Xlinker @executable_path/Frameworks -miphoneos-version-min=8.0 -dead_strip -Xlinker -object_path_lto -Xlinker /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/SuccessionRestore_lto.o -fembed-bitcode-marker -fobjc-arc -fobjc-link-runtime -Xlinker -dependency_info -Xlinker /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/SuccessionRestore_dependency_info.dat -o /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/SuccessionRestore
+
+CreateUniversalBinary /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/SuccessionRestore normal armv7\ arm64
+    cd /Users/cryptic/SuccessionRestore
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -create /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/armv7/SuccessionRestore /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Objects-normal/arm64/SuccessionRestore -output /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/SuccessionRestore
+
+GenerateDSYMFile /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app.dSYM /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/SuccessionRestore
+    cd /Users/cryptic/SuccessionRestore
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/SuccessionRestore -o /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app.dSYM
+
+Touch /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app.dSYM
+    cd /Users/cryptic/SuccessionRestore
+    /usr/bin/touch -c /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app.dSYM
+
+CpResource /Users/cryptic/SuccessionRestore/SuccessionRestore/dmgdl /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/dmgdl
+    cd /Users/cryptic/SuccessionRestore
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/cryptic/SuccessionRestore/SuccessionRestore/dmgdl /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app
+
+CompileStoryboard /Users/cryptic/SuccessionRestore/SuccessionRestore/Base.lproj/Main.storyboard
+    cd /Users/cryptic/SuccessionRestore
+    export XCODE_DEVELOPER_USR_PATH=/Applications/Xcode.app/Contents/Developer/usr/bin/..
+    /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module SuccessionRestore --output-partial-info-plist /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Main-SBPartialInfo.plist --auto-activate-custom-fonts --target-device iphone --target-device ipad --minimum-deployment-target 8.0 --output-format human-readable-text --compilation-directory /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Base.lproj /Users/cryptic/SuccessionRestore/SuccessionRestore/Base.lproj/Main.storyboard
+/* com.apple.ibtool.document.warnings */
+/Users/cryptic/SuccessionRestore/SuccessionRestore/Base.lproj/Main.storyboard:0pb-7p-nji: warning: “View Controller“ is unreachable because it has no entry points, and no identifier for runtime access via -[UIStoryboard instantiateViewControllerWithIdentifier:]. [9]
+
+CpResource /Users/cryptic/SuccessionRestore/SuccessionRestore/dmgdec /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/dmgdec
+    cd /Users/cryptic/SuccessionRestore
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/cryptic/SuccessionRestore/SuccessionRestore/dmgdec /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app
+
+CompileStoryboard /Users/cryptic/SuccessionRestore/SuccessionRestore/Base.lproj/LaunchScreen.storyboard
+    cd /Users/cryptic/SuccessionRestore
+    export XCODE_DEVELOPER_USR_PATH=/Applications/Xcode.app/Contents/Developer/usr/bin/..
+    /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module SuccessionRestore --output-partial-info-plist /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/LaunchScreen-SBPartialInfo.plist --auto-activate-custom-fonts --target-device iphone --target-device ipad --minimum-deployment-target 8.0 --output-format human-readable-text --compilation-directory /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Base.lproj /Users/cryptic/SuccessionRestore/SuccessionRestore/Base.lproj/LaunchScreen.storyboard
+
+CompileAssetCatalog /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app /Users/cryptic/SuccessionRestore/SuccessionRestore/Assets.xcassets
+    cd /Users/cryptic/SuccessionRestore
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool --output-format human-readable-text --notices --warnings --export-dependency-info /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/assetcatalog_dependencies --output-partial-info-plist /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/assetcatalog_generated_info.plist --app-icon AppIcon --launch-image LaunchImage --compress-pngs --enable-on-demand-resources YES --sticker-pack-identifier-prefix com.samgisaninja.Succession1.sticker-pack. --target-device iphone --target-device ipad --minimum-deployment-target 8.0 --platform iphoneos --product-type com.apple.product-type.application --compile /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app /Users/cryptic/SuccessionRestore/SuccessionRestore/Assets.xcassets
+/* com.apple.actool.document.warnings */
+/Users/cryptic/SuccessionRestore/SuccessionRestore/Assets.xcassets:./LaunchImage.launchimage/[iphone][][2x][portrait][][7.0][2d][(null)]: warning: The launch image set "LaunchImage" has 2 unassigned children.
+/* com.apple.actool.compilation-results */
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon20x20@2x.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon20x20@3x.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon29x29@2x.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon29x29@3x.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon40x40@2x.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon40x40@3x.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon60x60@2x.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon60x60@3x.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon20x20~ipad.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon20x20@2x~ipad.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon29x29~ipad.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon29x29@2x~ipad.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon40x40~ipad.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon40x40@2x~ipad.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon76x76~ipad.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon76x76@2x~ipad.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/AppIcon83.5x83.5@2x~ipad.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/LaunchImage-700-568h@2x.png
+/Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/Assets.car
+/Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/assetcatalog_generated_info.plist
+
+
+LinkStoryboards
+    cd /Users/cryptic/SuccessionRestore
+    export XCODE_DEVELOPER_USR_PATH=/Applications/Xcode.app/Contents/Developer/usr/bin/..
+    /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module SuccessionRestore --target-device iphone --target-device ipad --minimum-deployment-target 8.0 --output-format human-readable-text --link /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Base.lproj/LaunchScreen.storyboardc /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Base.lproj/Main.storyboardc
+
+ProcessInfoPlistFile /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/Info.plist /Users/cryptic/SuccessionRestore/SuccessionRestore/Info.plist
+    cd /Users/cryptic/SuccessionRestore
+    builtin-infoPlistUtility /Users/cryptic/SuccessionRestore/SuccessionRestore/Info.plist -genpkginfo /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/PkgInfo -expandbuildsettings -format binary -platform iphoneos -additionalcontentfile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/LaunchScreen-SBPartialInfo.plist -additionalcontentfile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/Main-SBPartialInfo.plist -additionalcontentfile /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/assetcatalog_generated_info.plist -o /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app/Info.plist
+
+CodeSign /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app
+    cd /Users/cryptic/SuccessionRestore
+    export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate
+    /usr/bin/codesign --force --sign E024D1239F1B98EA7157F04F4B55DF73B177B7A3 --entitlements /Users/cryptic/SuccessionRestore/build/SuccessionRestore.build/Release-iphoneos/SuccessionRestore.build/SuccessionRestore.app.xcent --timestamp=none /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app
+
+Touch /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app
+    cd /Users/cryptic/SuccessionRestore
+    /usr/bin/touch -c /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app
+
+Validate /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app
+    cd /Users/cryptic/SuccessionRestore
+    builtin-validationUtility /Users/cryptic/SuccessionRestore/build/Release-iphoneos/SuccessionRestore.app
+
+** BUILD SUCCEEDED **
+
