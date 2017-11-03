@@ -126,7 +126,11 @@ static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
     free(buildChar);
     if ([deviceModel isEqualToString:@"iPhone4,1"]) {
         if ([deviceVersion isEqualToString:@"8.4.1"]){
-            dmgdl("http://appldnld.apple.com/ios8.4.1/031-31129-20150812-751A3CB8-3C8F-11E5-A8A5-A91A3A53DB92/iPhone4,1_8.4.1_12H321_Restore.ipsw", "058-24033-023.dmg");
+            // API to get ipsw of any firmware with the version and model
+            // Getting the build number rather than the version would prevent "300 Multiple Choices" HTTP Response which is due to multiple version but different buildid's
+            NSString *link = [NSString stringWithFormat:@"http://api.ipsw.me/v2/&@/%@/url/dl", deviceModel, deviceVersion];
+            
+            dmgdl([link UTF8String], "058-24033-023.dmg"); // Some way to get this? Maybe using a json of the keys(forgot where it was) and get the rootfs filename
             
             dmgdec("extract", "/var/mobile/Media/Succession/rfs-partial.dmg", "-k", "8fd9823be521060b9160272962fc2f65520de7b5ab55fe574953997e3ee5306d7bab5e02", "/var/mobile/Media/Succession/rfs.dmg");
             //Credit: @Cryptiiiic
