@@ -128,7 +128,7 @@ static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
         if ([deviceVersion isEqualToString:@"8.4.1"]){
             // API to get ipsw of any firmware with the version and model
             // Getting the build number rather than the version would prevent "300 Multiple Choices" HTTP Response which is due to multiple version but different buildid's
-            NSString *link = [NSString stringWithFormat:@"http://api.ipsw.me/v2/&@/%@/url/dl", deviceModel, deviceVersion];
+            NSString *link = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceVersion];
             
             dmgdl([link UTF8String], "058-24033-023.dmg"); // Some way to get this? Maybe using a json of the keys(forgot where it was) and get the rootfs filename
             
