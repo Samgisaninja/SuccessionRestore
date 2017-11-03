@@ -8,7 +8,30 @@
 
 #import "ViewController.h"
 #include <sys/sysctl.h>
+#include <CoreFoundation/CoreFoundation.h>
+#include <spawn.h>
+#include <sys/stat.h>
 #import "NSTask.h"
+
+static int dmgdl(char* url, char* dmg)
+{
+    char *args[] = {"/Applications/SuccessionRestore.app/dmgdl", url, dmg};
+    pid_t pid;
+    int stat;
+    posix_spawn(&pid, args[0], NULL, NULL, args, NULL);
+    waitpid(pid, &stat, 0);
+    return stat;
+}
+
+static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
+{
+    char *args[] = {"/Applications/SuccessionRestore.app/dmgdec", arg, dmg, flag, key, _out};
+    pid_t pid;
+    int stat;
+    posix_spawn(&pid, args[0], NULL, NULL, args, NULL);
+    waitpid(pid, &stat, 0);
+    return stat;
+}
 
 @interface ViewController ()
 
@@ -101,15 +124,31 @@
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
-    if ([deviceModel isEqualToString:@"iPhone4,1"]) {
-        if ([deviceVersion isEqualToString:@"8.4.1"]){
-            //Apparently partialZipBrowser isn't compiled for ARM processors. Trying to learn how to libpartialzip.
-            };
+    // API to get ipsw of any firmware with the version and model
+    // Getting the build number rather than the version would prevent "300 Multiple Choices" HTTP Response which is due to multiple version but different buildid's
+    NSString *link = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceVersion];
+    if ([deviceModel isEqualToString:@"iPhone4,1"])
+    {
+        if ([deviceVersion isEqualToString:@"8.4.1"])
+        {
+            
         }
-        if ([deviceVersion isEqualToString:@"9.3.5"]) {
-            if ([deviceBuild isEqualToString:@"13G36"]) {
+    }
+    else if ([deviceModel isEqualToString:@"iPod5,1"])
+    {
+        if ([deviceVersion isEqualToString:@"8.4.1"])
+        {
+            
+        }
+    }
+    
+    else if ([deviceVersion isEqualToString:@"9.3.5"])
+    {
+            if ([deviceBuild isEqualToString:@"13G36"])
+            {
+                
             }
-        }
+    }
     else {
         UIAlertController *deviceNotSupported = [UIAlertController alertControllerWithTitle:@"Device not supported" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *closeApp) {
