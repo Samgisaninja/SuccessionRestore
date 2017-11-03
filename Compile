@@ -14,4 +14,5 @@ mv SuccessionRestore.app com.samgisaninja.SuccessionRestore/Applications/
 sudo fakeroot chmod 755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore
 sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore_
 rm -r ./Build
+find . -type f -name .DS_Store -delete && xattr -cr *
 sudo fakeroot dpkg-deb -Zgzip -b com.samgisaninja.SuccessionRestore Debs && rm -r com.samgisaninja.SuccessionRestore
