@@ -41,25 +41,33 @@ static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //Gets iOS device model (ex iPhone9,1 == iPhone 7 GSM) and changes label.
+    
+    // Create a size_t and set it to the size used to allocate modelChar
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    
+    //Gets iOS device model (ex iPhone9,1 == iPhone 7 GSM) and changes label.
     char *modelChar = malloc(size);
     sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
     NSString *deviceModel = [NSString stringWithUTF8String:modelChar];
     free(modelChar);
     self.deviceModelLabel.text = [NSString stringWithFormat:@"%@", deviceModel];
+    
     //Gets iOS version (if you need an example, maybe you should learn about iOS more before learning to develop for it) and changes label.
     NSString *deviceVersion = [[UIDevice currentDevice] systemVersion];
     self.iOSVersionLabel.text = [NSString stringWithFormat:@"%@", deviceVersion];
+    
+    // Set size to the size used to allocate buildChar
+    sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
+    
     //Gets iOS device build number (ex 10.1.1 == 14B100 or 14B150) and changes label.
     //Thanks, Apple, for releasing two versions of 10.1.1, you really like making things hard on us.
-    sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
     char *buildChar = malloc(size);
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
     self.iOSBuildLabel.text = [NSString stringWithFormat:@"%@", deviceBuild];
+    
     //Checks to see if DMG has already been downloaded and sets features accordingly
     BOOL DMGAlreadyDownloaded = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"];
     if (DMGAlreadyDownloaded == YES) {
@@ -112,18 +120,30 @@ static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
 
 - (IBAction)startDownloadingButton:(id)sender {
     //This code should look familiar, this time instead of setting labels, the information is used to download the right file.
+    
+    // Create a size_t and set it to the size used to allocate modelChar
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    
+    //Gets iOS device model (ex iPhone9,1 == iPhone 7 GSM) and changes label.
     char *modelChar = malloc(size);
     sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
     NSString *deviceModel = [NSString stringWithUTF8String:modelChar];
     free(modelChar);
+    
+    //Gets iOS version (if you need an example, maybe you should learn about iOS more before learning to develop for it) and changes label.
     NSString *deviceVersion = [[UIDevice currentDevice] systemVersion];
+    
+    // Set size to the size used to allocate buildChar
     sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
+    
+    //Gets iOS device build number (ex 10.1.1 == 14B100 or 14B150) and changes label.
+    //Thanks, Apple, for releasing two versions of 10.1.1, you really like making things hard on us.
     char *buildChar = malloc(size);
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
+    
     // API to get ipsw of any firmware with the buildid and model
     NSString *link = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceBuild];
     if ([deviceModel isEqualToString:@"iPhone4,1"])
