@@ -13,26 +13,6 @@
 #include <sys/stat.h>
 #import "NSTask.h"
 
-static int dmgdl(char* url, char* dmg)
-{
-    char *args[] = {"/Applications/SuccessionRestore.app/dmgdl", url, dmg};
-    pid_t pid;
-    int stat;
-    posix_spawn(&pid, args[0], NULL, NULL, args, NULL);
-    waitpid(pid, &stat, 0);
-    return stat;
-}
-
-static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
-{
-    char *args[] = {"/Applications/SuccessionRestore.app/dmgdec", arg, dmg, flag, key, _out};
-    pid_t pid;
-    int stat;
-    posix_spawn(&pid, args[0], NULL, NULL, args, NULL);
-    waitpid(pid, &stat, 0);
-    return stat;
-}
-
 @interface ViewController ()
 
 @end
@@ -85,7 +65,7 @@ static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
         UIAlertController *notRunningAsRoot = [UIAlertController alertControllerWithTitle:@"Succession isn't running as root" message:@"You need a jailbreak to use this app" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *exitApp = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *closeApp) {
             exit(0);
-            }];
+        }];
         [notRunningAsRoot addAction:exitApp];
         [self presentViewController:notRunningAsRoot animated:YES completion:nil];
     }
@@ -125,37 +105,93 @@ static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
     // API to get ipsw of any firmware with the buildid and model
-    NSString *link = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceBuild];
-    if ([deviceModel isEqualToString:@"iPhone4,1"])
-    {
-        if ([deviceVersion isEqualToString:@"8.4.1"])
-        {
-            
-        }
-    }
-    else if ([deviceModel isEqualToString:@"iPod5,1"])
-    {
-        if ([deviceVersion isEqualToString:@"8.4.1"])
-        {
-            
-        }
-    }
-    
-    else if ([deviceVersion isEqualToString:@"9.3.5"])
-    {
-            if ([deviceBuild isEqualToString:@"13G36"])
-            {
-                
-            }
-    }
-    else {
+    NSString *downloadLink = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceBuild];
+    //This code downloads the IPSW file for the correct iOS version
+    //Creates an empty NSTask
+    NSTask *downloadIPSW = [[NSTask alloc] init];
+    //tells the downloadIPSW NSTask that it is supposed to use /bin/curl as its executable
+    [downloadIPSW setLaunchPath:@"/bin/curl"];
+    //Creates an NSArray of arguments
+    NSArray *downloadIPSWArgs = [NSArray arrayWithObjects:[NSString stringWithFormat: @"%@",downloadLink], @"-o" @"/var/mobile/Media/Succession/ipsw-partial.ipsw", nil];
+    //Tells the downloadIPSW NSTask to use the downloadIPSWArgs array as arguments
+    [downloadIPSW setArguments:downloadIPSWArgs];
+    //Starts the NSTask
+    [downloadIPSW launch];
+    //Once download is complete, renames the file to a .zip for extraction
+    [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/ipsw-partial.ipsw" toPath:@"/var/mobile/Media/Succession/ipsw.zip" error:nil];
+    //creates directory for the ipsw that's about to be unzipped
+    [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/ipsw/" withIntermediateDirectories:NO attributes:nil error:nil];
+    //unzips the ipsw
+    NSTask *unzipIPSW = [[NSTask alloc] init];
+    [unzipIPSW setLaunchPath:@"/bin/unzip"];
+    NSArray *unzipIPSWArgs = [NSArray arrayWithObjects:@"-a", @"/var/mobile/Media/Succession/ipsw.zip", @"-d", @"/var/mobile/Media/Succession/ipsw", nil];
+    [unzipIPSW setArguments:unzipIPSWArgs];
+    [unzipIPSW launch];
+    if ([deviceModel isEqualToString:@"iPhone4,1"]) {
+        
+    } else {
         UIAlertController *deviceNotSupported = [UIAlertController alertControllerWithTitle:@"Device not supported" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *closeApp) {
             exit(0);
         }];
         [deviceNotSupported addAction:okAction];
-        [self presentViewController:deviceNotSupported animated:YES completion:nil];;
+        [self presentViewController:deviceNotSupported animated:YES completion:nil];
     }
-
+    //creates a bool to determine if the dmg needs to be decrypted before mounting
+    BOOL needsDecryption = YES;
+    //if someone could refactor this to be more organized that'd be great
+    if ([deviceVersion isEqualToString:@"14A403"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14A456"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14A551"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14B72"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14B100"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14B150"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14C92"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14D27"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14E277"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14E304"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14F89"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"14G60"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"15A372"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"15A402"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"15A421"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"15A432"]) {
+        needsDecryption = NO;}
+    if ([deviceVersion isEqualToString:@"15B93"]) {
+        needsDecryption = NO;}
+    if (needsDecryption == YES) {
+        if ([deviceModel isEqualToString:@"iPhone4,1"]) {
+            if ([deviceBuild isEqualToString:@"12H321"]) {
+                [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/ipsw/058-24033-023.dmg" toPath:@"/var/mobile/Media/Succession/rfs-encrypted.dmg" error:nil];
+                NSTask *decryptDMG = [[NSTask alloc] init];
+                [decryptDMG setLaunchPath:@"/Applications/SuccessionRestore.app/dmg"];
+                NSArray *decryptDMGArgs = [NSArray arrayWithObjects:@"extract", @"/var/mobile/Media/Succession/rfs-encrypted.dmg", @"/var/mobile/Media/Successsion/rfs.dmg", @"-k", @"8fd9823be521060b9160272962fc2f65520de7b5ab55fe574953997e3ee5306d7bab5e02", nil];
+                [decryptDMG setArguments:decryptDMGArgs];
+                [decryptDMG launch];
+            } else {
+                UIAlertController *deviceNotSupported = [UIAlertController alertControllerWithTitle:@"Device not supported" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *closeApp) {
+                    exit(0);
+                }];
+                [deviceNotSupported addAction:okAction];
+                [self presentViewController:deviceNotSupported animated:YES completion:nil];}
+        }
+    } else {
+    }
 }
 @end

@@ -7,14 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		668333771FAB11F100623CCF /* dmgdl in Resources */ = {isa = PBXBuildFile; fileRef = 668333761FAB11F100623CCF /* dmgdl */; };
-		66AED8E51FABB01700F420AD /* dmgdec in Resources */ = {isa = PBXBuildFile; fileRef = 66AED8E41FABB01700F420AD /* dmgdec */; };
 		8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2791F7C792E00A169BF /* AppDelegate.m */; };
 		8D5BA27D1F7C792E00A169BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA27C1F7C792E00A169BF /* ViewController.m */; };
 		8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA27E1F7C792E00A169BF /* Main.storyboard */; };
 		8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2811F7C792E00A169BF /* Assets.xcassets */; };
 		8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */; };
 		8D5BA2881F7C792E00A169BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2871F7C792E00A169BF /* main.m */; };
+		8D6194D61FAE56D900421E6B /* dmg in Resources */ = {isa = PBXBuildFile; fileRef = 8D6194D51FAE56D900421E6B /* dmg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,8 +34,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		668333761FAB11F100623CCF /* dmgdl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dmgdl; sourceTree = "<group>"; };
-		66AED8E41FABB01700F420AD /* dmgdec */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dmgdec; sourceTree = "<group>"; };
 		8D5BA2751F7C792E00A169BF /* SuccessionRestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuccessionRestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2781F7C792E00A169BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D5BA2791F7C792E00A169BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -49,6 +46,7 @@
 		8D5BA2871F7C792E00A169BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D5BA28D1F7C792F00A169BF /* SuccessionRestoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D6194D51FAE56D900421E6B /* dmg */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dmg; sourceTree = "<group>"; };
 		8DE1CC9C1F9BD0EE002496EE /* NSTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTask.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,12 +96,11 @@
 		8D5BA2771F7C792E00A169BF /* SuccessionRestore */ = {
 			isa = PBXGroup;
 			children = (
+				8D6194D51FAE56D900421E6B /* dmg */,
 				8D5BA2781F7C792E00A169BF /* AppDelegate.h */,
 				8D5BA2791F7C792E00A169BF /* AppDelegate.m */,
 				8D5BA27B1F7C792E00A169BF /* ViewController.h */,
 				8D5BA27C1F7C792E00A169BF /* ViewController.m */,
-				66AED8E41FABB01700F420AD /* dmgdec */,
-				668333761FAB11F100623CCF /* dmgdl */,
 				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
 				8D5BA2811F7C792E00A169BF /* Assets.xcassets */,
 				8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */,
@@ -225,11 +222,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66AED8E51FABB01700F420AD /* dmgdec in Resources */,
 				8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */,
-				668333771FAB11F100623CCF /* dmgdl in Resources */,
 				8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */,
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,
+				8D6194D61FAE56D900421E6B /* dmg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
