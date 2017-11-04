@@ -124,9 +124,8 @@ static int dmgdec(char* arg, char* dmg, char* flag, char* key, char* _out)
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
-    // API to get ipsw of any firmware with the version and model
-    // Getting the build number rather than the version would prevent "300 Multiple Choices" HTTP Response which is due to multiple version but different buildid's
-    NSString *link = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceVersion];
+    // API to get ipsw of any firmware with the buildid and model
+    NSString *link = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceBuild];
     if ([deviceModel isEqualToString:@"iPhone4,1"])
     {
         if ([deviceVersion isEqualToString:@"8.4.1"])
