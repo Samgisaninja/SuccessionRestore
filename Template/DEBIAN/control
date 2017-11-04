@@ -6,4 +6,3 @@ Description: Restore iOS devices without updating via rootfilesystem DMG
 Maintainer: Samgisaninja
 Author: Samgisaninja
 Section: Utilities
-Depends: curl
