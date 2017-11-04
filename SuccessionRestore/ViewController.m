@@ -207,6 +207,8 @@
         needsDecryption = NO;}
     if ([deviceVersion isEqualToString:@"15B93"]) {
         needsDecryption = NO;}
+    if (CFCoreFoundationVersionNumber > 1300) {
+        needsDecryption = NO;}
     if (needsDecryption == YES) {
         if ([deviceModel isEqualToString:@"iPhone4,1"]) {
             if ([deviceBuild isEqualToString:@"12H321"]) {
