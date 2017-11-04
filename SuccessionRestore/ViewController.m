@@ -99,19 +99,22 @@
 }
 
 - (IBAction)startDownloadingButton:(id)sender {
-    //Removes all files in /var/mobile/Media/Succession to delete partial downloads
-    NSFileManager* fm = [[NSFileManager alloc] init];
-    NSDirectoryEnumerator* en = [fm enumeratorAtPath:@"/var/mobile/Media/Succession"];
-    NSError* err = nil;
-    BOOL res;
-    
-    NSString* file;
-    while (file = [en nextObject]) {
-        res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&err];
-        if (!res && err) {
-            exit(0);
+    //Creates folder to download to in case Cydia didn't make it
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw-partial.ipsw"] == YES) {
+        //Removes all files in /var/mobile/Media/Succession to delete partial downloads
+        NSFileManager* fm = [[NSFileManager alloc] init];
+        NSDirectoryEnumerator* en = [fm enumeratorAtPath:@"/var/mobile/Media/Succession"];
+        NSError* err = nil;
+        BOOL res;
+        NSString* file;
+        while (file = [en nextObject]) {
+            res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&err];
+            if (!res && err) {
+                exit(0);
+            }
         }
     }
+    [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:NO attributes:nil error:nil];
     //This code should look familiar, this time instead of setting labels, the information is used to download the right file.
     
     // Create a size_t and set it to the size used to allocate modelChar
