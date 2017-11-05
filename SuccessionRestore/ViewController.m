@@ -172,41 +172,7 @@
     }
     //creates a bool to determine if the dmg needs to be decrypted before mounting
     BOOL needsDecryption = YES;
-    //if someone could refactor this to be more organized that'd be great
-    if ([deviceVersion isEqualToString:@"14A403"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14A456"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14A551"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14B72"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14B100"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14B150"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14C92"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14D27"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14E277"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14E304"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14F89"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"14G60"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"15A372"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"15A402"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"15A421"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"15A432"]) {
-        needsDecryption = NO;}
-    if ([deviceVersion isEqualToString:@"15B93"]) {
-        needsDecryption = NO;}
+    //checks to see if the DMG is from an iOS 10 or later version. If so, the dmg is not encrypted
     if (CFCoreFoundationVersionNumber > 1300) {
         needsDecryption = NO;}
     if (needsDecryption == YES) {
