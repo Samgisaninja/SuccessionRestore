@@ -116,24 +116,23 @@
     }
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:NO attributes:nil error:nil];
     //This code should look familiar, this time instead of setting labels, the information is used to download the right file.
-    
     // Create a size_t and set it to the size used to allocate modelChar
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
     
-    //Gets iOS device model (ex iPhone9,1 == iPhone 7 GSM) and changes label.
+    //Gets iOS device model (ex iPhone9,1 == iPhone 7 GSM) and stores as an NSString.
     char *modelChar = malloc(size);
     sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
     NSString *deviceModel = [NSString stringWithUTF8String:modelChar];
     free(modelChar);
     
-    //Gets iOS version (if you need an example, maybe you should learn about iOS more before learning to develop for it) and changes label.
+    //Gets iOS version and stores as an NSString.
     NSString *deviceVersion = [[UIDevice currentDevice] systemVersion];
     
     // Set size to the size used to allocate buildChar
     sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
     
-    //Gets iOS device build number (ex 10.1.1 == 14B100 or 14B150) and changes label.
+    //Gets iOS device build number (ex 10.1.1 == 14B100 or 14B150) and stores as NSString
     //Thanks, Apple, for releasing two versions of 10.1.1, you really like making things hard on us.
     char *buildChar = malloc(size);
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
