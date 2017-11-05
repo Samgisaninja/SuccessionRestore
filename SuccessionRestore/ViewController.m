@@ -138,7 +138,6 @@
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
-    
     // API to get ipsw of any firmware with the buildid and model
     NSString *downloadLink = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceBuild];
     //This code downloads the IPSW file for the correct iOS version
@@ -151,6 +150,7 @@
     //Tells the downloadIPSW NSTask to use the downloadIPSWArgs array as arguments
     [downloadIPSW setArguments:downloadIPSWArgs];
     //Starts the NSTask
+    NSLog(@"THE CRASH OCCURS HERE!");
     [downloadIPSW launch];
     //Once download is complete, renames the file to a .zip for extraction
     [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/ipsw-partial.ipsw" toPath:@"/var/mobile/Media/Succession/ipsw.zip" error:nil];
@@ -175,8 +175,8 @@
     //creates a bool to determine if the dmg needs to be decrypted before mounting
     BOOL needsDecryption = YES;
     //checks to see if the DMG is from an iOS 10 or later version. If so, the dmg is not encrypted
-    if (CFCoreFoundationVersionNumber > 1300) {
-        needsDecryption = NO;}
+    //if (CFCoreFoundationVersionNumber > 1300) {
+      //  needsDecryption = NO;}
     if (needsDecryption == YES) {
         if ([deviceModel isEqualToString:@"iPhone4,1"]) {
             if ([deviceBuild isEqualToString:@"12H321"]) {

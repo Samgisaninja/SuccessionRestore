@@ -201,7 +201,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uge-cz-SO4">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uge-cz-SO4">
                                 <rect key="frame" x="143" y="370" width="34" height="30"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
@@ -218,9 +218,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Sav-SP-fAw" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="309-yy-Nqr"/>
+                            <constraint firstItem="Sav-SP-fAw" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" constant="5" id="309-yy-Nqr"/>
+                            <constraint firstItem="Lq2-jv-d9O" firstAttribute="top" secondItem="Uge-cz-SO4" secondAttribute="bottom" constant="80" id="Ehm-74-UCF"/>
                             <constraint firstItem="Uge-cz-SO4" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="Iqj-tT-wVI"/>
-                            <constraint firstItem="Sav-SP-fAw" firstAttribute="centerY" secondItem="WeJ-BI-Rbk" secondAttribute="centerY" id="huW-87-nhB"/>
+                            <constraint firstItem="Sav-SP-fAw" firstAttribute="centerY" secondItem="WeJ-BI-Rbk" secondAttribute="centerY" constant="-170" id="huW-87-nhB"/>
                         </constraints>
                     </view>
                 </viewController>
