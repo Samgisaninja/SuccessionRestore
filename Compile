@@ -41,7 +41,6 @@ then
 fi
 
 scp com.samgisaninja.SuccessionRestore.deb root@$IDEVICEIP:/tmp
-ssh root@$IDEVICEIP "dpkg -i /tmp/com.samgisaninja.SuccessionRestore.deb"
-ssh root@$IDEVICEIP "killall -9 SpringBoard"
+ssh root@$IDEVICEIP "dpkg -i /tmp/com.samgisaninja.SuccessionRestore.deb && uicache"
 
 ## Changes made by nobbele/4ppleCracker
