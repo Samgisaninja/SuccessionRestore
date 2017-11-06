@@ -36,15 +36,6 @@ sudo fakeroot dpkg-deb -Zgzip -b com.samgisaninja.SuccessionRestore com.samgisan
 
 if [ -z "$IDEVICEIP" ] 
 then
-	echo "\$IDEVICEIP not found, please type in your iDevice's ip address"
-	read IDEVICEIP
-fi
-
-scp com.samgisaninja.SuccessionRestore.deb root@$IDEVICEIP:/tmp
-ssh root@$IDEVICEIP "dpkg -i /tmp/com.samgisaninja.SuccessionRestore.deb && uicache"
-
-if [ -z "$IDEVICEIP" ] 
-then
 	echo "\$IDEVICEIP not found, please type in your iDevice's ip address (local for localhost:2222)"
 	read IDEVICEIP
 fi
