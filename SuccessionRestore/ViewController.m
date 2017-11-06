@@ -139,21 +139,14 @@
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
     // API to get ipsw of any firmware with the buildid and model
-    NSString *downloadLink = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceBuild];
+    NSString *downloadLinkString = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceBuild];
     //This code downloads the IPSW file for the correct iOS version
-    //Creates an empty NSTask
-    NSTask *downloadIPSW = [[NSTask alloc] init];
-    //tells the downloadIPSW NSTask that it is supposed to use /bin/curl as its executable
-    [downloadIPSW setLaunchPath:@"/bin/curl"];
-    //Creates an NSArray of arguments
-    NSArray *downloadIPSWArgs = [NSArray arrayWithObjects:[NSString stringWithFormat: @"%@",downloadLink], @"-o" @"/var/mobile/Media/Succession/ipsw-partial.ipsw", nil];
-    //Tells the downloadIPSW NSTask to use the downloadIPSWArgs array as arguments
-    [downloadIPSW setArguments:downloadIPSWArgs];
-    //Starts the NSTask
-    NSLog(@"THE CRASH OCCURS HERE!");
-    [downloadIPSW launch];
-    //Once download is complete, renames the file to a .zip for extraction
-    [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/ipsw-partial.ipsw" toPath:@"/var/mobile/Media/Succession/ipsw.zip" error:nil];
+    NSURL *downloadLink = [NSURL URLWithString:downloadLinkString];
+    NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
+                                          dataTaskWithURL:downloadLink completionHandler:^(NSData *downloadedIPSWData, NSURLResponse *response, NSError *error) {
+[downloadedIPSWData writeToFile:@"/var/mobile/Media/Succession/ipsw.zip" atomically:YES];
+}];
+    [downloadTask resume];
     //creates directory for the ipsw that's about to be unzipped
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/ipsw/" withIntermediateDirectories:NO attributes:nil error:nil];
     //unzips the ipsw
