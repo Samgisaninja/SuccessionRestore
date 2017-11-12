@@ -11,7 +11,7 @@
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        if (!(setuid(0) == 0 && setgid(0) == 0))
+         if (!(setuid(0) == 0 && setgid(0) == 0))
         {
             NSLog(@"Failed to gain root privileges, aborting...");
             exit(EXIT_FAILURE);

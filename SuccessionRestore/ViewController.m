@@ -63,7 +63,7 @@
         [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:173.0/255.0 green:173.0/255.0 blue:173.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     }
 }
-/* - (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
  //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers.
  BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
  if (isRoot == YES) {
@@ -77,7 +77,7 @@
  [self presentViewController:notRunningAsRoot animated:YES completion:nil];
  }
  
- } */
+ }
 
 - (IBAction)contactSupportButton:(id)sender {
     //Opens a PM to my reddit
@@ -141,23 +141,34 @@
     free(buildChar);
     
     // API to get ipsw of any firmware with the buildid and model
-    NSString *downloadLinkString = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceBuild];
+    //NSString *downloadLinkString = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceBuild];
+    if ([deviceModel isEqualToString:@"iPhone4,1"]) {}
+    else {
+        exit(0);
+    }
+    NSString *downloadLinkString = @"http://appldnld.apple.com/ios8.4.1/031-31129-20150812-751A3CB8-3C8F-11E5-A8A5-A91A3A53DB92/iPhone4,1_8.4.1_12H321_Restore.ipsw";
     //Finds the documents directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *downloadPath = [documentsDirectory stringByAppendingString:@"/ipsw.zip"];
+    NSLog(@"%@",downloadPath);
     //Downloads the IPSW file for the correct iOS version
     NSURL *downloadLink = [NSURL URLWithString:downloadLinkString];
+    NSLog(@"%@", downloadLink);
+    NSData *downloadedIPSWData;
     NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
                                           dataTaskWithURL:downloadLink completionHandler:^(NSData *downloadedIPSWData, NSURLResponse *response, NSError *error) {
                                               [downloadedIPSWData writeToFile:downloadPath atomically:YES];
                                           }];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:downloadPath]) {
+        NSUInteger *downloadSize = [downloadedIPSWData length];
+        NSLog(@"%@", downloadSize);
+    }
     [downloadTask resume];
-    NSLog(@"Download Complete?");
     //creates directory for the ipsw that's about to be unzipped
     
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/ipsw/" withIntermediateDirectories:NO attributes:nil error:nil];
-    //unzips the ipsw
+    /* //unzips the ipsw
     NSTask *unzipIPSW = [[NSTask alloc] init];
     [unzipIPSW setLaunchPath:@"/bin/unzip"];
     NSArray *unzipIPSWArgs = [NSArray arrayWithObjects:@"-a", @"/var/mobile/Media/Succession/ipsw.zip", @"-d", @"/var/mobile/Media/Succession/ipsw", nil];
@@ -196,7 +207,7 @@
                 [self presentViewController:deviceNotSupported animated:YES completion:nil];}
         }
     } else {
-    }
+    } */
 }
 @end
 
