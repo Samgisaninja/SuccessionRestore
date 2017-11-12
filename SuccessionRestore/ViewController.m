@@ -21,7 +21,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // Create a size_t and set it to the size used to allocate modelChar
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
@@ -64,7 +63,7 @@
         [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:173.0/255.0 green:173.0/255.0 blue:173.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     }
 }
-- (void)viewDidAppear:(BOOL)animated {
+/* - (void)viewDidAppear:(BOOL)animated {
     //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers.
     BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
     if (isRoot == YES) {
@@ -78,7 +77,7 @@
         [self presentViewController:notRunningAsRoot animated:YES completion:nil];
     }
     
-}
+} */
 
 - (IBAction)contactSupportButton:(id)sender {
     //Opens a PM to my reddit
@@ -107,7 +106,9 @@
         NSError* err = nil;
         BOOL res;
         NSString* file;
-        while (file = [en nextObject]) {
+        while (file =
+               
+                [en nextObject]) {
             res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&err];
             if (!res && err) {
                 exit(0);
@@ -138,16 +139,23 @@
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
+    
     // API to get ipsw of any firmware with the buildid and model
     NSString *downloadLinkString = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/dl", deviceModel, deviceBuild];
-    //This code downloads the IPSW file for the correct iOS version
+    //Finds the documents directory
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *downloadPath = [documentsDirectory stringByAppendingString:@"/ipsw.zip"];
+    //Downloads the IPSW file for the correct iOS version
     NSURL *downloadLink = [NSURL URLWithString:downloadLinkString];
     NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
                                           dataTaskWithURL:downloadLink completionHandler:^(NSData *downloadedIPSWData, NSURLResponse *response, NSError *error) {
-[downloadedIPSWData writeToFile:@"/var/mobile/Media/Succession/ipsw.zip" atomically:YES];
+[downloadedIPSWData writeToFile:downloadPath atomically:YES];
 }];
     [downloadTask resume];
+    NSLog(@"Download Complete?");
     //creates directory for the ipsw that's about to be unzipped
+    
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/ipsw/" withIntermediateDirectories:NO attributes:nil error:nil];
     //unzips the ipsw
     NSTask *unzipIPSW = [[NSTask alloc] init];
