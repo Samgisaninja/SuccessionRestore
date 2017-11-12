@@ -64,20 +64,20 @@
     }
 }
 /* - (void)viewDidAppear:(BOOL)animated {
-    //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers.
-    BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
-    if (isRoot == YES) {
-        
-    } else {
-        UIAlertController *notRunningAsRoot = [UIAlertController alertControllerWithTitle:@"Succession isn't running as root" message:@"You need a jailbreak to use this app" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *exitApp = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *closeApp) {
-            exit(0);
-        }];
-        [notRunningAsRoot addAction:exitApp];
-        [self presentViewController:notRunningAsRoot animated:YES completion:nil];
-    }
-    
-} */
+ //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers.
+ BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
+ if (isRoot == YES) {
+ 
+ } else {
+ UIAlertController *notRunningAsRoot = [UIAlertController alertControllerWithTitle:@"Succession isn't running as root" message:@"You need a jailbreak to use this app" preferredStyle:UIAlertControllerStyleAlert];
+ UIAlertAction *exitApp = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *closeApp) {
+ exit(0);
+ }];
+ [notRunningAsRoot addAction:exitApp];
+ [self presentViewController:notRunningAsRoot animated:YES completion:nil];
+ }
+ 
+ } */
 
 - (IBAction)contactSupportButton:(id)sender {
     //Opens a PM to my reddit
@@ -108,7 +108,7 @@
         NSString* file;
         while (file =
                
-                [en nextObject]) {
+               [en nextObject]) {
             res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&err];
             if (!res && err) {
                 exit(0);
@@ -150,8 +150,8 @@
     NSURL *downloadLink = [NSURL URLWithString:downloadLinkString];
     NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
                                           dataTaskWithURL:downloadLink completionHandler:^(NSData *downloadedIPSWData, NSURLResponse *response, NSError *error) {
-[downloadedIPSWData writeToFile:downloadPath atomically:YES];
-}];
+                                              [downloadedIPSWData writeToFile:downloadPath atomically:YES];
+                                          }];
     [downloadTask resume];
     NSLog(@"Download Complete?");
     //creates directory for the ipsw that's about to be unzipped
@@ -177,7 +177,7 @@
     BOOL needsDecryption = YES;
     //checks to see if the DMG is from an iOS 10 or later version. If so, the dmg is not encrypted
     //if (CFCoreFoundationVersionNumber > 1300) {
-      //  needsDecryption = NO;}
+    //  needsDecryption = NO;}
     if (needsDecryption == YES) {
         if ([deviceModel isEqualToString:@"iPhone4,1"]) {
             if ([deviceBuild isEqualToString:@"12H321"]) {
@@ -199,3 +199,4 @@
     }
 }
 @end
+
