@@ -17,16 +17,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)startDownloadingButton:(id)sender {
-    //Creates folder to download to in case Cydia didn't make it
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw-partial.ipsw"] == YES) {
         //Removes all files in /var/mobile/Media/Succession to delete partial downloads
         NSFileManager* fm = [[NSFileManager alloc] init];
@@ -43,7 +33,7 @@
             }
         }
     }
-    [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:NO attributes:nil error:nil];
+     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:NO attributes:nil error:nil];
     //This code should look familiar, this time instead of setting labels, the information is used to download the right file.
     // Create a size_t and set it to the size used to allocate modelChar
     size_t size;
@@ -70,28 +60,18 @@
     // API to get ipsw of any firmware with the buildid and model
     NSString *ipswAPIURLString = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
     NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
-    NSData *ipswAPIData = [NSData dataWithContentsOfURL:ipswAPIURL];
-    NSString *downloadLinkString = [NSString stringWithUTF8String:[ipswAPIData bytes]];
-    // Finds the documents directory
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *downloadPath = [documentsDirectory stringByAppendingString:@"/ipsw.zip"];
-    NSLog(@"%@",downloadPath);
-    //Downloads the IPSW file for the correct iOS version
-    NSURL *downloadLink = [NSURL URLWithString:downloadLinkString];
-    NSLog(@"%@", downloadLink);
-    NSData *downloadedIPSWData = [[NSData alloc] init];
-    NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
-                                          dataTaskWithURL:downloadLink completionHandler:^(NSData *downloadedIPSWData, NSURLResponse *response, NSError *error) {
-                                              [downloadedIPSWData writeToFile:downloadPath atomically:YES];
-                                          }];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:downloadPath]) {
-        NSUInteger *downloadSize = [downloadedIPSWData length];
-        NSLog(@"%@", downloadSize);
-    }
-    [downloadTask resume];
-    //creates directory for the ipsw that's about to be unzipped
-    
+    NSURLRequest *downloadLinkRequest = [NSURLRequest requestWithURL:ipswAPIURL];
+    /* NSData *downloadLinkData = [NSURLConnection sendSynchronousRequest:downloadLinkRequest returningResponse:nil error:nil];
+    NSString *downloadLink = [NSString stringWithUTF8String:[downloadLinkData bytes]];*/
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)startDownloadingButton:(id)sender {
+
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/ipsw/" withIntermediateDirectories:NO attributes:nil error:nil];
     /* //unzips the ipsw
      NSTask *unzipIPSW = [[NSTask alloc] init];
