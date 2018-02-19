@@ -14,7 +14,9 @@
 @end
 
 @implementation DownloadViewController
-
+@synthesize deviceBuild;
+@synthesize deviceModel;
+@synthesize deviceVersion;
 - (void)viewDidLoad {
     [super viewDidLoad];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw-partial.ipsw"] == YES) {
@@ -34,35 +36,6 @@
         }
     }
      [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:NO attributes:nil error:nil];
-    //This code should look familiar, this time instead of setting labels, the information is used to download the right file.
-    // Create a size_t and set it to the size used to allocate modelChar
-    size_t size;
-    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-    
-    //Gets iOS device model (ex iPhone9,1 == iPhone 7 GSM) and stores as an NSString.
-    char *modelChar = malloc(size);
-    sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
-    NSString *deviceModel = [NSString stringWithUTF8String:modelChar];
-    free(modelChar);
-    
-    //Gets iOS version and stores as an NSString.
-    NSString *deviceVersion = [[UIDevice currentDevice] systemVersion];
-    
-    // Set size to the size used to allocate buildChar
-    sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
-    
-    //Gets iOS device build number (ex 10.1.1 == 14B100 or 14B150) and stores as NSString
-    //Thanks, Apple, for releasing two versions of 10.1.1, you really like making things hard on us.
-    char *buildChar = malloc(size);
-    sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
-    NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
-    free(buildChar);
-    // API to get ipsw of any firmware with the buildid and model
-    NSString *ipswAPIURLString = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
-    NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
-    NSURLRequest *downloadLinkRequest = [NSURLRequest requestWithURL:ipswAPIURL];
-    /* NSData *downloadLinkData = [NSURLConnection sendSynchronousRequest:downloadLinkRequest returningResponse:nil error:nil];
-    NSString *downloadLink = [NSString stringWithUTF8String:[downloadLinkData bytes]];*/
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,7 +44,13 @@
 }
 
 - (IBAction)startDownloadingButton:(id)sender {
-
+    NSString *ipswAPIURLString = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
+    NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
+    NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
+                                          dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                              _downloadLink = [NSString stringWithUTF8String:[data bytes]];
+                                          }];
+    [downloadTask resume];
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/ipsw/" withIntermediateDirectories:NO attributes:nil error:nil];
     /* //unzips the ipsw
      NSTask *unzipIPSW = [[NSTask alloc] init];

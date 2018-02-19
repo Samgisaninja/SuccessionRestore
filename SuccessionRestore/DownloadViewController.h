@@ -10,4 +10,9 @@
 
 @interface DownloadViewController : UIViewController
 
+@property (strong, nonatomic) NSString *deviceModel;
+@property (strong, nonatomic) NSString *deviceBuild;
+@property (strong, nonatomic) NSString *deviceVersion;
+@property (strong, nonatomic) NSString *downloadLink;
+
 @end
