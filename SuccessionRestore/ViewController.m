@@ -27,13 +27,13 @@
     //Gets iOS device model (ex iPhone9,1 == iPhone 7 GSM) and changes label.
     char *modelChar = malloc(size);
     sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
-    NSString *deviceModel = [NSString stringWithUTF8String:modelChar];
+    _deviceModel = [NSString stringWithUTF8String:modelChar];
     free(modelChar);
-    self.deviceModelLabel.text = [NSString stringWithFormat:@"%@", deviceModel];
+    self.deviceModelLabel.text = [NSString stringWithFormat:@"%@", _deviceModel];
     
     //Gets iOS version (if you need an example, maybe you should learn about iOS more before learning to develop for it) and changes label.
-    NSString *deviceVersion = [[UIDevice currentDevice] systemVersion];
-    self.iOSVersionLabel.text = [NSString stringWithFormat:@"%@", deviceVersion];
+    _deviceVersion = [[UIDevice currentDevice] systemVersion];
+    self.iOSVersionLabel.text = [NSString stringWithFormat:@"%@", _deviceVersion];
     
     // Set size to the size used to allocate buildChar
     sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
@@ -42,9 +42,9 @@
     //Thanks, Apple, for releasing two versions of 10.1.1, you really like making things hard on us.
     char *buildChar = malloc(size);
     sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
-    NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
+    _deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
-    self.iOSBuildLabel.text = [NSString stringWithFormat:@"%@", deviceBuild];
+    self.iOSBuildLabel.text = [NSString stringWithFormat:@"%@", _deviceBuild];
     
     //Checks to see if DMG has already been downloaded and sets features accordingly
     BOOL DMGAlreadyDownloaded = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"];
@@ -87,7 +87,14 @@
     //Hey, someone actually decided to donate?! <3
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.paypal.me/Sam4Gardner/2"]];
 }
-
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"deviceInfoShare"]) {
+        ViewController *destViewController = segue.destinationViewController;
+        destViewController.deviceVersion = _deviceVersion;
+        destViewController.deviceModel = _deviceModel;
+        destViewController.deviceBuild = _deviceBuild;
+    }
+}
 - (IBAction)infoNotAccurateButton:(id)sender {
     //Code that runs the "Information not correct" button
     UIAlertController *infoNotAccurateButtonInfo = [UIAlertController alertControllerWithTitle:@"Please provide your own DMG" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];

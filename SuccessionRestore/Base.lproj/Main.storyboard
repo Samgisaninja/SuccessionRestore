@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -118,7 +117,7 @@
                                 <rect key="frame" x="68.5" y="335" width="183" height="30"/>
                                 <state key="normal" title="Download clean filesystem"/>
                                 <connections>
-                                    <segue destination="iAG-Yy-aYr" kind="presentation" id="aJH-ud-One"/>
+                                    <segue destination="iAG-Yy-aYr" kind="presentation" identifier="deviceInfoShare" id="aJH-ud-One"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -169,7 +168,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="33.75" y="25"/>
+            <point key="canvasLocation" x="-122" y="-266"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="QX5-ud-tOl">
