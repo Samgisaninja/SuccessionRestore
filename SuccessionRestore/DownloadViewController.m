@@ -45,10 +45,12 @@
 
 - (IBAction)startDownloadingButton:(id)sender {
     NSString *ipswAPIURLString = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
+    NSLog(@"SUCCESSIONLOG: ipswAPIURLString is %@", ipswAPIURLString);
     NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
     NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
                                           dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                              _downloadLink = [NSString stringWithUTF8String:[data bytes]];
+                                              _downloadLink = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                              NSLog(@"SUCCESSIONLOG: _downloadLink is %@", _downloadLink);
                                           }];
     [downloadTask resume];
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/ipsw/" withIntermediateDirectories:NO attributes:nil error:nil];
