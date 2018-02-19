@@ -62,21 +62,6 @@
         [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:173.0/255.0 green:173.0/255.0 blue:173.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     }
 }
-- (void)viewDidAppear:(BOOL)animated {
- //Checks to see if app is in the root applications folder. Uses viewDidAppear instead of viewDidLoad because viewDidLoad doesn't like UIAlertControllers.
- BOOL isRoot = [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/SuccessionRestore.app"];
- if (isRoot == YES) {
- 
- } else {
- UIAlertController *notRunningAsRoot = [UIAlertController alertControllerWithTitle:@"Succession isn't running as root" message:@"You need a jailbreak to use this app" preferredStyle:UIAlertControllerStyleAlert];
- UIAlertAction *exitApp = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *closeApp) {
- exit(0);
- }];
- [notRunningAsRoot addAction:exitApp];
- [self presentViewController:notRunningAsRoot animated:YES completion:nil];
- }
- 
- }
 
 - (IBAction)contactSupportButton:(id)sender {
     //Opens a PM to my reddit
