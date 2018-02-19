@@ -44,7 +44,7 @@
 }
 
 - (IBAction)startDownloadingButton:(id)sender {
-    NSString *ipswAPIURLString = [NSString stringWithFormat:@"http://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
+    NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
     NSLog(@"SUCCESSIONLOG: ipswAPIURLString is %@", ipswAPIURLString);
     NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
     NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
