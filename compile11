@@ -5,15 +5,15 @@ sudo echo -n
 if [ -z "$SRDebug" ] 
 then
   echo "\$SRDEBUG not set, using Debug as default"
-  xcodebuild -target SuccessionRestore -configuration Debug > .logs/xcode.log
+  xcodebuild -target SuccessionRestore -xcconfig compile11.xcconfig -configuration Debug > .logs/xcode.log
   mv ./Build/Debug-iphoneos/SuccessionRestore.app ./
 else
   if [ $SRDebug == 1 ]
   then
-    xcodebuild -target SuccessionRestore -configuration Debug > .logs/xcode.log
+    xcodebuild -target SuccessionRestore -xcconfig compile11.xcconfig -configuration Debug > .logs/xcode.log
     mv ./Build/Debug-iphoneos/SuccessionRestore.app ./
   else
-    xcodebuild -target SuccessionRestore -configuration Release > .logs/xcode.log
+    xcodebuild -target SuccessionRestore -xcconfig compile11.xcconfig -configuration Release > .logs/xcode.log
     mv ./Build/Release-iphoneos/SuccessionRestore.app ./
   fi
 fi

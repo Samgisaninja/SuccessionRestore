@@ -13,6 +13,7 @@
 		8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2811F7C792E00A169BF /* Assets.xcassets */; };
 		8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */; };
 		8D5BA2881F7C792E00A169BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2871F7C792E00A169BF /* main.m */; };
+		8D64E324204635B3005D130A /* compile11.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8D64E323204635B3005D130A /* compile11.xcconfig */; };
 		8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D876121202679E2004A6F27 /* DownloadViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -46,8 +47,8 @@
 		8D5BA2871F7C792E00A169BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D5BA28D1F7C792F00A169BF /* SuccessionRestoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D5E108120462CDA00370AFE /* complie11.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = complie11.xcconfig; sourceTree = "<group>"; };
 		8D5E108220462D3000370AFE /* compile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile.xcconfig; sourceTree = "<group>"; };
+		8D64E323204635B3005D130A /* compile11.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = compile11.xcconfig; sourceTree = "<group>"; };
 		8D876120202679E2004A6F27 /* DownloadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadViewController.h; sourceTree = "<group>"; };
 		8D876121202679E2004A6F27 /* DownloadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,8 +81,8 @@
 		8D5BA26C1F7C792E00A169BF = {
 			isa = PBXGroup;
 			children = (
-				8D5E108120462CDA00370AFE /* complie11.xcconfig */,
 				8D5E108220462D3000370AFE /* compile.xcconfig */,
+				8D64E323204635B3005D130A /* compile11.xcconfig */,
 				8D5BA2771F7C792E00A169BF /* SuccessionRestore */,
 				8D5BA2761F7C792E00A169BF /* Products */,
 			);
@@ -226,6 +227,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D64E324204635B3005D130A /* compile11.xcconfig in Resources */,
 				8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */,
 				8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */,
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,

@@ -1,15 +1,12 @@
 //
-//  32bit.xcconfig
+//  64bit.xcconfig
 //  SuccessionRestore
 //
 //  Created by Sam Gardner on 2/27/18.
 //  Copyright © 2018 Sam Gardner. All rights reserved.
 //
 //:configuration = Debug
-IPHONEOS_DEPLOYMENT_TARGET = 8
+IPHONEOS_DEPLOYMENT_TARGET = 11
 
 //:configuration = Release
-IPHONEOS_DEPLOYMENT_TARGET = 8
-
-//:completeSettings = some
-IPHONEOS_DEPLOYMENT_TARGET
+IPHONEOS_DEPLOYMENT_TARGET = 11
