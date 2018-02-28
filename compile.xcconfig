@@ -10,6 +10,3 @@ IPHONEOS_DEPLOYMENT_TARGET = 8
 
 //:configuration = Release
 IPHONEOS_DEPLOYMENT_TARGET = 8
-
-//:completeSettings = some
-IPHONEOS_DEPLOYMENT_TARGET
