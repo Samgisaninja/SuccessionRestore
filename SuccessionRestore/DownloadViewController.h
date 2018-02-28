@@ -13,6 +13,7 @@
 @property (strong, nonatomic) NSString *deviceModel;
 @property (strong, nonatomic) NSString *deviceBuild;
 @property (strong, nonatomic) NSString *deviceVersion;
-@property (strong, nonatomic) NSString *downloadLink;
+@property (strong, nonatomic) NSURL *downloadLink;
+@property (strong, nonatomic) IBOutlet UILabel *activityLabel;
 
 @end
