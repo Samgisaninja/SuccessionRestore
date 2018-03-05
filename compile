@@ -19,7 +19,7 @@ else
 fi
 
 mv SuccessionRestore.app/SuccessionRestore SuccessionRestore.app/SuccessionRestore_
-cp ./Template/Succ_Script ./SuccessionRestore.app/SuccessionRestore
+cp ./Succ_Script ./SuccessionRestore.app/SuccessionRestore
 rm -rf ./SuccessionRestore.app/_CodeSignature
 ldid -S ./SuccessionRestore.app/SuccessionRestore_
 rm -f ./SuccessionRestore.app/embedded.mobileprovision

@@ -27,18 +27,7 @@
 }
 
 - (IBAction)startDownloadingButton:(id)sender {
-    self.activityLabel.text = @"Finding IPSW";
-    NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
-    self.activityLabel.text = @"Finding IPSW...";
-    NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
-    NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession]
-                                          dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                              NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                                              NSString * activityLabelText = [downloadLinkString stringByAppendingString:@"Found IPSW at"];
-                                              self.activityLabel.text = activityLabelText;
-                                              _downloadLink = [NSURL URLWithString:downloadLinkString];
-                                          }];
-    [getDownloadLinkTask resume];
+    self.activityLabel.text = @"Preparing download...";
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw-partial.ipsw"] == YES) {
         //Removes all files in /var/mobile/Media/Succession to delete partial downloads
         NSFileManager* fm = [[NSFileManager alloc] init];
@@ -56,8 +45,22 @@
         }
     }
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:NO attributes:nil error:nil];
-    NSURLSessionDownloadTask *downloadIPSWTask = [[NSURLSession sharedSession] downloadTaskWithURL:_downloadLink];
-    /* [downloadIPSWTask resume];
+    self.activityLabel.text = @"Finding IPSW API...";
+    NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
+    self.activityLabel.text = @"Finding IPSW...";
+    NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
+    NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession]
+                                          dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                              NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                              NSString * activityLabelText = [downloadLinkString stringByAppendingString:@"Found IPSW at"];
+                                              self.activityLabel.text = activityLabelText;
+                                              _downloadLink = [NSURL URLWithString:downloadLinkString];
+                                              NSURLSessionDownloadTask *task = [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:_downloadLink];
+                                              [task resume];
+                                          }];
+    [getDownloadLinkTask resume];
+    
+    /*
     [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw" toPath:@"/var/mobile/Media/Succession/ipsw.zip" error:nil];
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/extracted" withIntermediateDirectories:NO attributes:nil error:nil];
      //unzips the ipsw
@@ -101,15 +104,13 @@
      } else {
      } */
 }
-
--(void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
-{
-    
-        NSString * downloadedIPSWFileName = [[downloadTask response] suggestedFilename];
-        NSString * downloadedIPSWEnclosingFolder = @"/var/mobile/Media/Succession/";
-        NSURL * downloadedIPSWFilePath = [NSURL URLWithString:[downloadedIPSWEnclosingFolder stringByAppendingString:downloadedIPSWFileName]];
-        [[NSFileManager defaultManager] moveItemAtURL:location toURL:downloadedIPSWFilePath error:nil];
-    }
-
-
+- (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
+    self.activityLabel.text = @"Download complete!";
+    [[NSFileManager defaultManager] moveItemAtURL:location toURL:[NSURL URLWithString:@"/var/mobile/Media/Succession/"] error:nil];
+}
+- (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    float totalSize = (totalBytesExpectedToWrite/1024)/1024.f;
+    float writtenSize = (totalBytesWritten/1024)/1024.f;
+    self.activityLabel.text = [NSString stringWithFormat:@"0%.2f of 0%.2f MB", writtenSize, totalSize];
+}
 @end
