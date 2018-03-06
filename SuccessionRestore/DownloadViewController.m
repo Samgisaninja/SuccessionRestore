@@ -111,6 +111,6 @@
 - (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     float totalSize = (totalBytesExpectedToWrite/1024)/1024.f;
     float writtenSize = (totalBytesWritten/1024)/1024.f;
-    self.activityLabel.text = [NSString stringWithFormat:@"0%.2f of 0%.2f MB", writtenSize, totalSize];
+    self.activityLabel.text = [NSString stringWithFormat:@"%.2f of %.2f MB", writtenSize, totalSize];
 }
 @end
