@@ -47,7 +47,7 @@ void patch_setuid() {
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-  setuid(0);
+   setuid(0);
 
   if (getuid() != 0) {
   	//Gets setuid on Electra 

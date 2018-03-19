@@ -19,6 +19,9 @@
 @synthesize deviceVersion;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.activityLabel.text = @"Finding IPSW API...";
+    NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
+    self.activityLabel.text = ipswAPIURLString;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -28,7 +31,7 @@
 
 - (IBAction)startDownloadingButton:(id)sender {
     self.activityLabel.text = @"Preparing download...";
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw-partial.ipsw"] == YES) {
+    /* if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw-partial.ipsw"] == YES) {
         //Removes all files in /var/mobile/Media/Succession to delete partial downloads
         NSFileManager* fm = [[NSFileManager alloc] init];
         NSDirectoryEnumerator* en = [fm enumeratorAtPath:@"/var/mobile/Media/Succession"];
@@ -43,11 +46,10 @@
                 exit(0);
             }
         }
-    }
+    }*/
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:NO attributes:nil error:nil];
-    self.activityLabel.text = @"Finding IPSW API...";
-    NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
     self.activityLabel.text = @"Finding IPSW...";
+    NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
     NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
     NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession]
                                           dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -94,7 +96,7 @@
      [decryptDMG setArguments:decryptDMGArgs];
      [decryptDMG launch];
      } else {
-     UIAlertController *deviceNotSupported = [UIAlertController alertControllerWithTitle:@"Device not supported" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
+     UIAlertController *deviceNotSupported = [UIAlertController alertControllerWithTitle:@"Device not supported" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9.3.5 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
      UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *closeApp) {
      exit(0);
      }];
@@ -105,8 +107,13 @@
      } */
 }
 - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
-    self.activityLabel.text = @"Download complete!";
-    [[NSFileManager defaultManager] moveItemAtURL:location toURL:[NSURL URLWithString:@"/var/mobile/Media/Succession/"] error:nil];
+    NSError * error;
+    [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
+    if (error != nil) {
+    	self.activityLabel.text = [error localizedDescription];
+    } else {
+        self.activityLabel.text = [location path];
+    }
 }
 - (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     float totalSize = (totalBytesExpectedToWrite/1024)/1024.f;
