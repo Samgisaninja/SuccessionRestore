@@ -31,22 +31,20 @@
 
 - (IBAction)startDownloadingButton:(id)sender {
     self.activityLabel.text = @"Preparing download...";
-    /* if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw-partial.ipsw"] == YES) {
-        //Removes all files in /var/mobile/Media/Succession to delete partial downloads
-        NSFileManager* fm = [[NSFileManager alloc] init];
+    //Removes all files in /var/mobile/Media/Succession to delete any mess from previous uses
+    NSFileManager* fm = [[NSFileManager alloc] init];
         NSDirectoryEnumerator* en = [fm enumeratorAtPath:@"/var/mobile/Media/Succession"];
-        NSError* err = nil;
+        NSError* error = nil;
         BOOL res;
         NSString* file;
         while (file =
                
                [en nextObject]) {
-            res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&err];
-            if (!res && err) {
-                exit(0);
+            res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&error];
+            if (!res && error) {
+                self.activityLabel.text = [NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]];
             }
         }
-    }*/
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:NO attributes:nil error:nil];
     self.activityLabel.text = @"Finding IPSW...";
     NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
@@ -108,11 +106,11 @@
 }
 - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     NSError * error;
-    [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
+    [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:@"/var/mobile/Media/Succession/ipsw.zip" error:&error];
     if (error != nil) {
-    	self.activityLabel.text = [error localizedDescription];
+        self.activityLabel.text = [NSString stringWithFormat:@"Error moving downloaded ipsw: %@", error];
     } else {
-        self.activityLabel.text = [location path];
+        self.activityLabel.text = @"Download Successful!";
     }
 }
 - (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
