@@ -8,6 +8,7 @@
 
 #import "DownloadViewController.h"
 #include <sys/sysctl.h>
+#import "ZipArchive/ZipArchive.h"
 
 @interface DownloadViewController ()
 
@@ -61,7 +62,6 @@
     [getDownloadLinkTask resume];
     
     /*
-    [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw" toPath:@"/var/mobile/Media/Succession/ipsw.zip" error:nil];
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/extracted" withIntermediateDirectories:NO attributes:nil error:nil];
      //unzips the ipsw
      NSTask *unzipIPSW = [[NSTask alloc] init];
@@ -110,7 +110,21 @@
     if (error != nil) {
         self.activityLabel.text = [NSString stringWithFormat:@"Error moving downloaded ipsw: %@", error];
     } else {
-        self.activityLabel.text = @"Download Successful!";
+        self.activityLabel.text = @"Unzipping...";
+        ZipArchive * unzipIPSW = [[ZipArchive alloc] init];
+        if( [unzipIPSW UnzipOpenFile:@"/var/mobile/Media/Succession/ipsw.zip"] ) {
+            if( [unzipIPSW UnzipFileTo:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:@"extracted"] overWrite:YES] != NO ) {
+                self.activityLabel.text = @"Cleaning up...";
+                [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/ipsw.zip" error:&error];
+                if (error != nil) {
+                    self.activityLabel.text = [NSString stringWithFormat:@"Error deleting IPSW: %@", [error localizedDescription]];
+                } else {
+                    self.activityLabel.text = @"Get largest file here";
+                }
+            }
+            
+            [unzipIPSW UnzipCloseFile];
+        }
     }
 }
 - (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
