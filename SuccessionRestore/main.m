@@ -13,6 +13,8 @@
 #import "AppDelegate.h"
 #define FLAG_PLATFORMIZE (1 << 1)
 
+// Special thanks to PsychoTea (@IBSparkles) for getting root on kernel patch jailbreaks, as well as for both Electra's and Meridian's "kppless" jailbreakd daemon.
+
 void platformize_me() {
     void* handle = dlopen("/usr/lib/libjailbreak.dylib", RTLD_LAZY);
     if (!handle) return;

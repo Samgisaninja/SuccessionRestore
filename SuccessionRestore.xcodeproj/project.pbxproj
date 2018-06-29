@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2791F7C792E00A169BF /* AppDelegate.m */; };
-		8D5BA27D1F7C792E00A169BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA27C1F7C792E00A169BF /* ViewController.m */; };
+		8D5BA27D1F7C792E00A169BF /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */; };
 		8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA27E1F7C792E00A169BF /* Main.storyboard */; };
 		8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2811F7C792E00A169BF /* Assets.xcassets */; };
 		8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */; };
 		8D5BA2881F7C792E00A169BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2871F7C792E00A169BF /* main.m */; };
-		8D64E324204635B3005D130A /* compile11.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8D64E323204635B3005D130A /* compile11.xcconfig */; };
 		8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D876121202679E2004A6F27 /* DownloadViewController.m */; };
 		8DA9CA85206097B900A12FA4 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7B206097B900A12FA4 /* unzip.c */; };
 		8DA9CA86206097B900A12FA4 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7C206097B900A12FA4 /* zip.c */; };
@@ -43,8 +42,8 @@
 		8D5BA2751F7C792E00A169BF /* SuccessionRestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuccessionRestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2781F7C792E00A169BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D5BA2791F7C792E00A169BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		8D5BA27B1F7C792E00A169BF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		8D5BA27C1F7C792E00A169BF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8D5BA27B1F7C792E00A169BF /* HomePageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageViewController.h; sourceTree = "<group>"; };
+		8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageViewController.m; sourceTree = "<group>"; };
 		8D5BA27F1F7C792E00A169BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8D5BA2811F7C792E00A169BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8D5BA2841F7C792E00A169BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -52,8 +51,6 @@
 		8D5BA2871F7C792E00A169BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D5BA28D1F7C792F00A169BF /* SuccessionRestoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D5E108220462D3000370AFE /* compile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile.xcconfig; sourceTree = "<group>"; };
-		8D64E323204635B3005D130A /* compile11.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = compile11.xcconfig; sourceTree = "<group>"; };
 		8D876120202679E2004A6F27 /* DownloadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadViewController.h; sourceTree = "<group>"; };
 		8D876121202679E2004A6F27 /* DownloadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadViewController.m; sourceTree = "<group>"; };
 		8DA9CA79206097B900A12FA4 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
@@ -97,8 +94,6 @@
 		8D5BA26C1F7C792E00A169BF = {
 			isa = PBXGroup;
 			children = (
-				8D5E108220462D3000370AFE /* compile.xcconfig */,
-				8D64E323204635B3005D130A /* compile11.xcconfig */,
 				8D5BA2771F7C792E00A169BF /* SuccessionRestore */,
 				8D5BA2761F7C792E00A169BF /* Products */,
 			);
@@ -119,8 +114,8 @@
 			children = (
 				8D5BA2781F7C792E00A169BF /* AppDelegate.h */,
 				8D5BA2791F7C792E00A169BF /* AppDelegate.m */,
-				8D5BA27B1F7C792E00A169BF /* ViewController.h */,
-				8D5BA27C1F7C792E00A169BF /* ViewController.m */,
+				8D5BA27B1F7C792E00A169BF /* HomePageViewController.h */,
+				8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */,
 				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
 				8D876120202679E2004A6F27 /* DownloadViewController.h */,
 				8D876121202679E2004A6F27 /* DownloadViewController.m */,
@@ -270,7 +265,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D64E324204635B3005D130A /* compile11.xcconfig in Resources */,
 				8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */,
 				8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */,
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,
@@ -298,7 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D5BA27D1F7C792E00A169BF /* ViewController.m in Sources */,
+				8D5BA27D1F7C792E00A169BF /* HomePageViewController.m in Sources */,
 				8DA9CA85206097B900A12FA4 /* unzip.c in Sources */,
 				8DA9CA88206097B900A12FA4 /* mztools.c in Sources */,
 				8D5BA2881F7C792E00A169BF /* main.m in Sources */,
@@ -474,7 +468,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62PB6NV7YN;
 				INFOPLIST_FILE = SuccessionRestore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -490,7 +484,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62PB6NV7YN;
 				INFOPLIST_FILE = SuccessionRestore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";

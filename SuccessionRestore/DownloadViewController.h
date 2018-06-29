@@ -15,5 +15,7 @@
 @property (strong, nonatomic) NSString *deviceVersion;
 @property (strong, nonatomic) NSURL *downloadLink;
 @property (strong, nonatomic) IBOutlet UILabel *activityLabel;
+@property (strong, nonatomic) NSString *downloadPath;
+@property (strong, nonatomic) IBOutlet UIButton *startDownloadButton;
 
 @end

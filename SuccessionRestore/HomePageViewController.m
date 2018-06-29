@@ -6,20 +6,22 @@
 //  Copyright © 2017 Sam Gardner. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "HomePageViewController.h"
+#import "DownloadViewController.h"
 #include <sys/sysctl.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <spawn.h>
 #include <sys/stat.h>
 
-@interface ViewController ()
+@interface HomePageViewController ()
 
 @end
 
-@implementation ViewController
+@implementation HomePageViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[[self navigationController] navigationBar] setHidden:TRUE];
     // Create a size_t and set it to the size used to allocate modelChar
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
@@ -31,7 +33,7 @@
     free(modelChar);
     self.deviceModelLabel.text = [NSString stringWithFormat:@"%@", _deviceModel];
     
-    //Gets iOS version (if you need an example, maybe you should learn about iOS more before learning to develop for it) and changes label.
+    //Gets iOS version and changes label.
     _deviceVersion = [[UIDevice currentDevice] systemVersion];
     self.iOSVersionLabel.text = [NSString stringWithFormat:@"%@", _deviceVersion];
     
@@ -62,19 +64,36 @@
         [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:173.0/255.0 green:173.0/255.0 blue:173.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     }
 }
-
+- (void) viewDidAppear:(BOOL)animated{
+    BOOL DMGAlreadyDownloaded = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"];
+    if (DMGAlreadyDownloaded == YES) {
+        [_downloadDMGButton setTitle:@"Redownload clean rootfilesystem" forState:UIControlStateNormal];
+        [_prepareToRestoreButton setTitle:@"Prepare to restore!" forState:UIControlStateNormal];
+        [_prepareToRestoreButton setEnabled:YES];
+        [_prepareToRestoreButton setUserInteractionEnabled:YES];
+        [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:255.0/255.0 green:0/255.0 blue:0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    } else {
+        [_downloadDMGButton setTitle:@"Download a clean rootfilesystem" forState:UIControlStateNormal];
+        [_prepareToRestoreButton setTitle:@"Please download a rootfilesystem first" forState:UIControlStateNormal];
+        [_prepareToRestoreButton setEnabled:NO];
+        [_prepareToRestoreButton setUserInteractionEnabled:NO];
+        [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:173.0/255.0 green:173.0/255.0 blue:173.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    }
+}
 - (IBAction)contactSupportButton:(id)sender {
     //Opens a PM to my reddit
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"]];
+    NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"] options:URLOptions completionHandler:nil];
 }
 
 - (IBAction)donateButton:(id)sender {
     //Hey, someone actually decided to donate?! <3
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.paypal.me/Sam4Gardner/2"]];
+    NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.paypal.me/SamGardner4/2"] options:URLOptions completionHandler:nil];
 }
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"deviceInfoShare"]) {
-        ViewController *destViewController = segue.destinationViewController;
+        DownloadViewController *destViewController = segue.destinationViewController;
         destViewController.deviceVersion = _deviceVersion;
         destViewController.deviceModel = _deviceModel;
         destViewController.deviceBuild = _deviceBuild;
