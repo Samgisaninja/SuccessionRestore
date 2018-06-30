@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[[self navigationController] navigationBar] setHidden:TRUE];
+    [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:255.0/255.0 green:0/255.0 blue:0/255.0 alpha:1.0] forState:UIControlStateNormal];
     // Create a size_t and set it to the size used to allocate modelChar
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
@@ -66,18 +67,14 @@
 }
 - (void) viewDidAppear:(BOOL)animated{
     BOOL DMGAlreadyDownloaded = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"];
-    if (DMGAlreadyDownloaded == YES) {
-        [_downloadDMGButton setTitle:@"Redownload clean rootfilesystem" forState:UIControlStateNormal];
-        [_prepareToRestoreButton setTitle:@"Prepare to restore!" forState:UIControlStateNormal];
-        [_prepareToRestoreButton setEnabled:YES];
-        [_prepareToRestoreButton setUserInteractionEnabled:YES];
-        [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:255.0/255.0 green:0/255.0 blue:0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    if (DMGAlreadyDownloaded == TRUE) {
+        [_downloadDMGButton setHidden:TRUE];
+        [_prepareToRestoreButton setHidden:FALSE];
+        [_prepareToRestoreButton setEnabled:TRUE];
     } else {
-        [_downloadDMGButton setTitle:@"Download a clean rootfilesystem" forState:UIControlStateNormal];
-        [_prepareToRestoreButton setTitle:@"Please download a rootfilesystem first" forState:UIControlStateNormal];
-        [_prepareToRestoreButton setEnabled:NO];
-        [_prepareToRestoreButton setUserInteractionEnabled:NO];
-        [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:173.0/255.0 green:173.0/255.0 blue:173.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+        [_downloadDMGButton setHidden:FALSE];
+        [_prepareToRestoreButton setHidden:TRUE];
+        [_prepareToRestoreButton setEnabled:FALSE];
     }
 }
 - (IBAction)contactSupportButton:(id)sender {

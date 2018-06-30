@@ -19,17 +19,19 @@
 @synthesize deviceBuild;
 @synthesize deviceModel;
 @synthesize deviceVersion;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.activityLabel.text = @"Finding IPSW API...";
-    NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
-    self.activityLabel.text = ipswAPIURLString;
+    [[self downloadProgressBar] setHidden:TRUE];
+    self.activityLabel.text = @"";
+    [[self unzipActivityIndicator] setHidden:TRUE];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw"]) {
         UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW file detected!" message:@"You can either use the IPSW file you provided at /var/mobile/Media/Succession/ipsw.ipsw or you can download a clean one. If you choose to use the IPSW you provided, and that IPSW does not match your device and version of iOS, the device will not boot after running Succession and you will be forced to restore to a signed iOS version through iTunes. Please be careful." preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *useProvidedIPSW = [UIAlertAction actionWithTitle:@"Use provided IPSW" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[self unzipActivityIndicator] setHidden:FALSE];
             self.activityLabel.text = @"Unzipping...";
             [_startDownloadButton setEnabled:FALSE];
-            [_startDownloadButton setTitle:@"Downloading..." forState:UIControlStateNormal];
+            [_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
             [_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
             __weak typeof(self) weakself = self;
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -54,6 +56,9 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)startDownloadButtonAction:(id)sender {
+    [_startDownloadButton setEnabled:FALSE];
+    [_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
+    [_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self startDownload];
 }
 -(void) startDownload {
@@ -63,6 +68,7 @@
         UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             exit(0);
         }];
+        [deviceNotSupported addAction:exitAction];
         [self presentViewController:deviceNotSupported animated:TRUE completion:nil];
     } else {
     //Removes all files in /var/mobile/Media/Succession to delete any mess from previous uses
@@ -83,29 +89,34 @@
     self.activityLabel.text = @"Finding IPSW...";
     NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
     NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
-    NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession]
-                                          dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                              NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                                              NSString * activityLabelText = [downloadLinkString stringByAppendingString:@"Found IPSW at"];
-                                              self.activityLabel.text = activityLabelText;
-                                              _downloadLink = [NSURL URLWithString:downloadLinkString];
-                                              NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-                                              sessionConfig.timeoutIntervalForRequest = 12000.0;
-                                              sessionConfig.timeoutIntervalForResource = 12000.0;
-                                              NSURLSessionDownloadTask *task = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:_downloadLink];
-                                              [task resume];
-                                          }];
+    [[self downloadProgressBar] setHidden:FALSE];
+    NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession] dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSString * activityLabelText = [downloadLinkString stringByAppendingString:@"Found IPSW at"];
+        self.activityLabel.text = activityLabelText;
+        _downloadLink = [NSURL URLWithString:downloadLinkString];
+        NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+        sessionConfig.timeoutIntervalForRequest = 12000.0;
+        sessionConfig.timeoutIntervalForResource = 12000.0;
+        NSURLSessionDownloadTask *task = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:_downloadLink];
+        [task resume];
+    }];
     [getDownloadLinkTask resume];
     }
 }
 - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
-    NSError * error;
-    [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
-    if (error != nil) {
-        self.activityLabel.text = [NSString stringWithFormat:@"Error moving downloaded ipsw: %@", error];
-    } else {
-        [self postDownload];
-    }
+    [[self downloadProgressBar] setHidden:TRUE];
+    self.activityLabel.text = @"Retrieving Download...";
+    [[self unzipActivityIndicator] setHidden:FALSE];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSError * error;
+        [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
+        if (error != nil) {
+            self.activityLabel.text = [NSString stringWithFormat:@"Error moving downloaded ipsw: %@", error];
+        } else {
+            [self postDownload];
+        }
+    });
 }
 - (void) postDownload {
     NSError * error;
@@ -130,7 +141,12 @@
                             [[NSFileManager defaultManager] moveItemAtPath:checkingFilePath toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:&error];
                             self.activityLabel.text = @"Cleaning up...";
                             [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/extracted/" error:&error];
-                            [[self navigationController] popToRootViewControllerAnimated:TRUE];
+                            UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"Please relaunch the app to restore" preferredStyle:UIAlertControllerStyleAlert];
+                            UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                                exit(0);
+                            }];
+                            [downloadComplete addAction:backToHomePage];
+                            [self presentViewController:downloadComplete animated:TRUE completion:nil];
                             break;
                         }
                     }
@@ -143,6 +159,7 @@
 - (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     float totalSize = (totalBytesExpectedToWrite/1024)/1024.f;
     float writtenSize = (totalBytesWritten/1024)/1024.f;
-    self.activityLabel.text = [NSString stringWithFormat:@"%.2f of %.2f MB", writtenSize, totalSize];
+    self.activityLabel.text = [NSString stringWithFormat:@"Downloading IPSW: %.2f of %.2f MB", writtenSize, totalSize];
+    self.downloadProgressBar.progress = (writtenSize/totalSize);
 }
 @end

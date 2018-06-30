@@ -17,5 +17,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *activityLabel;
 @property (strong, nonatomic) NSString *downloadPath;
 @property (strong, nonatomic) IBOutlet UIButton *startDownloadButton;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *unzipActivityIndicator;
+@property (strong, nonatomic) IBOutlet UIProgressView *downloadProgressBar;
 
 @end
