@@ -215,9 +215,12 @@
                                     <action selector="backButtonAction:" destination="iAG-Yy-aYr" eventType="touchUpInside" id="9s7-Fv-agK"/>
                                 </connections>
                             </button>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X5h-iC-UQl">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X5h-iC-UQl">
                                 <rect key="frame" x="60" y="239" width="200" height="2"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="XZu-SD-GLl"/>
+                                    <constraint firstAttribute="width" constant="200" id="zSO-Dm-5Mz"/>
+                                </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sav-SP-fAw">
                                 <rect key="frame" x="107" y="144" width="106" height="30"/>
@@ -226,8 +229,9 @@
                                     <action selector="startDownloadButtonAction:" destination="iAG-Yy-aYr" eventType="touchUpInside" id="OhS-0v-xkR"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IPSW link is https://ipsw.me/iPhone9,1/11.1.1/dl" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQF-U9-VRO">
-                                <rect key="frame" x="0.0" y="290" width="320" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQF-U9-VRO">
+                                <rect key="frame" x="1" y="290" width="318" height="122"/>
+                                <string key="text">ACTIVITY LABEL TEXT HEREACTIVITY LABEL TEXT HEREACTIVITY LABEL TEXT HEREACTIVITY LABEL TEXT HEREACTIVITY LABEL TEXT HEREACTIVITY LABEL TEXT HEREACTIVITY LABEL TEXT HEREACTIVITY LABEL TEXT HERE</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -235,22 +239,25 @@
                             <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Sf1-MP-lDH">
                                 <rect key="frame" x="135" y="215" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="MkC-pQ-tGh"/>
-                                    <constraint firstAttribute="width" constant="50" id="UKu-dR-TIm"/>
+                                    <constraint firstAttribute="width" constant="50" id="B3b-OR-OVJ"/>
+                                    <constraint firstAttribute="height" constant="50" id="Mpn-qu-WVA"/>
                                 </constraints>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ZQF-U9-VRO" firstAttribute="top" secondItem="Sf1-MP-lDH" secondAttribute="bottom" constant="25" id="6dZ-M5-Vxb"/>
-                            <constraint firstItem="Sf1-MP-lDH" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="7Nb-ih-9Ic"/>
-                            <constraint firstItem="Sav-SP-fAw" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="bRe-hH-Rh3"/>
-                            <constraint firstItem="ZQF-U9-VRO" firstAttribute="leading" secondItem="WeJ-BI-Rbk" secondAttribute="leading" id="e9u-VR-ZWM"/>
-                            <constraint firstItem="Uge-cz-SO4" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="fIA-GY-Jts"/>
-                            <constraint firstItem="Lq2-jv-d9O" firstAttribute="top" secondItem="Uge-cz-SO4" secondAttribute="bottom" constant="10" id="qtg-at-gNK"/>
-                            <constraint firstItem="Sav-SP-fAw" firstAttribute="top" secondItem="Zo6-Yt-OWu" secondAttribute="bottom" constant="80" id="ufD-oG-u6y"/>
-                            <constraint firstItem="Sf1-MP-lDH" firstAttribute="centerY" secondItem="WeJ-BI-Rbk" secondAttribute="centerY" id="uxf-OW-twz"/>
-                            <constraint firstAttribute="trailing" secondItem="ZQF-U9-VRO" secondAttribute="trailing" id="zOZ-jY-c82"/>
+                            <constraint firstItem="ZQF-U9-VRO" firstAttribute="top" secondItem="Sf1-MP-lDH" secondAttribute="bottom" constant="25" id="4FU-VF-UfK"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ZQF-U9-VRO" secondAttribute="trailing" id="7ak-nM-dgs"/>
+                            <constraint firstItem="Sf1-MP-lDH" firstAttribute="centerY" secondItem="WeJ-BI-Rbk" secondAttribute="centerY" id="HEo-LJ-sho"/>
+                            <constraint firstItem="X5h-iC-UQl" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="PYl-xi-tOH"/>
+                            <constraint firstItem="Sav-SP-fAw" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="aEa-pg-db0"/>
+                            <constraint firstItem="Sav-SP-fAw" firstAttribute="top" secondItem="Zo6-Yt-OWu" secondAttribute="bottom" constant="80" id="ca6-WR-mSn"/>
+                            <constraint firstItem="Lq2-jv-d9O" firstAttribute="top" secondItem="Uge-cz-SO4" secondAttribute="bottom" constant="10" id="eVs-mz-y1C"/>
+                            <constraint firstItem="X5h-iC-UQl" firstAttribute="centerY" secondItem="WeJ-BI-Rbk" secondAttribute="centerY" id="j2s-0y-eEg"/>
+                            <constraint firstItem="Sf1-MP-lDH" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="k4e-Xp-Wn6"/>
+                            <constraint firstItem="Uge-cz-SO4" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="lQ7-B4-UlN"/>
+                            <constraint firstItem="ZQF-U9-VRO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="WeJ-BI-Rbk" secondAttribute="leading" id="qEy-1Z-57I"/>
+                            <constraint firstItem="ZQF-U9-VRO" firstAttribute="centerX" secondItem="WeJ-BI-Rbk" secondAttribute="centerX" id="yHg-fV-Cal"/>
                         </constraints>
                     </view>
                     <connections>
