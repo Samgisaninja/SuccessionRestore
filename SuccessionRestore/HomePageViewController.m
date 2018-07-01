@@ -22,7 +22,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[[self navigationController] navigationBar] setHidden:TRUE];
-    [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:255.0/255.0 green:0/255.0 blue:0/255.0 alpha:1.0] forState:UIControlStateNormal];
     // Create a size_t and set it to the size used to allocate modelChar
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);

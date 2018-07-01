@@ -94,9 +94,11 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OyJ-6j-gtA">
                                 <rect key="frame" x="93" y="445" width="134" height="30"/>
-                                <state key="normal" title="Prepare for restore!"/>
+                                <state key="normal" title="Prepare for restore!">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
-                                    <segue destination="0pb-7p-nji" kind="presentation" id="Tmg-8v-f9f"/>
+                                    <segue destination="0pb-7p-nji" kind="show" id="Tmg-8v-f9f"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3s-O3-PD4">
@@ -178,10 +180,10 @@
             </objects>
             <point key="canvasLocation" x="1620" y="3.75"/>
         </scene>
-        <!--View Controller-->
+        <!--Restore View Controller-->
         <scene sceneID="QX5-ud-tOl">
             <objects>
-                <viewController id="0pb-7p-nji" sceneMemberID="viewController">
+                <viewController id="0pb-7p-nji" customClass="RestoreViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Akp-57-9Xh"/>
                         <viewControllerLayoutGuide type="bottom" id="5GU-aW-Q2C"/>
@@ -189,8 +191,46 @@
                     <view key="view" contentMode="scaleToFill" id="6hq-ns-Vo8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WARNING!!!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ypX-hC-Cbb">
+                                <rect key="frame" x="113.5" y="64" width="93" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="13" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vva-Lf-eva">
+                                <rect key="frame" x="0.0" y="85" width="320" height="264"/>
+                                <string key="text">Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen. If you have Find my iPhone enabled, the device will be Activation Locked, and you will need to know the password to the iCloud account the device is currently signed in to. A valid SIM card will be needed for activation on iPhones. Finally, make sure you have auto lock set to "Never", and you have your charger connected.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Cc-GK-dNy">
+                                <rect key="frame" x="115" y="445" width="90" height="30"/>
+                                <state key="normal" title="Erase iPhone">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="startRestoreButtonAction:" destination="0pb-7p-nji" eventType="touchUpInside" id="Qbm-o9-LJW"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="2Cc-GK-dNy" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="55y-l5-gkj"/>
+                            <constraint firstItem="ypX-hC-Cbb" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="AiY-6J-Uga"/>
+                            <constraint firstItem="Vva-Lf-eva" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6hq-ns-Vo8" secondAttribute="leading" id="Cio-e4-BPv"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Vva-Lf-eva" secondAttribute="trailing" id="Z0P-YG-zkg"/>
+                            <constraint firstItem="ypX-hC-Cbb" firstAttribute="top" secondItem="Akp-57-9Xh" secondAttribute="bottom" id="fOy-VD-oz3"/>
+                            <constraint firstItem="Vva-Lf-eva" firstAttribute="top" secondItem="ypX-hC-Cbb" secondAttribute="bottom" id="mwb-SS-Oll"/>
+                            <constraint firstItem="Vva-Lf-eva" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="pWh-SU-8Ub"/>
+                            <constraint firstItem="5GU-aW-Q2C" firstAttribute="top" secondItem="2Cc-GK-dNy" secondAttribute="bottom" constant="5" id="sCo-DI-XjG"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="headerLabel" destination="ypX-hC-Cbb" id="uxw-ef-BNJ"/>
+                        <outlet property="startRestoreButton" destination="2Cc-GK-dNy" id="7dF-ub-Rxg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="49D-k6-08i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -223,7 +263,7 @@
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sav-SP-fAw">
-                                <rect key="frame" x="107" y="144" width="106" height="30"/>
+                                <rect key="frame" x="107" y="150" width="106" height="30"/>
                                 <state key="normal" title="Start Download"/>
                                 <connections>
                                     <action selector="startDownloadButtonAction:" destination="iAG-Yy-aYr" eventType="touchUpInside" id="OhS-0v-xkR"/>
@@ -277,7 +317,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jg5-x8-9be" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jN8-KD-1wR">
-                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
