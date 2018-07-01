@@ -108,15 +108,13 @@
     [[self downloadProgressBar] setHidden:TRUE];
     self.activityLabel.text = @"Retrieving Download...";
     [[self unzipActivityIndicator] setHidden:FALSE];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSError * error;
-        [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
-        if (error != nil) {
-            self.activityLabel.text = [NSString stringWithFormat:@"Error moving downloaded ipsw: %@", error];
-        } else {
-            [self postDownload];
-        }
-    });
+    NSError * error;
+    [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
+    if (error != nil) {
+        self.activityLabel.text = [NSString stringWithFormat:@"Error moving downloaded ipsw: %@", error];
+    } else {
+        [self postDownload];
+    }
 }
 - (void) postDownload {
     NSError * error;
@@ -159,7 +157,14 @@
 - (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     float totalSize = (totalBytesExpectedToWrite/1024)/1024.f;
     float writtenSize = (totalBytesWritten/1024)/1024.f;
-    self.activityLabel.text = [NSString stringWithFormat:@"Downloading IPSW: %.2f of %.2f MB", writtenSize, totalSize];
-    self.downloadProgressBar.progress = (writtenSize/totalSize);
+    if (writtenSize < (totalSize - 0.1)) {
+        self.activityLabel.text = [NSString stringWithFormat:@"Downloading IPSW: %.2f of %.2f MB", writtenSize, totalSize];
+        self.downloadProgressBar.progress = (writtenSize/totalSize);
+    }
+    if (writtenSize > (totalSize - 0.25)) {
+        self.activityLabel.text = @"Unzipping...";
+        [[self downloadProgressBar] setHidden:TRUE];
+        [[self unzipActivityIndicator] setHidden:FALSE];
+    }
 }
 @end
