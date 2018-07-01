@@ -19,6 +19,7 @@
 		8DA9CA87206097B900A12FA4 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7D206097B900A12FA4 /* ioapi.c */; };
 		8DA9CA88206097B900A12FA4 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7E206097B900A12FA4 /* mztools.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DA9CA89206097B900A12FA4 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA84206097B900A12FA4 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
+		8DE34FBB20E9353B00A37037 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE34FBA20E9353B00A37037 /* RestoreViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,8 @@
 		8DA9CA82206097B900A12FA4 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
 		8DA9CA83206097B900A12FA4 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
 		8DA9CA84206097B900A12FA4 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
+		8DE34FB920E9353B00A37037 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestoreViewController.h; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h; sourceTree = "<absolute>"; };
+		8DE34FBA20E9353B00A37037 /* RestoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RestoreViewController.m; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.m; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +115,8 @@
 		8D5BA2771F7C792E00A169BF /* SuccessionRestore */ = {
 			isa = PBXGroup;
 			children = (
+				8DE34FB920E9353B00A37037 /* RestoreViewController.h */,
+				8DE34FBA20E9353B00A37037 /* RestoreViewController.m */,
 				8D5BA2781F7C792E00A169BF /* AppDelegate.h */,
 				8D5BA2791F7C792E00A169BF /* AppDelegate.m */,
 				8D5BA27B1F7C792E00A169BF /* HomePageViewController.h */,
@@ -295,6 +300,7 @@
 				8D5BA27D1F7C792E00A169BF /* HomePageViewController.m in Sources */,
 				8DA9CA85206097B900A12FA4 /* unzip.c in Sources */,
 				8DA9CA88206097B900A12FA4 /* mztools.c in Sources */,
+				8DE34FBB20E9353B00A37037 /* RestoreViewController.m in Sources */,
 				8D5BA2881F7C792E00A169BF /* main.m in Sources */,
 				8DA9CA86206097B900A12FA4 /* zip.c in Sources */,
 				8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */,

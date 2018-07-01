@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SuccessionRestore.xcodeproj">
+      location = "group:/Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.m">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>
