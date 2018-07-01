@@ -49,23 +49,26 @@
     free(buildChar);
     self.iOSBuildLabel.text = [NSString stringWithFormat:@"%@", _deviceBuild];
     
-    //Checks to see if DMG has already been downloaded and sets features accordingly
-    BOOL DMGAlreadyDownloaded = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"];
-    if (DMGAlreadyDownloaded == YES) {
-        [_downloadDMGButton setTitle:@"Redownload clean rootfilesystem" forState:UIControlStateNormal];
-        [_prepareToRestoreButton setTitle:@"Prepare to restore!" forState:UIControlStateNormal];
-        [_prepareToRestoreButton setEnabled:YES];
-        [_prepareToRestoreButton setUserInteractionEnabled:YES];
-        [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:255.0/255.0 green:0/255.0 blue:0/255.0 alpha:1.0] forState:UIControlStateNormal];
-    } else {
-        [_downloadDMGButton setTitle:@"Download a clean rootfilesystem" forState:UIControlStateNormal];
-        [_prepareToRestoreButton setTitle:@"Please download a rootfilesystem first" forState:UIControlStateNormal];
-        [_prepareToRestoreButton setEnabled:NO];
-        [_prepareToRestoreButton setUserInteractionEnabled:NO];
-        [_prepareToRestoreButton setTitleColor:[UIColor colorWithRed:173.0/255.0 green:173.0/255.0 blue:173.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    //Checks to see if the app has ever been run before
+    static NSString* const hasRunAppOnceKey = @"hasRunAppOnceKey";
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults boolForKey:hasRunAppOnceKey] == NO)
+    {
+        // If it hasn't been run before, present an alert asking the user to consider donating.
+        UIAlertController *pleaseGiveMoney = [UIAlertController alertControllerWithTitle:@"Please consider donating" message:@"This product is free, and I never intend to change that, but if it works for you, I please ask you to consider donating to my paypal to support future products." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *giveMeMoney = [UIAlertAction actionWithTitle:@"Donate" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.paypal.me/SamGardner4"] options:URLOptions completionHandler:nil];
+        }];
+        UIAlertAction *giveMeMoneyLater = [UIAlertAction actionWithTitle:@"Not now" style:UIAlertActionStyleCancel handler:nil];
+        [pleaseGiveMoney addAction:giveMeMoney];
+        [pleaseGiveMoney addAction:giveMeMoneyLater];
+        [self presentViewController:pleaseGiveMoney animated:TRUE completion:nil];
+        [defaults setBool:YES forKey:hasRunAppOnceKey];
     }
 }
 - (void) viewDidAppear:(BOOL)animated{
+    //Checks to see if DMG has already been downloaded and sets buttons accordingly
     BOOL DMGAlreadyDownloaded = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"];
     if (DMGAlreadyDownloaded == TRUE) {
         [_downloadDMGButton setHidden:TRUE];
