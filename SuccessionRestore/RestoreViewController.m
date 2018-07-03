@@ -8,6 +8,8 @@
 
 #import "RestoreViewController.h"
 #include <spawn.h>
+#import "libjb.h"
+
 extern char **environ;
 
 @interface RestoreViewController ()
@@ -35,13 +37,21 @@ extern char **environ;
 - (void)successionRestore {
     [[self headerLabel] setText:@"Restoring..."];
     [[self infoLabel] setText:@"DO NOT LEAVE THE APP"];
-    pid_t pid;
-    char *argv[] = {
-        "/Applications/SuccessionRestore.app/attach64",
-        "/var/mobile/Media/Succession/rfs.dmg",
-        NULL
-    };
-    posix_spawn(&pid, argv[0], NULL, NULL, argv, environ);
+    char jl[10] = "/tmp/test";
+    long dmg = HFSOpen("/var/mobile/Media/Succesion/rfs.dmg", 27);
+    NSLog(@"SUCCESSIONTESTING: DMG == %ld", dmg);
+    if (dmg >= 0) {
+        long len = HFSReadFile(dmg, "/Applications/MobileSafari.app/AppIcon29x29@2x.png", gLoadAddr, 0, 0);
+        printf("hdik = %ld\n", len);
+        if (len > 0) {
+            int fd = creat(jl, 0755);
+            if (fd >= 0) {
+                write(fd, gLoadAddr, len);
+                close(fd);
+            }
+        }
+        HFSClose(dmg);
+    }
     
     
 }

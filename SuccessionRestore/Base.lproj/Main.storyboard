@@ -193,13 +193,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WARNING!!!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ypX-hC-Cbb">
-                                <rect key="frame" x="113.5" y="64" width="93" height="21"/>
+                                <rect key="frame" x="113.5" y="70" width="93" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="13" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vva-Lf-eva">
-                                <rect key="frame" x="0.0" y="85" width="320" height="264"/>
+                                <rect key="frame" x="0.0" y="91" width="320" height="264"/>
                                 <string key="text">Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen. If you have Find my iPhone enabled, the device will be Activation Locked, and you will need to know the password to the iCloud account the device is currently signed in to. A valid SIM card will be needed for activation on iPhones. Finally, make sure you have auto lock set to "Never", and you have your charger connected.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -229,6 +229,7 @@
                     </view>
                     <connections>
                         <outlet property="headerLabel" destination="ypX-hC-Cbb" id="uxw-ef-BNJ"/>
+                        <outlet property="infoLabel" destination="Vva-Lf-eva" id="gXK-Pm-deo"/>
                         <outlet property="startRestoreButton" destination="2Cc-GK-dNy" id="7dF-ub-Rxg"/>
                     </connections>
                 </viewController>
