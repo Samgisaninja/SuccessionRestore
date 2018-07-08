@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D1327FA20F26D6F00C72D10 /* libjb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D1327F820F26D6000C72D10 /* libjb.a */; };
 		8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2791F7C792E00A169BF /* AppDelegate.m */; };
 		8D5BA27D1F7C792E00A169BF /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */; };
 		8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA27E1F7C792E00A169BF /* Main.storyboard */; };
@@ -14,7 +15,6 @@
 		8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */; };
 		8D5BA2881F7C792E00A169BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2871F7C792E00A169BF /* main.m */; };
 		8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D876121202679E2004A6F27 /* DownloadViewController.m */; };
-		8D90E17120EB0C3F003FCC6C /* libjb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D90E17020EB0C3F003FCC6C /* libjb.a */; };
 		8DA9CA85206097B900A12FA4 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7B206097B900A12FA4 /* unzip.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DA9CA86206097B900A12FA4 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7C206097B900A12FA4 /* zip.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DA9CA87206097B900A12FA4 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7D206097B900A12FA4 /* ioapi.c */; };
@@ -41,6 +41,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D1327F320F26CDA00C72D10 /* libjb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libjb.h; sourceTree = "<group>"; };
+		8D1327F820F26D6000C72D10 /* libjb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjb.a; sourceTree = "<group>"; };
+		8D1327FB20F26FF100C72D10 /* unjail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unjail.h; sourceTree = "<group>"; };
+		8D13280020F2CFB800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../Downloads/IOKit.framework; sourceTree = "<group>"; };
 		8D5BA2751F7C792E00A169BF /* SuccessionRestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuccessionRestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2781F7C792E00A169BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D5BA2791F7C792E00A169BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -55,8 +59,6 @@
 		8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D876120202679E2004A6F27 /* DownloadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadViewController.h; sourceTree = "<group>"; };
 		8D876121202679E2004A6F27 /* DownloadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadViewController.m; sourceTree = "<group>"; };
-		8D90E16C20EAFE73003FCC6C /* libjb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libjb.h; sourceTree = "<group>"; };
-		8D90E17020EB0C3F003FCC6C /* libjb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjb.a; sourceTree = "<group>"; };
 		8DA9CA79206097B900A12FA4 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		8DA9CA7B206097B900A12FA4 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
 		8DA9CA7C206097B900A12FA4 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
@@ -77,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D90E17120EB0C3F003FCC6C /* libjb.a in Frameworks */,
+				8D1327FA20F26D6F00C72D10 /* libjb.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,11 +100,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D1327F620F26D0500C72D10 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8D13280020F2CFB800C72D10 /* IOKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8D5BA26C1F7C792E00A169BF = {
 			isa = PBXGroup;
 			children = (
 				8D5BA2771F7C792E00A169BF /* SuccessionRestore */,
 				8D5BA2761F7C792E00A169BF /* Products */,
+				8D1327F620F26D0500C72D10 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,21 +130,22 @@
 		8D5BA2771F7C792E00A169BF /* SuccessionRestore */ = {
 			isa = PBXGroup;
 			children = (
-				8DE34FB920E9353B00A37037 /* RestoreViewController.h */,
-				8DE34FBA20E9353B00A37037 /* RestoreViewController.m */,
+				8D1327F820F26D6000C72D10 /* libjb.a */,
 				8D5BA2781F7C792E00A169BF /* AppDelegate.h */,
 				8D5BA2791F7C792E00A169BF /* AppDelegate.m */,
-				8D5BA27B1F7C792E00A169BF /* HomePageViewController.h */,
-				8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */,
-				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
+				8D5BA2811F7C792E00A169BF /* Assets.xcassets */,
 				8D876120202679E2004A6F27 /* DownloadViewController.h */,
 				8D876121202679E2004A6F27 /* DownloadViewController.m */,
-				8D5BA2811F7C792E00A169BF /* Assets.xcassets */,
-				8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */,
-				8D90E17020EB0C3F003FCC6C /* libjb.a */,
+				8D5BA27B1F7C792E00A169BF /* HomePageViewController.h */,
+				8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */,
 				8D5BA2861F7C792E00A169BF /* Info.plist */,
+				8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */,
+				8D1327F320F26CDA00C72D10 /* libjb.h */,
 				8D5BA2871F7C792E00A169BF /* main.m */,
-				8D90E16C20EAFE73003FCC6C /* libjb.h */,
+				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
+				8DE34FB920E9353B00A37037 /* RestoreViewController.h */,
+				8DE34FBA20E9353B00A37037 /* RestoreViewController.m */,
+				8D1327FB20F26FF100C72D10 /* unjail.h */,
 				8DA9CA78206097B900A12FA4 /* ZipArchive */,
 			);
 			path = SuccessionRestore;

@@ -9,6 +9,7 @@
 #import "RestoreViewController.h"
 #include <spawn.h>
 #import "libjb.h"
+#import "unjail.h"
 
 extern char **environ;
 
@@ -37,20 +38,37 @@ extern char **environ;
 - (void)successionRestore {
     [[self headerLabel] setText:@"Restoring..."];
     [[self infoLabel] setText:@"DO NOT LEAVE THE APP"];
-    char jl[10] = "/tmp/test";
-    long dmg = HFSOpen("/var/mobile/Media/Succesion/rfs.dmg", 27);
-    NSLog(@"SUCCESSIONTESTING: DMG == %ld", dmg);
-    if (dmg >= 0) {
-        long len = HFSReadFile(dmg, "/Applications/MobileSafari.app/AppIcon29x29@2x.png", gLoadAddr, 0, 0);
-        printf("hdik = %ld\n", len);
-        if (len > 0) {
-            int fd = creat(jl, 0755);
-            if (fd >= 0) {
-                write(fd, gLoadAddr, len);
-                close(fd);
-            }
-        }
-        HFSClose(dmg);
+    char thedisk[11];
+    char path[4096];
+    char *pt = realpath(path, NULL);
+    NSLog(@"SUCCESSIONTESTING: pt == %s", pt);
+    NSLog(@"SUCCESSIONTESTING: pt == %s", pt);
+    NSLog(@"SUCCESSIONTESTING: pt == %s", pt);
+    NSString *execpath = [[NSString stringWithUTF8String:pt] stringByDeletingLastPathComponent];
+    NSLog(@"SUCCESSIONTESTING: execpath == %@", execpath);
+    NSLog(@"SUCCESSIONTESTING: execpath == %@", execpath);
+    NSLog(@"SUCCESSIONTESTING: execpath == %@", execpath);
+    NSString *bootstrap = [execpath stringByAppendingPathComponent:@"bootstrap.dmg"];
+    NSLog(@"SUCCESSIONTESTING: bootstrap == %@", bootstrap);
+    NSLog(@"SUCCESSIONTESTING: bootstrap == %@", bootstrap);
+    NSLog(@"SUCCESSIONTESTING: bootstrap == %@", bootstrap);
+    int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
+    printf("thedisk: %d, %s\n", rv, thedisk);
+    if (rv) {
+        NSLog(@"SUCCESSIONTESTING: LINE 61");
+    }
+    
+    memset(&args, 0, sizeof(args));
+    args.fspec = thedisk;
+    args.hfs_mask = 0777;
+    //args.hfs_encoding = -1;
+    //args.flags = HFSFSMNT_EXTENDED_ARGS;
+    //struct timeval tv = { 0, 0 };
+    //gettimeofday((struct timeval *)&tv, &args.hfs_timezone);
+    rv = mount("hfs", "/Developer", MNT_RDONLY, &args);
+    printf("mount: %d\n", rv);
+    if (rv) {
+        NSLog(@"SUCCESSIONTESTING: LINE 74");
     }
     
     
