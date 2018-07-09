@@ -30,9 +30,9 @@
         UIAlertAction *useProvidedIPSW = [UIAlertAction actionWithTitle:@"Use provided IPSW" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [[self unzipActivityIndicator] setHidden:FALSE];
             self.activityLabel.text = @"Unzipping...";
-            [_startDownloadButton setEnabled:FALSE];
-            [_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
-            [_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+            [self->_startDownloadButton setEnabled:FALSE];
+            [self->_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
+            [self->_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
             __weak typeof(self) weakself = self;
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 [weakself postDownload];
@@ -94,11 +94,11 @@
         NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSString * activityLabelText = [downloadLinkString stringByAppendingString:@"Found IPSW at"];
         self.activityLabel.text = activityLabelText;
-        _downloadLink = [NSURL URLWithString:downloadLinkString];
+        self->_downloadLink = [NSURL URLWithString:downloadLinkString];
         NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
         sessionConfig.timeoutIntervalForRequest = 12000.0;
         sessionConfig.timeoutIntervalForResource = 12000.0;
-        NSURLSessionDownloadTask *task = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:_downloadLink];
+        NSURLSessionDownloadTask *task = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:self->_downloadLink];
         [task resume];
     }];
     [getDownloadLinkTask resume];

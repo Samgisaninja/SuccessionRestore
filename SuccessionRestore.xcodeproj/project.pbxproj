@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8D1327FA20F26D6F00C72D10 /* libjb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D1327F820F26D6000C72D10 /* libjb.a */; };
+		8D13280520F2F14F00C72D10 /* hdik.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D13280420F2F14F00C72D10 /* hdik.c */; };
+		8D13280720F2F3A800C72D10 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D13280620F2F3A800C72D10 /* IOKit.framework */; };
 		8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2791F7C792E00A169BF /* AppDelegate.m */; };
 		8D5BA27D1F7C792E00A169BF /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */; };
 		8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA27E1F7C792E00A169BF /* Main.storyboard */; };
@@ -45,6 +47,16 @@
 		8D1327F820F26D6000C72D10 /* libjb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjb.a; sourceTree = "<group>"; };
 		8D1327FB20F26FF100C72D10 /* unjail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unjail.h; sourceTree = "<group>"; };
 		8D13280020F2CFB800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../Downloads/IOKit.framework; sourceTree = "<group>"; };
+		8D13280420F2F14F00C72D10 /* hdik.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hdik.c; sourceTree = "<group>"; };
+		8D13280620F2F3A800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = SuccessionRestore/IOKit.framework; sourceTree = "<group>"; };
+		8D13280920F2F48200C72D10 /* IOTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOTypes.h; sourceTree = "<group>"; };
+		8D13280A20F2F48200C72D10 /* IOKitKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitKeys.h; sourceTree = "<group>"; };
+		8D13280B20F2F48200C72D10 /* IOMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOMessage.h; sourceTree = "<group>"; };
+		8D13280C20F2F48200C72D10 /* IOReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOReturn.h; sourceTree = "<group>"; };
+		8D13280D20F2F48200C72D10 /* OSMessageNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSMessageNotification.h; sourceTree = "<group>"; };
+		8D13280E20F2F48200C72D10 /* OSKext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKext.h; sourceTree = "<group>"; };
+		8D13280F20F2F48200C72D10 /* IOKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKit.h; sourceTree = "<group>"; };
+		8D13281020F2F48200C72D10 /* IOKitLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitLib.h; sourceTree = "<group>"; };
 		8D5BA2751F7C792E00A169BF /* SuccessionRestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuccessionRestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2781F7C792E00A169BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D5BA2791F7C792E00A169BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -79,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D13280720F2F3A800C72D10 /* IOKit.framework in Frameworks */,
 				8D1327FA20F26D6F00C72D10 /* libjb.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,9 +116,25 @@
 		8D1327F620F26D0500C72D10 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8D13280620F2F3A800C72D10 /* IOKit.framework */,
 				8D13280020F2CFB800C72D10 /* IOKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8D13280820F2F48200C72D10 /* IOKit */ = {
+			isa = PBXGroup;
+			children = (
+				8D13280920F2F48200C72D10 /* IOTypes.h */,
+				8D13280A20F2F48200C72D10 /* IOKitKeys.h */,
+				8D13280B20F2F48200C72D10 /* IOMessage.h */,
+				8D13280C20F2F48200C72D10 /* IOReturn.h */,
+				8D13280D20F2F48200C72D10 /* OSMessageNotification.h */,
+				8D13280E20F2F48200C72D10 /* OSKext.h */,
+				8D13280F20F2F48200C72D10 /* IOKit.h */,
+				8D13281020F2F48200C72D10 /* IOKitLib.h */,
+			);
+			path = IOKit;
 			sourceTree = "<group>";
 		};
 		8D5BA26C1F7C792E00A169BF = {
@@ -146,6 +175,8 @@
 				8DE34FB920E9353B00A37037 /* RestoreViewController.h */,
 				8DE34FBA20E9353B00A37037 /* RestoreViewController.m */,
 				8D1327FB20F26FF100C72D10 /* unjail.h */,
+				8D13280420F2F14F00C72D10 /* hdik.c */,
+				8D13280820F2F48200C72D10 /* IOKit */,
 				8DA9CA78206097B900A12FA4 /* ZipArchive */,
 			);
 			path = SuccessionRestore;
@@ -239,7 +270,7 @@
 		8D5BA26D1F7C792E00A169BF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "Sam Gardner";
 				TargetAttributes = {
 					8D5BA2741F7C792E00A169BF = {
@@ -323,6 +354,7 @@
 				8DA9CA86206097B900A12FA4 /* zip.c in Sources */,
 				8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */,
 				8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */,
+				8D13280520F2F14F00C72D10 /* hdik.c in Sources */,
 				8DA9CA89206097B900A12FA4 /* ZipArchive.mm in Sources */,
 				8DA9CA87206097B900A12FA4 /* ioapi.c in Sources */,
 			);
@@ -391,6 +423,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -398,6 +431,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -427,7 +461,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALID_ARCHS = arm64;
 			};
@@ -447,6 +481,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -454,6 +489,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -492,6 +528,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62PB6NV7YN;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SuccessionRestore",
+				);
 				INFOPLIST_FILE = SuccessionRestore/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -513,6 +553,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62PB6NV7YN;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SuccessionRestore",
+				);
 				INFOPLIST_FILE = SuccessionRestore/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
