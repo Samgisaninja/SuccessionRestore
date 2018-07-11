@@ -12,6 +12,7 @@
 #import "unjail.h"
 
 extern char **environ;
+int attach(const char *path, char buf[], size_t sz);
 
 @interface RestoreViewController ()
 
@@ -39,25 +40,9 @@ extern char **environ;
     [[self headerLabel] setText:@"Restoring..."];
     [[self infoLabel] setText:@"DO NOT LEAVE THE APP"];
     char thedisk[11];
-    char path[4096];
-    char *pt = realpath(path, NULL);
-    NSLog(@"SUCCESSIONTESTING: pt == %s", pt);
-    NSLog(@"SUCCESSIONTESTING: pt == %s", pt);
-    NSLog(@"SUCCESSIONTESTING: pt == %s", pt);
-    NSString *execpath = [[NSString stringWithUTF8String:pt] stringByDeletingLastPathComponent];
-    NSLog(@"SUCCESSIONTESTING: execpath == %@", execpath);
-    NSLog(@"SUCCESSIONTESTING: execpath == %@", execpath);
-    NSLog(@"SUCCESSIONTESTING: execpath == %@", execpath);
-    NSString *bootstrap = [execpath stringByAppendingPathComponent:@"bootstrap.dmg"];
-    NSLog(@"SUCCESSIONTESTING: bootstrap == %@", bootstrap);
-    NSLog(@"SUCCESSIONTESTING: bootstrap == %@", bootstrap);
-    NSLog(@"SUCCESSIONTESTING: bootstrap == %@", bootstrap);
+    NSString * bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
     int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
-    printf("thedisk: %d, %s\n", rv, thedisk);
-    if (rv) {
-        NSLog(@"SUCCESSIONTESTING: LINE 61");
-    }
-    
+    NSLog(@"SUCCESSIONTESTING: thedisk: %d, %s\n", rv, thedisk);
     memset(&args, 0, sizeof(args));
     args.fspec = thedisk;
     args.hfs_mask = 0777;
@@ -65,12 +50,8 @@ extern char **environ;
     //args.flags = HFSFSMNT_EXTENDED_ARGS;
     //struct timeval tv = { 0, 0 };
     //gettimeofday((struct timeval *)&tv, &args.hfs_timezone);
-    rv = mount("hfs", "/Developer", MNT_RDONLY, &args);
-    printf("mount: %d\n", rv);
-    if (rv) {
-        NSLog(@"SUCCESSIONTESTING: LINE 74");
-    }
-    
+    rv = mount("hfs", "/mnt/Succession", MNT_RDONLY, &args);
+    NSLog(@"SUCCESSIONTESTING: mount: %d\n", rv);
     
 }
 

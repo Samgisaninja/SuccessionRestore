@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D1327FA20F26D6F00C72D10 /* libjb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D1327F820F26D6000C72D10 /* libjb.a */; };
-		8D13280520F2F14F00C72D10 /* hdik.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D13280420F2F14F00C72D10 /* hdik.c */; };
+		8D13280520F2F14F00C72D10 /* hdik.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D13280420F2F14F00C72D10 /* hdik.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8D13280720F2F3A800C72D10 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D13280620F2F3A800C72D10 /* IOKit.framework */; };
 		8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2791F7C792E00A169BF /* AppDelegate.m */; };
 		8D5BA27D1F7C792E00A169BF /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */; };
