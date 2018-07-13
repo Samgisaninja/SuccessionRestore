@@ -18,7 +18,7 @@ else
   fi
 fi
 
-ldid -S ./SuccessionRestore.app/SuccessionRestore
+ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore
 rm -f ./SuccessionRestore.app/embedded.mobileprovision
 mkdir ./com.samgisaninja.SuccessionRestore
 cp -r ./Template/* ./com.samgisaninja.SuccessionRestore/
