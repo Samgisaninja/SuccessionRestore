@@ -10,6 +10,10 @@
 	<true/>
 	<key>com.apple.private.security.system-application</key>
 	<true/>
+	<key>com.apple.private.diskimages.kext.user-client-access</key>
+	<true/>
+	<key>com.apple.private.security.disk-device-access</key>
+	<true/>
 	<key>platform-application</key>
 	<true/>
 </dict>
