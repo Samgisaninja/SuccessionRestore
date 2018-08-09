@@ -47,7 +47,7 @@ int attach(const char *path, char buf[], size_t sz);
     int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
     NSLog(@"SUCCESSIONTESTING: thedisk: %d, %s\n", rv, thedisk);
     char *dev_path = strdup(thedisk);
-    rv = mount("apfs", "/dev/disk6", MNT_UPDATE,"/private/var/Succession");
+    rv = mount("hfs", "/private/var/Succession", MNT_RDONLY, dev_path);
     NSLog(@"SUCCESSIONTESTING: mount: %d\n", rv);
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
     //[self successionRestore];
