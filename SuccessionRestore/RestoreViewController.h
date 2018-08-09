@@ -13,4 +13,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *headerLabel;
 @property (strong, nonatomic) IBOutlet UILabel *infoLabel;
 @property (strong, nonatomic) IBOutlet UIButton *startRestoreButton;
+@property (strong, nonatomic) NSFileManager *fileManager;
+@property (strong, nonatomic) NSString *pathToRoot;
 @end
