@@ -3,3 +3,4 @@ Build
 Index
 *.log
 *.deb
+.logs

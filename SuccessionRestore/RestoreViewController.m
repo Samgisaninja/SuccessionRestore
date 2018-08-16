@@ -47,6 +47,7 @@ int attach(const char *path, char buf[], size_t sz);
     int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
     NSLog(@"SUCCESSIONTESTING: thedisk: %d, %s\n", rv, thedisk);
     char *dev_path = strdup(thedisk);
+    //wk64(find_proc_by_pid(getpid())+0x100,rk64(find_proc_by_pid(0)+0x100));
     rv = mount("hfs", "/private/var/Succession", MNT_RDONLY, dev_path);
     NSLog(@"SUCCESSIONTESTING: mount: %d\n", rv);
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
