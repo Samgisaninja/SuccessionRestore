@@ -45,18 +45,14 @@ int attach(const char *path, char buf[], size_t sz);
     char thedisk[11];
     NSString * bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
     int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
-    NSLog(@"SUCCESSIONTESTING: thedisk: %d, %s\n", rv, thedisk);
-    char *dev_path = strdup(thedisk);
-    //wk64(find_proc_by_pid(getpid())+0x100,rk64(find_proc_by_pid(0)+0x100));
-    rv = mount("hfs", "/private/var/Succession", MNT_RDONLY, dev_path);
-    NSLog(@"SUCCESSIONTESTING: mount: %d\n", rv);
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    UIAlertController *dmgMountedAlert = [UIAlertController alertControllerWithTitle:@"DMG mounted" message:[NSString stringWithFormat:@"DMG mounted on disk: %s", thedisk] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [dmgMountedAlert addAction:okAction];
+    [self presentViewController:dmgMountedAlert animated:TRUE completion:nil];
     //[self successionRestore];
-    });
 }
 
-/*-(void)successionRestore{
-#error DO NOT ATTEMPT TO RUN THIS IF YOU DONT HAVE AN EXTRACTED/MOUNTED RFS DMG ON /var/Succession (comment this line to compile)
+-(void)successionRestore{
     //Creating variables
     NSError *error;
     //Gets contents of /var/Succession
@@ -198,5 +194,5 @@ int attach(const char *path, char buf[], size_t sz);
         [_fileManager removeItemAtPath:pathToDamagedPrivateVarComponent error:&error]; NSLog(@"SUCCESSIONTESTING: Line 201, attempting to restore: %@ error: %@", pathToDamagedPrivateVarComponent, [error localizedDescription]);
         [self->_fileManager moveItemAtPath:pathToCleanPrivateVarComponent toPath:pathToDamagedPrivateVarComponent error:nil];
     }
-}*/
+}
 @end

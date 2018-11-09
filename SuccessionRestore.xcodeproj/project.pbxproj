@@ -22,6 +22,7 @@
 		8DA9CA87206097B900A12FA4 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7D206097B900A12FA4 /* ioapi.c */; };
 		8DA9CA88206097B900A12FA4 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7E206097B900A12FA4 /* mztools.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DA9CA89206097B900A12FA4 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA84206097B900A12FA4 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
+		8DAF7042217A7C3C00B77D25 /* rsync in Resources */ = {isa = PBXBuildFile; fileRef = 8DAF7041217A7C3C00B77D25 /* rsync */; };
 		8DE34FBB20E9353B00A37037 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE34FBA20E9353B00A37037 /* RestoreViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,7 @@
 		8DA9CA82206097B900A12FA4 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
 		8DA9CA83206097B900A12FA4 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
 		8DA9CA84206097B900A12FA4 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
+		8DAF7041217A7C3C00B77D25 /* rsync */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = rsync; sourceTree = "<group>"; };
 		8DE34FB920E9353B00A37037 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestoreViewController.h; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h; sourceTree = "<absolute>"; };
 		8DE34FBA20E9353B00A37037 /* RestoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RestoreViewController.m; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.m; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -159,6 +161,7 @@
 		8D5BA2771F7C792E00A169BF /* SuccessionRestore */ = {
 			isa = PBXGroup;
 			children = (
+				8DAF7041217A7C3C00B77D25 /* rsync */,
 				8D1327F820F26D6000C72D10 /* libjb.a */,
 				8D5BA2781F7C792E00A169BF /* AppDelegate.h */,
 				8D5BA2791F7C792E00A169BF /* AppDelegate.m */,
@@ -319,6 +322,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DAF7042217A7C3C00B77D25 /* rsync in Resources */,
 				8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */,
 				8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */,
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,
