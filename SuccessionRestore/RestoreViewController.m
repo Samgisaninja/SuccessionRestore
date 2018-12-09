@@ -51,7 +51,12 @@ int attach(const char *path, char buf[], size_t sz);
     }
     NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", [NSString stringWithFormat:@"%ss2s1", thedisk], @"/private/var/MobileSoftwareUpdate/mnt1", nil];
     easyPosixSpawn([NSURL URLWithString:@"/sbin/mount"], mountArgs);
-    //[self successionRestore];
+    [self successionRestore];
+}
+
+-(void)successionRestore{
+    NSArray *rsyncArgs = [NSArray arrayWithObjects:@"--vaxcH", @"--delete-after", @"exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/", nil];
+    easyPosixSpawn([NSURL URLWithString:@"/Applications/SuccessionRestore.app/rsync"], rsyncArgs);
 }
 
 /*-(void)successionRestore{
@@ -197,7 +202,7 @@ int attach(const char *path, char buf[], size_t sz);
         [self->_fileManager moveItemAtPath:pathToCleanPrivateVarComponent toPath:pathToDamagedPrivateVarComponent error:nil];
     }
 }*/
-
+//THANKS DOUBLEH3LIX!
 extern char* const* environ;
 int easyPosixSpawn(NSURL *launchPath,NSArray *arguments) {
     NSMutableArray *posixSpawnArguments=[arguments mutableCopy];
