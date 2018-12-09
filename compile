@@ -2,18 +2,18 @@
 
 sudo echo -n
 
-if [ -z "$SRDebug" ] 
+if [ -z "$SRDebug" ]
 then
   echo "\$SRDEBUG not set, using Debug as default"
-  xcodebuild -target SuccessionRestore -configuration Debug > .logs/xcode.log
+  xcodebuild -target SuccessionRestore -configuration Debug
   mv ./Build/Debug-iphoneos/SuccessionRestore.app ./
 else
   if [ $SRDebug == 1 ]
   then
-    xcodebuild -target SuccessionRestore -configuration Debug > .logs/xcode.log
+    xcodebuild -target SuccessionRestore -configuration Debug
     mv ./Build/Debug-iphoneos/SuccessionRestore.app ./
   else
-    xcodebuild -target SuccessionRestore -configuration Release > .logs/xcode.log
+    xcodebuild -target SuccessionRestore -configuration Release
     mv ./Build/Release-iphoneos/SuccessionRestore.app ./
   fi
 fi
@@ -30,7 +30,7 @@ rm -rf ./Index
 find . -type f -name .DS_Store -delete && xattr -cr *
 sudo fakeroot dpkg-deb -Zgzip -b com.samgisaninja.SuccessionRestore com.samgisaninja.SuccessionRestore.deb && rm -r com.samgisaninja.SuccessionRestore
 
-if [ -z "$IDEVICEIP" ] 
+if [ -z "$IDEVICEIP" ]
 then
 	echo "\$IDEVICEIP not found, please type in your iDevice's ip address (local for localhost:2222)"
 	read IDEVICEIP
