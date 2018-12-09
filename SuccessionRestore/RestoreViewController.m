@@ -39,8 +39,8 @@ int attach(const char *path, char buf[], size_t sz);
 }
 
 - (void)prepareForRestore {
-    [[self headerLabel] setText:@"Restoring..."];
-    [[self infoLabel] setText:@"DO NOT LEAVE THE APP"];
+    [[self headerLabel] setText:@"Restoring, do not leave the app..."];
+    [[self infoLabel] setText:@"Mounting rootfilesystem"];
     char thedisk[11];
     NSString * bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
     int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
@@ -51,6 +51,7 @@ int attach(const char *path, char buf[], size_t sz);
     }
     NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", [NSString stringWithFormat:@"%ss2s1", thedisk], @"/private/var/MobileSoftwareUpdate/mnt1", nil];
     easyPosixSpawn([NSURL URLWithString:@"/sbin/mount"], mountArgs);
+    [[self infoLabel] setText:@"Syncing files..."];
     [self successionRestore];
 }
 
