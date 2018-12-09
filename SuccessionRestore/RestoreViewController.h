@@ -15,4 +15,5 @@
 @property (strong, nonatomic) IBOutlet UIButton *startRestoreButton;
 @property (strong, nonatomic) NSFileManager *fileManager;
 @property (strong, nonatomic) NSString *pathToRoot;
+@property (strong, nonatomic) NSString *filesystemType;
 @end

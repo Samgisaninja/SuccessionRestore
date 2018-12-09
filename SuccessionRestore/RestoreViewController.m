@@ -11,7 +11,6 @@
 #import "libjb.h"
 #import "unjail.h"
 
-extern char **environ;
 int attach(const char *path, char buf[], size_t sz);
 
 @interface RestoreViewController ()
@@ -45,14 +44,17 @@ int attach(const char *path, char buf[], size_t sz);
     char thedisk[11];
     NSString * bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
     int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
-    UIAlertController *dmgMountedAlert = [UIAlertController alertControllerWithTitle:@"DMG mounted" message:[NSString stringWithFormat:@"DMG mounted on disk: %s", thedisk] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    [dmgMountedAlert addAction:okAction];
-    [self presentViewController:dmgMountedAlert animated:TRUE completion:nil];
+    if (kCFCoreFoundationVersionNumber < 1349.56) {
+        _filesystemType = @"hfs";
+    } else if (kCFCoreFoundationVersionNumber > 1349.56){
+        _filesystemType = @"apfs";
+    }
+    NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", [NSString stringWithFormat:@"%ss2s1", thedisk], @"/private/var/MobileSoftwareUpdate/mnt1", nil];
+    easyPosixSpawn([NSURL URLWithString:@"/sbin/mount"], mountArgs);
     //[self successionRestore];
 }
 
--(void)successionRestore{
+/*-(void)successionRestore{
     //Creating variables
     NSError *error;
     //Gets contents of /var/Succession
@@ -194,5 +196,40 @@ int attach(const char *path, char buf[], size_t sz);
         [_fileManager removeItemAtPath:pathToDamagedPrivateVarComponent error:&error]; NSLog(@"SUCCESSIONTESTING: Line 201, attempting to restore: %@ error: %@", pathToDamagedPrivateVarComponent, [error localizedDescription]);
         [self->_fileManager moveItemAtPath:pathToCleanPrivateVarComponent toPath:pathToDamagedPrivateVarComponent error:nil];
     }
+}*/
+
+extern char* const* environ;
+int easyPosixSpawn(NSURL *launchPath,NSArray *arguments) {
+    NSMutableArray *posixSpawnArguments=[arguments mutableCopy];
+    [posixSpawnArguments insertObject:[launchPath lastPathComponent] atIndex:0];
+    
+    int argc=(int)posixSpawnArguments.count+1;
+    printf("Number of posix_spawn arguments: %d\n",argc);
+    char **args=(char**)calloc(argc,sizeof(char *));
+    
+    for (int i=0; i<posixSpawnArguments.count; i++)
+        args[i]=(char *)[posixSpawnArguments[i]UTF8String];
+    
+    printf("File exists at launch path: %d\n",[[NSFileManager defaultManager] fileExistsAtPath:launchPath.path]);
+    printf("Executing %s: %s\n",launchPath.path.UTF8String,arguments.description.UTF8String);
+    
+    posix_spawn_file_actions_t action;
+    posix_spawn_file_actions_init(&action);
+    
+    pid_t pid;
+    int status;
+    status = posix_spawn(&pid, launchPath.path.UTF8String, &action, NULL, args, environ);
+    
+    if (status == 0) {
+        if (waitpid(pid, &status, 0) != -1) {
+            // wait
+        }
+    }
+    
+    posix_spawn_file_actions_destroy(&action);
+    free(args);
+    
+    return status;
 }
+
 @end
