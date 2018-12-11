@@ -58,6 +58,7 @@
 		8D37B8F721263676008FF3EC /* OSKext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKext.h; sourceTree = "<group>"; };
 		8D37B8F821263676008FF3EC /* IOKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKit.h; sourceTree = "<group>"; };
 		8D37B8F921263676008FF3EC /* IOKitLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitLib.h; sourceTree = "<group>"; };
+		8D4C260B21BF57C700BBA404 /* NSTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTask.h; sourceTree = "<group>"; };
 		8D5BA2751F7C792E00A169BF /* SuccessionRestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuccessionRestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2781F7C792E00A169BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D5BA2791F7C792E00A169BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -175,6 +176,7 @@
 				8D1327F320F26CDA00C72D10 /* libjb.h */,
 				8D5BA2871F7C792E00A169BF /* main.m */,
 				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
+				8D4C260B21BF57C700BBA404 /* NSTask.h */,
 				8D9775DF21BCE7B400C6F481 /* SpecialThanksViewController.h */,
 				8D9775E021BCE7B400C6F481 /* SpecialThanksViewController.m */,
 				8DE34FB920E9353B00A37037 /* RestoreViewController.h */,

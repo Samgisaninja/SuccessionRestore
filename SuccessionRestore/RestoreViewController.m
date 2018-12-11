@@ -10,6 +10,7 @@
 #include <spawn.h>
 #import "libjb.h"
 #import "unjail.h"
+#import "NSTask.h"
 
 int attach(const char *path, char buf[], size_t sz);
 
@@ -47,65 +48,53 @@ int attach(const char *path, char buf[], size_t sz);
     } else if (kCFCoreFoundationVersionNumber > 1349.56){
         _filesystemType = @"apfs";
     }
-    NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", [NSString stringWithFormat:@"%ss2s1", thedisk], @"/private/var/MobileSoftwareUpdate/mnt1", nil];
     int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
-    [[self infoLabel] setText:@"Mounting DMG"];
-    if (rv == 0) {
-        int exit = easyPosixSpawn([NSURL URLWithString:@"/sbin/mount"], mountArgs);
-        if (exit == 0) {
-            [[self infoLabel] setText:@"Starting rsync..."];
-            [self successionRestore];
+    NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", [NSString stringWithFormat:@"%ss2s1", thedisk], @"/var/MobileSoftwareUpdate/mnt1", nil];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [[self infoLabel] setText:@"Mounting DMG"];
+        if (rv == 0) {
+            NSPipe *pipe = [NSPipe pipe];
+            NSFileHandle *file = pipe.fileHandleForReading;
+            NSTask *task = [[NSTask alloc] init];
+            task.launchPath = @"/sbin/mount";
+            task.arguments = mountArgs;
+            task.standardOutput = pipe;
+            task.terminationHandler = ^(NSTask *task){
+                [self successionRestore];
+            };
+            [task launch];
+            NSData *data = [file readDataToEndOfFile];
+            [file closeFile];
+            NSString *grepOutput = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+            [[self infoLabel] setText:grepOutput];
         } else {
-            [self errorAlert:@"Failed to mount DMG"];
+            [self errorAlert:@"Failed to attach DMG"];
         }
-    } else {
-        [self errorAlert:@"Failed to attach DMG"];
-    }
+    });
 }
 
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         NSArray *rsyncArgs = [NSArray arrayWithObjects:@"--vaxcH", @"--delete-after", @"exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/", nil];
-        easyPosixSpawn([NSURL URLWithString:@"/usr/bin/rsync"], rsyncArgs);
+            [[self infoLabel] setText:@"Starting rsync"];
+            NSPipe *pipe = [NSPipe pipe];
+            NSFileHandle *file = pipe.fileHandleForReading;
+            NSTask *task = [[NSTask alloc] init];
+            task.launchPath = @"/usr/bin/rsync";
+            task.arguments = rsyncArgs;
+            task.standardOutput = pipe;
+            task.terminationHandler = ^(NSTask *task){
+                //TODO
+            };
+            [task launch];
+            NSData *data = [file readDataToEndOfFile];
+            [file closeFile];
+            NSString *grepOutput = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+            [[self infoLabel] setText:grepOutput];
     } else {
         [self errorAlert:@"Mountpoint does not contain rootfilesystem"];
     }
     
-}
-
-//THANKS DOUBLEH3LIX!
-extern char* const* environ;
-int easyPosixSpawn(NSURL *launchPath,NSArray *arguments) {
-    NSMutableArray *posixSpawnArguments=[arguments mutableCopy];
-    [posixSpawnArguments insertObject:[launchPath lastPathComponent] atIndex:0];
-    
-    int argc=(int)posixSpawnArguments.count+1;
-    printf("Number of posix_spawn arguments: %d\n",argc);
-    char **args=(char**)calloc(argc,sizeof(char *));
-    
-    for (int i=0; i<posixSpawnArguments.count; i++)
-        args[i]=(char *)[posixSpawnArguments[i]UTF8String];
-    
-    printf("File exists at launch path: %d\n",[[NSFileManager defaultManager] fileExistsAtPath:launchPath.path]);
-    printf("Executing %s: %s\n",launchPath.path.UTF8String,arguments.description.UTF8String);
-    
-    posix_spawn_file_actions_t action;
-    posix_spawn_file_actions_init(&action);
-    
-    pid_t pid;
-    int status;
-    status = posix_spawn(&pid, launchPath.path.UTF8String, &action, NULL, args, environ);
-    
-    if (status == 0) {
-        if (waitpid(pid, &status, 0) != -1) {
-            // wait
-        }
-    }
-    
-    posix_spawn_file_actions_destroy(&action);
-    free(args);
-    
-    return status;
 }
 
 -(void)errorAlert:(NSString *)message{
