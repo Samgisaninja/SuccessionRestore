@@ -60,11 +60,13 @@ int attach(const char *path, char buf[], size_t sz);
             task.arguments = mountArgs;
             task.standardOutput = pipe;
             task.terminationHandler = ^(NSTask *task){
-                [self successionRestore];
                 NSData *outputData = [outputFile readDataToEndOfFile];
                 [outputFile closeFile];
                 NSString *outputString = [[NSString alloc] initWithData: outputData encoding: NSUTF8StringEncoding];
                 [[self infoLabel] setText:outputString];
+                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                    [self successionRestore];
+                });
             };
             [task launch];
         } else {
@@ -85,6 +87,7 @@ int attach(const char *path, char buf[], size_t sz);
         task.standardOutput = pipe;
         [task launch];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedData:)  name: NSFileHandleReadCompletionNotification object:outputFile];
+        [outputFile readInBackgroundAndNotify];
     } else {
         [self errorAlert:@"Mountpoint does not contain rootfilesystem"];
     }
