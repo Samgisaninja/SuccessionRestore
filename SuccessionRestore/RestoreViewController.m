@@ -95,6 +95,12 @@ int attach(const char *path, char buf[], size_t sz);
     
 }
 
+-(void)receivedData:(NSNotification *)notification{
+    NSData *outputData = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    NSString *outputString = [[NSString alloc] initWithData: outputData encoding: NSUTF8StringEncoding];
+    [[self infoLabel] setText:outputString];
+}
+
 -(void)errorAlert:(NSString *)message{
     UIAlertController *errorAlertController = [UIAlertController alertControllerWithTitle:@"Error" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
@@ -102,11 +108,5 @@ int attach(const char *path, char buf[], size_t sz);
     }];
     [errorAlertController addAction:exitAction];
     [self presentViewController:errorAlertController animated:TRUE completion:nil];
-}
-
--(void)receivedData:(NSNotification *)notification{
-    NSData *outputData = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-    NSString *outputString = [[NSString alloc] initWithData: outputData encoding: NSUTF8StringEncoding];
-    [[self infoLabel] setText:outputString];
 }
 @end
