@@ -54,19 +54,19 @@ int attach(const char *path, char buf[], size_t sz);
         [[self infoLabel] setText:@"Mounting DMG"];
         if (rv == 0) {
             NSPipe *pipe = [NSPipe pipe];
-            NSFileHandle *file = pipe.fileHandleForReading;
+            NSFileHandle *outputFile = pipe.fileHandleForReading;
             NSTask *task = [[NSTask alloc] init];
             task.launchPath = @"/sbin/mount";
             task.arguments = mountArgs;
             task.standardOutput = pipe;
             task.terminationHandler = ^(NSTask *task){
                 [self successionRestore];
+                NSData *outputData = [outputFile readDataToEndOfFile];
+                [outputFile closeFile];
+                NSString *outputString = [[NSString alloc] initWithData: outputData encoding: NSUTF8StringEncoding];
+                [[self infoLabel] setText:outputString];
             };
             [task launch];
-            NSData *data = [file readDataToEndOfFile];
-            [file closeFile];
-            NSString *grepOutput = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-            [[self infoLabel] setText:grepOutput];
         } else {
             [self errorAlert:@"Failed to attach DMG"];
         }
@@ -76,21 +76,15 @@ int attach(const char *path, char buf[], size_t sz);
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         NSArray *rsyncArgs = [NSArray arrayWithObjects:@"--vaxcH", @"--delete-after", @"exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/", nil];
-            [[self infoLabel] setText:@"Starting rsync"];
-            NSPipe *pipe = [NSPipe pipe];
-            NSFileHandle *file = pipe.fileHandleForReading;
-            NSTask *task = [[NSTask alloc] init];
-            task.launchPath = @"/usr/bin/rsync";
-            task.arguments = rsyncArgs;
-            task.standardOutput = pipe;
-            task.terminationHandler = ^(NSTask *task){
-                //TODO
-            };
-            [task launch];
-            NSData *data = [file readDataToEndOfFile];
-            [file closeFile];
-            NSString *grepOutput = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-            [[self infoLabel] setText:grepOutput];
+        [[self infoLabel] setText:@"Starting rsync"];
+        NSPipe *pipe = [NSPipe pipe];
+        NSFileHandle *outputFile = pipe.fileHandleForReading;
+        NSTask *task = [[NSTask alloc] init];
+        task.launchPath = @"/usr/bin/rsync";
+        task.arguments = rsyncArgs;
+        task.standardOutput = pipe;
+        [task launch];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedData:)  name: NSFileHandleReadCompletionNotification object:outputFile];
     } else {
         [self errorAlert:@"Mountpoint does not contain rootfilesystem"];
     }
@@ -104,5 +98,11 @@ int attach(const char *path, char buf[], size_t sz);
     }];
     [errorAlertController addAction:exitAction];
     [self presentViewController:errorAlertController animated:TRUE completion:nil];
+}
+
+-(void)receivedData:(NSNotification *)notification{
+    NSData *outputData = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    NSString *outputString = [[NSString alloc] initWithData: outputData encoding: NSUTF8StringEncoding];
+    [[self infoLabel] setText:outputString];
 }
 @end
