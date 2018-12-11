@@ -85,6 +85,7 @@ int attach(const char *path, char buf[], size_t sz);
         task.launchPath = @"/usr/bin/rsync";
         task.arguments = rsyncArgs;
         task.standardOutput = pipe;
+        task.standardError = pipe;
         [task launch];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedData:)  name: NSFileHandleReadCompletionNotification object:outputFile];
         [outputFile readInBackgroundAndNotify];
