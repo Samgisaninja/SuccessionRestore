@@ -6,4 +6,4 @@ Description: Restore without updating via rootfilesystem DMG
 Maintainer: Sam Gardner
 Author: Sam Gardner
 Section: Utilities
-Depends: firmware-sbin
+Depends: firmware-sbin, rsync

@@ -42,29 +42,33 @@ int attach(const char *path, char buf[], size_t sz);
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:nil];
     char thedisk[11];
     NSString *bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
-    int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
     if (kCFCoreFoundationVersionNumber < 1349.56) {
         _filesystemType = @"hfs";
     } else if (kCFCoreFoundationVersionNumber > 1349.56){
         _filesystemType = @"apfs";
     }
     NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", [NSString stringWithFormat:@"%ss2s1", thedisk], @"/private/var/MobileSoftwareUpdate/mnt1", nil];
-    easyPosixSpawn([NSURL URLWithString:@"/sbin/mount"], mountArgs);
-    [[self infoLabel] setText:@"Syncing files..."];
-    //[self successionRestore];
+    int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
+    [[self infoLabel] setText:@"Mounting DMG"];
+    if (rv == 0) {
+        int exit = easyPosixSpawn([NSURL URLWithString:@"/sbin/mount"], mountArgs);
+        if (exit == 0) {
+            [[self infoLabel] setText:@"Starting rsync..."];
+            [self successionRestore];
+        } else {
+            [self errorAlert:@"Failed to mount DMG"];
+        }
+    } else {
+        [self errorAlert:@"Failed to attach DMG"];
+    }
 }
 
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"--vaxcH", @"--delete-after", @"exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/", nil];
-        easyPosixSpawn([NSURL URLWithString:@"/Applications/SuccessionRestore.app/rsync"], rsyncArgs);
+        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"--vaxcH", @"--delete-after", @"exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/", nil];
+        easyPosixSpawn([NSURL URLWithString:@"/usr/bin/rsync"], rsyncArgs);
     } else {
-        UIAlertController *mountError = [UIAlertController alertControllerWithTitle:@"Error" message:@"Failed to mount DMG" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            exit(0);
-        }];
-        [mountError addAction:exitAction];
-        [self presentViewController:mountError animated:TRUE completion:nil];
+        [self errorAlert:@"Mountpoint does not contain rootfilesystem"];
     }
     
 }
@@ -104,4 +108,12 @@ int easyPosixSpawn(NSURL *launchPath,NSArray *arguments) {
     return status;
 }
 
+-(void)errorAlert:(NSString *)message{
+    UIAlertController *errorAlertController = [UIAlertController alertControllerWithTitle:@"Error" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        exit(0);
+    }];
+    [errorAlertController addAction:exitAction];
+    [self presentViewController:errorAlertController animated:TRUE completion:nil];
+}
 @end
