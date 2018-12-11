@@ -77,7 +77,7 @@ int attach(const char *path, char buf[], size_t sz);
 
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"--vaxcH", @"--delete-after", @"exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/", nil];
+        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-vaxcH", @"--delete-after", @"--exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/", nil];
         [[self infoLabel] setText:@"Starting rsync"];
         NSPipe *pipe = [NSPipe pipe];
         NSFileHandle *outputFile = pipe.fileHandleForReading;
