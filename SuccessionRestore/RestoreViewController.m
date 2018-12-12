@@ -39,7 +39,7 @@ int attach(const char *path, char buf[], size_t sz);
 
 - (void)prepareForRestore {
     [[self headerLabel] setText:@"Restoring, do not leave the app..."];
-    [[self infoLabel] setText:@"Mounting rootfilesystem"];
+    [[self infoLabel] setText:@"Attaching rootfilesystem"];
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:nil];
     char thedisk[11];
     NSString *bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
@@ -77,8 +77,7 @@ int attach(const char *path, char buf[], size_t sz);
 
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-vaxcH", @"--delete-after", @"--exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/", nil];
-        [[self infoLabel] setText:@"Starting rsync"];
+        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-vaxcH", @"--delete-after", @"--exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/testing", nil];
         NSPipe *pipe = [NSPipe pipe];
         NSFileHandle *outputFile = pipe.fileHandleForReading;
         NSTask *task = [[NSTask alloc] init];
