@@ -92,7 +92,7 @@ int attach(const char *path, char buf[], size_t sz);
     } else {
         [self errorAlert:@"Mountpoint does not contain rootfilesystem"];
     }
-    
+
 }
 
 -(void)receivedData:(NSNotification *)notification{
