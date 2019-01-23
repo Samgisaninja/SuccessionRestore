@@ -139,9 +139,9 @@
                             [[NSFileManager defaultManager] moveItemAtPath:checkingFilePath toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:&error];
                             self.activityLabel.text = @"Cleaning up...";
                             [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/extracted/" error:&error];
-                            UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"Please relaunch the app to restore" preferredStyle:UIAlertControllerStyleAlert];
-                            UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                                exit(0);
+                            UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
+                            UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                [[self navigationController] popToRootViewControllerAnimated:TRUE];
                             }];
                             [downloadComplete addAction:backToHomePage];
                             [self presentViewController:downloadComplete animated:TRUE completion:nil];
