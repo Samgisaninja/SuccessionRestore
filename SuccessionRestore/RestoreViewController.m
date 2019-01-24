@@ -22,23 +22,7 @@ int attach(const char *path, char buf[], size_t sz);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [[UIApplication sharedApplication] setIdleTimerDisabled:TRUE];
-}
-
-- (IBAction)startRestoreButtonAction:(id)sender {
-    UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        [self prepareForRestore];
-    }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-    [areYouSureAlert addAction:beginRestore];
-    [areYouSureAlert addAction:cancelAction];
-    [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
-}
-
-- (void)prepareForRestore {
-    [[self headerLabel] setText:@"Restoring, do not leave the app..."];
     [[self infoLabel] setText:@"Attaching rootfilesystem"];
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:nil];
     char thedisk[11];
@@ -53,31 +37,39 @@ int attach(const char *path, char buf[], size_t sz);
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [[self infoLabel] setText:@"Mounting DMG"];
         if (rv == 0) {
-            NSPipe *pipe = [NSPipe pipe];
-            NSFileHandle *outputFile = pipe.fileHandleForReading;
             NSTask *task = [[NSTask alloc] init];
             task.launchPath = @"/sbin/mount";
             task.arguments = mountArgs;
-            task.standardOutput = pipe;
             task.terminationHandler = ^(NSTask *task){
-                NSData *outputData = [outputFile readDataToEndOfFile];
-                [outputFile closeFile];
-                NSString *outputString = [[NSString alloc] initWithData: outputData encoding: NSUTF8StringEncoding];
-                [[self infoLabel] setText:outputString];
-                dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                    [self successionRestore];
-                });
+                [[self infoLabel] setText:@"Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones."];
             };
             [task launch];
         } else {
             [self errorAlert:@"Failed to attach DMG"];
         }
     });
+    
+}
+
+- (IBAction)startRestoreButtonAction:(id)sender {
+    UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [self successionRestore];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [areYouSureAlert addAction:beginRestore];
+    [areYouSureAlert addAction:cancelAction];
+    [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
+}
+
+- (void)prepareForRestore {
+    [[self headerLabel] setText:@"Restoring, do not leave the app..."];
 }
 
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-vaxcH", @"--delete-after", @"--exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/testing", nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/mobile/Media/Succession/testing/" withIntermediateDirectories:TRUE attributes:nil error:nil];
+        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-vaxcH", @"--delete-after", @"--exclude=/Developer", @"--progress" @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/testing", nil];
         NSPipe *pipe = [NSPipe pipe];
         NSFileHandle *outputFile = pipe.fileHandleForReading;
         NSTask *task = [[NSTask alloc] init];
@@ -85,9 +77,9 @@ int attach(const char *path, char buf[], size_t sz);
         task.arguments = rsyncArgs;
         task.standardOutput = pipe;
         task.standardError = pipe;
-        [task launch];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedData:)  name: NSFileHandleReadCompletionNotification object:outputFile];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedData:) name:NSFileHandleReadCompletionNotification object:outputFile];
         [outputFile readInBackgroundAndNotify];
+        [task launch];
     } else {
         [self errorAlert:@"Mountpoint does not contain rootfilesystem"];
     }
