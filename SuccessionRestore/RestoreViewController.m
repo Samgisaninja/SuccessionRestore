@@ -70,14 +70,26 @@ int attach(const char *path, char buf[], size_t sz);
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/mobile/Media/Succession/testing/" withIntermediateDirectories:TRUE attributes:nil error:nil];
         NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-axcH", @"--delete-after", @"--exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/testing", nil];
+        NSPipe *pipe = [NSPipe pipe];
+        NSFileHandle *outputFile = pipe.fileHandleForReading;
         NSTask *task = [[NSTask alloc] init];
         task.launchPath = @"/usr/bin/rsync";
         task.arguments = rsyncArgs;
+        task.standardOutput = pipe;
+        task.standardError = pipe;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedData:) name:NSFileHandleReadCompletionNotification object:outputFile];
+        [outputFile readInBackgroundAndNotify];
         [task launch];
     } else {
         [self errorAlert:@"Mountpoint does not contain rootfilesystem"];
     }
 
+}
+
+-(void)receivedData:(NSNotification *)notification{
+    NSData *outputData = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    NSString *outputString = [[NSString alloc] initWithData: outputData encoding: NSUTF8StringEncoding];
+    [[self infoLabel] setText:outputString];
 }
 
 -(void)errorAlert:(NSString *)message{
