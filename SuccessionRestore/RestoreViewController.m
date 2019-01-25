@@ -69,7 +69,7 @@ int attach(const char *path, char buf[], size_t sz);
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/mobile/Media/Succession/testing/" withIntermediateDirectories:TRUE attributes:nil error:nil];
-        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-axcH", @"--delete-after", @"--exclude=/Developer", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/testing", nil];
+        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-axcH", @"--delete-after", @"--exclude=/Developer", @"--exclude=/System/Library/Caches/apticket.der", @"--exclude=/usr/local/standalone/firmware/Baseband", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/testing", nil];
         NSPipe *pipe = [NSPipe pipe];
         NSFileHandle *outputFile = pipe.fileHandleForReading;
         NSTask *task = [[NSTask alloc] init];
@@ -87,9 +87,7 @@ int attach(const char *path, char buf[], size_t sz);
 }
 
 -(void)receivedData:(NSNotification *)notification{
-    NSData *outputData = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-    NSString *outputString = [[NSString alloc] initWithData: outputData encoding: NSUTF8StringEncoding];
-    [[self infoLabel] setText:outputString];
+    [[self infoLabel] setText:@"restore complete"];
 }
 
 -(void)errorAlert:(NSString *)message{
