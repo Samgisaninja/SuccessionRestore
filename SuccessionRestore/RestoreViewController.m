@@ -23,7 +23,11 @@ int attach(const char *path, char buf[], size_t sz);
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[UIApplication sharedApplication] setIdleTimerDisabled:TRUE];
+    [[self headerLabel] setText:@"Preparing..."];
     [[self infoLabel] setText:@"Attaching rootfilesystem"];
+    [_startRestoreButton setEnabled:FALSE];
+    [self->_startRestoreButton setUserInteractionEnabled:FALSE];
+    [_startRestoreButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:nil];
     char thedisk[11];
     NSString *bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
@@ -41,7 +45,11 @@ int attach(const char *path, char buf[], size_t sz);
             task.launchPath = @"/sbin/mount";
             task.arguments = mountArgs;
             task.terminationHandler = ^(NSTask *task){
+                [[self headerLabel] setText:@"WARNING!"];
                 [[self infoLabel] setText:@"Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones."];
+                [self->_startRestoreButton setEnabled:TRUE];
+                [self->_startRestoreButton setUserInteractionEnabled:TRUE];
+                [self->_startRestoreButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
             };
             [task launch];
         } else {
