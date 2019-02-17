@@ -26,6 +26,7 @@ int attach(const char *path, char buf[], size_t sz);
     [[self headerLabel] setText:@"Preparing..."];
     [[self infoLabel] setText:@"Attaching rootfilesystem"];
     [_startRestoreButton setEnabled:FALSE];
+    NSArray *origDevContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil];
     [self->_startRestoreButton setUserInteractionEnabled:FALSE];
     [_startRestoreButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:nil];
@@ -37,7 +38,18 @@ int attach(const char *path, char buf[], size_t sz);
         _filesystemType = @"apfs";
     }
     int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
-    NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", [NSString stringWithFormat:@"%ss2s1", thedisk], @"/var/MobileSoftwareUpdate/mnt1", nil];
+    NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
+    [changedDevContents removeObjectsInArray:origDevContents];
+    NSString *attachedDMGDiskName = [[NSString alloc] init];
+    for (NSString * object in origDevContents) {
+        if ([object containsString:@"s2"] && ![object containsString:@"rdisk"]) {
+            attachedDMGDiskName = [NSString stringWithFormat:@"/dev/%@", object];
+        }
+    }
+    if (attachedDMGDiskName == nil) {
+        [self errorAlert:@"Unable to find attached DMG"];
+    }
+    NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", attachedDMGDiskName, @"/var/MobileSoftwareUpdate/mnt1", nil];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [[self infoLabel] setText:@"Mounting DMG"];
         if (rv == 0) {
