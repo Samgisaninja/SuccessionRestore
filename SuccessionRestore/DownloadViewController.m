@@ -58,6 +58,7 @@
 - (IBAction)startDownloadButtonAction:(id)sender {
     [_startDownloadButton setEnabled:FALSE];
     [_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:TRUE];
     [_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self startDownload];
 }
