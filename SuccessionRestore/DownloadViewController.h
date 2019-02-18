@@ -19,5 +19,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *startDownloadButton;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *unzipActivityIndicator;
 @property (strong, nonatomic) IBOutlet UIProgressView *downloadProgressBar;
+@property (strong, nonatomic) UIFont *monospacedNumberSystemFont;
 
 @end

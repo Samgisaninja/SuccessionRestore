@@ -25,6 +25,9 @@
     [[self downloadProgressBar] setHidden:TRUE];
     self.activityLabel.text = @"";
     [[self unzipActivityIndicator] setHidden:TRUE];
+    UIFont *systemFont = [UIFont systemFontOfSize:17];
+    UIFontDescriptor *monospacedNumberFontDescriptor = [systemFont.fontDescriptor fontDescriptorByAddingAttributes: @{UIFontDescriptorFeatureSettingsAttribute: @[@{UIFontFeatureTypeIdentifierKey: @6, UIFontFeatureSelectorIdentifierKey: @0}]}];
+    _monospacedNumberSystemFont = [UIFont fontWithDescriptor:monospacedNumberFontDescriptor size:0];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw"]) {
         UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW file detected!" message:@"You can either use the IPSW file you provided at /var/mobile/Media/Succession/ipsw.ipsw or you can download a clean one. If you choose to use the IPSW you provided, and that IPSW does not match your device and version of iOS, the device will not boot after running Succession and you will be forced to restore to a signed iOS version through iTunes. Please be careful." preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *useProvidedIPSW = [UIAlertAction actionWithTitle:@"Use provided IPSW" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -159,7 +162,9 @@
     float totalSize = (totalBytesExpectedToWrite/1024)/1024.f;
     float writtenSize = (totalBytesWritten/1024)/1024.f;
     if (writtenSize < (totalSize - 0.1)) {
-        self.activityLabel.text = [NSString stringWithFormat:@"Downloading IPSW: %.2f of %.2f MB", writtenSize, totalSize];
+        NSMutableAttributedString *activityLabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Downloading IPSW:\n%.2f of %.2f MB", writtenSize, totalSize]];
+        [activityLabelText addAttribute:NSFontAttributeName value:_monospacedNumberSystemFont range:NSMakeRange(0, activityLabelText.string.length)];
+        [_activityLabel setAttributedText:activityLabelText];
         self.downloadProgressBar.progress = (writtenSize/totalSize);
     }
     if (writtenSize > (totalSize - 0.25)) {
