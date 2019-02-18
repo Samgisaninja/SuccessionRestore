@@ -351,21 +351,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="13" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vva-Lf-eva">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vva-Lf-eva">
                                 <rect key="frame" x="0.0" y="85" width="320" height="122"/>
-                                <attributedString key="attributedText">
-                                    <fragment>
-                                        <string key="content">Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones. </string>
-                                        <attributes>
-                                            <font key="NSFont" size="17" name=".AppleSystemUIFont"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                                <string key="text">Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones. </string>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Cc-GK-dNy">
                                 <rect key="frame" x="115" y="445" width="90" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Ula-S0-VRr"/>
+                                </constraints>
                                 <state key="normal" title="Erase iPhone">
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -373,22 +370,50 @@
                                     <action selector="startRestoreButtonAction:" destination="0pb-7p-nji" eventType="touchUpInside" id="Qbm-o9-LJW"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pUS-T0-gWD">
+                                <rect key="frame" x="150" y="230" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jUQ-Nk-mJ8">
+                                <rect key="frame" x="60" y="239" width="200" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="Du0-T1-h5W"/>
+                                    <constraint firstAttribute="width" constant="200" id="Hst-2q-i1V"/>
+                                </constraints>
+                            </progressView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4sw-LN-GhA">
+                                <rect key="frame" x="0.0" y="255" width="320" height="188"/>
+                                <string key="text">rsync's super long output goes here rsync's super long output goes here rsync's super long output goes here rsync's super long output goes here</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="2Cc-GK-dNy" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="55y-l5-gkj"/>
+                            <constraint firstItem="jUQ-Nk-mJ8" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="88k-XD-2we"/>
                             <constraint firstItem="ypX-hC-Cbb" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="AiY-6J-Uga"/>
                             <constraint firstItem="Vva-Lf-eva" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6hq-ns-Vo8" secondAttribute="leading" id="Cio-e4-BPv"/>
+                            <constraint firstItem="4sw-LN-GhA" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="DiM-wz-YlH"/>
+                            <constraint firstItem="4sw-LN-GhA" firstAttribute="width" secondItem="6hq-ns-Vo8" secondAttribute="width" id="TKp-05-kYl"/>
+                            <constraint firstItem="pUS-T0-gWD" firstAttribute="centerY" secondItem="6hq-ns-Vo8" secondAttribute="centerY" id="UOS-y9-dBZ"/>
+                            <constraint firstItem="2Cc-GK-dNy" firstAttribute="top" secondItem="4sw-LN-GhA" secondAttribute="bottom" constant="2" id="X2m-vn-tut"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Vva-Lf-eva" secondAttribute="trailing" id="Z0P-YG-zkg"/>
+                            <constraint firstItem="pUS-T0-gWD" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="c7j-GR-cym"/>
+                            <constraint firstItem="4sw-LN-GhA" firstAttribute="top" secondItem="pUS-T0-gWD" secondAttribute="bottom" constant="5" id="fLG-Nl-nfR"/>
                             <constraint firstItem="ypX-hC-Cbb" firstAttribute="top" secondItem="Akp-57-9Xh" secondAttribute="bottom" id="fOy-VD-oz3"/>
                             <constraint firstItem="Vva-Lf-eva" firstAttribute="top" secondItem="ypX-hC-Cbb" secondAttribute="bottom" id="mwb-SS-Oll"/>
                             <constraint firstItem="Vva-Lf-eva" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="pWh-SU-8Ub"/>
                             <constraint firstItem="5GU-aW-Q2C" firstAttribute="top" secondItem="2Cc-GK-dNy" secondAttribute="bottom" constant="5" id="sCo-DI-XjG"/>
+                            <constraint firstItem="jUQ-Nk-mJ8" firstAttribute="centerY" secondItem="6hq-ns-Vo8" secondAttribute="centerY" id="wAU-mk-kyJ"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="fileListActivityIndicator" destination="pUS-T0-gWD" id="WHq-23-SYS"/>
                         <outlet property="headerLabel" destination="ypX-hC-Cbb" id="uxw-ef-BNJ"/>
                         <outlet property="infoLabel" destination="Vva-Lf-eva" id="gXK-Pm-deo"/>
+                        <outlet property="outputLabel" destination="4sw-LN-GhA" id="MZh-ek-WoA"/>
+                        <outlet property="restoreProgressBar" destination="jUQ-Nk-mJ8" id="W8Y-HL-Mu8"/>
                         <outlet property="startRestoreButton" destination="2Cc-GK-dNy" id="7dF-ub-Rxg"/>
                     </connections>
                 </viewController>

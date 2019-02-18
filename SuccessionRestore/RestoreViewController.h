@@ -12,8 +12,12 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *headerLabel;
 @property (strong, nonatomic) IBOutlet UILabel *infoLabel;
+@property (strong, nonatomic) IBOutlet UILabel *outputLabel;
 @property (strong, nonatomic) IBOutlet UIButton *startRestoreButton;
 @property (strong, nonatomic) NSFileManager *fileManager;
 @property (strong, nonatomic) NSString *pathToRoot;
 @property (strong, nonatomic) NSString *filesystemType;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *fileListActivityIndicator;
+@property (strong, nonatomic) IBOutlet UIProgressView *restoreProgressBar;
+
 @end
