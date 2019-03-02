@@ -29,6 +29,10 @@ int attach(const char *path, char buf[], size_t sz);
     [[self headerLabel] setText:@"Preparing..."];
     [[self infoLabel] setText:@"Attaching rootfilesystem"];
     [_startRestoreButton setEnabled:FALSE];
+    [self attachRestoreDisk];
+}
+
+- (void) attachRestoreDisk {
     NSArray *origDevContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil];
     [self->_startRestoreButton setUserInteractionEnabled:FALSE];
     [_startRestoreButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -47,31 +51,36 @@ int attach(const char *path, char buf[], size_t sz);
     for (NSString * object in origDevContents) {
         if ([object containsString:@"s2"] && ![object containsString:@"rdisk"]) {
             attachedDMGDiskName = [NSString stringWithFormat:@"/dev/%@", object];
+            [self mountRestoreDisk:attachedDMGDiskName];
         }
     }
     if (attachedDMGDiskName == nil) {
         [self errorAlert:@"Unable to find attached DMG"];
     }
+    
+}
+
+-(void) mountRestoreDisk:(NSString *)attachedDMGDiskName{
     NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", attachedDMGDiskName, @"/var/MobileSoftwareUpdate/mnt1", nil];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [[self infoLabel] setText:@"Mounting DMG, please wait..."];
-        if (rv == 0) {
-            NSTask *task = [[NSTask alloc] init];
-            task.launchPath = @"/sbin/mount";
-            task.arguments = mountArgs;
-            task.terminationHandler = ^(NSTask *task){
+        NSTask *task = [[NSTask alloc] init];
+        task.launchPath = @"/sbin/mount";
+        task.arguments = mountArgs;
+        task.terminationHandler = ^(NSTask *task){
+            if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/MobileSoftwareUdpate/mnt1"]) {
                 [[self headerLabel] setText:@"WARNING!"];
                 [[self infoLabel] setText:@"Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones."];
                 [self->_startRestoreButton setEnabled:TRUE];
                 [self->_startRestoreButton setUserInteractionEnabled:TRUE];
                 [self->_startRestoreButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-            };
-            [task launch];
-        } else {
-            [self errorAlert:@"Failed to attach DMG"];
-        }
+            } else {
+                [[self infoLabel] setText:@"Mount failed, retrying..."];
+                [self mountRestoreDisk:attachedDMGDiskName];
+            }
+        };
+        [task launch];
     });
-    
 }
 
 - (IBAction)startRestoreButtonAction:(id)sender {
@@ -91,8 +100,7 @@ int attach(const char *path, char buf[], size_t sz);
 
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/mobile/Media/Succession/testing/" withIntermediateDirectories:TRUE attributes:nil error:nil];
-        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-vaxcH", @"--delete-after", @"--progress", @"--exclude=/Developer", @"--exclude=/System/Library/Caches/apticket.der", @"--exclude=/usr/local/standalone/firmware/Baseband", @"/var/MobileSoftwareUpdate/mnt1/.", @"/var/mobile/Media/Succession/testing", nil];
+        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-vaxcHn", @"--delete-after", @"--progress", @"--exclude=/Developer", @"--exclude=/System/Library/Caches/apticket.der", @"--exclude=/usr/local/standalone/firmware/Baseband", @"/var/MobileSoftwareUpdate/mnt1/.", @"/", nil];
         NSTask *rsyncTask = [[NSTask alloc] init];
         [rsyncTask setLaunchPath:@"/usr/bin/rsync"];
         [rsyncTask setArguments:rsyncArgs];
