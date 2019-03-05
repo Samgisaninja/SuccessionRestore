@@ -1,9 +1,9 @@
 Package: com.samgisaninja.SuccessionRestore
 Name: Succession
-Version: 0.1.1
+Version: 0.1.4
 Architecture: iphoneos-arm
 Description: Restore without updating via rootfilesystem DMG
-Maintainer: Sam Gardner
-Author: Sam Gardner
+Maintainer: Samg_is_a_Ninja
+Author: Samg_is_a_Ninja
 Section: Utilities
 Depends: firmware-sbin, rsync
