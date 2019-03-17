@@ -29,7 +29,10 @@ int attach(const char *path, char buf[], size_t sz);
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
     } else {
-        [[self startRestoreButton] setTitle:@"Prepare for restore!" forState:UIControlStateNormal];
+        [[self startRestoreButton] setTitle:@"Mounting, please wait..." forState:UIControlStateNormal];
+        [[self startRestoreButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+        [[self startRestoreButton] setEnabled:FALSE];
+        [self attachRestoreDisk];
     }
 }
 
@@ -71,15 +74,12 @@ int attach(const char *path, char buf[], size_t sz);
     task.launchPath = @"/sbin/mount";
     task.arguments = mountArgs;
     task.terminationHandler = ^(NSTask *task){
-        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/MobileSoftwareUdpate/mnt1/sbin/launchd"]) {
-            [[self headerLabel] setText:@"WARNING!"];
-            [[self infoLabel] setText:@"Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones."];
-            [self->_startRestoreButton setEnabled:TRUE];
-            [self->_startRestoreButton setUserInteractionEnabled:TRUE];
-            [self->_startRestoreButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        } else {
-            [self errorAlert:@"Failed to mount DMG, close the app and try again."];
-        }
+        [[self headerLabel] setText:@"WARNING!"];
+        [[self infoLabel] setText:@"Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones."];
+        [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
+        [[self startRestoreButton] setEnabled:TRUE];
+        [[self startRestoreButton] setUserInteractionEnabled:TRUE];
+        [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     };
     [task launch];
 }
