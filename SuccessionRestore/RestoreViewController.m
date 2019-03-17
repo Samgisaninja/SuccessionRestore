@@ -29,9 +29,11 @@ int attach(const char *path, char buf[], size_t sz);
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
     } else {
-        [[self startRestoreButton] setTitle:@"Mounting, please wait..." forState:UIControlStateNormal];
+        [[self startRestoreButton] setTitle:@"This will only take a second, hang tight..." forState:UIControlStateNormal];
         [[self startRestoreButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [[self startRestoreButton] setEnabled:FALSE];
+        [[self fileListActivityIndicator] setHidden:FALSE];
+        [[self fileListActivityIndicator] startAnimating];
         [self attachRestoreDisk];
     }
 }
@@ -80,6 +82,7 @@ int attach(const char *path, char buf[], size_t sz);
         [[self startRestoreButton] setEnabled:TRUE];
         [[self startRestoreButton] setUserInteractionEnabled:TRUE];
         [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [[self fileListActivityIndicator] setHidden:TRUE];
     };
     [task launch];
 }
