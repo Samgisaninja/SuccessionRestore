@@ -29,12 +29,33 @@ int attach(const char *path, char buf[], size_t sz);
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
     } else {
+        [[self headerLabel] setText:@""];
         [[self startRestoreButton] setTitle:@"This will only take a second, hang tight..." forState:UIControlStateNormal];
         [[self startRestoreButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [[self startRestoreButton] setEnabled:FALSE];
         [[self fileListActivityIndicator] setHidden:FALSE];
         [[self fileListActivityIndicator] startAnimating];
         [self attachRestoreDisk];
+    }
+}
+
+- (IBAction)startRestoreButtonAction:(id)sender {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+        UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self successionRestore];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        [areYouSureAlert addAction:beginRestore];
+        [areYouSureAlert addAction:cancelAction];
+        [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
+    } else {
+        UIAlertController *attachingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self attachRestoreDisk];
+        }];
+        [attachingAlert addAction:okAction];
+        [self presentViewController:attachingAlert animated:TRUE completion:nil];
     }
 }
 
@@ -50,7 +71,7 @@ int attach(const char *path, char buf[], size_t sz);
     } else if (kCFCoreFoundationVersionNumber > 1349.56){
         _filesystemType = @"apfs";
     }
-    int rv = attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
+    attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
     NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
     [changedDevContents removeObjectsInArray:origDevContents];
     for (NSString * object in changedDevContents) {
@@ -77,7 +98,7 @@ int attach(const char *path, char buf[], size_t sz);
     task.arguments = mountArgs;
     task.terminationHandler = ^(NSTask *task){
         [[self headerLabel] setText:@"WARNING!"];
-        [[self infoLabel] setText:@"Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones."];
+        [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
         [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
         [[self startRestoreButton] setEnabled:TRUE];
         [[self startRestoreButton] setUserInteractionEnabled:TRUE];
@@ -87,29 +108,9 @@ int attach(const char *path, char buf[], size_t sz);
     [task launch];
 }
 
-- (IBAction)startRestoreButtonAction:(id)sender {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            [self successionRestore];
-        }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-        [areYouSureAlert addAction:beginRestore];
-        [areYouSureAlert addAction:cancelAction];
-        [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
-    } else {
-        UIAlertController *attachingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This might fail the first time, if it does, nothing to worry about, just restart the app and try again." preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self attachRestoreDisk];
-        }];
-        [attachingAlert addAction:okAction];
-        [self presentViewController:attachingAlert animated:TRUE completion:nil];
-    }
-}
-
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcHn", @"--delete-after", @"--progress", @"--exclude=/Developer", @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache", @"--exclude=/System/Library/Caches/apticket.der", @"-exclude=/usr/standalone/firmware/sep-firmware.img4", @"--exclude=/usr/local/standalone/firmware/Baseband", @"--exclude=/usr/local/standalone/firmware/Baseband", @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/", @"--exclude=/var/MobileSoftwareUpdate/mnt1", @"--exclude=/private/etc/fstab", @"--exclude=/etc/fstab", @"/var/MobileSoftwareUpdate/mnt1/.", @"/", nil];
+        NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH", @"--delete-after", @"--progress", @"--exclude=/Developer", @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache", @"--exclude=/System/Library/Caches/apticket.der", @"-exclude=/usr/standalone/firmware/sep-firmware.img4", @"--exclude=/usr/local/standalone/firmware/Baseband", @"--exclude=/usr/local/standalone/firmware/Baseband", @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/", @"--exclude=/var/MobileSoftwareUpdate/mnt1", @"--exclude=/private/etc/fstab", @"--exclude=/etc/fstab", @"/var/MobileSoftwareUpdate/mnt1/.", @"/", nil];
         if (![_filesystemType isEqualToString:@"apfs"]) {
             [rsyncMutableArgs addObject:@"--exclude=/System/Library/Caches/com.apple.dyld/"];
         }
@@ -136,28 +137,28 @@ int attach(const char *path, char buf[], size_t sz);
             }
             if ([stringRead hasPrefix:@"Applications/"]) {
                 [[self outputLabel] setHidden:FALSE];
-                [[self infoLabel] setText:@"Rebuilding Applications..."];
+                [[self infoLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding Applications...", stringRead]];
                 [[self fileListActivityIndicator] setHidden:TRUE];
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:0];
             }
             if ([stringRead hasPrefix:@"Library/"]) {
                 [[self outputLabel] setHidden:FALSE];
-                [[self infoLabel] setText:@"Rebuliding Library..."];
+                [[self infoLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding Library...", stringRead]];
                 [[self fileListActivityIndicator] setHidden:TRUE];
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:0.33];
             }
             if ([stringRead hasPrefix:@"System/"]) {
                 [[self outputLabel] setHidden:FALSE];
-                [[self infoLabel] setText:@"Rebuliding System..."];
+                [[self infoLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding System...", stringRead]];
                 [[self fileListActivityIndicator] setHidden:TRUE];
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:0.67];
             }
             if ([stringRead hasPrefix:@"usr/"]) {
                 [[self outputLabel] setHidden:FALSE];
-                [[self infoLabel] setText:@"Rebuliding usr..."];
+                [[self infoLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding usr...", stringRead]];
                 [[self fileListActivityIndicator] setHidden:TRUE];
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:0.9];
@@ -169,7 +170,7 @@ int attach(const char *path, char buf[], size_t sz);
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:1.0];
                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
-                UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Your device needs to reboot to finish up" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Please go to settings->general->reset->erase all content and settings" preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *rebootAction = [UIAlertAction actionWithTitle:@"Reboot" style:UIAlertActionStyleDefault handler:nil];
                 [restoreCompleteController addAction:rebootAction];
                 [self presentViewController:restoreCompleteController animated:TRUE completion:^{
@@ -180,10 +181,13 @@ int attach(const char *path, char buf[], size_t sz);
                     rv = SBDataReset(SpringBoardServerPort, 5); */
                 }];
             }
-            [[self outputLabel] setText:stringRead];
             [stdoutHandle waitForDataInBackgroundAndNotify];
         }];
-        [[self headerLabel] setText:@"Working, do not leave the app..."];
+        [[self infoLabel] setText:@"Working, do not leave the app..."];
+        [[self headerLabel] setText:@""];
+        [[self startRestoreButton] setTitle:@"Restore in progress..." forState:UIControlStateNormal];
+        [[self startRestoreButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+        [[self startRestoreButton] setEnabled:FALSE];
         [[self fileListActivityIndicator] setHidden:FALSE];
         [rsyncTask launch];
     } else {
