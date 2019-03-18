@@ -109,7 +109,11 @@ int attach(const char *path, char buf[], size_t sz);
 
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        NSArray *rsyncArgs = [NSArray arrayWithObjects:@"-vaxcHn", @"--delete-after", @"--progress", @"--exclude=/Developer", @"--exclude=/System/Library/Caches/apticket.der", @"--exclude=/usr/local/standalone/firmware/Baseband", @"/var/MobileSoftwareUpdate/mnt1/.", @"/", nil];
+        NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcHn", @"--delete-after", @"--progress", @"--exclude=/Developer", @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache", @"--exclude=/System/Library/Caches/apticket.der", @"-exclude=/usr/standalone/firmware/sep-firmware.img4", @"--exclude=/usr/local/standalone/firmware/Baseband", @"--exclude=/usr/local/standalone/firmware/Baseband", @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/", @"--exclude=/var/MobileSoftwareUpdate/mnt1", @"--exclude=/private/etc/fstab", @"--exclude=/etc/fstab", @"/var/MobileSoftwareUpdate/mnt1/.", @"/", nil];
+        if (![_filesystemType isEqualToString:@"apfs"]) {
+            [rsyncMutableArgs addObject:@"--exclude=/System/Library/Caches/com.apple.dyld/"];
+        }
+        NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         NSTask *rsyncTask = [[NSTask alloc] init];
         [rsyncTask setLaunchPath:@"/usr/bin/rsync"];
         [rsyncTask setArguments:rsyncArgs];
@@ -164,7 +168,17 @@ int attach(const char *path, char buf[], size_t sz);
                 [[self fileListActivityIndicator] setHidden:TRUE];
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:1.0];
-                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
+                [[NSNotificationCenter defaultCenter] removeObserver:observer];
+                UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Your device needs to reboot to finish up" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *rebootAction = [UIAlertAction actionWithTitle:@"Reboot" style:UIAlertActionStyleDefault handler:nil];
+                [restoreCompleteController addAction:rebootAction];
+                [self presentViewController:restoreCompleteController animated:TRUE completion:^{
+                    /* extern int SBDataReset(mach_port_t, int);
+                    extern mach_port_t SBSSpringBoardServerPort(void);
+                    mach_port_t SpringBoardServerPort = SBSSpringBoardServerPort();
+                    int rv;
+                    rv = SBDataReset(SpringBoardServerPort, 5); */
+                }];
             }
             [[self outputLabel] setText:stringRead];
             [stdoutHandle waitForDataInBackgroundAndNotify];
