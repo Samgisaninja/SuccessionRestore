@@ -129,36 +129,37 @@ int attach(const char *path, char buf[], size_t sz);
             
             NSData *dataRead = [stdoutHandle availableData];
             NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
+            [[self infoLabel] setText:@"Restoring, please wait..."];
             if ([stringRead containsString:@"00 files..."]) {
                 [[self outputLabel] setHidden:FALSE];
-                [[self infoLabel] setText:@"Bulding file list, please wait..."];
+                [[self outputLabel] setText:stringRead];
                 [[self fileListActivityIndicator] setHidden:FALSE];
                 [[self restoreProgressBar] setHidden:TRUE];
             }
             if ([stringRead hasPrefix:@"Applications/"]) {
                 [[self outputLabel] setHidden:FALSE];
-                [[self infoLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding Applications...", stringRead]];
+                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding Applications...", stringRead]];
                 [[self fileListActivityIndicator] setHidden:TRUE];
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:0];
             }
             if ([stringRead hasPrefix:@"Library/"]) {
                 [[self outputLabel] setHidden:FALSE];
-                [[self infoLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding Library...", stringRead]];
+                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding Library...", stringRead]];
                 [[self fileListActivityIndicator] setHidden:TRUE];
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:0.33];
             }
             if ([stringRead hasPrefix:@"System/"]) {
                 [[self outputLabel] setHidden:FALSE];
-                [[self infoLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding System...", stringRead]];
+                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding System...", stringRead]];
                 [[self fileListActivityIndicator] setHidden:TRUE];
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:0.67];
             }
             if ([stringRead hasPrefix:@"usr/"]) {
                 [[self outputLabel] setHidden:FALSE];
-                [[self infoLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding usr...", stringRead]];
+                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding usr...", stringRead]];
                 [[self fileListActivityIndicator] setHidden:TRUE];
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:0.9];
