@@ -126,7 +126,7 @@ int attach(const char *path, char buf[], size_t sz);
                                                                         object:stdoutHandle queue:nil
                                                                     usingBlock:^(NSNotification *note)
         {
-            
+
             NSData *dataRead = [stdoutHandle availableData];
             NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
             [[self infoLabel] setText:@"Restoring, please wait..."];
@@ -175,10 +175,8 @@ int attach(const char *path, char buf[], size_t sz);
                 UIAlertAction *rebootAction = [UIAlertAction actionWithTitle:@"Reboot" style:UIAlertActionStyleDefault handler:nil];
                 [restoreCompleteController addAction:rebootAction];
                 [self presentViewController:restoreCompleteController animated:TRUE completion:^{
-                    //give_creds_to_process_at_addr(rk64(get_peoc_struct_for_pid(pidOfProcess("/usr/libexec/bluetoothd")) + koffset(KSTRUCT_OFFSET_PROC_P_UCRED)), myProcAddr);
                     extern int SBDataReset(mach_port_t, int);
                     extern mach_port_t SBSSpringBoardServerPort(void);
-                    NSLog(@"SUCCESSIONTESTING: %u", SBSSpringBoardServerPort());
                     SBDataReset(SBSSpringBoardServerPort(), 5);
                 }];
             }
