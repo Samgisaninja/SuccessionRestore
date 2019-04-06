@@ -110,7 +110,7 @@ int attach(const char *path, char buf[], size_t sz);
 
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH", @"--delete-after", @"--progress", @"--exclude=/Developer", @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache", @"--exclude=/System/Library/Caches/apticket.der", @"--exclude=/usr/standalone/firmware/sep-firmware.img4", @"--exclude=/usr/local/standalone/firmware/Baseband", @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/", @"--exclude=/var/MobileSoftwareUpdate/mnt1", @"--exclude=/private/etc/fstab", @"--exclude=/etc/fstab", @"--exclude=/usr/standalone/firmware/FUD/StaticTrustCache.img4" @"/var/MobileSoftwareUpdate/mnt1/.", @"/", nil];
+        NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH", @"--delete-after", @"--progress", @"--exclude=/Developer", @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache", @"--exclude=/System/Library/Caches/apticket.der", @"--exclude=/usr/standalone/firmware/sep-firmware.img4", @"--exclude=/usr/local/standalone/firmware/Baseband", @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/", @"--exclude=/var/MobileSoftwareUpdate/mnt1", @"--exclude=/private/etc/fstab", @"--exclude=/etc/fstab", @"--exclude=/usr/standalone/firmware/FUD/StaticTrustCache.img4", @"--exclude=/usr/standalone/firmware/Savage/", @"/var/MobileSoftwareUpdate/mnt1/.", @"/", nil];
         if (![_filesystemType isEqualToString:@"apfs"]) {
             [rsyncMutableArgs addObject:@"--exclude=/System/Library/Caches/com.apple.dyld/"];
         }
