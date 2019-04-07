@@ -47,7 +47,7 @@
         [ipswDetected addAction:useProvidedIPSW];
         [ipswDetected addAction:downloadNewIPSW];
         [self presentViewController:ipswDetected animated:TRUE completion:nil];
-        
+
     }
 }
 - (IBAction)backButtonAction:(id)sender {
@@ -82,7 +82,7 @@
         BOOL res;
         NSString* file;
         while (file =
-               
+
                [en nextObject]) {
             res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&error];
             if (!res && error) {
@@ -96,7 +96,7 @@
     [[self downloadProgressBar] setHidden:FALSE];
     NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession] dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSString * activityLabelText = [downloadLinkString stringByAppendingString:@"Found IPSW at"];
+        NSString * activityLabelText = [NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString];
         self.activityLabel.text = activityLabelText;
         self->_downloadLink = [NSURL URLWithString:downloadLinkString];
         NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -154,7 +154,7 @@
                     }
                 }
             }
-            
+
             [unzipIPSW UnzipCloseFile];
         }
 }
