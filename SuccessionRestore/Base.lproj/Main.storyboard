@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jg5-x8-9be">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jg5-x8-9be">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -86,12 +86,6 @@
                                     <action selector="infoNotAccurateButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E5H-ru-e58"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Before pressing the button below:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mPx-3W-jp3">
-                                <rect key="frame" x="44" y="344" width="232" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OyJ-6j-gtA">
                                 <rect key="frame" x="93" y="415" width="134" height="30"/>
                                 <state key="normal" title="Prepare for restore!">
@@ -120,9 +114,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect your charger and set auto-lock to never" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Brv-x7-nVX">
-                                <rect key="frame" x="2.5" y="362" width="315" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mPx-3W-jp3">
+                                <rect key="frame" x="0.0" y="274" width="320" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="zem-ql-11D"/>
+                                </constraints>
+                                <string key="text">Please download an IPSW Succession can do this automatically (press "Download clean Filesystem" below) or you can place an IPSW in /var/mobile/Media/Succession/ipsw.ipsw</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -139,7 +137,6 @@
                             <constraint firstItem="ess-Lg-ydl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="15" id="1X1-OL-0Y6"/>
                             <constraint firstItem="S0F-S6-ikK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zSR-tn-iUQ" secondAttribute="trailing" constant="8" symbolic="YES" id="4P9-6a-hA5"/>
                             <constraint firstItem="5Z8-mG-XV3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="abp-eL-6Z5" secondAttribute="trailing" constant="8" symbolic="YES" id="87c-r9-4ww"/>
-                            <constraint firstItem="Brv-x7-nVX" firstAttribute="top" secondItem="mPx-3W-jp3" secondAttribute="bottom" id="90i-RB-TfE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="S0F-S6-ikK" secondAttribute="trailing" constant="50" id="AgJ-q8-Evy"/>
                             <constraint firstItem="TU6-oy-6RV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="sKZ-N3-YkL" secondAttribute="trailing" constant="8" symbolic="YES" id="AlF-cu-8Kc"/>
                             <constraint firstItem="S0F-S6-ikK" firstAttribute="top" secondItem="4EC-dm-fKT" secondAttribute="bottom" id="B1I-9I-0Rd"/>
@@ -152,9 +149,10 @@
                             <constraint firstItem="OyJ-6j-gtA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Plj-Ru-MSD"/>
                             <constraint firstItem="abp-eL-6Z5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="15" id="RnZ-FT-JAg"/>
                             <constraint firstItem="4EC-dm-fKT" firstAttribute="top" secondItem="4X9-XI-Fwg" secondAttribute="bottom" constant="5" id="SOm-Ps-Oog"/>
-                            <constraint firstItem="mPx-3W-jp3" firstAttribute="top" secondItem="hGj-tl-f2h" secondAttribute="bottom" constant="100" id="UGn-yv-2gC"/>
+                            <constraint firstItem="mPx-3W-jp3" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Tse-j7-V5W"/>
                             <constraint firstItem="hGj-tl-f2h" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="VdA-85-Opa"/>
                             <constraint firstItem="5Z8-mG-XV3" firstAttribute="top" secondItem="S0F-S6-ikK" secondAttribute="bottom" constant="25" id="aTq-TJ-mUT"/>
+                            <constraint firstItem="mPx-3W-jp3" firstAttribute="top" secondItem="hGj-tl-f2h" secondAttribute="bottom" constant="30" id="at5-UZ-D1W"/>
                             <constraint firstItem="ess-Lg-ydl" firstAttribute="top" secondItem="sKZ-N3-YkL" secondAttribute="bottom" constant="5" id="cRW-EW-Mtq"/>
                             <constraint firstAttribute="trailing" secondItem="5Z8-mG-XV3" secondAttribute="trailing" constant="15" id="cWA-cX-GY0"/>
                             <constraint firstItem="C3s-O3-PD4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dTe-4H-WMf"/>
@@ -168,7 +166,6 @@
                             <constraint firstAttribute="trailing" secondItem="eEO-N4-nGY" secondAttribute="trailing" constant="15" id="kYF-pQ-6Up"/>
                             <constraint firstItem="sKZ-N3-YkL" firstAttribute="top" secondItem="abp-eL-6Z5" secondAttribute="bottom" constant="5" id="mSC-8K-rJS"/>
                             <constraint firstItem="4X9-XI-Fwg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nDU-w2-z4Y"/>
-                            <constraint firstItem="Brv-x7-nVX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ngO-YM-5wV"/>
                             <constraint firstItem="mPx-3W-jp3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qRP-fT-N2N"/>
                             <constraint firstItem="yr2-U5-CKv" firstAttribute="top" secondItem="OyJ-6j-gtA" secondAttribute="bottom" constant="35" id="tyO-b1-hoj"/>
                             <constraint firstItem="zSR-tn-iUQ" firstAttribute="top" secondItem="4EC-dm-fKT" secondAttribute="bottom" id="v0B-NW-fbe"/>
@@ -182,6 +179,7 @@
                         <outlet property="downloadDMGButton" destination="C3s-O3-PD4" id="AXX-29-MY3"/>
                         <outlet property="iOSBuildLabel" destination="eEO-N4-nGY" id="4DR-yh-dmk"/>
                         <outlet property="iOSVersionLabel" destination="TU6-oy-6RV" id="2lB-UT-XuH"/>
+                        <outlet property="infoLabel" destination="mPx-3W-jp3" id="pPR-pO-iYs"/>
                         <outlet property="prepareToRestoreButton" destination="OyJ-6j-gtA" id="O5W-D6-iiI"/>
                     </connections>
                 </viewController>
@@ -331,7 +329,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W9z-qH-HgN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1620" y="828"/>
+            <point key="canvasLocation" x="1620" y="1323"/>
         </scene>
         <!--Restore View Controller-->
         <scene sceneID="QX5-ud-tOl">
@@ -346,13 +344,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WARNING!!!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ypX-hC-Cbb">
-                                <rect key="frame" x="113.5" y="64" width="93" height="21"/>
+                                <rect key="frame" x="113.5" y="70" width="93" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vva-Lf-eva">
-                                <rect key="frame" x="0.0" y="85" width="320" height="122"/>
+                                <rect key="frame" x="0.0" y="91" width="320" height="122"/>
                                 <string key="text">Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones. </string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                 <nil key="textColor"/>

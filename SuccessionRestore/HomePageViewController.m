@@ -68,15 +68,22 @@
 }
 - (void) viewDidAppear:(BOOL)animated{
     //Checks to see if DMG has already been downloaded and sets buttons accordingly
-    BOOL DMGAlreadyDownloaded = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"];
-    if (DMGAlreadyDownloaded == TRUE) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"]) {
         [_downloadDMGButton setHidden:TRUE];
         [_prepareToRestoreButton setHidden:FALSE];
         [_prepareToRestoreButton setEnabled:TRUE];
+        [_infoLabel setHidden:TRUE];
     } else {
         [_downloadDMGButton setHidden:FALSE];
         [_prepareToRestoreButton setHidden:TRUE];
         [_prepareToRestoreButton setEnabled:FALSE];
+        [_infoLabel setHidden:FALSE];
+    }
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw"]) {
+        UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW detected!" message:@"Please go to the download page if you'd like to use the IPSW file you provided." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+        [ipswDetected addAction:okAction];
+        [self presentViewController:ipswDetected animated:TRUE completion:nil];
     }
 }
 - (IBAction)contactSupportButton:(id)sender {

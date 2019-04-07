@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *iOSBuildLabel;
 @property (weak, nonatomic) IBOutlet UIButton *downloadDMGButton;
 @property (weak, nonatomic) IBOutlet UIButton *prepareToRestoreButton;
+@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 @property (strong, nonatomic) NSString *deviceModel;
 @property (strong, nonatomic) NSString *deviceBuild;
 @property (strong, nonatomic) NSString *deviceVersion;
