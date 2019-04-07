@@ -43,7 +43,20 @@ int attach(const char *path, char buf[], size_t sz);
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            [self successionRestore];
+            [[UIDevice currentDevice] setBatteryMonitoringEnabled:TRUE];
+            if ([[UIDevice currentDevice] batteryLevel] > 0.5) {
+                [self successionRestore];
+            } else {
+                UIAlertController *lowBatteryWarning = [UIAlertController alertControllerWithTitle:@"Low Battery" message:@"It is recommended you have at least 50% battery charge before beginning restore" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelRestoreAction = [UIAlertAction actionWithTitle:@"Abort restore" style:UIAlertActionStyleDefault handler:nil];
+                UIAlertAction *startRestoreAction = [UIAlertAction actionWithTitle:@"Restore anyways" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                    [self successionRestore];
+                }];
+                [lowBatteryWarning addAction:cancelRestoreAction];
+                [lowBatteryWarning addAction:startRestoreAction];
+                [self presentViewController:lowBatteryWarning animated:TRUE completion:nil];
+            }
+            [[UIDevice currentDevice] setBatteryMonitoringEnabled:FALSE];
         }];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
         [areYouSureAlert addAction:beginRestore];
@@ -110,7 +123,22 @@ int attach(const char *path, char buf[], size_t sz);
 
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH", @"--delete-after", @"--progress", @"--exclude=/Developer", @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache", @"--exclude=/System/Library/Caches/apticket.der", @"--exclude=/usr/standalone/firmware/sep-firmware.img4", @"--exclude=/usr/local/standalone/firmware/Baseband", @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/", @"--exclude=/var/MobileSoftwareUpdate/mnt1", @"--exclude=/private/etc/fstab", @"--exclude=/etc/fstab", @"--exclude=/usr/standalone/firmware/FUD/StaticTrustCache.img4", @"--exclude=/usr/standalone/firmware/Savage/", @"/var/MobileSoftwareUpdate/mnt1/.", @"/", nil];
+        NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH",
+                                            @"--delete-after",
+                                            @"--progress",
+                                            @"--exclude=/Developer",
+                                            @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache",
+                                            @"--exclude=/System/Library/Caches/apticket.der",
+                                            @"--exclude=/usr/standalone/firmware/sep-firmware.img4",
+                                            @"--exclude=/usr/local/standalone/firmware/Baseband",
+                                            @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/",
+                                            @"--exclude=/var/MobileSoftwareUpdate/mnt1",
+                                            @"--exclude=/private/etc/fstab",
+                                            @"--exclude=/etc/fstab",
+                                            @"--exclude=/usr/standalone/firmware/FUD/StaticTrustCache.img4",
+                                            @"--exclude=/usr/standalone/firmware/Savage/",
+                                            @"/var/MobileSoftwareUpdate/mnt1/.",
+                                            @"/", nil];
         if (![_filesystemType isEqualToString:@"apfs"]) {
             [rsyncMutableArgs addObject:@"--exclude=/System/Library/Caches/com.apple.dyld/"];
         }
@@ -122,7 +150,8 @@ int attach(const char *path, char buf[], size_t sz);
         [rsyncTask setStandardOutput:outputPipe];
         NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
         [stdoutHandle waitForDataInBackgroundAndNotify];
-        id observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
+        id observer;
+        observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
                                                                         object:stdoutHandle queue:nil
                                                                     usingBlock:^(NSNotification *note)
         {
@@ -171,9 +200,7 @@ int attach(const char *path, char buf[], size_t sz);
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:1.0];
                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
-                UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Please go to settings->general->reset->erase all content and settings" preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *rebootAction = [UIAlertAction actionWithTitle:@"Reboot" style:UIAlertActionStyleDefault handler:nil];
-                [restoreCompleteController addAction:rebootAction];
+                UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebooting now..." preferredStyle:UIAlertControllerStyleAlert];
                 [self presentViewController:restoreCompleteController animated:TRUE completion:^{
                     extern int SBDataReset(mach_port_t, int);
                     extern mach_port_t SBSSpringBoardServerPort(void);
