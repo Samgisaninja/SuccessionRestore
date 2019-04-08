@@ -66,6 +66,7 @@
         [defaults setBool:YES forKey:hasRunAppOnceKey];
     }
 }
+
 - (void) viewDidAppear:(BOOL)animated{
     //Checks to see if DMG has already been downloaded and sets buttons accordingly
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"]) {
@@ -78,6 +79,7 @@
         [_prepareToRestoreButton setHidden:TRUE];
         [_prepareToRestoreButton setEnabled:FALSE];
         [_infoLabel setHidden:FALSE];
+        [_infoLabel setText:[NSString stringWithFormat:@"Please download an IPSW\nSuccession can do this automatically (press 'Download clean Filesystem' below) or you can place an IPSW in /var/mobile/Media/Succession/ipsw.ipsw"]];
     }
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw"]) {
         UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW detected!" message:@"Please go to the download page if you'd like to use the IPSW file you provided." preferredStyle:UIAlertControllerStyleAlert];
