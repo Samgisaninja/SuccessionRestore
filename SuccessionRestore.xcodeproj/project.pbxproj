@@ -24,6 +24,7 @@
 		8DA9CA88206097B900A12FA4 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7E206097B900A12FA4 /* mztools.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DA9CA89206097B900A12FA4 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA84206097B900A12FA4 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DE34FBB20E9353B00A37037 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE34FBA20E9353B00A37037 /* RestoreViewController.m */; };
+		8DE5B2A5225EA25300502C8F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5B2A3225EA25200502C8F /* SettingsTableViewController.m */; };
 		8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
 		8DFBE80222442FEE00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
 		8DFBE80322442FEE00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
@@ -90,6 +91,8 @@
 		8DA9CA84206097B900A12FA4 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
 		8DE34FB920E9353B00A37037 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestoreViewController.h; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h; sourceTree = "<absolute>"; };
 		8DE34FBA20E9353B00A37037 /* RestoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RestoreViewController.m; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.m; sourceTree = "<absolute>"; };
+		8DE5B2A3225EA25200502C8F /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
+		8DE5B2A4225EA25200502C8F /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpringBoardServices.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,11 +184,13 @@
 				8D5BA2871F7C792E00A169BF /* main.m */,
 				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
 				8D4C260B21BF57C700BBA404 /* NSTask.h */,
+				8DE34FB920E9353B00A37037 /* RestoreViewController.h */,
+				8DE34FBA20E9353B00A37037 /* RestoreViewController.m */,
+				8DE5B2A4225EA25200502C8F /* SettingsTableViewController.h */,
+				8DE5B2A3225EA25200502C8F /* SettingsTableViewController.m */,
 				8D9775DF21BCE7B400C6F481 /* SpecialThanksViewController.h */,
 				8D9775E021BCE7B400C6F481 /* SpecialThanksViewController.m */,
 				8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */,
-				8DE34FB920E9353B00A37037 /* RestoreViewController.h */,
-				8DE34FBA20E9353B00A37037 /* RestoreViewController.m */,
 				8D1327FB20F26FF100C72D10 /* unjail.h */,
 				8D37B8EF21263652008FF3EC /* hdik.c */,
 				8D37B8F121263676008FF3EC /* IOKit */,
@@ -358,6 +363,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DE5B2A5225EA25300502C8F /* SettingsTableViewController.m in Sources */,
 				8D175B5B224429CB00FF7DFD /* NSTask.h in Sources */,
 				8D5BA27D1F7C792E00A169BF /* HomePageViewController.m in Sources */,
 				8DA9CA85206097B900A12FA4 /* unzip.c in Sources */,
