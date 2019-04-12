@@ -150,7 +150,7 @@ int attach(const char *path, char buf[], size_t sz);
             [rsyncMutableArgs addObject:@"--exclude=/var"];
             [rsyncMutableArgs addObject:@"--exclude=/private/var/"];
         }
-        if ([_successionPrefs objectForKey:@"update-install"]) {
+        if ([_successionPrefs objectForKey:@"log-file"]) {
             [rsyncMutableArgs addObject:@">>"];
             [rsyncMutableArgs addObject:@"/var/mobile/succession.log"];
         }

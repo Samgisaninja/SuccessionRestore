@@ -53,7 +53,7 @@
         NSDictionary *defualtPrefs = @{
                                           @"dry-run" : @FALSE,
                                           @"update-install" : @FALSE,
-                                          @"log_file" : @TRUE,
+                                          @"log-file" : @TRUE,
                                           // Planned features
                                           @"create_APFS_orig-fs" : @FALSE,
                                           @"create_APFS_succession-prerestore" : @FALSE,
