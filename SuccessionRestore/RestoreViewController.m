@@ -26,6 +26,7 @@ int attach(const char *path, char buf[], size_t sz);
     [[self outputLabel] setHidden:TRUE];
     [[self fileListActivityIndicator] setHidden:TRUE];
     [[self restoreProgressBar] setHidden:TRUE];
+    _successionPrefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
     } else {
@@ -142,6 +143,17 @@ int attach(const char *path, char buf[], size_t sz);
         if (![_filesystemType isEqualToString:@"apfs"]) {
             [rsyncMutableArgs addObject:@"--exclude=/System/Library/Caches/com.apple.dyld/"];
         }
+        if ([_successionPrefs objectForKey:@"dry-run"]) {
+            [rsyncMutableArgs addObject:@"--dry-run"];
+        }
+        if ([_successionPrefs objectForKey:@"update-install"]) {
+            [rsyncMutableArgs addObject:@"--exclude=/var"];
+            [rsyncMutableArgs addObject:@"--exclude=/private/var/"];
+        }
+        if ([_successionPrefs objectForKey:@"update-install"]) {
+            [rsyncMutableArgs addObject:@">>"];
+            [rsyncMutableArgs addObject:@"/var/mobile/succession.log"];
+        }
         NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         NSTask *rsyncTask = [[NSTask alloc] init];
         [rsyncTask setLaunchPath:@"/usr/bin/rsync"];
@@ -202,9 +214,15 @@ int attach(const char *path, char buf[], size_t sz);
                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
                 UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebooting now..." preferredStyle:UIAlertControllerStyleAlert];
                 [self presentViewController:restoreCompleteController animated:TRUE completion:^{
-                    extern int SBDataReset(mach_port_t, int);
-                    extern mach_port_t SBSSpringBoardServerPort(void);
-                    SBDataReset(SBSSpringBoardServerPort(), 5);
+                    if ([self->_successionPrefs objectForKey:@"update-install"]) {
+                        reboot(0x400);
+                    } else if ([self->_successionPrefs objectForKey:@"dry-run"]){}
+                    else {
+                        extern int SBDataReset(mach_port_t, int);
+                        extern mach_port_t SBSSpringBoardServerPort(void);
+                        SBDataReset(SBSSpringBoardServerPort(), 5);
+                    }
+                    
                 }];
             }
             [stdoutHandle waitForDataInBackgroundAndNotify];

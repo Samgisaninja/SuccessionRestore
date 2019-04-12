@@ -18,5 +18,6 @@
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *fileListActivityIndicator;
 @property (strong, nonatomic) IBOutlet UIProgressView *restoreProgressBar;
 @property (strong, nonatomic) NSString *attachedDMGDiskName;
+@property (strong, nonatomic) NSDictionary *successionPrefs;
 
 @end

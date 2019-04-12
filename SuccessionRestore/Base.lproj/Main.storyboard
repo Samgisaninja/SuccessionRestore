@@ -125,10 +125,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lgt-1f-oP7">
-                                <rect key="frame" x="108" y="445" width="104" height="30"/>
-                                <state key="normal" title="Special Thanks"/>
+                                <rect key="frame" x="131.5" y="445" width="57" height="30"/>
+                                <state key="normal" title="Settings"/>
                                 <connections>
-                                    <segue destination="mab-6N-SqJ" kind="show" id="lsO-68-8ba"/>
+                                    <segue destination="7XZ-Lu-4ed" kind="show" id="dP1-pA-wqa"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -187,6 +187,37 @@
             </objects>
             <point key="canvasLocation" x="1620" y="3.75"/>
         </scene>
+        <!--Settings Table View Controller-->
+        <scene sceneID="Avv-lM-iFj">
+            <objects>
+                <tableViewController id="7XZ-Lu-4ed" customClass="SettingsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jDL-BR-eGZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="Jre-Bb-FqW">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Jre-Bb-FqW" id="hEZ-Jd-VSq">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7XZ-Lu-4ed" id="923-u7-BFM"/>
+                            <outlet property="delegate" destination="7XZ-Lu-4ed" id="SqX-jn-pmK"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="mab-6N-SqJ" kind="show" identifier="goToSpecialThanksViewController" id="BAC-1x-UxS"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ic1-9I-0Hn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1620" y="888"/>
+        </scene>
         <!--Special Thanks View Controller-->
         <scene sceneID="aMJ-Gc-hqf">
             <objects>
@@ -211,8 +242,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mounting and Entitlements" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xdn-2C-mkc">
-                                <rect key="frame" x="31" y="152" width="152" height="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mountpoint/entitlements" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xdn-2C-mkc">
+                                <rect key="frame" x="31" y="152" width="139" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -268,6 +299,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vLp-b3-RJe">
                                 <rect key="frame" x="143" y="450" width="34" height="30"/>
                                 <state key="normal" title="Back"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" id="eCg-q0-fej"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Special Thanks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zc3-km-NdV">
                                 <rect key="frame" x="102" y="30" width="116" height="21"/>
@@ -329,7 +363,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W9z-qH-HgN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1620" y="1323"/>
+            <point key="canvasLocation" x="1620" y="1695"/>
         </scene>
         <!--Restore View Controller-->
         <scene sceneID="QX5-ud-tOl">
@@ -344,13 +378,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WARNING!!!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ypX-hC-Cbb">
-                                <rect key="frame" x="113.5" y="70" width="93" height="21"/>
+                                <rect key="frame" x="113.5" y="20" width="93" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vva-Lf-eva">
-                                <rect key="frame" x="0.0" y="91" width="320" height="122"/>
+                                <rect key="frame" x="0.0" y="41" width="320" height="122"/>
                                 <string key="text">Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones. </string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -446,7 +480,7 @@
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sav-SP-fAw">
-                                <rect key="frame" x="107" y="150" width="106" height="30"/>
+                                <rect key="frame" x="107" y="100" width="106" height="30"/>
                                 <state key="normal" title="Start Download"/>
                                 <connections>
                                     <action selector="startDownloadButtonAction:" destination="iAG-Yy-aYr" eventType="touchUpInside" id="OhS-0v-xkR"/>
@@ -513,4 +547,7 @@
             <point key="canvasLocation" x="622.5" y="3.75"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="eCg-q0-fej"/>
+    </inferredMetricsTieBreakers>
 </document>
