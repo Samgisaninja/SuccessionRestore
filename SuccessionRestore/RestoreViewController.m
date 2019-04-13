@@ -150,6 +150,11 @@ int attach(const char *path, char buf[], size_t sz);
             [rsyncMutableArgs addObject:@"--exclude=/var"];
             [rsyncMutableArgs addObject:@"--exclude=/private/var/"];
         }
+        if ([[_successionPrefs objectForKey:@"log-file"] isEqual:@(1)]) {
+            [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mobile/succession.log" error:nil];
+            NSString *cmdString = [NSString stringWithFormat:@"rsync %@", [rsyncMutableArgs componentsJoinedByString:@" "]];
+            [cmdString writeToFile:@"/private/var/mobile/succession.log" atomically:TRUE encoding:NSUTF8StringEncoding error:nil];
+        }
         NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         NSTask *rsyncTask = [[NSTask alloc] init];
         [rsyncTask setLaunchPath:@"/usr/bin/rsync"];
