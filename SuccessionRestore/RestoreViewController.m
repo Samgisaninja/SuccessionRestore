@@ -143,16 +143,12 @@ int attach(const char *path, char buf[], size_t sz);
         if (![_filesystemType isEqualToString:@"apfs"]) {
             [rsyncMutableArgs addObject:@"--exclude=/System/Library/Caches/com.apple.dyld/"];
         }
-        if ([_successionPrefs objectForKey:@"dry-run"]) {
+        if ([[_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]) {
             [rsyncMutableArgs addObject:@"--dry-run"];
         }
-        if ([_successionPrefs objectForKey:@"update-install"]) {
+        if ([[_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
             [rsyncMutableArgs addObject:@"--exclude=/var"];
             [rsyncMutableArgs addObject:@"--exclude=/private/var/"];
-        }
-        if ([_successionPrefs objectForKey:@"log-file"]) {
-            [rsyncMutableArgs addObject:@">>"];
-            [rsyncMutableArgs addObject:@"/var/mobile/succession.log"];
         }
         NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         NSTask *rsyncTask = [[NSTask alloc] init];
@@ -170,6 +166,15 @@ int attach(const char *path, char buf[], size_t sz);
 
             NSData *dataRead = [stdoutHandle availableData];
             NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
+            if ([[self->_successionPrefs objectForKey:@"log-file"] isEqual:@(1)]) {
+                if (![[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mobile/succession.log"]) {
+                    [[NSFileManager defaultManager] createFileAtPath:@"/private/var/mobile/succession.log" contents:nil attributes:nil];
+                }
+                NSFileHandle *logFileHandle = [NSFileHandle fileHandleForWritingAtPath:@"/private/var/mobile/succession.log"];
+                [logFileHandle seekToEndOfFile];
+                [logFileHandle writeData:[stringRead dataUsingEncoding:NSUTF8StringEncoding]];
+                [logFileHandle closeFile];
+            }
             [[self infoLabel] setText:@"Restoring, please wait..."];
             if ([stringRead containsString:@"00 files..."]) {
                 [[self outputLabel] setHidden:FALSE];
@@ -214,9 +219,9 @@ int attach(const char *path, char buf[], size_t sz);
                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
                 UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebooting now..." preferredStyle:UIAlertControllerStyleAlert];
                 [self presentViewController:restoreCompleteController animated:TRUE completion:^{
-                    if ([self->_successionPrefs objectForKey:@"update-install"]) {
+                    if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
                         reboot(0x400);
-                    } else if ([self->_successionPrefs objectForKey:@"dry-run"]){}
+                    } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){}
                     else {
                         extern int SBDataReset(mach_port_t, int);
                         extern mach_port_t SBSSpringBoardServerPort(void);

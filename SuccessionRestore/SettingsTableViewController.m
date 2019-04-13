@@ -52,7 +52,7 @@
             [cell.textLabel sizeToFit];
             UISwitch *dryRunSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = dryRunSwitch;
-            [dryRunSwitch setOn:[_successionPrefs objectForKey:@"dry-run"] animated:NO];
+            [dryRunSwitch setOn:[[_successionPrefs objectForKey:@"dry-run"] boolValue] animated:FALSE];
             [dryRunSwitch addTarget:self action:@selector(dryRunSwitchChanged) forControlEvents:UIControlEventValueChanged];
             break;
         }
@@ -62,7 +62,7 @@
             [cell.textLabel sizeToFit];
             UISwitch *updateInstallSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = updateInstallSwitch;
-            [updateInstallSwitch setOn:[_successionPrefs objectForKey:@"update-install"] animated:NO];
+            [updateInstallSwitch setOn:[[_successionPrefs objectForKey:@"update-install"] boolValue] animated:NO];
             [updateInstallSwitch addTarget:self action:@selector(updateInstallSwitchChanged) forControlEvents:UIControlEventValueChanged];
             break;
         }
@@ -72,18 +72,18 @@
             [cell.textLabel sizeToFit];
             UISwitch *logOutputSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = logOutputSwitch;
-            [logOutputSwitch setOn:[_successionPrefs objectForKey:@"log-file"] animated:NO];
+            [logOutputSwitch setOn:[[_successionPrefs objectForKey:@"log-file"] boolValue] animated:NO];
             [logOutputSwitch addTarget:self action:@selector(logFileSwitchChanged) forControlEvents:UIControlEventValueChanged];
             break;
             break;
         }
         case 4: {
-            cell.textLabel.text = @"Create APFS snapshot 'orig-fs' after restore";
+            cell.textLabel.text = @"Create APFS snapshot 'orig-fs' after restore (currently disabled)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             UISwitch *createAPFSorigfsSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = createAPFSorigfsSwitch;
-            [createAPFSorigfsSwitch setOn:[_successionPrefs objectForKey:@"create_APFS_orig-fs (currently disabled)"] animated:NO];
+            [createAPFSorigfsSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_orig-fs"] boolValue] animated:NO];
             [createAPFSorigfsSwitch addTarget:self action:@selector(createAPFSorigfsSwitchChanged) forControlEvents:UIControlEventValueChanged];
             [createAPFSorigfsSwitch setUserInteractionEnabled:FALSE];
             break;
@@ -94,7 +94,7 @@
             [cell.textLabel sizeToFit];
             UISwitch *createAPFSsuccessionprerestoreSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = createAPFSsuccessionprerestoreSwitch;
-            [createAPFSsuccessionprerestoreSwitch setOn:[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] animated:NO];
+            [createAPFSsuccessionprerestoreSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] boolValue] animated:NO];
             [createAPFSsuccessionprerestoreSwitch addTarget:self action:@selector(createAPFSsuccessionprerestoreSwitchChanged) forControlEvents:UIControlEventValueChanged];
             [createAPFSsuccessionprerestoreSwitch setUserInteractionEnabled:FALSE];
             break;
@@ -126,65 +126,60 @@
 
 
 -(void)dryRunSwitchChanged{
-    if ([_successionPrefs objectForKey:@"dry-run"]) {
-        [_successionPrefs setObject:@FALSE forKey:@"dry-run"];
+    if ([[_successionPrefs objectForKey:@"dry-run"] isEqual:@(0)]) {
+        [_successionPrefs setObject:@(1) forKey:@"dry-run"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-    }
-    if (![_successionPrefs objectForKey:@"dry-run"]) {
-        [_successionPrefs setObject:@TRUE forKey:@"dry-run"];
+    } else {
+        [_successionPrefs setObject:@(0) forKey:@"dry-run"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
 }
 
 -(void)updateInstallSwitchChanged{
-    if ([_successionPrefs objectForKey:@"update-install"]) {
-        [_successionPrefs setObject:@FALSE forKey:@"update-install"];
+    if ([[_successionPrefs objectForKey:@"update-install"] isEqual:@(0)]) {
+        [_successionPrefs setObject:@(1) forKey:@"update-install"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-    }
-    if (![_successionPrefs objectForKey:@"update-install"]) {
-        [_successionPrefs setObject:@TRUE forKey:@"update-install"];
+    } else {
+        [_successionPrefs setObject:@(0) forKey:@"update-install"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
 }
 
 -(void)logFileSwitchChanged{
-    if ([_successionPrefs objectForKey:@"log-file"]) {
-        [_successionPrefs setObject:@FALSE forKey:@"log-file"];
+    if ([[_successionPrefs objectForKey:@"log-file"] isEqual:@(0)]) {
+        [_successionPrefs setObject:@(1) forKey:@"log-file"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-    }
-    if (![_successionPrefs objectForKey:@"log-file"]) {
-        [_successionPrefs setObject:@TRUE forKey:@"log-file"];
+    } else {
+        [_successionPrefs setObject:@(0) forKey:@"log-file"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
 }
 
 -(void)createAPFSorigfsSwitchChanged{
-    if ([_successionPrefs objectForKey:@"create_APFS_orig-fs"]) {
-        [_successionPrefs setObject:@FALSE forKey:@"create_APFS_orig-fs"];
+    if ([[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(0)]) {
+        [_successionPrefs setObject:@(1) forKey:@"create_APFS_orig-fs"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-    }
-    if (![_successionPrefs objectForKey:@"create_APFS_orig-fs"]) {
-        [_successionPrefs setObject:@TRUE forKey:@"create_APFS_orig-fs"];
+    } else {
+        [_successionPrefs setObject:@(0) forKey:@"create_APFS_orig-fs"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
 }
 
 -(void)createAPFSsuccessionprerestoreSwitchChanged{
-    if ([_successionPrefs objectForKey:@"create_APFS_succession-prerestore"]) {
-        [_successionPrefs setObject:@FALSE forKey:@"create_APFS_succession-prerestore"];
+    if ([[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(0)]) {
+        [_successionPrefs setObject:@(1) forKey:@"create_APFS_succession-prerestore"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-    }
-    if (![_successionPrefs objectForKey:@"create_APFS_orig-fs"]) {
-        [_successionPrefs setObject:@TRUE forKey:@"create_APFS_succession-prerestore"];
+    } else {
+        [_successionPrefs setObject:@(0) forKey:@"create_APFS_succession-prerestore"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }

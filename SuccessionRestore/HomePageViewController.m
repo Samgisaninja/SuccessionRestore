@@ -51,12 +51,12 @@
     // Creates preferences plist if it doesn't exist and assumes the app has never been run before
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"]) {
         NSDictionary *defualtPrefs = @{
-                                          @"dry-run" : @FALSE,
-                                          @"update-install" : @FALSE,
-                                          @"log-file" : @TRUE,
+                                          @"dry-run" : @(0),
+                                          @"update-install" : @(0),
+                                          @"log-file" : @(1),
                                           // Planned features
-                                          @"create_APFS_orig-fs" : @FALSE,
-                                          @"create_APFS_succession-prerestore" : @FALSE,
+                                          @"create_APFS_orig-fs" : @(0),
+                                          @"create_APFS_succession-prerestore" : @(0),
                                           @"custom_rsync_path" : @"/usr/bin/rsync",
                                           @"custom_snappy_path" : @"/usr/bin/snappy"
                                           };
