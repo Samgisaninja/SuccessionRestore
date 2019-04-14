@@ -136,7 +136,7 @@ int attach(const char *path, char buf[], size_t sz);
                                             @"--exclude=/var/MobileSoftwareUpdate/mnt1",
                                             @"--exclude=/private/etc/fstab",
                                             @"--exclude=/etc/fstab",
-                                            @"--exclude=/usr/standalone/firmware/FUD/StaticTrustCache.img4",
+                                            @"--exclude=/usr/standalone/firmware/FUD/",
                                             @"--exclude=/usr/standalone/firmware/Savage/",
                                             @"/var/MobileSoftwareUpdate/mnt1/.",
                                             @"/", nil];
