@@ -130,6 +130,7 @@ int attach(const char *path, char buf[], size_t sz);
                                             @"--exclude=/Developer",
                                             @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache",
                                             @"--exclude=/System/Library/Caches/apticket.der",
+                                            @"--exclude=System/Library/Caches/com.apple.factorydata/",
                                             @"--exclude=/usr/standalone/firmware/sep-firmware.img4",
                                             @"--exclude=/usr/local/standalone/firmware/Baseband",
                                             @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/",
