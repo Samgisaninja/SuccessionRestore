@@ -188,7 +188,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     switch ([indexPath row]) {
         case 0:
-            [self performSegueWithIdentifier:@"goToSpecialThanksViewController" sender:self];
+            [self performSegueWithIdentifier:@"goToSpecialThanksTableViewController" sender:self];
             break;
 
         default:

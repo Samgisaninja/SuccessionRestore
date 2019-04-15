@@ -17,7 +17,7 @@
 		8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */; };
 		8D5BA2881F7C792E00A169BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2871F7C792E00A169BF /* main.m */; };
 		8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D876121202679E2004A6F27 /* DownloadViewController.m */; };
-		8D9775E121BCE7B400C6F481 /* SpecialThanksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9775E021BCE7B400C6F481 /* SpecialThanksViewController.m */; };
+		8D8F2FAA2264095D0044CF00 /* SpecialThanksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */; };
 		8DA9CA85206097B900A12FA4 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7B206097B900A12FA4 /* unzip.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DA9CA86206097B900A12FA4 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7C206097B900A12FA4 /* zip.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DA9CA87206097B900A12FA4 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7D206097B900A12FA4 /* ioapi.c */; };
@@ -76,8 +76,8 @@
 		8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D876120202679E2004A6F27 /* DownloadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadViewController.h; sourceTree = "<group>"; };
 		8D876121202679E2004A6F27 /* DownloadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadViewController.m; sourceTree = "<group>"; };
-		8D9775DF21BCE7B400C6F481 /* SpecialThanksViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpecialThanksViewController.h; sourceTree = "<group>"; };
-		8D9775E021BCE7B400C6F481 /* SpecialThanksViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpecialThanksViewController.m; sourceTree = "<group>"; };
+		8D8F2FA82264095D0044CF00 /* SpecialThanksTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpecialThanksTableViewController.h; sourceTree = "<group>"; };
+		8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpecialThanksTableViewController.m; sourceTree = "<group>"; };
 		8DA9CA79206097B900A12FA4 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		8DA9CA7B206097B900A12FA4 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
 		8DA9CA7C206097B900A12FA4 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
@@ -188,8 +188,8 @@
 				8DE34FBA20E9353B00A37037 /* RestoreViewController.m */,
 				8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */,
 				8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */,
-				8D9775DF21BCE7B400C6F481 /* SpecialThanksViewController.h */,
-				8D9775E021BCE7B400C6F481 /* SpecialThanksViewController.m */,
+				8D8F2FA82264095D0044CF00 /* SpecialThanksTableViewController.h */,
+				8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */,
 				8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */,
 				8D1327FB20F26FF100C72D10 /* unjail.h */,
 				8D37B8EF21263652008FF3EC /* hdik.c */,
@@ -364,13 +364,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DE5B2A822611C0F00502C8F /* SettingsTableViewController.m in Sources */,
+				8D8F2FAA2264095D0044CF00 /* SpecialThanksTableViewController.m in Sources */,
 				8D175B5B224429CB00FF7DFD /* NSTask.h in Sources */,
 				8D5BA27D1F7C792E00A169BF /* HomePageViewController.m in Sources */,
 				8DA9CA85206097B900A12FA4 /* unzip.c in Sources */,
 				8DA9CA88206097B900A12FA4 /* mztools.c in Sources */,
 				8DE34FBB20E9353B00A37037 /* RestoreViewController.m in Sources */,
 				8D5BA2881F7C792E00A169BF /* main.m in Sources */,
-				8D9775E121BCE7B400C6F481 /* SpecialThanksViewController.m in Sources */,
 				8DA9CA86206097B900A12FA4 /* zip.c in Sources */,
 				8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */,
 				8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */,
