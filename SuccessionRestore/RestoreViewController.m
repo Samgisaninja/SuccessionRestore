@@ -224,18 +224,28 @@ int attach(const char *path, char buf[], size_t sz);
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:1.0];
                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
-                UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebooting now..." preferredStyle:UIAlertControllerStyleAlert];
-                [self presentViewController:restoreCompleteController animated:TRUE completion:^{
-                    if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
-                        reboot(0x400);
-                    } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){}
-                    else {
-                        extern int SBDataReset(mach_port_t, int);
-                        extern mach_port_t SBSSpringBoardServerPort(void);
-                        SBDataReset(SBSSpringBoardServerPort(), 5);
-                    }
-                    
-                }];
+                if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]) {
+                    UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Dry run complete!" message:@"YAY!" preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                        exit(0);
+                    }];
+                    [restoreCompleteController addAction:exitAction];
+                    [self presentViewController:restoreCompleteController animated:TRUE completion:nil];
+                } else {
+                    UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebooting now..." preferredStyle:UIAlertControllerStyleAlert];
+                    [self presentViewController:restoreCompleteController animated:TRUE completion:^{
+                        if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
+                            reboot(0x400);
+                        } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){}
+                        else {
+                            extern int SBDataReset(mach_port_t, int);
+                            extern mach_port_t SBSSpringBoardServerPort(void);
+                            SBDataReset(SBSSpringBoardServerPort(), 5);
+                        }
+                        
+                    }];
+                }
+                
             }
             [stdoutHandle waitForDataInBackgroundAndNotify];
         }];
