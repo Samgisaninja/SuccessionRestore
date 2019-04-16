@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[[self navigationController] navigationBar] setHidden:FALSE];
-    self.navigationItem.title = @"Special Thanks";
+    self.navigationItem.title = @"Credits";
 }
 
 #pragma mark - Table view data source

@@ -67,7 +67,7 @@
             break;
         }
         case 3: {
-            cell.textLabel.text = @"Log output to /var/mobile/successionLog.txt";
+            cell.textLabel.text = @"Log output to /var/mobile/succession.log";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             UISwitch *logOutputSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
