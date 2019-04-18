@@ -33,7 +33,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 9;
+    return 10;
 }
 
 
@@ -78,40 +78,50 @@
             break;
         }
         case 4: {
-            cell.textLabel.text = @"Create APFS snapshot 'orig-fs' after restore (currently disabled)";
+            cell.textLabel.text = @"Create APFS snapshot 'orig-fs' after restore (upcoming feature)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
+            /*
             UISwitch *createAPFSorigfsSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = createAPFSorigfsSwitch;
             [createAPFSorigfsSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_orig-fs"] boolValue] animated:NO];
             [createAPFSorigfsSwitch addTarget:self action:@selector(createAPFSorigfsSwitchChanged) forControlEvents:UIControlEventValueChanged];
             [createAPFSorigfsSwitch setUserInteractionEnabled:FALSE];
+            */
             break;
         }
         case 5: {
-            cell.textLabel.text = @"Create APFS snapshot 'succession-prerestore' before restore (currently disabled)";
+            cell.textLabel.text = @"Create APFS snapshot 'succession-prerestore' before restore (upcoming feature)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
+            /*
             UISwitch *createAPFSsuccessionprerestoreSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = createAPFSsuccessionprerestoreSwitch;
             [createAPFSsuccessionprerestoreSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] boolValue] animated:NO];
             [createAPFSsuccessionprerestoreSwitch addTarget:self action:@selector(createAPFSsuccessionprerestoreSwitchChanged) forControlEvents:UIControlEventValueChanged];
             [createAPFSsuccessionprerestoreSwitch setUserInteractionEnabled:FALSE];
+            */
             break;
         }
         case 6: {
-            cell.textLabel.text = @"Use custom rsync path";
+            cell.textLabel.text = @"Use custom rsync path (upcoming feature)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             break;
         }
         case 7: {
-            cell.textLabel.text = @"Use custom snappy path";
+            cell.textLabel.text = @"Use custom snappy path (upcoming feature)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             break;
         }
         case 8: {
+            cell.textLabel.text = @"Reset all settings to defaults";
+            cell.textLabel.numberOfLines = 0;
+            [cell.textLabel sizeToFit];
+            break;
+        }
+        case 9: {
             cell.textLabel.text = [NSString stringWithFormat:@"Succession version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
@@ -190,7 +200,18 @@
         case 0:
             [self performSegueWithIdentifier:@"goToSpecialThanksTableViewController" sender:self];
             break;
-
+        case 8: {
+            UIAlertController *resetPrefsAlert = [UIAlertAction alertControllerWithTitle:@"Reset all preferences?" message:@"Succession will restart" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"];
+                exit(0);
+            }];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+            [resetPrefsAlert addAction:resetPrefsAlert];
+            [resetPrefsAlert addAction:cancelAction];
+            [self presentViewController:cancelAction animated:TRUE completion:nil];
+            break;
+          }
         default:
             break;
     }
