@@ -207,9 +207,9 @@
                 exit(0);
             }];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
-            [resetPrefsAlert addAction:resetPrefsAlert];
+            [resetPrefsAlert addAction:confirmAction];
             [resetPrefsAlert addAction:cancelAction];
-            [self presentViewController:cancelAction animated:TRUE completion:nil];
+            [self presentViewController:resetPrefsAlert animated:TRUE completion:nil];
             break;
           }
         default:
