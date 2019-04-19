@@ -76,6 +76,9 @@
 
 - (void) viewDidAppear:(BOOL)animated{
     [[[self navigationController] navigationBar] setHidden:TRUE];
+    
+    NSURLSessionDownloadTask *getMOTDTask = [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:[NSURL URLWithString:@"https://raw.githubusercontent.com/Samgisaninja/SuccessionRestore/master/motd.plist"]];
+    [getMOTDTask resume];
     //Checks to see if DMG has already been downloaded and sets buttons accordingly
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"]) {
         [_downloadDMGButton setHidden:TRUE];
@@ -96,6 +99,7 @@
         [self presentViewController:ipswDetected animated:TRUE completion:nil];
     }
 }
+
 - (IBAction)contactSupportButton:(id)sender {
     //Opens a PM to my reddit
     NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
@@ -107,6 +111,7 @@
     NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.paypal.me/SamGardner4/2"] options:URLOptions completionHandler:nil];
 }
+
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"deviceInfoShare"]) {
         DownloadViewController *destViewController = segue.destinationViewController;
@@ -115,6 +120,7 @@
         destViewController.deviceBuild = _deviceBuild;
     }
 }
+
 - (IBAction)infoNotAccurateButton:(id)sender {
     //Code that runs the "Information not correct" button
     UIAlertController *infoNotAccurateButtonInfo = [UIAlertController alertControllerWithTitle:@"Please provide your own DMG" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9.3.5 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
@@ -122,5 +128,94 @@
     [infoNotAccurateButtonInfo addAction:okAction];
     [self presentViewController:infoNotAccurateButtonInfo animated:YES completion:nil];
 }
+
+- (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
+    NSDictionary *motd = [NSDictionary dictionaryWithContentsOfFile:[location path]];
+    if ([[[motd objectForKey:@"all"] objectForKey:@"showMessage"] isEqual:@(1)]) {
+        UIAlertController *motdAlert = [UIAlertController alertControllerWithTitle:@"Message" message:[[motd objectForKey:@"all"] objectForKey:@"messageContent"] preferredStyle:UIAlertControllerStyleAlert];
+        if ([[[motd objectForKey:@"all"] objectForKey:@"warning"] isEqual: @(1)]) {
+            if ([[[motd objectForKey:@"all"] objectForKey:@"disabled"] isEqual: @(1)]) {
+                UIAlertAction *disabledAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                    exit(0);
+                }];
+                [motdAlert addAction:disabledAction];
+                [self presentViewController:motdAlert animated:TRUE completion:nil];
+            } else {
+                UIAlertAction *warningAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDestructive handler:nil];
+                [motdAlert addAction:warningAction];
+                [self presentViewController:motdAlert animated:TRUE completion:nil];
+            }
+            
+        } else {
+            UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+            [motdAlert addAction:dismissAction];
+            [self presentViewController:motdAlert animated:TRUE completion:nil];
+        }
+    }
+    if ([[[[motd objectForKey:@"successionVersions"] objectForKey:[[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"]] objectForKey:@"showMessage"] isEqual:@(1)]) {
+        UIAlertController *motdAlert = [UIAlertController alertControllerWithTitle:@"Message" message:[[[motd objectForKey:@"successionVersions"] objectForKey:[[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"]] objectForKey:@"messageContent"] preferredStyle:UIAlertControllerStyleAlert];
+        if ([[[[motd objectForKey:@"successionVersions"] objectForKey:[[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"]] objectForKey:@"warning"] isEqual: @(1)]) {
+            if ([[[[motd objectForKey:@"successionVersions"] objectForKey:[[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"]] objectForKey:@"disabled"] isEqual: @(1)]) {
+                UIAlertAction *disabledAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                    exit(0);
+                }];
+                [motdAlert addAction:disabledAction];
+                [self presentViewController:motdAlert animated:TRUE completion:nil];
+            } else {
+                UIAlertAction *warningAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDestructive handler:nil];
+                [motdAlert addAction:warningAction];
+                [self presentViewController:motdAlert animated:TRUE completion:nil];
+            }
+            
+        } else {
+            UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+            [motdAlert addAction:dismissAction];
+            [self presentViewController:motdAlert animated:TRUE completion:nil];
+        }
+    }
+    if ([[[[motd objectForKey:@"deviceModels"] objectForKey:_deviceModel] objectForKey:@"showMessage"] isEqual:@(1)]) {
+        UIAlertController *motdAlert = [UIAlertController alertControllerWithTitle:@"Message" message:[[[motd objectForKey:@"deviceModels"] objectForKey:_deviceModel] objectForKey:@"messageContent"] preferredStyle:UIAlertControllerStyleAlert];
+        if ([[[[motd objectForKey:@"deviceModels"] objectForKey:_deviceModel] objectForKey:@"warning"] isEqual: @(1)]) {
+            if ([[[[motd objectForKey:@"deviceModels"] objectForKey:_deviceModel] objectForKey:@"disabled"] isEqual: @(1)]) {
+                UIAlertAction *disabledAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                    exit(0);
+                }];
+                [motdAlert addAction:disabledAction];
+                [self presentViewController:motdAlert animated:TRUE completion:nil];
+            } else {
+                UIAlertAction *warningAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDestructive handler:nil];
+                [motdAlert addAction:warningAction];
+                [self presentViewController:motdAlert animated:TRUE completion:nil];
+            }
+            
+        } else {
+            UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+            [motdAlert addAction:dismissAction];
+            [self presentViewController:motdAlert animated:TRUE completion:nil];
+        }
+    }
+    if ([[[[motd objectForKey:@"iOSVersions"] objectForKey:_deviceBuild] objectForKey:@"showMessage"] isEqual:@(1)]) {
+        UIAlertController *motdAlert = [UIAlertController alertControllerWithTitle:@"Message" message:[[[motd objectForKey:@"iOSVersions"] objectForKey:_deviceBuild] objectForKey:@"messageContent"] preferredStyle:UIAlertControllerStyleAlert];
+        if ([[[[motd objectForKey:@"iOSVersions"] objectForKey:_deviceBuild] objectForKey:@"warning"] isEqual: @(1)]) {
+            if ([[[[motd objectForKey:@"iOSVersions"] objectForKey:_deviceBuild] objectForKey:@"disabled"] isEqual: @(1)]) {
+                UIAlertAction *disabledAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                    exit(0);
+                }];
+                [motdAlert addAction:disabledAction];
+                [self presentViewController:motdAlert animated:TRUE completion:nil];
+            } else {
+                UIAlertAction *warningAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDestructive handler:nil];
+                [motdAlert addAction:warningAction];
+                [self presentViewController:motdAlert animated:TRUE completion:nil];
+            }
+            
+        } else {
+            UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+            [motdAlert addAction:dismissAction];
+            [self presentViewController:motdAlert animated:TRUE completion:nil];
+        }
+    }
+}
+
 @end
 

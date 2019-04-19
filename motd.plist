@@ -34,7 +34,7 @@
 			<key>disabled</key>
 			<integer>0</integer>
 			<key>messageContent</key>
-			<string>Due to IPSW.me's API, Succession's downloader does not currently support beta versions of iOS. You will need to place an IPSW for your device/version in /var/mobile/Media/Succession/ipsw.ipsw</string>
+			<string>Due to IPSW.me&apos;s API, Succession&apos;s downloader does not currently support beta versions of iOS. You will need to place an IPSW for your device/version in /var/mobile/Media/Succession/ipsw.ipsw</string>
 			<key>showMessage</key>
 			<integer>1</integer>
 			<key>warning</key>
@@ -46,13 +46,13 @@
 		<key>0.9~b2</key>
 		<dict>
 			<key>disabled</key>
-			<integer>1</integer>
+			<integer>0</integer>
 			<key>messageContent</key>
-			<string>THIS IS A TEST OF SUCCESSION KILLSWITCH. NO FURTHER ACTION IS NEEDED.</string>
+			<string>WE ALL GOOD IN THE HOOD</string>
 			<key>showMessage</key>
-			<integer>1</integer>
+			<integer>0</integer>
 			<key>warning</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 	</dict>
 </dict>
