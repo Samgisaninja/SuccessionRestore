@@ -1,5 +1,4 @@
 # SuccessionRestore
-**Completely untested, don't use this yet**
 
 Alternative to Cydia Eraser that is much easier to update. Downloads and mounts rootfilesystem DMG for your iOS version. Then moves files from mounted DMG to the main filesystem.
 

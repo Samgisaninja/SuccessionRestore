@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>all</key>
+	<dict>
+		<key>disabled</key>
+		<integer>0</integer>
+		<key>messageContent</key>
+		<string>WE ALL GOOD IN THE HOOD</string>
+		<key>showMessage</key>
+		<integer>0</integer>
+		<key>warning</key>
+		<integer>0</integer>
+	</dict>
+	<key>deviceModels</key>
+	<dict>
+		<key>iPhone10,3</key>
+		<dict>
+			<key>disabled</key>
+			<integer>0</integer>
+			<key>messageContent</key>
+			<string>WE ALL GOOD IN THE HOOD</string>
+			<key>showMessage</key>
+			<integer>0</integer>
+			<key>warning</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>iOSVersions</key>
+	<dict>
+		<key>16C5050a</key>
+		<dict>
+			<key>disabled</key>
+			<integer>0</integer>
+			<key>messageContent</key>
+			<string>Due to IPSW.me's API, Succession's downloader does not currently support beta versions of iOS. You will need to place an IPSW for your device/version in /var/mobile/Media/Succession/ipsw.ipsw</string>
+			<key>showMessage</key>
+			<integer>1</integer>
+			<key>warning</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>successionVersions</key>
+	<dict>
+		<key>0.9~b1</key>
+		<dict>
+			<key>disabled</key>
+			<integer>0</integer>
+			<key>messageContent</key>
+			<string>WE ALL GOOD IN THE HOOD</string>
+			<key>showMessage</key>
+			<integer>0</integer>
+			<key>warning</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>
