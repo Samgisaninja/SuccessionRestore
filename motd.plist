@@ -43,16 +43,16 @@
 	</dict>
 	<key>successionVersions</key>
 	<dict>
-		<key>0.9~b1</key>
+		<key>0.9~b2</key>
 		<dict>
 			<key>disabled</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>messageContent</key>
-			<string>WE ALL GOOD IN THE HOOD</string>
+			<string>THIS IS A TEST OF SUCCESSION KILLSWITCH. NO FURTHER ACTION IS NEEDED.</string>
 			<key>showMessage</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>warning</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 	</dict>
 </dict>
