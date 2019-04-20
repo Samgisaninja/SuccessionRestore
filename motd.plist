@@ -9,7 +9,7 @@
 		<key>messageContent</key>
 		<string>WE ALL GOOD IN THE HOOD</string>
 		<key>showMessage</key>
-		<integer>0</integer>
+		<integer>1</integer>
 		<key>warning</key>
 		<integer>0</integer>
 	</dict>
@@ -48,9 +48,20 @@
 			<key>disabled</key>
 			<integer>0</integer>
 			<key>messageContent</key>
-			<string>WE ALL GOOD IN THE HOOD</string>
+			<string>Welcome to the Succession beta test! Please report any bugs to https://github.com/Samgisaninja/SuccessionRestore/issues</string>
 			<key>showMessage</key>
+			<integer>1</integer>
+			<key>warning</key>
 			<integer>0</integer>
+		</dict>
+		<key>0.9~b3</key>
+		<dict>
+			<key>disabled</key>
+			<integer>0</integer>
+			<key>messageContent</key>
+			<string>Welcome to the Succession beta test! Please report any bugs to https://github.com/Samgisaninja/SuccessionRestore/issues</string>
+			<key>showMessage</key>
+			<integer>1</integer>
 			<key>warning</key>
 			<integer>0</integer>
 		</dict>

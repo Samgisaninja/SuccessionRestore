@@ -1,5 +1,5 @@
 Package: com.samgisaninja.SuccessionRestore
-Name: Succession
+Name: Succession [beta]
 Version: 0.9~b3
 Architecture: iphoneos-arm
 Description: Restore without updating via rootfilesystem DMG
