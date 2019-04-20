@@ -60,6 +60,7 @@
 
     }
 }
+
 - (IBAction)backButtonAction:(id)sender {
     // Go back to the home page
     [[self navigationController] popToRootViewControllerAnimated:TRUE];
@@ -73,6 +74,7 @@
     [_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self startDownload];
 }
+
 -(void) startDownload {
     self.activityLabel.text = @"Preparing download...";
     // If the iOS version is older than iOS 10, the root filesystem DMG is encrypted. Succession does not currently have support for decrypting DMGs, so ask the user to do it for us.
@@ -136,6 +138,7 @@
     [getDownloadLinkTask resume];
     }
 }
+
 - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     // so, the download is now complete, but it's in... well we don't really know. but iOS knows! to be specific, it exists at [location path]. [location path] is not nearly as easy to work with as /var/mobile/Media/Succession/ipsw.ipsw, so let's move it there.
     [[self downloadProgressBar] setHidden:TRUE];
@@ -151,6 +154,7 @@
         [self postDownload];
     }
 }
+
 - (void) postDownload {
     NSError * error;
     // Rename the ipsw.ipsw file to ipsw.zip. Imagine you're using an `mv` command via terminal to rename something. It's the same concept.
@@ -171,37 +175,152 @@
                 if (error != nil) {
                     self.activityLabel.text = [NSString stringWithFormat:@"Error deleting IPSW: %@", [error localizedDescription]];
                 } else {
-                    self.activityLabel.text = @"Identifying rootfilesystem dmg";
-                    // Create an array with the contents of the folder that the ipsw was extracted to.
-                    NSArray * extractedFolderContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Media/Succession/extracted/" error:&error];
-                    // yay, for loops. so how this works: In the first argument of the for loop, I create an integer, "i" (i is for Index), which has starting value of 0. All of the code inside the for loop is executed with i equal to zero. When control reaches the end of what's inside the for loop, it reads the third argument (in this case, "i++". The "i++" means "add one to i", so then the entire for loop is run with i equal to 1. The next time it is executed it runs with i equal to 2, and so on.
-                    // You might be wondering, "how do for loops ever stop?" That's where the second argument comes in, every time 1 is added to i, it checks to see if i matches the condition in the second argument. In this case, I have it set so that the for loop will run if i is less than the number of files in the 'extracted' folder. As soon as i is greater than or equal to the number of files in the extracted folder, the loop exits.
-                    for (int i=0; i<[extractedFolderContents count]; i++) {
-                        // Gets the name of the file that's currently being checked
-                        NSString *checkingFile = [extractedFolderContents objectAtIndex:i];
-                        // Get the path to that file
-                        NSString *checkingFilePath = [@"/var/mobile/Media/Succession/extracted/" stringByAppendingPathComponent:checkingFile];
-                        // Get the size of the file at that path
-                        unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:checkingFilePath error:nil] fileSize];
-                        // if the file size is greater than 1824896633 bytes (1.8 gigabytes), then we can safely assume that it is the root filesystem.
-                        if (fileSize > 1824896633) {
-                            // Again, no one will ever see this, but it's there
-                            self.activityLabel.text = [NSString stringWithFormat:@"Identified rootfilesystem as %@...", checkingFile];
-                            // Move the root filesystem dmg to /var/mobile/Media/Succession/rfs.dmg
-                            [[NSFileManager defaultManager] moveItemAtPath:checkingFilePath toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:&error];
-                            self.activityLabel.text = @"Cleaning up...";
-                            // Delete everything else
-                            [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/extracted/" error:&error];
-                            // Let the user know that download is now complete
-                            UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
-                            UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                                [[self navigationController] popToRootViewControllerAnimated:TRUE];
+                    // Now we verify if the IPSW that's just been extracted actually matches the device/version that it's being downloaded to
+                    NSDictionary *IPSWBuildManifest = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Media/Succession/extracted/BuildManifest.plist"];
+                    if ([[IPSWBuildManifest objectForKey:@"ProductBuildVersion"] isEqualToString:deviceBuild]) {
+                        if ([[IPSWBuildManifest objectForKey:@"SupportedProductTypes"] containsObject:deviceModel]) {
+                            NSError *error;
+                            self.activityLabel.text = @"Identifying rootfilesystem dmg";
+                            // Create an array with the contents of the folder that the ipsw was extracted to.
+                            NSArray * extractedFolderContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Media/Succession/extracted/" error:&error];
+                            // yay, for loops. so how this works: In the first argument of the for loop, I create an integer, "i" (i is for Index), which has starting value of 0. All of the code inside the for loop is executed with i equal to zero. When control reaches the end of what's inside the for loop, it reads the third argument (in this case, "i++". The "i++" means "add one to i", so then the entire for loop is run with i equal to 1. The next time it is executed it runs with i equal to 2, and so on.
+                            // You might be wondering, "how do for loops ever stop?" That's where the second argument comes in, every time 1 is added to i, it checks to see if i matches the condition in the second argument. In this case, I have it set so that the for loop will run if i is less than the number of files in the 'extracted' folder. As soon as i is greater than or equal to the number of files in the extracted folder, the loop exits.
+                            for (int i=0; i<[extractedFolderContents count]; i++) {
+                                // Gets the name of the file that's currently being checked
+                                NSString *checkingFile = [extractedFolderContents objectAtIndex:i];
+                                // Get the path to that file
+                                NSString *checkingFilePath = [@"/var/mobile/Media/Succession/extracted/" stringByAppendingPathComponent:checkingFile];
+                                // Get the size of the file at that path
+                                unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:checkingFilePath error:nil] fileSize];
+                                // if the file size is greater than 1824896633 bytes (1.8 gigabytes), then we can safely assume that it is the root filesystem.
+                                if (fileSize > 1824896633) {
+                                    // Again, no one will ever see this, but it's there
+                                    self.activityLabel.text = [NSString stringWithFormat:@"Identified rootfilesystem as %@...", checkingFile];
+                                    // Move the root filesystem dmg to /var/mobile/Media/Succession/rfs.dmg
+                                    [[NSFileManager defaultManager] moveItemAtPath:checkingFilePath toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:&error];
+                                    self.activityLabel.text = @"Cleaning up...";
+                                    // Delete everything else
+                                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/extracted/" error:&error];
+                                    // Let the user know that download is now complete
+                                    UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
+                                    UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                        [[self navigationController] popToRootViewControllerAnimated:TRUE];
+                                    }];
+                                    [downloadComplete addAction:backToHomePage];
+                                    [self presentViewController:downloadComplete animated:TRUE completion:nil];
+                                    // Tell the for loop to stop executing now instead of waiting for the i<[extractedFolderContents count] condition to be met.
+                                    break;
+                                }
+                            }
+                        } else {
+                            UIAlertController *ipswDoesntMatch = [UIAlertController alertControllerWithTitle:@"Provided IPSW does not appear to match this device" message:@"The IPSW you provided does not appear to match this device/iOS version. You may override this warning, but it is strongly reccommended that you do not continue." preferredStyle:UIAlertControllerStyleAlert];
+                            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Delete and Exit" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                NSFileManager* fm = [[NSFileManager alloc] init];
+                                NSDirectoryEnumerator* en = [fm enumeratorAtPath:@"/var/mobile/Media/Succession"];
+                                NSError* error = nil;
+                                BOOL res;
+                                NSString* file;
+                                while (file = [en nextObject]) {
+                                    res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&error];
+                                    if (!res && error) {
+                                        self.activityLabel.text = [NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]];
+                                    }
+                                }
+                                exit(0);
                             }];
-                            [downloadComplete addAction:backToHomePage];
-                            [self presentViewController:downloadComplete animated:TRUE completion:nil];
-                            // Tell the for loop to stop executing now instead of waiting for the i<[extractedFolderContents count] condition to be met.
-                            break;
+                            UIAlertAction *overrideAction = [UIAlertAction actionWithTitle:@"Override" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                                NSError *error;
+                                self.activityLabel.text = @"Identifying rootfilesystem dmg";
+                                // Create an array with the contents of the folder that the ipsw was extracted to.
+                                NSArray * extractedFolderContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Media/Succession/extracted/" error:&error];
+                                // yay, for loops. so how this works: In the first argument of the for loop, I create an integer, "i" (i is for Index), which has starting value of 0. All of the code inside the for loop is executed with i equal to zero. When control reaches the end of what's inside the for loop, it reads the third argument (in this case, "i++". The "i++" means "add one to i", so then the entire for loop is run with i equal to 1. The next time it is executed it runs with i equal to 2, and so on.
+                                // You might be wondering, "how do for loops ever stop?" That's where the second argument comes in, every time 1 is added to i, it checks to see if i matches the condition in the second argument. In this case, I have it set so that the for loop will run if i is less than the number of files in the 'extracted' folder. As soon as i is greater than or equal to the number of files in the extracted folder, the loop exits.
+                                for (int i=0; i<[extractedFolderContents count]; i++) {
+                                    // Gets the name of the file that's currently being checked
+                                    NSString *checkingFile = [extractedFolderContents objectAtIndex:i];
+                                    // Get the path to that file
+                                    NSString *checkingFilePath = [@"/var/mobile/Media/Succession/extracted/" stringByAppendingPathComponent:checkingFile];
+                                    // Get the size of the file at that path
+                                    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:checkingFilePath error:nil] fileSize];
+                                    // if the file size is greater than 1824896633 bytes (1.8 gigabytes), then we can safely assume that it is the root filesystem.
+                                    if (fileSize > 1824896633) {
+                                        // Again, no one will ever see this, but it's there
+                                        self.activityLabel.text = [NSString stringWithFormat:@"Identified rootfilesystem as %@...", checkingFile];
+                                        // Move the root filesystem dmg to /var/mobile/Media/Succession/rfs.dmg
+                                        [[NSFileManager defaultManager] moveItemAtPath:checkingFilePath toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:&error];
+                                        self.activityLabel.text = @"Cleaning up...";
+                                        // Delete everything else
+                                        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/extracted/" error:&error];
+                                        // Let the user know that download is now complete
+                                        UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
+                                        UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                            [[self navigationController] popToRootViewControllerAnimated:TRUE];
+                                        }];
+                                        [downloadComplete addAction:backToHomePage];
+                                        [self presentViewController:downloadComplete animated:TRUE completion:nil];
+                                        // Tell the for loop to stop executing now instead of waiting for the i<[extractedFolderContents count] condition to be met.
+                                        break;
+                                    }
+                                }
+                            }];
+                            [ipswDoesntMatch addAction:cancelAction];
+                            [ipswDoesntMatch addAction:overrideAction];
+                            [self presentViewController:ipswDoesntMatch animated:TRUE completion:nil];
                         }
+                    } else {
+                        UIAlertController *ipswDoesntMatch = [UIAlertController alertControllerWithTitle:@"Provided IPSW does not appear to match this device" message:@"The IPSW you provided does not appear to match this device/iOS version. You may override this warning, but it is strongly reccommended that you do not continue." preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Delete and Exit" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                            NSFileManager* fm = [[NSFileManager alloc] init];
+                            NSDirectoryEnumerator* en = [fm enumeratorAtPath:@"/var/mobile/Media/Succession"];
+                            NSError* error = nil;
+                            BOOL res;
+                            NSString* file;
+                            while (file = [en nextObject]) {
+                                res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&error];
+                                if (!res && error) {
+                                    self.activityLabel.text = [NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]];
+                                }
+                            }
+                            exit(0);
+                        }];
+                        UIAlertAction *overrideAction = [UIAlertAction actionWithTitle:@"Override" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                            NSError *error;
+                            self.activityLabel.text = @"Identifying rootfilesystem dmg";
+                            // Create an array with the contents of the folder that the ipsw was extracted to.
+                            NSArray * extractedFolderContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Media/Succession/extracted/" error:&error];
+                            // yay, for loops. so how this works: In the first argument of the for loop, I create an integer, "i" (i is for Index), which has starting value of 0. All of the code inside the for loop is executed with i equal to zero. When control reaches the end of what's inside the for loop, it reads the third argument (in this case, "i++". The "i++" means "add one to i", so then the entire for loop is run with i equal to 1. The next time it is executed it runs with i equal to 2, and so on.
+                            // You might be wondering, "how do for loops ever stop?" That's where the second argument comes in, every time 1 is added to i, it checks to see if i matches the condition in the second argument. In this case, I have it set so that the for loop will run if i is less than the number of files in the 'extracted' folder. As soon as i is greater than or equal to the number of files in the extracted folder, the loop exits.
+                            for (int i=0; i<[extractedFolderContents count]; i++) {
+                                // Gets the name of the file that's currently being checked
+                                NSString *checkingFile = [extractedFolderContents objectAtIndex:i];
+                                // Get the path to that file
+                                NSString *checkingFilePath = [@"/var/mobile/Media/Succession/extracted/" stringByAppendingPathComponent:checkingFile];
+                                // Get the size of the file at that path
+                                unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:checkingFilePath error:nil] fileSize];
+                                // if the file size is greater than 1824896633 bytes (1.8 gigabytes), then we can safely assume that it is the root filesystem.
+                                if (fileSize > 1824896633) {
+                                    // Again, no one will ever see this, but it's there
+                                    self.activityLabel.text = [NSString stringWithFormat:@"Identified rootfilesystem as %@...", checkingFile];
+                                    // Move the root filesystem dmg to /var/mobile/Media/Succession/rfs.dmg
+                                    [[NSFileManager defaultManager] moveItemAtPath:checkingFilePath toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:&error];
+                                    self.activityLabel.text = @"Cleaning up...";
+                                    // Delete everything else
+                                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/extracted/" error:&error];
+                                    // Let the user know that download is now complete
+                                    UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
+                                    UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                        [[self navigationController] popToRootViewControllerAnimated:TRUE];
+                                    }];
+                                    [downloadComplete addAction:backToHomePage];
+                                    [self presentViewController:downloadComplete animated:TRUE completion:nil];
+                                    // Tell the for loop to stop executing now instead of waiting for the i<[extractedFolderContents count] condition to be met.
+                                    break;
+                                }
+                            }
+                        }];
+                        [ipswDoesntMatch addAction:cancelAction];
+                        [ipswDoesntMatch addAction:overrideAction];
+                        [self presentViewController:ipswDoesntMatch animated:TRUE completion:nil];
                     }
                 }
             }
@@ -209,6 +328,7 @@
             [unzipIPSW UnzipCloseFile];
         }
 }
+
 - (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     // So, iOS provides A LOT of information to us during the download, the oly thing I'm really interested in is the totalBytesWritten and the totalBytesExpectedToWrite. Here I convert them into float values so that I can do math with them easier. I also convert them to MB, as bytes aren't really user-friendly
     float totalSize = (totalBytesExpectedToWrite/1024)/1024.f;

@@ -24,6 +24,7 @@
 		8DA9CA88206097B900A12FA4 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7E206097B900A12FA4 /* mztools.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DA9CA89206097B900A12FA4 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA84206097B900A12FA4 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DC0111A226A655D00A31E33 /* motd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DC01119226A655D00A31E33 /* motd.plist */; };
+		8DC0111F226AC22300A31E33 /* Template in Resources */ = {isa = PBXBuildFile; fileRef = 8DC0111E226AC22200A31E33 /* Template */; };
 		8DE34FBB20E9353B00A37037 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE34FBA20E9353B00A37037 /* RestoreViewController.m */; };
 		8DE5B2A822611C0F00502C8F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */; };
 		8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
@@ -91,6 +92,7 @@
 		8DA9CA83206097B900A12FA4 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
 		8DA9CA84206097B900A12FA4 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
 		8DC01119226A655D00A31E33 /* motd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = motd.plist; sourceTree = "<group>"; };
+		8DC0111E226AC22200A31E33 /* Template */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Template; sourceTree = "<group>"; };
 		8DE34FB920E9353B00A37037 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestoreViewController.h; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h; sourceTree = "<absolute>"; };
 		8DE34FBA20E9353B00A37037 /* RestoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RestoreViewController.m; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.m; sourceTree = "<absolute>"; };
 		8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				8DC01119226A655D00A31E33 /* motd.plist */,
 				8D5BA2771F7C792E00A169BF /* SuccessionRestore */,
 				8D5BA2761F7C792E00A169BF /* Products */,
+				8DC0111E226AC22200A31E33 /* Template */,
 				8D1327F620F26D0500C72D10 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */,
 				8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */,
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,
+				8DC0111F226AC22300A31E33 /* Template in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
