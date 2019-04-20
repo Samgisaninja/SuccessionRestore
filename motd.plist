@@ -9,7 +9,7 @@
 		<key>messageContent</key>
 		<string>WE ALL GOOD IN THE HOOD</string>
 		<key>showMessage</key>
-		<integer>1</integer>
+		<integer>0</integer>
 		<key>warning</key>
 		<integer>0</integer>
 	</dict>
