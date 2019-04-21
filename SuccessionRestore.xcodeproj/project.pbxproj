@@ -23,7 +23,6 @@
 		8DA9CA87206097B900A12FA4 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7D206097B900A12FA4 /* ioapi.c */; };
 		8DA9CA88206097B900A12FA4 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA7E206097B900A12FA4 /* mztools.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DA9CA89206097B900A12FA4 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA84206097B900A12FA4 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
-		8DC0111A226A655D00A31E33 /* motd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DC01119226A655D00A31E33 /* motd.plist */; };
 		8DC82B2A226CD8EB00D21893 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC82B29226CD8EB00D21893 /* RestoreViewController.m */; };
 		8DE5B2A822611C0F00502C8F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */; };
 		8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
@@ -347,7 +346,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DC0111A226A655D00A31E33 /* motd.plist in Resources */,
 				8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */,
 				8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */,
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,
