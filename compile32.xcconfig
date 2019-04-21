@@ -1,0 +1,12 @@
+//
+//  compile64.xcconfig
+//  SuccessionRestore
+//
+//  Created by Sam Gardner on 4/21/19.
+//  Copyright © 2019 Sam Gardner. All rights reserved.
+//
+//:configuration = Debug
+IPHONEOS_DEPLOYMENT_TARGET = 10
+
+//:configuration = Release
+IPHONEOS_DEPLOYMENT_TARGET = 10

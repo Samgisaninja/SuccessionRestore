@@ -2,29 +2,25 @@
 
 sudo echo -n
 
-if [ -z "$SRDebug" ]
-then
-  echo "\$SRDEBUG not set, using Debug as default"
-  xcodebuild -target SuccessionRestore -configuration Debug
-  mv ./Build/Debug-iphoneos/SuccessionRestore.app ./
-else
-  if [ $SRDebug == 1 ]
-  then
-    xcodebuild -target SuccessionRestore -configuration Debug
-    mv ./Build/Debug-iphoneos/SuccessionRestore.app ./
-  else
-    xcodebuild -target SuccessionRestore -configuration Release
-    mv ./Build/Release-iphoneos/SuccessionRestore.app ./
-  fi
-fi
+echo "COMPILING 32-BIT..."
+xcodebuild -target SuccessionRestore -xcconfig compile32.xcconfig -configuration Debug -quiet
+mv ./Build/Debug-iphoneos/SuccessionRestore.app/SuccessionRestore ./SuccessionRestore32
+rm -rf ./Build
+rm -rf ./Index
 
+echo "COMPILING 64-BIT"
+xcodebuild -target SuccessionRestore -xcconfig compile64.xcconfig -configuration Debug -quiet
+mv ./Build/Debug-iphoneos/SuccessionRestore.app ./
+mv ./SuccessionRestore32 ./SuccessionRestore.app/SuccessionRestore32
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore
+ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore32
 rm -f ./SuccessionRestore.app/embedded.mobileprovision
 mkdir ./com.samgisaninja.SuccessionRestore
 cp -r ./Template/* ./com.samgisaninja.SuccessionRestore/
 mkdir com.samgisaninja.SuccessionRestore/Applications/
 mv SuccessionRestore.app com.samgisaninja.SuccessionRestore/Applications/
 sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore
+sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore32
 rm -rf ./Build
 rm -rf ./Index
 find . -type f -name .DS_Store -delete && xattr -cr *

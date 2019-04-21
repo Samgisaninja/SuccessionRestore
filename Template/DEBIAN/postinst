@@ -1,1 +1,29 @@
-mkdir /var/mobile/Media/Succession/; echo "Succession by Sam Gardner // Samg_is_a_Ninja"; echo "Special Thanks to xerub, pwn20wnd, Cryptiiic, PsychoTea, uroboro, and 4ppleCracker";
+#!/bin/bash
+mkdir /var/mobile/Media/Succession/
+
+if [ "$(uname -p)" == "armv7" ]
+then
+    echo "Succession has detected armv7!"
+    rm /Applications/SuccessionRestore.app/SuccessionRestore
+    mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore
+fi
+if [ "$(uname -p)" == "armv7s" ]
+then
+echo "Succession has detected armv7s!"
+rm /Applications/SuccessionRestore.app/SuccessionRestore
+mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore
+fi
+if [ "$(uname -p)" == "arm64" ]
+then
+    echo "Succession has detected arm64!"
+    rm /Applications/SuccessionRestore.app/SuccessionRestore32
+fi
+if [ "$(uname -p)" == "arm64e" ]
+then
+echo "Succession has detected arm64e!"
+rm /Applications/SuccessionRestore.app/SuccessionRestore32
+fi
+echo "Succession by Sam Gardner // Samg_is_a_Ninja"
+echo "Special Thanks to xerub, pwn20wnd, Cryptiiic, PsychoTea, uroboro, and 4ppleCracker"
+
+exit 0

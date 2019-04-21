@@ -94,6 +94,8 @@
 		8DC0111E226AC22200A31E33 /* Template */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Template; sourceTree = "<group>"; };
 		8DC82B28226CD8CA00D21893 /* compile */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = compile; sourceTree = "<group>"; };
 		8DC82B29226CD8EB00D21893 /* RestoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestoreViewController.m; sourceTree = "<group>"; };
+		8DC82B2B226CDC1400D21893 /* compile64.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile64.xcconfig; sourceTree = "<group>"; };
+		8DC82B2C226CDC3400D21893 /* compile32.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile32.xcconfig; sourceTree = "<group>"; };
 		8DE34FB920E9353B00A37037 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestoreViewController.h; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h; sourceTree = "<absolute>"; };
 		8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
@@ -156,11 +158,13 @@
 		8D5BA26C1F7C792E00A169BF = {
 			isa = PBXGroup;
 			children = (
+				8DC82B2B226CDC1400D21893 /* compile64.xcconfig */,
+				8DC82B2C226CDC3400D21893 /* compile32.xcconfig */,
 				8DC01119226A655D00A31E33 /* motd.plist */,
 				8DC82B28226CD8CA00D21893 /* compile */,
+				8DC0111E226AC22200A31E33 /* Template */,
 				8D5BA2771F7C792E00A169BF /* SuccessionRestore */,
 				8D5BA2761F7C792E00A169BF /* Products */,
-				8DC0111E226AC22200A31E33 /* Template */,
 				8D1327F620F26D0500C72D10 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -489,9 +493,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
-				VALID_ARCHS = arm64;
+				VALID_ARCHS = "arm64 arm64e armv7s armv7";
 			};
 			name = Debug;
 		};
@@ -544,7 +548,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = arm64;
+				VALID_ARCHS = "arm64 arm64e armv7s armv7";
 			};
 			name = Release;
 		};
@@ -561,7 +565,7 @@
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
 				INFOPLIST_FILE = SuccessionRestore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -586,7 +590,7 @@
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
 				INFOPLIST_FILE = SuccessionRestore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
