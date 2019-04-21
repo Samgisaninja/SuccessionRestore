@@ -33,7 +33,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return 9;
 }
 
 
@@ -104,24 +104,18 @@
             break;
         }
         case 6: {
-            cell.textLabel.text = @"Use custom rsync path (upcoming feature)";
+            cell.textLabel.text = @"Use custom rsync path";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             break;
         }
         case 7: {
-            cell.textLabel.text = @"Use custom snappy path (upcoming feature)";
-            cell.textLabel.numberOfLines = 0;
-            [cell.textLabel sizeToFit];
-            break;
-        }
-        case 8: {
             cell.textLabel.text = @"Reset all settings to defaults";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             break;
         }
-        case 9: {
+        case 8: {
             cell.textLabel.text = [NSString stringWithFormat:@"Succession version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
@@ -200,7 +194,28 @@
         case 0:
             [self performSegueWithIdentifier:@"goToSpecialThanksTableViewController" sender:self];
             break;
-        case 8: {
+        case 6: {
+            UIAlertController *rsyncPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to rsync binary" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
+            [rsyncPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"/usr/bin/rsync";
+            }];
+            UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                if ([[[[rsyncPathAlert textFields] firstObject] text] isEqualToString:@""]) {
+                    [self->_successionPrefs setObject:@"/usr/bin/rsync" forKey:@"custom_rsync_path"];
+                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+                } else {
+                    [self->_successionPrefs setObject:[[[rsyncPathAlert textFields] firstObject] text] forKey:@"custom_rsync_path"];
+                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+                }
+                
+            }];
+            [rsyncPathAlert addAction:continueAction];
+            [self presentViewController:rsyncPathAlert animated:TRUE completion:nil];
+            }
+            break;
+        case 7: {
             UIAlertController *resetPrefsAlert = [UIAlertController alertControllerWithTitle:@"Reset all preferences?" message:@"Succession will restart" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
                 [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];

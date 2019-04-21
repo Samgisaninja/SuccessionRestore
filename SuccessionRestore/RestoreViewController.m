@@ -159,7 +159,19 @@ int attach(const char *path, char buf[], size_t sz);
         }
         NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         NSTask *rsyncTask = [[NSTask alloc] init];
-        [rsyncTask setLaunchPath:@"/usr/bin/rsync"];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[_successionPrefs objectForKey:@"custom_rsync_path"]]) {
+            [rsyncTask setLaunchPath:[_successionPrefs objectForKey:@"custom_rsync_path"]];
+        } else {
+            if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/rsync"]) {
+                UIAlertController *rsyncNotFound = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Unable to find rsync at custom path %@", [_successionPrefs objectForKey:@"custom_rsync_path"]]  message:@"/usr/bin/rsync will be used" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *useDefualtPathAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+                [rsyncNotFound addAction:useDefualtPathAction];
+                [self presentViewController:rsyncNotFound animated:TRUE completion:nil];
+                [rsyncTask setLaunchPath:@"/usr/bin/rsync"];
+            } else {
+                [self errorAlert:[NSString stringWithFormat:@"Unable to find rsync at custom path %@\nPlease check your custom path in Succession's settings or install rsync from Cydia", [_successionPrefs objectForKey:@"custom_rsync_path"]]];
+            }
+        }
         [rsyncTask setArguments:rsyncArgs];
         NSPipe *outputPipe = [NSPipe pipe];
         [rsyncTask setStandardOutput:outputPipe];
@@ -255,7 +267,9 @@ int attach(const char *path, char buf[], size_t sz);
         [[self startRestoreButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [[self startRestoreButton] setEnabled:FALSE];
         [[self fileListActivityIndicator] setHidden:FALSE];
-        [rsyncTask launch];
+        if ([rsyncTask launchPath]) {
+            [rsyncTask launch];
+        }
     } else {
         [self errorAlert:@"Mountpoint does not contain rootfilesystem, please restart the app and try again."];
     }
@@ -265,7 +279,7 @@ int attach(const char *path, char buf[], size_t sz);
 
 -(void)errorAlert:(NSString *)message{
     UIAlertController *errorAlertController = [UIAlertController alertControllerWithTitle:@"Error" message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         exit(0);
     }];
     [errorAlertController addAction:exitAction];
