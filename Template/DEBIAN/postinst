@@ -1,5 +1,6 @@
 #!/bin/bash
 mkdir /var/mobile/Media/Succession/
+chmod 0777 /var/mobile/Media/Succession/
 if [ "$(uname -p)" == "arm" ]
 then
 echo "Succession has detected 32-bit!"
