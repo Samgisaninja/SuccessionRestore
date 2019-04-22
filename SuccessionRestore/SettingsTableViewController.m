@@ -33,7 +33,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 9;
+    return 10;
 }
 
 
@@ -110,12 +110,18 @@
             break;
         }
         case 7: {
-            cell.textLabel.text = @"Reset all settings to defaults";
+            cell.textLabel.text = @"Use custom IPSW path";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             break;
         }
         case 8: {
+            cell.textLabel.text = @"Reset all settings to defaults";
+            cell.textLabel.numberOfLines = 0;
+            [cell.textLabel sizeToFit];
+            break;
+        }
+        case 9: {
             cell.textLabel.text = [NSString stringWithFormat:@"Succession version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
@@ -213,9 +219,30 @@
             }];
             [rsyncPathAlert addAction:continueAction];
             [self presentViewController:rsyncPathAlert animated:TRUE completion:nil];
-            }
             break;
+            }
         case 7: {
+            UIAlertController *ipswPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to IPSW" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
+            [ipswPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"/var/mobile/Media/Succession/ipsw.ipsw";
+            }];
+            UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                if ([[[[ipswPathAlert textFields] firstObject] text] isEqualToString:@""]) {
+                    [self->_successionPrefs setObject:@"/var/mobile/Media/Succession/ipsw.ipsw" forKey:@"custom_ipsw_path"];
+                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+                } else {
+                    [self->_successionPrefs setObject:[[[ipswPathAlert textFields] firstObject] text] forKey:@"custom_ipsw_path"];
+                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+                }
+                
+            }];
+            [ipswPathAlert addAction:continueAction];
+            [self presentViewController:ipswPathAlert animated:TRUE completion:nil];
+            break;
+            }
+        case 8: {
             UIAlertController *resetPrefsAlert = [UIAlertController alertControllerWithTitle:@"Reset all preferences?" message:@"Succession will restart" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
                 [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];

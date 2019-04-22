@@ -53,12 +53,11 @@
         NSDictionary *defualtPrefs = @{
                                           @"dry-run" : @(0),
                                           @"update-install" : @(0),
-                                          @"log-file" : @(1),
-                                          // Planned features
+                                          @"log-file" : @(0),
                                           @"create_APFS_orig-fs" : @(0),
                                           @"create_APFS_succession-prerestore" : @(0),
                                           @"custom_rsync_path" : @"/usr/bin/rsync",
-                                          @"custom_snappy_path" : @"/usr/bin/snappy"
+                                          @"custom_ipsw_path" : @"/var/mobile/Media/Succession/ipsw.ipsw"
                                           };
         [defualtPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
         // Present an alert asking the user to consider donating.
@@ -76,6 +75,42 @@
         [pleaseGiveMoney addAction:giveMeMoney];
         [pleaseGiveMoney addAction:giveMeMoneyLater];
         [self presentViewController:pleaseGiveMoney animated:TRUE completion:nil];
+        NSMutableDictionary *successionPrefs = [NSMutableDictionary dictionaryWithDictionary:[NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"]];
+        if (![successionPrefs objectForKey:@"dry-run"]) {
+            [successionPrefs setObject:@(0) forKey:@"dry-run"];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+            [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+        }
+        if (![successionPrefs objectForKey:@"update-install"]) {
+            [successionPrefs setObject:@(0) forKey:@"update-install"];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+            [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+        }
+        if (![successionPrefs objectForKey:@"log-file"]) {
+            [successionPrefs setObject:@(0) forKey:@"log-file"];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+            [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+        }
+        if (![successionPrefs objectForKey:@"create_APFS_orig-fs"]) {
+            [successionPrefs setObject:@(0) forKey:@"create_APFS_orig-fs"];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+            [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+        }
+        if (![successionPrefs objectForKey:@"create_APFS_succession-prerestore"]) {
+            [successionPrefs setObject:@(0) forKey:@"create_APFS_succession-prerestore"];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+            [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+        }
+        if (![successionPrefs objectForKey:@"custom_rsync_path"]) {
+            [successionPrefs setObject:@"/usr/bin/rsync" forKey:@"custom_rsync_path"];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+            [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+        }
+        if (![successionPrefs objectForKey:@"custom_ipsw_path"]) {
+            [successionPrefs setObject:@"/var/mobile/Media/Succession/ipsw.ipsw" forKey:@"custom_ipsw_path"];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+            [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+        }
     } else {
         NSURLSessionDownloadTask *getMOTDTask = [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:[NSURL URLWithString:@"https://raw.githubusercontent.com/Samgisaninja/SuccessionRestore/master/motd.plist"]];
         [getMOTDTask resume];
@@ -85,6 +120,7 @@
 - (void) viewDidAppear:(BOOL)animated{
     [[[self navigationController] navigationBar] setHidden:TRUE];
     //Checks to see if DMG has already been downloaded and sets buttons accordingly
+    NSDictionary *successionPrefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"]) {
         [_downloadDMGButton setHidden:TRUE];
         [_prepareToRestoreButton setHidden:FALSE];
@@ -95,13 +131,23 @@
         [_prepareToRestoreButton setHidden:TRUE];
         [_prepareToRestoreButton setEnabled:FALSE];
         [_infoLabel setHidden:FALSE];
-        [_infoLabel setText:[NSString stringWithFormat:@"Please download an IPSW\nSuccession can do this automatically (press 'Download clean Filesystem' below) or you can place an IPSW in /var/mobile/Media/Succession/ipsw.ipsw"]];
+        [_infoLabel setText:[NSString stringWithFormat:@"Please download an IPSW\nSuccession can do this automatically (press 'Download clean Filesystem' below) or you can place an IPSW in %@", [successionPrefs objectForKey:@"custom_ipsw_path"]]];
     }
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw"]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[successionPrefs objectForKey:@"custom_ipsw_path"]]) {
         UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW detected!" message:@"Please go to the download page if you'd like to use the IPSW file you provided." preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
         [ipswDetected addAction:okAction];
         [self presentViewController:ipswDetected animated:TRUE completion:nil];
+    } else {
+        NSArray *contentsOfSuccessionFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Media/Succession/" error:nil];
+        for (NSString *file in contentsOfSuccessionFolder) {
+            if ([file containsString:@".ipsw"]) {
+                UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW detected!" message:@"Please go to the download page if you'd like to use the IPSW file you provided." preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+                [ipswDetected addAction:okAction];
+                [self presentViewController:ipswDetected animated:TRUE completion:nil];
+            }
+        }
     }
 }
 
