@@ -87,6 +87,28 @@
 			<key>warning</key>
 			<integer>0</integer>
 		</dict>
+		<key>0.9~b6</key>
+		<dict>
+			<key>disabled</key>
+			<integer>0</integer>
+			<key>messageContent</key>
+			<string>A small number of users are encountering a bug where the automatic downloader fails due to a permissions error. If you are affected, please provide an IPSW for your device/iOS version to /var/mobile/Media/Succession/ and rename it &quot;ipsw.ipsw&quot; (without quotes) or wait for an update to Succesion from Cydia.</string>
+			<key>showMessage</key>
+			<integer>1</integer>
+			<key>warning</key>
+			<integer>0</integer>
+		</dict>
+		<key>1.0</key>
+		<dict>
+			<key>disabled</key>
+			<integer>0</integer>
+			<key>messageContent</key>
+			<string>A small number of users are encountering a bug where the automatic downloader fails due to a permissions error. If you are affected, please provide an IPSW for your device/iOS version to /var/mobile/Media/Succession/ and rename it &quot;ipsw.ipsw&quot; (without quotes) or wait for an update to Succesion from Cydia.</string>
+			<key>showMessage</key>
+			<integer>1</integer>
+			<key>warning</key>
+			<integer>0</integer>
+		</dict>
 	</dict>
 </dict>
 </plist>
