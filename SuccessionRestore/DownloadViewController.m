@@ -32,6 +32,8 @@
     _monospacedNumberSystemFont = [UIFont fontWithDescriptor:monospacedNumberFontDescriptor size:0];
     // Load preferences
     NSDictionary *successionPrefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"];
+    // Read contents of succession folder
+    NSArray *successionFolderContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Media/Succession/" error:nil];
     // Check to see if the user has provided their own IPSW, and if so, offer to extract it instead of downloading one
     if ([[NSFileManager defaultManager] fileExistsAtPath:[successionPrefs objectForKey:@"custom_ipsw_path"]]) {
         UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW file detected!" message:[NSString stringWithFormat:@"You can either use the IPSW file you provided at %@ or you can download a clean one. If you choose to use the IPSW you provided, and that IPSW does not match your device and version of iOS, the device will not boot after running Succession and you will be forced to restore to a signed iOS version through iTunes. Please be careful.", [successionPrefs objectForKey:@"custom_ipsw_path"]] preferredStyle:UIAlertControllerStyleAlert];
@@ -59,7 +61,28 @@
         [ipswDetected addAction:useProvidedIPSW];
         [ipswDetected addAction:downloadNewIPSW];
         [self presentViewController:ipswDetected animated:TRUE completion:nil];
-
+    } else {
+        for (NSString *file in successionFolderContents) {
+            if ([file containsString:@".ipsw"]) {
+                UIAlertController *possibleIPSWMatchAlert = [UIAlertController alertControllerWithTitle:@"IPSW File Detected" message:[NSString stringWithFormat:@"I found an IPSW file, %@, would you like to move this IPSW to %@ and use it to restore?", file, [successionPrefs objectForKey:@"custom_ipsw_path"]] preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *moveIPSW = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Use %@", file] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    NSString *successionFolder = @"/var/mobile/Media/Succession/";
+                    [[NSFileManager defaultManager] moveItemAtPath:[successionFolder stringByAppendingPathComponent:file] toPath:[successionPrefs objectForKey:@"custom_ipsw_path"] error:nil];
+                    [[self navigationController] popToRootViewControllerAnimated:TRUE];
+                }];
+                UIAlertAction *downloadIPSW = [UIAlertAction actionWithTitle:@"Download IPSW from Apple" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    // Sets up UI for downloading and executes the code under -(void)startDownload. The "self->" is there to shut up an Xcode warning, if Xcode warns you about this in your project, you should probably add it.
+                    [self->_startDownloadButton setEnabled:FALSE];
+                    [self->_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
+                    [[UIApplication sharedApplication] setIdleTimerDisabled:TRUE];
+                    [self->_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+                    [self startDownload];
+                }];
+                [possibleIPSWMatchAlert addAction:moveIPSW];
+                [possibleIPSWMatchAlert addAction:downloadIPSW];
+                [self presentViewController:possibleIPSWMatchAlert animated:TRUE completion:nil];
+            }
+        }
     }
 }
 
