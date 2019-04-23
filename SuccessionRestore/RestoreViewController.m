@@ -80,7 +80,7 @@ int attach(const char *path, char buf[], size_t sz);
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:nil];
     char thedisk[11];
     NSString *bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
-    if (kCFCoreFoundationVersionNumber > 1349.56) {
+    if (kCFCoreFoundationVersionNumber > 1349.56 && [self is64bitHardware]) {
         _filesystemType = @"apfs";
     } else {
         _filesystemType = @"hfs";
@@ -89,11 +89,11 @@ int attach(const char *path, char buf[], size_t sz);
     NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
     [changedDevContents removeObjectsInArray:origDevContents];
     for (NSString * object in changedDevContents) {
-        if ([object containsString:@"s2s1"] && ![object containsString:@"rdisk"]) {
+        if ([object hasSuffix:@"s2s1"] && ![object containsString:@"rdisk"]) {
             _attachedDMGDiskName = [NSString stringWithFormat:@"/dev/%@", object];
             [[self infoLabel] setText:[NSString stringWithFormat:@"Attached to %@", _attachedDMGDiskName]];
             [self mountRestoreDisk:_attachedDMGDiskName];
-        } else if ([object containsString:@"s2"] && ![object containsString:@"rdisk"]) {
+        } else if ([object hasSuffix:@"s2"] && ![object containsString:@"rdisk"]) {
             _attachedDMGDiskName = [NSString stringWithFormat:@"/dev/%@", object];
             [[self infoLabel] setText:[NSString stringWithFormat:@"Attached to %@", _attachedDMGDiskName]];
             [self mountRestoreDisk:_attachedDMGDiskName];
@@ -284,5 +284,35 @@ int attach(const char *path, char buf[], size_t sz);
     }];
     [errorAlertController addAction:exitAction];
     [self presentViewController:errorAlertController animated:TRUE completion:nil];
+}
+
+
+- (BOOL) is64bitHardware
+{
+#if __LP64__
+    // The app has been compiled for 64-bit intel and runs as 64-bit intel
+    return YES;
+#endif
+    
+    // Use some static variables to avoid performing the tasks several times.
+    static BOOL sHardwareChecked = NO;
+    static BOOL sIs64bitHardware = NO;
+    
+    if(!sHardwareChecked)
+    {
+        sHardwareChecked = YES;
+        // The app runs on a real iOS device: ask the kernel for the host info.
+        struct host_basic_info host_basic_info;
+        unsigned int count;
+        kern_return_t returnValue = host_info(mach_host_self(), HOST_BASIC_INFO, (host_info_t)(&host_basic_info), &count);
+        if(returnValue != KERN_SUCCESS)
+        {
+            sIs64bitHardware = NO;
+        }
+        
+        sIs64bitHardware = (host_basic_info.cpu_type == CPU_TYPE_ARM64);
+    }
+    
+    return sIs64bitHardware;
 }
 @end
