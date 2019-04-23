@@ -186,8 +186,9 @@
 
 - (void) postDownload {
     NSError * error;
+    NSDictionary *successionPrefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"];
     // Rename the ipsw.ipsw file to ipsw.zip. Imagine you're using an `mv` command via terminal to rename something. It's the same concept.
-    [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw" toPath:@"/var/mobile/Media/Succession/ipsw.zip" error:&error];
+    [[NSFileManager defaultManager] moveItemAtPath:[successionPrefs objectForKey:@"custom_ipsw_path"] toPath:@"/var/mobile/Media/Succession/ipsw.zip" error:&error];
     // ZipArchive was a library that I found on cocoapods, AFAIK iOS does not have it's own archive (de)compression tools, so I had to import one. Hence the #import "ZipArchive/ZipArchive.h".
     // Create a zipArchive object
     ZipArchive * unzipIPSW = [[ZipArchive alloc] init];
