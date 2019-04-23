@@ -139,6 +139,10 @@
             }
         }
     }
+    // Deletes partial downloads in Succession's sandbox folder
+    NSString *tmpDir = NSTemporaryDirectory();
+    [[NSFileManager defaultManager] removeItemAtPath:tmpDir error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:tmpDir withIntermediateDirectories:TRUE attributes:nil error:nil];
 }
 
 - (IBAction)contactSupportButton:(id)sender {
