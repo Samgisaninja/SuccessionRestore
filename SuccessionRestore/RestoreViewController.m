@@ -80,10 +80,10 @@ int attach(const char *path, char buf[], size_t sz);
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:nil];
     char thedisk[11];
     NSString *bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
-    if (kCFCoreFoundationVersionNumber < 1349.56) {
-        _filesystemType = @"hfs";
-    } else if (kCFCoreFoundationVersionNumber > 1349.56){
+    if (kCFCoreFoundationVersionNumber > 1349.56) {
         _filesystemType = @"apfs";
+    } else {
+        _filesystemType = @"hfs";
     }
     attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
     NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
