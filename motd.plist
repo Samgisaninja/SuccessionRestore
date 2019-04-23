@@ -114,7 +114,7 @@
 			<key>disabled</key>
 			<integer>0</integer>
 			<key>messageContent</key>
-			<string>I am aware of an issue where DMGs are getting stuck on mounting, this is a bug, I will fix this as soon as I can, but that likely won’t be until tomorrow at the absolute earliest. </string>
+			<string>I am aware of an issue where DMGs are getting stuck on mounting, this is a bug, I will fix this as soon as I can, but that likely won’t be until tomorrow at the absolute earliest. Succession is completely safe to use, if you are affected, nothing bad will happen, the app will just hang on "mounting" until you close it. </string>
 			<key>showMessage</key>
 			<integer>1</integer>
 			<key>warning</key>
