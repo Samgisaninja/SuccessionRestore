@@ -34,7 +34,7 @@
 			<key>disabled</key>
 			<integer>0</integer>
 			<key>messageContent</key>
-			<string>Due to IPSW.me&apos;s API, Succession&apos;s downloader does not currently support beta versions of iOS. You will need to place an IPSW for your device/version in /var/mobile/Media/Succession/ipsw.ipsw</string>
+			<string>Due to IPSW.me's API, Succession's downloader does not currently support beta versions of iOS. You will need to place an IPSW for your device/version in /var/mobile/Media/Succession/ipsw.ipsw</string>
 			<key>showMessage</key>
 			<integer>1</integer>
 			<key>warning</key>
@@ -92,7 +92,7 @@
 			<key>disabled</key>
 			<integer>0</integer>
 			<key>messageContent</key>
-			<string>A small number of users are encountering a bug where the automatic downloader fails due to a permissions error. If you are affected, please provide an IPSW for your device/iOS version to /var/mobile/Media/Succession/ and rename it &quot;ipsw.ipsw&quot; (without quotes) or wait for an update to Succesion from Cydia.</string>
+			<string>A small number of users are encountering a bug where the automatic downloader fails due to a permissions error. If you are affected, please provide an IPSW for your device/iOS version to /var/mobile/Media/Succession/ and rename it "ipsw.ipsw" (without quotes) or wait for an update to Succesion from Cydia.</string>
 			<key>showMessage</key>
 			<integer>1</integer>
 			<key>warning</key>
@@ -103,11 +103,22 @@
 			<key>disabled</key>
 			<integer>0</integer>
 			<key>messageContent</key>
-			<string>A small number of users are encountering a bug where the automatic downloader fails due to a permissions error. If you are affected, please provide an IPSW for your device/iOS version to /var/mobile/Media/Succession/ and rename it &quot;ipsw.ipsw&quot; (without quotes) or wait for an update to Succesion from Cydia.</string>
+			<string>A small number of users are encountering a bug where the automatic downloader fails due to a permissions error. If you are affected, please provide an IPSW for your device/iOS version to /var/mobile/Media/Succession/ and rename it "ipsw.ipsw" (without quotes) or wait for an update to Succesion from Cydia.</string>
 			<key>showMessage</key>
 			<integer>1</integer>
 			<key>warning</key>
 			<integer>0</integer>
+		</dict>
+		<key>1.1</key>
+		<dict>
+			<key>disabled</key>
+			<integer>0</integer>
+			<key>messageContent</key>
+			<string>I am aware of an issue where DMGs are getting stuck on mounting, this is a bug, I will fix this as soon as I can, but that likely won’t be until tomorrow at the absolute earliest. </string>
+			<key>showMessage</key>
+			<integer>1</integer>
+			<key>warning</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 </dict>
