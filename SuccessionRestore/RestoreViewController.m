@@ -151,6 +151,7 @@ int attach(const char *path, char buf[], size_t sz);
         if ([[_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
             [rsyncMutableArgs addObject:@"--exclude=/var"];
             [rsyncMutableArgs addObject:@"--exclude=/private/var/"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/bin/uicache"];
         }
         if ([[_successionPrefs objectForKey:@"log-file"] isEqual:@(1)]) {
             [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mobile/succession.log" error:nil];
@@ -247,7 +248,20 @@ int attach(const char *path, char buf[], size_t sz);
                     UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebooting now..." preferredStyle:UIAlertControllerStyleAlert];
                     [self presentViewController:restoreCompleteController animated:TRUE completion:^{
                         if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
-                            reboot(0x400);
+                            if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/uicache"]) {
+                                NSTask *uicacheTask = [[NSTask alloc] init];
+                                NSArray *uicacheElectraArgs = [NSArray arrayWithObjects:@"--all", nil];
+                                [uicacheTask setLaunchPath:@"/usr/bin/uicache"];
+                                [uicacheTask setArguments:uicacheElectraArgs];
+                                [uicacheTask launch];
+                                uicacheTask.terminationHandler = ^(NSTask *task){
+                                    [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/uicache" error:nil];
+                                    reboot(0x400);
+                                };
+                            } else {
+                                reboot(0x400);
+                            }
+                            
                         } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){}
                         else {
                             extern int SBDataReset(mach_port_t, int);
