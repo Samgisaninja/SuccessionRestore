@@ -79,10 +79,13 @@ int attach(const char *path, char buf[], size_t sz);
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:nil];
     char thedisk[11];
     NSString *bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
-    if (kCFCoreFoundationVersionNumber > 1349.56 && [self is64bitHardware]) {
+    NSString *fstab = [NSString stringWithContentsOfFile:@"/etc/fstab" encoding:NSUTF8StringEncoding error:nil];
+    if ([fstab containsString:@"apfs"]) {
         _filesystemType = @"apfs";
-    } else {
+    } else if ([fstab containsString:@"hfs"]) {
         _filesystemType = @"hfs";
+    } else {
+        [self errorAlert:@"Unable to detect filesystem type"];
     }
     attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
     NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
@@ -321,33 +324,4 @@ int attach(const char *path, char buf[], size_t sz);
     [self presentViewController:errorAlertController animated:TRUE completion:nil];
 }
 
-
-- (BOOL) is64bitHardware
-{
-#if __LP64__
-    // The app has been compiled for 64-bit intel and runs as 64-bit intel
-    return YES;
-#endif
-    
-    // Use some static variables to avoid performing the tasks several times.
-    static BOOL sHardwareChecked = NO;
-    static BOOL sIs64bitHardware = NO;
-    
-    if(!sHardwareChecked)
-    {
-        sHardwareChecked = YES;
-        // The app runs on a real iOS device: ask the kernel for the host info.
-        struct host_basic_info host_basic_info;
-        unsigned int count;
-        kern_return_t returnValue = host_info(mach_host_self(), HOST_BASIC_INFO, (host_info_t)(&host_basic_info), &count);
-        if(returnValue != KERN_SUCCESS)
-        {
-            sIs64bitHardware = NO;
-        }
-        
-        sIs64bitHardware = (host_basic_info.cpu_type == CPU_TYPE_ARM64);
-    }
-    
-    return sIs64bitHardware;
-}
 @end

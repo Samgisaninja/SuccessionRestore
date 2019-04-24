@@ -22,6 +22,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[[self navigationController] navigationBar] setHidden:TRUE];
+    
+    NSString *fstab = [NSString stringWithContentsOfFile:@"/etc/fstab" encoding:NSUTF8StringEncoding error:nil];
+    if ([fstab containsString:@"apfs"]) {
+        NSLog(@"SUCCESSIONTESTING: detected APFS!");
+    } else if ([fstab containsString:@"hfs"]) {
+        NSLog(@"SUCCESSIONTESTING: detected HFS!");
+    } else {
+        NSLog(@"SUCCESSIONTESTING: unable to detect filesystem!");
+    }
+    
     // Create a size_t and set it to the size used to allocate modelChar
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
