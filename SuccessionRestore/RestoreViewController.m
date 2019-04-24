@@ -75,7 +75,6 @@ int attach(const char *path, char buf[], size_t sz);
 
 - (void) attachRestoreDisk {
     NSArray *origDevContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil];
-    [self->_startRestoreButton setUserInteractionEnabled:FALSE];
     [_startRestoreButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:nil];
     char thedisk[11];
@@ -115,13 +114,35 @@ int attach(const char *path, char buf[], size_t sz);
         [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
         [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
         [[self startRestoreButton] setEnabled:TRUE];
-        [[self startRestoreButton] setUserInteractionEnabled:TRUE];
         [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [[self fileListActivityIndicator] setHidden:TRUE];
     };
+    if ([[_successionPrefs objectForKey:@"log-file"] isEqual:@(1)]) {
+        NSPipe *outputPipe = [NSPipe pipe];
+        [task setStandardOutput:outputPipe];
+        NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
+        [stdoutHandle waitForDataInBackgroundAndNotify];
+        id observer;
+        observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
+                                                                     object:stdoutHandle queue:nil
+                                                                 usingBlock:^(NSNotification *note)
+                    {
+                        
+                        NSData *dataRead = [stdoutHandle availableData];
+                        NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
+                        if ([[self->_successionPrefs objectForKey:@"log-file"] isEqual:@(1)]) {
+                            if (![[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mobile/succession.log"]) {
+                                [[NSFileManager defaultManager] createFileAtPath:@"/private/var/mobile/succession.log" contents:nil attributes:nil];
+                            }
+                            NSFileHandle *logFileHandle = [NSFileHandle fileHandleForWritingAtPath:@"/private/var/mobile/succession.log"];
+                            [logFileHandle seekToEndOfFile];
+                            [logFileHandle writeData:[stringRead dataUsingEncoding:NSUTF8StringEncoding]];
+                            [logFileHandle closeFile];
+                        }
+                    }];
+    }
     [task launch];
 }
-
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH",
@@ -155,7 +176,7 @@ int attach(const char *path, char buf[], size_t sz);
         }
         if ([[_successionPrefs objectForKey:@"log-file"] isEqual:@(1)]) {
             [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mobile/succession.log" error:nil];
-            NSString *cmdString = [NSString stringWithFormat:@"rsync %@", [rsyncMutableArgs componentsJoinedByString:@" "]];
+            NSString *cmdString = [NSString stringWithFormat:@"rsync %@\n", [rsyncMutableArgs componentsJoinedByString:@" "]];
             [cmdString writeToFile:@"/private/var/mobile/succession.log" atomically:TRUE encoding:NSUTF8StringEncoding error:nil];
         }
         NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
