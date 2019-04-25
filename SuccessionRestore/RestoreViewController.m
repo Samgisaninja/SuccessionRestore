@@ -120,30 +120,6 @@ int attach(const char *path, char buf[], size_t sz);
         [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [[self fileListActivityIndicator] setHidden:TRUE];
     };
-    if ([[_successionPrefs objectForKey:@"log-file"] isEqual:@(1)]) {
-        NSPipe *outputPipe = [NSPipe pipe];
-        [task setStandardOutput:outputPipe];
-        NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
-        [stdoutHandle waitForDataInBackgroundAndNotify];
-        id observer;
-        observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
-                                                                     object:stdoutHandle queue:nil
-                                                                 usingBlock:^(NSNotification *note)
-                    {
-                        
-                        NSData *dataRead = [stdoutHandle availableData];
-                        NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
-                        if ([[self->_successionPrefs objectForKey:@"log-file"] isEqual:@(1)]) {
-                            if (![[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mobile/succession.log"]) {
-                                [[NSFileManager defaultManager] createFileAtPath:@"/private/var/mobile/succession.log" contents:nil attributes:nil];
-                            }
-                            NSFileHandle *logFileHandle = [NSFileHandle fileHandleForWritingAtPath:@"/private/var/mobile/succession.log"];
-                            [logFileHandle seekToEndOfFile];
-                            [logFileHandle writeData:[stringRead dataUsingEncoding:NSUTF8StringEncoding]];
-                            [logFileHandle closeFile];
-                        }
-                    }];
-    }
     [task launch];
 }
 -(void)successionRestore{
@@ -254,7 +230,7 @@ int attach(const char *path, char buf[], size_t sz);
                 [[self restoreProgressBar] setHidden:FALSE];
                 [[self restoreProgressBar] setProgress:0.9];
             }
-            if ([stringRead containsString:@"speedup is"]) {
+            if ([stringRead containsString:@"speedup is"] && [stringRead containsString:@"bytes"] && [stringRead containsString:@"sent"] && [stringRead containsString:@"received"]) {
                 [[self outputLabel] setHidden:TRUE];
                 [[self headerLabel] setText:@"Restore complete"];
                 [[self fileListActivityIndicator] setHidden:TRUE];
@@ -269,7 +245,7 @@ int attach(const char *path, char buf[], size_t sz);
                     [restoreCompleteController addAction:exitAction];
                     [self presentViewController:restoreCompleteController animated:TRUE completion:nil];
                 } else {
-                    UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebooting now..." preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebuilding icon cache, please wait..." preferredStyle:UIAlertControllerStyleAlert];
                     [self presentViewController:restoreCompleteController animated:TRUE completion:^{
                         if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
                             if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/uicache"]) {
