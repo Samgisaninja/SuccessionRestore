@@ -215,7 +215,7 @@
         }
     }
     if ([[[[motd objectForKey:@"deviceModels"] objectForKey:_deviceModel] objectForKey:@"showMessage"] isEqual:@(1)]) {
-        UIAlertController *motdAlert = [UIAlertController alertControllerWithTitle:@"Message" message:[[[motd objectForKey:@"deviceModels"] objectForKey:_deviceModel] objectForKey:@"messageContent"] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *motdAlert = [UIAlertController alertControllerWithTitle:@"Message" message:[NSString stringWithFormat:@"%@", [[[motd objectForKey:@"deviceModels"] objectForKey:_deviceModel] objectForKey:@"messageContent"]] preferredStyle:UIAlertControllerStyleAlert];
         if ([[[[motd objectForKey:@"deviceModels"] objectForKey:_deviceModel] objectForKey:@"warning"] isEqual: @(1)]) {
             if ([[[[motd objectForKey:@"deviceModels"] objectForKey:_deviceModel] objectForKey:@"disabled"] isEqual: @(1)]) {
                 UIAlertAction *disabledAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
