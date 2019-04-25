@@ -125,6 +125,10 @@
                 self.activityLabel.text = [NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]];
             }
         }
+    // Deletes partial downloads in Succession's sandbox folder
+    NSString *tmpDir = NSTemporaryDirectory();
+    [[NSFileManager defaultManager] removeItemAtPath:tmpDir error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:tmpDir withIntermediateDirectories:TRUE attributes:nil error:nil];
     // Creates /var/mobile/Media/Succession in case dpkg didn't do so, or if the user deleted it
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:TRUE attributes:nil error:nil];
     self.activityLabel.text = @"Finding IPSW...";
