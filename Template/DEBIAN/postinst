@@ -1,6 +1,8 @@
 #!/bin/bash
 mkdir /var/mobile/Media/Succession/
 chmod 0777 /var/mobile/Media/Succession/
+echo "Succession: disabling Setup executable"
+mv /Applications/Setup.app/Setup /Applications/Setup.app/Setup.bak
 if [ "$(uname -p)" == "arm" ]
 then
 echo "Succession has detected 32-bit!"
