@@ -46,32 +46,19 @@
             NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Developer" attributes: roleFontDict];
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
-            UIImage *pfpImage = [UIImage imageNamed:@"samgisaninja"];
-            CGSize newSize = CGSizeMake(50, 50);
-            UIGraphicsBeginImageContext(newSize);
-            [pfpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-            UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            [[cell imageView] setImage:newImage];
+            [[cell imageView] setImage:[UIImage imageNamed:@"samgisaninja"]];
             break;
         }
         case 1: {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
             NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"xerub\n"] attributes: nameFontDict];
-            
             UIFont *roleFont = [UIFont systemFontOfSize:13];;
             NSDictionary *roleFontDict = [NSDictionary dictionaryWithObject: roleFont forKey:NSFontAttributeName];
             NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Disk attaching" attributes: roleFontDict];
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
-            UIImage *pfpImage = [UIImage imageNamed:@"xerub"];
-            CGSize newSize = CGSizeMake(50, 50);
-            UIGraphicsBeginImageContext(newSize);
-            [pfpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-            UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            [[cell imageView] setImage:newImage];
+            [[cell imageView] setImage:[UIImage imageNamed:@"xerub"]];
             break;
         }
         case 2: {
@@ -83,13 +70,7 @@
                 NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"APFS Snapshot Operations (SnapBack) [Coming soon]" attributes: roleFontDict];
                 [nameString appendAttributedString:roleString];
                 [[cell textLabel] setAttributedText:nameString];
-                UIImage *pfpImage = [UIImage imageNamed:@"Midnightchip"];
-                CGSize newSize = CGSizeMake(50, 50);
-                UIGraphicsBeginImageContext(newSize);
-                [pfpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-                UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-                [[cell imageView] setImage:newImage];
+                [[cell imageView] setImage:[UIImage imageNamed:@"Midnightchip"]];
                 break;
             }
         case 3:
@@ -97,19 +78,12 @@
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
             NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"pwn20wnd\n"] attributes: nameFontDict];
-            
             UIFont *roleFont = [UIFont systemFontOfSize:13];;
             NSDictionary *roleFontDict = [NSDictionary dictionaryWithObject: roleFont forKey:NSFontAttributeName];
             NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Rollectra (mountpoint, ents, rsync args)" attributes: roleFontDict];
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
-            UIImage *pfpImage = [UIImage imageNamed:@"pwn20wnd"];
-            CGSize newSize = CGSizeMake(50, 50);
-            UIGraphicsBeginImageContext(newSize);
-            [pfpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-            UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            [[cell imageView] setImage:newImage];
+            [[cell imageView] setImage:[UIImage imageNamed:@"pwn20wnd"]];
             break;
         }
         case 4:
@@ -122,13 +96,7 @@
             NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Compile Script" attributes: roleFontDict];
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
-            UIImage *pfpImage = [UIImage imageNamed:@"cryptiiiic"];
-            CGSize newSize = CGSizeMake(50, 50);
-            UIGraphicsBeginImageContext(newSize);
-            [pfpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-            UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            [[cell imageView] setImage:newImage];
+            [[cell imageView] setImage:[UIImage imageNamed:@"cryptiiiic"]];
             break;
         }
         case 5:
@@ -141,13 +109,7 @@
             NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Compile Script" attributes: roleFontDict];
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
-            UIImage *pfpImage = [UIImage imageNamed:@"4pplecracker"];
-            CGSize newSize = CGSizeMake(50, 50);
-            UIGraphicsBeginImageContext(newSize);
-            [pfpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-            UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            [[cell imageView] setImage:newImage];
+            [[cell imageView] setImage:[UIImage imageNamed:@"4pplecracker"]];
             break;
         }
         case 6:
@@ -159,13 +121,7 @@
             NSDictionary *roleFontDict = [NSDictionary dictionaryWithObject: roleFont forKey:NSFontAttributeName];
             NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Root on kppless jailbreaks" attributes: roleFontDict];[nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
-            UIImage *pfpImage = [UIImage imageNamed:@"PsychoTea"];
-            CGSize newSize = CGSizeMake(50, 50);
-            UIGraphicsBeginImageContext(newSize);
-            [pfpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-            UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            [[cell imageView] setImage:newImage];
+            [[cell imageView] setImage:[UIImage imageNamed:@"PsychoTea"]];
             break;
         }
         case 7:
@@ -196,13 +152,7 @@
             NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Icon Designer" attributes: roleFontDict];
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
-            UIImage *pfpImage = [UIImage imageNamed:@"xerusdesign"];
-            CGSize newSize = CGSizeMake(50, 50);
-            UIGraphicsBeginImageContext(newSize);
-            [pfpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-            UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            [[cell imageView] setImage:newImage];
+            [[cell imageView] setImage:[UIImage imageNamed:@"xerusdesign"]];
             break;
         }
         case 9:
@@ -215,13 +165,7 @@
             NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Mascot ;P" attributes: roleFontDict];
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
-            UIImage *pfpImage = [UIImage imageNamed:@"swaggo"];
-            CGSize newSize = CGSizeMake(50, 50);
-            UIGraphicsBeginImageContext(newSize);
-            [pfpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-            UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            [[cell imageView] setImage:newImage];
+            [[cell imageView] setImage:[UIImage imageNamed:@"swaggo"]];
             break;
         }
         default:
