@@ -98,7 +98,7 @@ int attach(const char *path, char buf[], size_t sz);
         NSString *pathToDMG = @"/var/mobile/Media/Succession/rfs.dmg";
         int rv;
         rv = attach([pathToDMG UTF8String], theDisk, sizeof(theDisk));
-        if (rv) {
+        if (rv == 0) {
             NSArray *newDevContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev" error:&err];
             if (!err) {
                 NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:newDevContents];
@@ -107,8 +107,7 @@ int attach(const char *path, char buf[], size_t sz);
                 for (a=0; a < [changedDevContents count]; a++) {
                     NSString * item = [changedDevContents objectAtIndex:a];
                     if ([item hasSuffix:@"s2s1"] && ![item containsString:@"rdisk"]) {
-                        _attachedDMGDiskName = [NSString stringWithFormat:@"/dev/%@", item];
-                        [self mountRestoreDisk:_attachedDMGDiskName];
+                        [self mountRestoreDisk:[NSString stringWithFormat:@"/dev/%@", item]];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [[self headerLabel] setHidden:TRUE];
                             [[self infoLabel] setHidden:TRUE];
@@ -122,8 +121,7 @@ int attach(const char *path, char buf[], size_t sz);
                         for (b=0; b < [changedDevContents count]; b++) {
                             NSString * item = [changedDevContents objectAtIndex:b];
                             if ([item hasSuffix:@"s2"] && ![item containsString:@"rdisk"]) {
-                                _attachedDMGDiskName = [NSString stringWithFormat:@"/dev/%@", item];
-                                [self mountRestoreDisk:_attachedDMGDiskName];
+                                [self mountRestoreDisk:[NSString stringWithFormat:@"/dev/%@", item]];
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                     [[self headerLabel] setHidden:TRUE];
                                     [[self infoLabel] setHidden:TRUE];
@@ -159,6 +157,8 @@ int attach(const char *path, char buf[], size_t sz);
         dispatch_async(dispatch_get_main_queue(), ^{
             [[self headerLabel] setText:@"WARNING!"];
             [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
+            [[self headerLabel] setHidden:FALSE];
+            [[self infoLabel] setHidden:FALSE];
             [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
             [[self startRestoreButton] setEnabled:TRUE];
             [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];

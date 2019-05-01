@@ -3,13 +3,13 @@
 sudo echo -n
 
 echo "COMPILING 32-BIT..."
-xcodebuild -target SuccessionRestore -xcconfig compile32.xcconfig -configuration Debug -quiet
+xcodebuild -target SuccessionRestore -xcconfig compile32.xcconfig -configuration Debug >> /dev/null
 mv ./Build/Debug-iphoneos/SuccessionRestore.app/SuccessionRestore ./SuccessionRestore32
 rm -rf ./Build
 rm -rf ./Index
 
-echo "COMPILING 64-BIT"
-xcodebuild -target SuccessionRestore -xcconfig compile64.xcconfig -configuration Debug -quiet
+echo "COMPILING 64-BIT..."
+xcodebuild -target SuccessionRestore -xcconfig compile64.xcconfig -configuration Debug >> /dev/null
 mv ./Build/Debug-iphoneos/SuccessionRestore.app ./
 mv ./SuccessionRestore32 ./SuccessionRestore.app/SuccessionRestore32
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore
