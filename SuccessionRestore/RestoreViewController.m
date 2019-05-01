@@ -127,6 +127,7 @@ int attach(const char *path, char buf[], size_t sz);
         NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH",
                                             @"--delete-after",
                                             @"--progress",
+                                            @"--ignore-errors",
                                             @"--exclude=/Developer",
                                             @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache",
                                             @"--exclude=/System/Library/Caches/apticket.der",
