@@ -24,19 +24,18 @@ int attach(const char *path, char buf[], size_t sz);
     [super viewDidLoad];
     [[UIApplication sharedApplication] setIdleTimerDisabled:TRUE];
     [[self outputLabel] setHidden:TRUE];
-    [[self fileListActivityIndicator] setHidden:TRUE];
     [[self restoreProgressBar] setHidden:TRUE];
     _successionPrefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+        [[self fileListActivityIndicator] setHidden:TRUE];
         [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
     } else {
-        [[self headerLabel] setText:@""];
-        [[self startRestoreButton] setTitle:@"This will only take a second, hang tight..." forState:UIControlStateNormal];
-        [[self startRestoreButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-        [[self startRestoreButton] setEnabled:FALSE];
+        [self prepareAttachRestoreDisk];
+        [[self headerLabel] setHidden:TRUE];
+        [[self infoLabel] setHidden:TRUE];
         [[self fileListActivityIndicator] setHidden:FALSE];
-        [[self fileListActivityIndicator] startAnimating];
-        [self attachRestoreDisk];
+        [[self startRestoreButton] setTitle:@"Attaching, please wait..." forState:UIControlStateNormal];
+        [[self startRestoreButton] setEnabled:FALSE];
     }
 }
 
@@ -73,36 +72,80 @@ int attach(const char *path, char buf[], size_t sz);
     }
 }
 
-- (void) attachRestoreDisk {
-    NSArray *origDevContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil];
-    [_startRestoreButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:nil];
-    char thedisk[11];
-    NSString *bootstrap = @"/var/mobile/Media/Succession/rfs.dmg";
-    NSString *fstab = [NSString stringWithContentsOfFile:@"/etc/fstab" encoding:NSUTF8StringEncoding error:nil];
-    if ([fstab containsString:@"apfs"]) {
-        _filesystemType = @"apfs";
-    } else if ([fstab containsString:@"hfs"]) {
-        _filesystemType = @"hfs";
-    } else {
-        [self errorAlert:@"Unable to detect filesystem type"];
-    }
-    attach([bootstrap UTF8String], thedisk, sizeof(thedisk));
-    NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
-    [changedDevContents removeObjectsInArray:origDevContents];
-    for (NSString * object in changedDevContents) {
-        if ([object hasSuffix:@"s2s1"] && ![object containsString:@"rdisk"]) {
-            _attachedDMGDiskName = [NSString stringWithFormat:@"/dev/%@", object];
-            [[self infoLabel] setText:[NSString stringWithFormat:@"Attached to %@", _attachedDMGDiskName]];
-            [self mountRestoreDisk:_attachedDMGDiskName];
-        } else if ([object hasSuffix:@"s2"] && ![object containsString:@"rdisk"]) {
-            _attachedDMGDiskName = [NSString stringWithFormat:@"/dev/%@", object];
-            [[self infoLabel] setText:[NSString stringWithFormat:@"Attached to %@", _attachedDMGDiskName]];
-            [self mountRestoreDisk:_attachedDMGDiskName];
+- (void) prepareAttachRestoreDisk{
+    NSError *err;
+    NSString *fstab = [NSString stringWithContentsOfFile:@"/etc/fstab" encoding:NSUTF8StringEncoding error:&err];
+    if (!err) {
+        if ([fstab containsString:@"hfs"]) {
+            _filesystemType = @"hfs";
+            [self attachRestoreDisk];
+        } else if ([fstab containsString:@"apfs"]) {
+            _filesystemType = @"apfs";
+            [self attachRestoreDisk];
+        } else {
+            [self errorAlert:[NSString stringWithFormat:@"Unable to determine APFS or HFS\n%@", fstab]];
         }
+    } else {
+        [self errorAlert:[NSString stringWithFormat:@"Failed to read fstab: %@", [err localizedDescription]]];
     }
-    if (_attachedDMGDiskName == nil) {
-        [self errorAlert:@"Unable to find attached DMG"];
+}
+
+- (void) attachRestoreDisk {
+    NSError *err;
+    NSArray *origDevContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev" error:&err];
+    if (!err) {
+        char theDisk[11];
+        NSString *pathToDMG = @"/var/mobile/Media/Succession/rfs.dmg";
+        int rv;
+        rv = attach([pathToDMG UTF8String], theDisk, sizeof(theDisk));
+        if (rv) {
+            NSArray *newDevContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev" error:&err];
+            if (!err) {
+                NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:newDevContents];
+                [changedDevContents removeObjectsInArray:origDevContents];
+                int a;
+                for (a=0; a < [changedDevContents count]; a++) {
+                    NSString * item = [changedDevContents objectAtIndex:a];
+                    if ([item hasSuffix:@"s2s1"] && ![item containsString:@"rdisk"]) {
+                        _attachedDMGDiskName = [NSString stringWithFormat:@"/dev/%@", item];
+                        [self mountRestoreDisk:_attachedDMGDiskName];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [[self headerLabel] setHidden:TRUE];
+                            [[self infoLabel] setHidden:TRUE];
+                            [[self fileListActivityIndicator] setHidden:FALSE];
+                            [[self startRestoreButton] setTitle:@"Mounting, please wait..." forState:UIControlStateNormal];
+                            [[self startRestoreButton] setEnabled:FALSE];
+                        });
+                        break;
+                    } else if (a == [changedDevContents count] - 1) {
+                        int b;
+                        for (b=0; b < [changedDevContents count]; b++) {
+                            NSString * item = [changedDevContents objectAtIndex:b];
+                            if ([item hasSuffix:@"s2"] && ![item containsString:@"rdisk"]) {
+                                _attachedDMGDiskName = [NSString stringWithFormat:@"/dev/%@", item];
+                                [self mountRestoreDisk:_attachedDMGDiskName];
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [[self headerLabel] setHidden:TRUE];
+                                    [[self infoLabel] setHidden:TRUE];
+                                    [[self fileListActivityIndicator] setHidden:FALSE];
+                                    [[self startRestoreButton] setTitle:@"Mounting, please wait..." forState:UIControlStateNormal];
+                                    [[self startRestoreButton] setEnabled:FALSE];
+                                });
+                                break;
+                            } else {
+                                [self errorAlert:[NSString stringWithFormat:@"Failed to mount DMG, %@", changedDevContents]];
+                            }
+                        }
+                    }
+                }
+            } else {
+                [self errorAlert:[NSString stringWithFormat:@"Failed to get new contents of /dev: %@", [err localizedDescription]]];
+            }
+        } else {
+            [self errorAlert:@"Attach failed, exit code %@ (hopefully this will never happen because I will have no clue how to debug it)"];
+        }
+    } else {
+        [self errorAlert:[NSString stringWithFormat:@"Failed to get original contents of /dev: %@", [err localizedDescription]]];
     }
 }
 
@@ -113,12 +156,14 @@ int attach(const char *path, char buf[], size_t sz);
     task.launchPath = @"/sbin/mount";
     task.arguments = mountArgs;
     task.terminationHandler = ^(NSTask *task){
-        [[self headerLabel] setText:@"WARNING!"];
-        [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
-        [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
-        [[self startRestoreButton] setEnabled:TRUE];
-        [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [[self fileListActivityIndicator] setHidden:TRUE];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self headerLabel] setText:@"WARNING!"];
+            [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
+            [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
+            [[self startRestoreButton] setEnabled:TRUE];
+            [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+            [[self fileListActivityIndicator] setHidden:TRUE];
+        });
     };
     [task launch];
 }
