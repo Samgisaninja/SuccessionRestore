@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>16C5050a</key>
+	<dict>
+		<key>iPhone6,1</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24799/D0F5DB32-E786-11E8-874D-1B9D55D8F596/iPhone_4.0_64bit_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone6,2</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24799/D0F5DB32-E786-11E8-874D-1B9D55D8F596/iPhone_4.0_64bit_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone7,1</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24726/D0C77D64-E786-11E8-9CCE-1C9D55D8F596/iPhone_5.5_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone7,2</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24718/D0E97A4A-E786-11E8-9DF5-1D9D55D8F596/iPhone_4.7_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone8,1</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24718/D0E97A4A-E786-11E8-9DF5-1D9D55D8F596/iPhone_4.7_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone8,2</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24726/D0C77D64-E786-11E8-9CCE-1C9D55D8F596/iPhone_5.5_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone8,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24799/D0F5DB32-E786-11E8-874D-1B9D55D8F596/iPhone_4.0_64bit_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone9,1</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24949/D0EE494E-E786-11E8-B551-029D55D8F596/iPhone_4.7_P3_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone9,2</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24784/D0E47A9A-E786-11E8-A935-049D55D8F596/iPhone_5.5_P3_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone9,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24949/D0EE494E-E786-11E8-B551-029D55D8F596/iPhone_4.7_P3_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone9,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24784/D0E47A9A-E786-11E8-A935-049D55D8F596/iPhone_5.5_P3_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone10,1</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24949/D0EE494E-E786-11E8-B551-029D55D8F596/iPhone_4.7_P3_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone10,2</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24784/D0E47A9A-E786-11E8-A935-049D55D8F596/iPhone_5.5_P3_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone10,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24821/D0C77F8A-E786-11E8-9CCE-059D55D8F596/iPhone10,3,iPhone10,6_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone10,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24949/D0EE494E-E786-11E8-B551-029D55D8F596/iPhone_4.7_P3_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone10,5</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24784/D0E47A9A-E786-11E8-A935-049D55D8F596/iPhone_5.5_P3_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone10,6</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24821/D0C77F8A-E786-11E8-9CCE-059D55D8F596/iPhone10,3,iPhone10,6_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone11,2</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24734/D0E00ABE-E786-11E8-A341-089D55D8F596/iPhone11,2_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone11,6</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24857/D0D25388-E786-11E8-B39F-0A9D55D8F596/iPhone11,6_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPhone11,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24783/D0E869A2-E786-11E8-AD99-1E9D55D8F596/iPhone11,8_12.1.1_16C5050a_Restore.ipsw</string>
+	</dict>
+</dict>
+</plist>
