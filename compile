@@ -36,13 +36,13 @@ then
 	echo "Trying to move deb to device"
 	scp -p 2222 com.samgisaninja.SuccessionRestore.deb root@localhost:/tmp
 	echo "Trying to install deb"
-	ssh -p 2222 root@localhost "dpkg -i /tmp/com.samgisaninja.SuccessionRestore.deb && uicache"
+	ssh -p 2222 root@localhost "dpkg -i /tmp/com.samgisaninja.SuccessionRestore.deb && uicache --path /Applications/SuccessionRestore.app/"
 	echo "Success!"
 else
 	echo "Trying to move deb to device"
 	scp com.samgisaninja.SuccessionRestore.deb root@$IDEVICEIP:/tmp
 	echo "Trying to install deb"
-	ssh root@$IDEVICEIP "dpkg -i /tmp/com.samgisaninja.SuccessionRestore.deb && uicache"
+	ssh root@$IDEVICEIP "dpkg -i /tmp/com.samgisaninja.SuccessionRestore.deb && uicache --path /Applications/SuccessionRestore.app/"
 	echo "Success!"
 fi
 
