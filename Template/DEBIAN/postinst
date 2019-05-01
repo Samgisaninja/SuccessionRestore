@@ -1,6 +1,7 @@
 #!/bin/bash
 mkdir /var/mobile/Media/Succession/
 chmod 0777 /var/mobile/Media/Succession/
+killall SuccessionRestore
 echo "Succession: disabling Setup executable"
 mv /Applications/Setup.app/Setup /Applications/Setup.app/Setup.bak
 if [ "$(uname -p)" == "arm" ]

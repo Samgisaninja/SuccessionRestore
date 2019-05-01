@@ -10,6 +10,7 @@
 #include <sys/sysctl.h>
 #import "ZipArchive/ZipArchive.h"
 #import "HomePageViewController.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
 @interface DownloadViewController ()
 
@@ -132,55 +133,140 @@
     // Creates /var/mobile/Media/Succession in case dpkg didn't do so, or if the user deleted it
     [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:TRUE attributes:nil error:nil];
     self.activityLabel.text = @"Finding IPSW...";
-    // ipsw.me has an API that provides the apple download link to an ipsw for a specific device/iOS build number. If you want, you can try this, typing https://api.ipsw.me/v2/iPhone10,3/16C104/url/ into a web broswer returns http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/041-28434/A2958D62-02EA-11E9-9292-C8F3416D60E4/iPhone10,3,iPhone10,6_12.1.2_16C104_Restore.ipsw
-    NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
-    // to use the API mentioned above, I create a string that incorporates the iOS buildnumber and device model, then it is converted into an NSURL...
-    NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
-    // and after a little UI config...
-    [[self downloadProgressBar] setHidden:FALSE];
-        // the request is made, and the string received from ipsw.me is passed to an NSData object called 'data' in the completion handler. Note that the request is created below, but it is not actually run until [getDownloadLinkTask resume];
-    NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession] dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        // so now we have a direct link to where apple is hosting the IPSW for the user's device/firmware, but it's in a rather useless NSData object, so let's convet that to an NSString
-        NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        // update the UI, but unless the user has a really really slow device, they probably won't ever see this:
-        NSString * activityLabelText = [NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString];
-        self.activityLabel.text = activityLabelText;
-        // now we reference _downloadLink, created in DownloadViewController.h, and set it equal to the NSURL version of the string we received from ipsw.me
-        self->_downloadLink = [NSURL URLWithString:downloadLinkString];
-        NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-        // set the timeout for the download request to 200 minutes (12000 seconds), that should be enough time, eh?
-        sessionConfig.timeoutIntervalForRequest = 12000.0;
-        sessionConfig.timeoutIntervalForResource = 12000.0;
-        // define a download task with the custom timeout and download link
-        NSURLSessionDownloadTask *task = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:self->_downloadLink];
-        // start the ipsw download task. NSURLSessionDownloadTasks call
-        //
-        // "-(void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite"
-        //
-        // frequently throughout the download process, which is where my code for updating the UI is. They also call
-        //
-        // - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
-        //
-        // when finished, which is where I have my code for what to do once the download is finished
-        [task resume];
-    }];
-    [getDownloadLinkTask resume];
+        if ([[[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ReleaseType"] isEqualToString:@"Beta"]) {
+            [[self downloadProgressBar] setHidden:FALSE];
+            NSString * betaDownloadLink = [NSURL URLWithString:@"https://raw.githubusercontent.com/Samgisaninja/SuccessionRestore/master/beta.plist"];
+            // update the UI, but unless the user has a really really slow device, they probably won't ever see this:
+            NSString * activityLabelText = [NSString stringWithFormat:@"Getting beta plist"];
+            self.activityLabel.text = activityLabelText;
+            NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+            // set the timeout for the download request to 200 minutes (12000 seconds), that should be enough time, eh?
+            sessionConfig.timeoutIntervalForRequest = 12000.0;
+            sessionConfig.timeoutIntervalForResource = 12000.0;
+            // define a download task with the custom timeout and download link
+            NSURLSessionDownloadTask *getBetaTask = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:betaDownloadLink];
+            // start the beta plist download task. NSURLSessionDownloadTasks call
+            //
+            // "-(void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite"
+            //
+            // frequently throughout the download process, which is where my code for updating the UI is. They also call
+            //
+            // - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+            //
+            // when finished, which is where I have my code for what to do once the download is finished
+            [getBetaTask resume];
+        } else {
+            // ipsw.me has an API that provides the apple download link to an ipsw for a specific device/iOS build number. If you want, you can try this, typing https://api.ipsw.me/v2/iPhone10,3/16C104/url/ into a web broswer returns http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/041-28434/A2958D62-02EA-11E9-9292-C8F3416D60E4/iPhone10,3,iPhone10,6_12.1.2_16C104_Restore.ipsw
+            NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
+            // to use the API mentioned above, I create a string that incorporates the iOS buildnumber and device model, then it is converted into an NSURL...
+            NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
+            // and after a little UI config...
+            [[self downloadProgressBar] setHidden:FALSE];
+            // the request is made, and the string received from ipsw.me is passed to an NSData object called 'data' in the completion handler. Note that the request is created below, but it is not actually run until [getDownloadLinkTask resume];
+            NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession] dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                // so now we have a direct link to where apple is hosting the IPSW for the user's device/firmware, but it's in a rather useless NSData object, so let's convet that to an NSString
+                NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                // update the UI, but unless the user has a really really slow device, they probably won't ever see this:
+                NSString * activityLabelText = [NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString];
+                self.activityLabel.text = activityLabelText;
+                // now we reference _downloadLink, created in DownloadViewController.h, and set it equal to the NSURL version of the string we received from ipsw.me
+                self->_downloadLink = [NSURL URLWithString:downloadLinkString];
+                NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+                // set the timeout for the download request to 200 minutes (12000 seconds), that should be enough time, eh?
+                sessionConfig.timeoutIntervalForRequest = 12000.0;
+                sessionConfig.timeoutIntervalForResource = 12000.0;
+                // define a download task with the custom timeout and download link
+                NSURLSessionDownloadTask *task = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:self->_downloadLink];
+                // start the ipsw download task. NSURLSessionDownloadTasks call
+                //
+                // "-(void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite"
+                //
+                // frequently throughout the download process, which is where my code for updating the UI is. They also call
+                //
+                // - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+                //
+                // when finished, which is where I have my code for what to do once the download is finished
+                [task resume];
+            }];
+            [getDownloadLinkTask resume];
+        }
     }
 }
 
 - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
-    // so, the download is now complete, but it's in... well we don't really know. but iOS knows! to be specific, it exists at [location path]. [location path] is not nearly as easy to work with as /var/mobile/Media/Succession/ipsw.ipsw, so let's move it there.
-    [[self downloadProgressBar] setHidden:TRUE];
-    self.activityLabel.text = @"Retrieving Download...";
-    [[self unzipActivityIndicator] setHidden:FALSE];
-    NSError * error;
-    // NSFileManager lets us do pretty much anything with files, and also, if there's an error, error information will be stored in the NSError object I created above.
-    [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
-    // I've never come across an error with this, but it's better to have error handling than to... not. Assuming there's no error, continue on to -(void)postDownload
-    if (error != nil) {
-        self.activityLabel.text = [NSString stringWithFormat:@"Error moving downloaded ipsw: %@", error];
+    // so this method gets executed when "a download finished, and it's located at the NSString returned by [location path]". This presents the problem of, "well, was it a beta version, and it just downloaded the beta information plist from my github, or did it just finish downloading an IPSW?". The filename and extension are not preserved, so the best way I could think of to determine which was to check if the file was big (IPSW) or small (plist).
+    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:[location path] error:nil] fileSize];
+    // the smallest IPSW ever to exist, the iPhone 2G on iPhone OS 1.0, was a whopping 96 MB (wow). This is tiny by today's standards of 3GB IPSWs (and that number continues to grow with each update), but 96 MB is still massive compared to the beta plist.
+    if (fileSize < 96000000) {
+        // Create a dictionary with the contents of the downloaded plist
+        NSDictionary *betaLinks = [NSDictionary dictionaryWithContentsOfFile:[location path]];
+        // If the beta plist contains the device's build number...
+        if ([betaLinks objectForKey:deviceBuild]) {
+            // and the build number has the device's hardware...
+            if ([[betaLinks objectForKey:deviceBuild] objectForKey:deviceModel]) {
+                // then get the matching link.
+                NSString *downloadLinkString = [NSString stringWithFormat:@"%@", [[betaLinks objectForKey:deviceBuild] objectForKey:deviceModel]];
+                NSString * activityLabelText = [NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString];
+                self.activityLabel.text = activityLabelText;
+                // now we reference _downloadLink, created in DownloadViewController.h, and set it equal to the NSURL version of the string we received from ipsw.me
+                _downloadLink = [NSURL URLWithString:downloadLinkString];
+                NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+                // set the timeout for the download request to 200 minutes (12000 seconds), that should be enough time, eh?
+                sessionConfig.timeoutIntervalForRequest = 12000.0;
+                sessionConfig.timeoutIntervalForResource = 12000.0;
+                // define a download task with the custom timeout and download link
+                NSURLSessionDownloadTask *task = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:self->_downloadLink];
+                [task resume];
+            } else {
+                // if the device's model isn't in the beta list, then present an alert with an action to send an email to me requesting beta support
+                UIAlertController *requestBetaSupportAlert = [UIAlertController alertControllerWithTitle:@"Your device is not currently supported" message:@"Please send an email with your device model and iOS build number to stgardner4@att.net request support" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+                [requestBetaSupportAlert addAction:dismissAction];
+                // check to see if the device can send email using the stock mail app
+                if ([MFMailComposeViewController canSendMail]) {
+                    UIAlertAction *sendMailAction = [UIAlertAction actionWithTitle:@"Send email" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        MFMailComposeViewController* composeVC = [[MFMailComposeViewController alloc] init];
+                        composeVC.mailComposeDelegate = self;
+                        [composeVC setToRecipients:@[@"stgardner4@att.net"]];
+                        [composeVC setSubject:@"Succession: Add beta support request"];
+                        [composeVC setMessageBody:[NSString stringWithFormat:@"%@\n%@", self->deviceBuild, self->deviceModel] isHTML:NO];
+                        [self presentViewController:composeVC animated:YES completion:nil];
+                    }];
+                    [requestBetaSupportAlert addAction:sendMailAction];
+                }
+                [self presentViewController:requestBetaSupportAlert animated:TRUE completion:nil];
+            }
+        } else {
+            UIAlertController *requestBetaSupportAlert = [UIAlertController alertControllerWithTitle:@"Your device is not currently supported" message:@"Please send an email with your device model and iOS build number to stgardner4@att.net request support" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+            [requestBetaSupportAlert addAction:dismissAction];
+            if ([MFMailComposeViewController canSendMail]) {
+                UIAlertAction *sendMailAction = [UIAlertAction actionWithTitle:@"Send email" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    MFMailComposeViewController* composeVC = [[MFMailComposeViewController alloc] init];
+                    composeVC.mailComposeDelegate = self;
+                    [composeVC setToRecipients:@[@"stgardner4@att.net"]];
+                    [composeVC setSubject:@"Succession: Add beta support request"];
+                    [composeVC setMessageBody:[NSString stringWithFormat:@"%@\n%@", self->deviceBuild, self->deviceModel] isHTML:NO];
+                    [self presentViewController:composeVC animated:YES completion:nil];
+                }];
+                [requestBetaSupportAlert addAction:sendMailAction];
+            }
+            [self presentViewController:requestBetaSupportAlert animated:TRUE completion:nil];
+        }
     } else {
-        [self postDownload];
+        // so, the IPSW download is now complete, but it's in... well we don't really know. but iOS knows! to be specific, it exists at [location path]. [location path] is not nearly as easy to work with as /var/mobile/Media/Succession/ipsw.ipsw, so let's move it there.
+        [[self downloadProgressBar] setHidden:TRUE];
+        self.activityLabel.text = @"Retrieving Download...";
+        [[self unzipActivityIndicator] setHidden:FALSE];
+        NSError * error;
+        // NSFileManager lets us do pretty much anything with files, and also, if there's an error, error information will be stored in the NSError object I created above.
+        [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
+        // I've never come across an error with this, but it's better to have error handling than to... not. Assuming there's no error, continue on to -(void)postDownload
+        if (error != nil) {
+            self.activityLabel.text = [NSString stringWithFormat:@"Error moving downloaded ipsw: %@", error];
+        } else {
+            [self postDownload];
+        }
     }
 }
 
@@ -373,6 +459,8 @@
         [_activityLabel setAttributedText:activityLabelText];
         // set the progressbar equal to the ratio of writtenSize to total file size.
         self.downloadProgressBar.progress = (writtenSize/totalSize);
+        [[self downloadProgressBar] setHidden:FALSE];
+        [[self unzipActivityIndicator] setHidden:TRUE];
     }
     if (writtenSize > (totalSize - 0.1)) {
         // if the download is "close enough" to being done, show the unzip UI.
@@ -381,4 +469,11 @@
         [[self unzipActivityIndicator] setHidden:FALSE];
     }
 }
+
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end

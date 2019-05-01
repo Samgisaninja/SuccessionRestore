@@ -24,7 +24,7 @@ sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/Success
 rm -rf ./Build
 rm -rf ./Index
 find . -type f -name .DS_Store -delete && xattr -cr *
-sudo fakeroot dpkg-deb -Zgzip -b com.samgisaninja.SuccessionRestore com.samgisaninja.SuccessionRestore.deb && rm -r com.samgisaninja.SuccessionRestore
+sudo fakeroot dpkg-deb -Zgzip -b com.samgisaninja.SuccessionRestore com.samgisaninja.successionrestore.deb && rm -r com.samgisaninja.SuccessionRestore
 
 if [ -z "$IDEVICEIP" ]
 then
