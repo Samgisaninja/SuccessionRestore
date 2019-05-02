@@ -85,6 +85,11 @@
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
+    if (![successionPrefs objectForKey:@"delete-during"]) {
+        [successionPrefs setObject:@(0) forKey:@"delete-during"];
+        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+        [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+    }
     if (![successionPrefs objectForKey:@"create_APFS_orig-fs"]) {
         [successionPrefs setObject:@(0) forKey:@"create_APFS_orig-fs"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];

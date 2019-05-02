@@ -33,7 +33,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return 11;
 }
 
 
@@ -57,7 +57,7 @@
             break;
         }
         case 2: {
-            cell.textLabel.text = @"Only restore system data";
+            cell.textLabel.text = @"Only restore system data (similar to 'restore rootfs')";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             UISwitch *updateInstallSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
@@ -75,9 +75,18 @@
             [logOutputSwitch setOn:[[_successionPrefs objectForKey:@"log-file"] boolValue] animated:NO];
             [logOutputSwitch addTarget:self action:@selector(logFileSwitchChanged) forControlEvents:UIControlEventValueChanged];
             break;
-            break;
         }
         case 4: {
+            cell.textLabel.text = @"Delete extraneous files during restore instead of after (for devices low on storage space)";
+            cell.textLabel.numberOfLines = 0;
+            [cell.textLabel sizeToFit];
+            UISwitch *deleteDuringSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+            cell.accessoryView = deleteDuringSwitch;
+            [deleteDuringSwitch setOn:[[_successionPrefs objectForKey:@"delete-during"] boolValue] animated:NO];
+            [deleteDuringSwitch addTarget:self action:@selector(deleteDuringSwitchChanged) forControlEvents:UIControlEventValueChanged];
+            break;
+        }
+        case 5: {
             cell.textLabel.text = @"Create APFS snapshot 'orig-fs' after restore (upcoming feature)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
@@ -90,7 +99,7 @@
             */
             break;
         }
-        case 5: {
+        case 6: {
             cell.textLabel.text = @"Create APFS snapshot 'succession-prerestore' before restore (upcoming feature)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
@@ -103,25 +112,25 @@
             */
             break;
         }
-        case 6: {
+        case 7: {
             cell.textLabel.text = @"Use custom rsync path";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             break;
         }
-        case 7: {
+        case 8: {
             cell.textLabel.text = @"Use custom IPSW path";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             break;
         }
-        case 8: {
+        case 9: {
             cell.textLabel.text = @"Reset all settings to defaults";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             break;
         }
-        case 9: {
+        case 10: {
             cell.textLabel.text = [NSString stringWithFormat:@"Succession version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
@@ -166,6 +175,18 @@
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     } else {
         [_successionPrefs setObject:@(0) forKey:@"log-file"];
+        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+        [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+    }
+}
+
+-(void)deleteDuringSwitchChanged{
+    if ([[_successionPrefs objectForKey:@"delete-during"] isEqual:@(0)]) {
+        [_successionPrefs setObject:@(1) forKey:@"delete-during"];
+        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+        [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+    } else {
+        [_successionPrefs setObject:@(0) forKey:@"delete-during"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }

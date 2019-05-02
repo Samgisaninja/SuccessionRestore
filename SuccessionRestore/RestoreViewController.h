@@ -17,5 +17,5 @@
 @property (strong, nonatomic) NSString *filesystemType;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *fileListActivityIndicator;
 @property (strong, nonatomic) IBOutlet UIProgressView *restoreProgressBar;
-@property (strong, nonatomic) NSDictionary *successionPrefs;
+@property (strong, nonatomic) NSMutableDictionary *successionPrefs;
 @end
