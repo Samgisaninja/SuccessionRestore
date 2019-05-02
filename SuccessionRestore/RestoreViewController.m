@@ -79,7 +79,7 @@ int attach(const char *path, char buf[], size_t sz);
     } else {
         UIAlertController *attachingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self attachRestoreDisk];
+            [self prepareAttachRestoreDisk];
         }];
         [attachingAlert addAction:okAction];
         [self presentViewController:attachingAlert animated:TRUE completion:nil];
@@ -154,7 +154,7 @@ int attach(const char *path, char buf[], size_t sz);
                 [self errorAlert:[NSString stringWithFormat:@"Failed to get new contents of /dev: %@", [err localizedDescription]]];
             }
         } else {
-            [self errorAlert:@"Attach failed, exit code %@ (hopefully this will never happen because I will have no clue how to debug it)"];
+            [self errorAlert:[NSString stringWithFormat:@"Attach failed, exit code %d (hopefully this will never happen because I will have no clue how to debug it)", rv]];
         }
     } else {
         [self errorAlert:[NSString stringWithFormat:@"Failed to get original contents of /dev: %@", [err localizedDescription]]];
