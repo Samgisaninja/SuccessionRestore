@@ -221,7 +221,7 @@
         case 0:
             [self performSegueWithIdentifier:@"goToSpecialThanksTableViewController" sender:self];
             break;
-        case 6: {
+        case 7: {
             UIAlertController *rsyncPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to rsync binary" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
             [rsyncPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                 textField.placeholder = @"/usr/bin/rsync";
@@ -242,7 +242,7 @@
             [self presentViewController:rsyncPathAlert animated:TRUE completion:nil];
             break;
             }
-        case 7: {
+        case 8: {
             UIAlertController *ipswPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to IPSW" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
             [ipswPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                 textField.placeholder = @"/var/mobile/Media/Succession/ipsw.ipsw";
@@ -263,7 +263,7 @@
             [self presentViewController:ipswPathAlert animated:TRUE completion:nil];
             break;
             }
-        case 8: {
+        case 9: {
             UIAlertController *resetPrefsAlert = [UIAlertController alertControllerWithTitle:@"Reset all preferences?" message:@"Succession will restart" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
                 [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
