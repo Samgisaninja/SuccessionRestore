@@ -256,6 +256,7 @@ int attach(const char *path, char buf[], size_t sz);
                                             @"--exclude=/usr/standalone/firmware/FUD/",
                                             @"--exclude=/usr/standalone/firmware/Savage/",
                                             @"--exclude=/System/Library/Pearl",
+                                            @"--exculde=/usr/standalone/firmware/Yonkers/",
                                             @"/var/MobileSoftwareUpdate/mnt1/.",
                                             @"/", nil];
         if (![_filesystemType isEqualToString:@"apfs"]) {
