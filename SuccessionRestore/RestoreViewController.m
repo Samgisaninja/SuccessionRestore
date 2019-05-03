@@ -162,24 +162,80 @@ int attach(const char *path, char buf[], size_t sz);
 }
 
 -(void) mountRestoreDisk:(NSString *)attachedDMGDiskName{
-    NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", attachedDMGDiskName, @"/var/MobileSoftwareUpdate/mnt1", nil];
-    [[self infoLabel] setText:@"Mounting DMG, please wait..."];
-    NSTask *task = [[NSTask alloc] init];
-    task.launchPath = @"/sbin/mount";
-    task.arguments = mountArgs;
-    task.terminationHandler = ^(NSTask *task){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[self headerLabel] setText:@"WARNING!"];
-            [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
-            [[self headerLabel] setHidden:FALSE];
-            [[self infoLabel] setHidden:FALSE];
-            [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
-            [[self startRestoreButton] setEnabled:TRUE];
-            [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-            [[self fileListActivityIndicator] setHidden:TRUE];
-        });
-    };
-    [task launch];
+    BOOL isDir;
+    NSError *err;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/MobileSoftwareUpdate/mnt1" isDirectory:&isDir]) {
+        if (isDir) {
+            NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", attachedDMGDiskName, @"/var/MobileSoftwareUpdate/mnt1", nil];
+            [[self infoLabel] setText:@"Mounting DMG, please wait..."];
+            NSTask *task = [[NSTask alloc] init];
+            task.launchPath = @"/sbin/mount";
+            task.arguments = mountArgs;
+            task.terminationHandler = ^(NSTask *task){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self headerLabel] setText:@"WARNING!"];
+                    [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
+                    [[self headerLabel] setHidden:FALSE];
+                    [[self infoLabel] setHidden:FALSE];
+                    [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
+                    [[self startRestoreButton] setEnabled:TRUE];
+                    [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                    [[self fileListActivityIndicator] setHidden:TRUE];
+                });
+            };
+            [task launch];
+        } else {
+            [[NSFileManager defaultManager] removeItemAtPath:@"/var/MobileSoftwareUpdate/mnt1" error:&err];
+            [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:&err];
+            if (!err) {
+                NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", attachedDMGDiskName, @"/var/MobileSoftwareUpdate/mnt1", nil];
+                [[self infoLabel] setText:@"Mounting DMG, please wait..."];
+                NSTask *task = [[NSTask alloc] init];
+                task.launchPath = @"/sbin/mount";
+                task.arguments = mountArgs;
+                task.terminationHandler = ^(NSTask *task){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[self headerLabel] setText:@"WARNING!"];
+                        [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
+                        [[self headerLabel] setHidden:FALSE];
+                        [[self infoLabel] setHidden:FALSE];
+                        [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
+                        [[self startRestoreButton] setEnabled:TRUE];
+                        [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                        [[self fileListActivityIndicator] setHidden:TRUE];
+                    });
+                };
+                [task launch];
+            } else {
+                [self errorAlert:[NSString stringWithFormat:@"Failed to create mountpoint %@", [err localizedDescription]]];
+            }
+        }
+        
+    } else {
+        [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:&err];
+        if (!err) {
+            NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", attachedDMGDiskName, @"/var/MobileSoftwareUpdate/mnt1", nil];
+            [[self infoLabel] setText:@"Mounting DMG, please wait..."];
+            NSTask *task = [[NSTask alloc] init];
+            task.launchPath = @"/sbin/mount";
+            task.arguments = mountArgs;
+            task.terminationHandler = ^(NSTask *task){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self headerLabel] setText:@"WARNING!"];
+                    [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
+                    [[self headerLabel] setHidden:FALSE];
+                    [[self infoLabel] setHidden:FALSE];
+                    [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
+                    [[self startRestoreButton] setEnabled:TRUE];
+                    [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                    [[self fileListActivityIndicator] setHidden:TRUE];
+                });
+            };
+            [task launch];
+        } else {
+            [self errorAlert:[NSString stringWithFormat:@"Failed to create mountpoint %@", [err localizedDescription]]];
+        }
+    }
 }
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
