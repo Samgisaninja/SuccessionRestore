@@ -112,7 +112,6 @@ int attach(const char *path, char buf[], size_t sz);
         NSString *pathToDMG = @"/var/mobile/Media/Succession/rfs.dmg";
         int rv;
         rv = attach([pathToDMG UTF8String], theDisk, sizeof(theDisk));
-        if (rv == 0) {
             NSArray *newDevContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev" error:&err];
             if (!err) {
                 NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:newDevContents];
@@ -153,9 +152,6 @@ int attach(const char *path, char buf[], size_t sz);
             } else {
                 [self errorAlert:[NSString stringWithFormat:@"Failed to get new contents of /dev: %@", [err localizedDescription]]];
             }
-        } else {
-            [self errorAlert:[NSString stringWithFormat:@"Attach failed, exit code %d (hopefully this will never happen because I will have no clue how to debug it)", rv]];
-        }
     } else {
         [self errorAlert:[NSString stringWithFormat:@"Failed to get original contents of /dev: %@", [err localizedDescription]]];
     }
