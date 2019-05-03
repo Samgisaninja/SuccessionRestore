@@ -258,8 +258,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WARNING!!!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ypX-hC-Cbb">
-                                <rect key="frame" x="113.5" y="64" width="93" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WARNING!!!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ypX-hC-Cbb">
+                                <rect key="frame" x="0.0" y="64" width="320" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -308,6 +308,7 @@
                             <constraint firstItem="ypX-hC-Cbb" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="AiY-6J-Uga"/>
                             <constraint firstItem="Vva-Lf-eva" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6hq-ns-Vo8" secondAttribute="leading" id="Cio-e4-BPv"/>
                             <constraint firstItem="4sw-LN-GhA" firstAttribute="centerX" secondItem="6hq-ns-Vo8" secondAttribute="centerX" id="DiM-wz-YlH"/>
+                            <constraint firstItem="ypX-hC-Cbb" firstAttribute="width" secondItem="6hq-ns-Vo8" secondAttribute="width" id="IxH-8E-1ud"/>
                             <constraint firstItem="4sw-LN-GhA" firstAttribute="width" secondItem="6hq-ns-Vo8" secondAttribute="width" id="TKp-05-kYl"/>
                             <constraint firstItem="pUS-T0-gWD" firstAttribute="centerY" secondItem="6hq-ns-Vo8" secondAttribute="centerY" id="UOS-y9-dBZ"/>
                             <constraint firstItem="2Cc-GK-dNy" firstAttribute="top" secondItem="4sw-LN-GhA" secondAttribute="bottom" constant="2" id="X2m-vn-tut"/>
@@ -361,7 +362,7 @@
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sav-SP-fAw">
-                                <rect key="frame" x="107" y="144" width="106" height="30"/>
+                                <rect key="frame" x="107" y="150" width="106" height="30"/>
                                 <state key="normal" title="Start Download"/>
                                 <connections>
                                     <action selector="startDownloadButtonAction:" destination="iAG-Yy-aYr" eventType="touchUpInside" id="OhS-0v-xkR"/>
