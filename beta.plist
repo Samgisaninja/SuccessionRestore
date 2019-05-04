@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>16B5059d</key>
+	<dict>
+		<key>iPhone8,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-06861/1A568992-B83F-11E8-986B-EF6137F996F6/iPhone_4.0_64bit_12.1_16B5059d_Restore.ipsw</string>
+	</dict>
 	<key>16C5050a</key>
 	<dict>
 		<key>iPhone6,1</key>
