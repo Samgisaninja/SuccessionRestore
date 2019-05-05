@@ -26,17 +26,6 @@ int attach(const char *path, char buf[], size_t sz);
     [[self outputLabel] setHidden:TRUE];
     [[self restoreProgressBar] setHidden:TRUE];
     _successionPrefs = [NSMutableDictionary dictionaryWithDictionary:[NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"]];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        [[self fileListActivityIndicator] setHidden:TRUE];
-        [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
-    } else {
-        [self prepareAttachRestoreDisk];
-        [[self headerLabel] setHidden:TRUE];
-        [[self infoLabel] setHidden:TRUE];
-        [[self fileListActivityIndicator] setHidden:FALSE];
-        [[self startRestoreButton] setTitle:@"Attaching, please wait..." forState:UIControlStateNormal];
-        [[self startRestoreButton] setEnabled:FALSE];
-    }
     if ([[[[NSFileManager defaultManager] attributesOfFileSystemForPath:@"/" error:nil] objectForKey:NSFileSystemFreeSize] unsignedLongLongValue] < 2147483648) {
         if (![[_successionPrefs objectForKey:@"delete-during"] isEqual:@(1)]) {
             UIAlertController *lowStorageAlert = [UIAlertController alertControllerWithTitle:@"Low storage space detected!" message:[NSString stringWithFormat:@"It is reccommended that you use low-storage mode to prevent the device from running out of storage while Succesion is running\nNote that if Succession exits while it is running, it is more likely to fail destructively, so... don't exit Succession, and you might want to run it from safe mode."] preferredStyle:UIAlertControllerStyleAlert];
@@ -50,6 +39,20 @@ int attach(const char *path, char buf[], size_t sz);
             [lowStorageAlert addAction:useDefaultSettingsAction];
             [self presentViewController:lowStorageAlert animated:TRUE completion:nil];
         }
+    }
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+        [[self fileListActivityIndicator] setHidden:TRUE];
+        [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
+    } else {
+        [self prepareAttachRestoreDisk];
+        [[self headerLabel] setHidden:TRUE];
+        [[self infoLabel] setHidden:TRUE];
+        [[self fileListActivityIndicator] setHidden:FALSE];
+        [[self startRestoreButton] setTitle:@"Attaching, please wait..." forState:UIControlStateNormal];
+        [[self startRestoreButton] setEnabled:FALSE];
     }
 }
 
