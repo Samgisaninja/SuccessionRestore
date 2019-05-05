@@ -8,6 +8,7 @@
 
 #import "RestoreViewController.h"
 #include <spawn.h>
+#include <sys/sysctl.h>
 #import "libjb.h"
 #import "unjail.h"
 #import "NSTask.h"
@@ -57,35 +58,124 @@ int attach(const char *path, char buf[], size_t sz);
 }
 
 - (IBAction)startRestoreButtonAction:(id)sender {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-        UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            [[UIDevice currentDevice] setBatteryMonitoringEnabled:TRUE];
-            if ([[UIDevice currentDevice] batteryLevel] > 0.5) {
-                [self successionRestore];
+    if ([[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)] || [[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
+        if (kCFCoreFoundationVersionNumber > 1349.56) {
+            if (![[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/snappy"]) {
+                UIAlertController *needSnappy = [UIAlertController alertControllerWithTitle:@"Snappy required" message:@"Your current preferences indicate you would like to perform operations with APFS snapshots, but you do not have snappy installed. Please install snappy from https://repo.bingner.com" preferredStyle:UIAlertControllerStyleAlert];
+                NSString *sources = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/cydia.list" encoding:NSUTF8StringEncoding error:nil];
+                if (![sources containsString:@"bingner.com"]) {
+                    UIAlertAction *addRepo = [UIAlertAction actionWithTitle:@"Add repository to cydia" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=https://repo.bingner.com/"] options:URLOptions completionHandler:nil];
+                        
+                    }];
+                    [needSnappy addAction:addRepo];
+                }
+                UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+                [needSnappy addAction:dismissAction];
+                [self presentViewController:needSnappy animated:TRUE completion:nil];
             } else {
-                UIAlertController *lowBatteryWarning = [UIAlertController alertControllerWithTitle:@"Low Battery" message:@"It is recommended you have at least 50% battery charge before beginning restore" preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *cancelRestoreAction = [UIAlertAction actionWithTitle:@"Abort restore" style:UIAlertActionStyleDefault handler:nil];
-                UIAlertAction *startRestoreAction = [UIAlertAction actionWithTitle:@"Restore anyways" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                    [self successionRestore];
-                }];
-                [lowBatteryWarning addAction:cancelRestoreAction];
-                [lowBatteryWarning addAction:startRestoreAction];
-                [self presentViewController:lowBatteryWarning animated:TRUE completion:nil];
+                if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+                    UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
+                    UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                        [[UIDevice currentDevice] setBatteryMonitoringEnabled:TRUE];
+                        if ([[UIDevice currentDevice] batteryLevel] > 0.5) {
+                            if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
+                                NSTask *createBackupSnapTask = [[NSTask alloc] init];
+                                [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
+                                NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
+                                [createBackupSnapTask setArguments:createBackupSnapTaskArgs];
+                                [createBackupSnapTask launch];
+                            }
+                            [self successionRestore];
+                        } else {
+                            UIAlertController *lowBatteryWarning = [UIAlertController alertControllerWithTitle:@"Low Battery" message:@"It is recommended you have at least 50% battery charge before beginning restore" preferredStyle:UIAlertControllerStyleAlert];
+                            UIAlertAction *cancelRestoreAction = [UIAlertAction actionWithTitle:@"Abort restore" style:UIAlertActionStyleDefault handler:nil];
+                            UIAlertAction *startRestoreAction = [UIAlertAction actionWithTitle:@"Restore anyways" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                                if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
+                                    NSTask *createBackupSnapTask = [[NSTask alloc] init];
+                                    [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
+                                    NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
+                                    [createBackupSnapTask setArguments:createBackupSnapTaskArgs];
+                                    [createBackupSnapTask launch];
+                                }
+                                [self successionRestore];
+                            }];
+                            [lowBatteryWarning addAction:cancelRestoreAction];
+                            [lowBatteryWarning addAction:startRestoreAction];
+                            [self presentViewController:lowBatteryWarning animated:TRUE completion:nil];
+                        }
+                        [[UIDevice currentDevice] setBatteryMonitoringEnabled:FALSE];
+                    }];
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+                    [areYouSureAlert addAction:beginRestore];
+                    [areYouSureAlert addAction:cancelAction];
+                    [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
+                } else {
+                    UIAlertController *attachingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        [self prepareAttachRestoreDisk];
+                    }];
+                    [attachingAlert addAction:okAction];
+                    [self presentViewController:attachingAlert animated:TRUE completion:nil];
+                }
             }
-            [[UIDevice currentDevice] setBatteryMonitoringEnabled:FALSE];
-        }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-        [areYouSureAlert addAction:beginRestore];
-        [areYouSureAlert addAction:cancelAction];
-        [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
+        } else {
+            UIAlertController *snapshotsNotSupported = [UIAlertController alertControllerWithTitle:@"APFS operations not supported" message:@"You must be running iOS 10.3 or higher to use APFS features." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismis" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self->_successionPrefs setObject:@(0) forKey:@"create_APFS_orig-fs"];
+                [self->_successionPrefs setObject:@(0) forKey:@"create_APFS_succession-prerestore"];
+                [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+            }];
+            [snapshotsNotSupported addAction:dismissAction];
+            [self presentViewController:snapshotsNotSupported animated:TRUE completion:nil];
+        }
     } else {
-        UIAlertController *attachingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self prepareAttachRestoreDisk];
-        }];
-        [attachingAlert addAction:okAction];
-        [self presentViewController:attachingAlert animated:TRUE completion:nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+            UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
+            UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                [[UIDevice currentDevice] setBatteryMonitoringEnabled:TRUE];
+                if ([[UIDevice currentDevice] batteryLevel] > 0.5) {
+                    if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
+                        NSTask *createBackupSnapTask = [[NSTask alloc] init];
+                        [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
+                        NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
+                        [createBackupSnapTask setArguments:createBackupSnapTaskArgs];
+                        [createBackupSnapTask launch];
+                    }
+                    [self successionRestore];
+                } else {
+                    UIAlertController *lowBatteryWarning = [UIAlertController alertControllerWithTitle:@"Low Battery" message:@"It is recommended you have at least 50% battery charge before beginning restore" preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *cancelRestoreAction = [UIAlertAction actionWithTitle:@"Abort restore" style:UIAlertActionStyleDefault handler:nil];
+                    UIAlertAction *startRestoreAction = [UIAlertAction actionWithTitle:@"Restore anyways" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                        if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
+                            NSTask *createBackupSnapTask = [[NSTask alloc] init];
+                            [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
+                            NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
+                            [createBackupSnapTask setArguments:createBackupSnapTaskArgs];
+                            [createBackupSnapTask launch];
+                        }
+                        [self successionRestore];
+                    }];
+                    [lowBatteryWarning addAction:cancelRestoreAction];
+                    [lowBatteryWarning addAction:startRestoreAction];
+                    [self presentViewController:lowBatteryWarning animated:TRUE completion:nil];
+                }
+                [[UIDevice currentDevice] setBatteryMonitoringEnabled:FALSE];
+            }];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+            [areYouSureAlert addAction:beginRestore];
+            [areYouSureAlert addAction:cancelAction];
+            [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
+        } else {
+            UIAlertController *attachingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self prepareAttachRestoreDisk];
+            }];
+            [attachingAlert addAction:okAction];
+            [self presentViewController:attachingAlert animated:TRUE completion:nil];
+        }
     }
 }
 
@@ -367,6 +457,18 @@ int attach(const char *path, char buf[], size_t sz);
                     [restoreCompleteController addAction:exitAction];
                     [self presentViewController:restoreCompleteController animated:TRUE completion:nil];
                 } else {
+                    if ([[self->_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
+                        NSTask *deleteOrigFS = [[NSTask alloc] init];
+                        [deleteOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                        NSArray *deleteOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"orig-fs", nil];
+                        [deleteOrigFS setArguments:deleteOrigFSArgs];
+                        [deleteOrigFS launch];
+                        NSTask *createNewOrigFS = [[NSTask alloc] init];
+                        [createNewOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                        NSArray *createNewOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"orig-fs", nil];
+                        [createNewOrigFS setArguments:createNewOrigFSArgs];
+                        [createNewOrigFS launch];
+                    }
                     UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebuilding icon cache, please wait..." preferredStyle:UIAlertControllerStyleAlert];
                     [self presentViewController:restoreCompleteController animated:TRUE completion:^{
                         if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {

@@ -87,29 +87,23 @@
             break;
         }
         case 5: {
-            cell.textLabel.text = @"Create APFS snapshot 'orig-fs' after restore (upcoming feature)";
+            cell.textLabel.text = @"Create APFS snapshot 'orig-fs' after restore (requires snappy from Bingner's repo and iOS 10.3 or higher)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
-            /*
             UISwitch *createAPFSorigfsSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = createAPFSorigfsSwitch;
-            [createAPFSorigfsSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_orig-fs"] boolValue] animated:NO];
+            [createAPFSorigfsSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_orig-fs"] boolValue] animated:FALSE];
             [createAPFSorigfsSwitch addTarget:self action:@selector(createAPFSorigfsSwitchChanged) forControlEvents:UIControlEventValueChanged];
-            [createAPFSorigfsSwitch setUserInteractionEnabled:FALSE];
-            */
             break;
         }
         case 6: {
-            cell.textLabel.text = @"Create APFS snapshot 'succession-prerestore' before restore (upcoming feature)";
+            cell.textLabel.text = @"Create APFS snapshot 'succession-prerestore' before restore for use with SnapBack to 'undo restore' (requires snappy from Bingner's repo and iOS 10.3 or higher)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
-            /*
             UISwitch *createAPFSsuccessionprerestoreSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = createAPFSsuccessionprerestoreSwitch;
-            [createAPFSsuccessionprerestoreSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] boolValue] animated:NO];
+            [createAPFSsuccessionprerestoreSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] boolValue] animated:FALSE];
             [createAPFSsuccessionprerestoreSwitch addTarget:self action:@selector(createAPFSsuccessionprerestoreSwitchChanged) forControlEvents:UIControlEventValueChanged];
-            [createAPFSsuccessionprerestoreSwitch setUserInteractionEnabled:FALSE];
-            */
             break;
         }
         case 7: {
