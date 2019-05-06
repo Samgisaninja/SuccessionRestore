@@ -337,6 +337,7 @@ int attach(const char *path, char buf[], size_t sz);
                                             @"--delete-after",
                                             @"--progress",
                                             @"--ignore-errors",
+                                            @"--force",
                                             @"--exclude=/Developer",
                                             @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache",
                                             @"--exclude=/System/Library/Caches/apticket.der",
@@ -372,6 +373,9 @@ int attach(const char *path, char buf[], size_t sz);
         if ([[_successionPrefs objectForKey:@"delete-during"] isEqual:@(1)]) {
             [rsyncMutableArgs removeObject:@"--delete-after"];
             [rsyncMutableArgs addObject:@"--delete"];
+        }
+        if ([[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
+            [rsyncMutableArgs addObject:@"--exclude=/usr/bin/snappy"];
         }
         NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         NSTask *rsyncTask = [[NSTask alloc] init];
@@ -483,6 +487,9 @@ int attach(const char *path, char buf[], size_t sz);
                             [createNewOrigFS setLaunchPath:@"/usr/bin/snappy"];
                             NSArray *createNewOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"orig-fs", nil];
                             [createNewOrigFS setArguments:createNewOrigFSArgs];
+                            createNewOrigFS.terminationHandler = ^{
+                                [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/snappy" error:nil];
+                            };
                             [createNewOrigFS launch];
                         }
                         UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebuilding icon cache, please wait..." preferredStyle:UIAlertControllerStyleAlert];
