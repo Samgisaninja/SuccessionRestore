@@ -81,6 +81,11 @@ int attach(const char *path, char buf[], size_t sz);
                         [[UIDevice currentDevice] setBatteryMonitoringEnabled:TRUE];
                         if ([[UIDevice currentDevice] batteryLevel] > 0.5) {
                             if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
+                                NSTask *deletePreviousBackupSnapTask = [[NSTask alloc] init];
+                                [deletePreviousBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
+                                NSArray *deletePreviousBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"succession-prerestore", nil];
+                                [deletePreviousBackupSnapTask setArguments:deletePreviousBackupSnapTaskArgs];
+                                [deletePreviousBackupSnapTask launch];
                                 NSTask *createBackupSnapTask = [[NSTask alloc] init];
                                 [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
                                 NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
