@@ -257,10 +257,10 @@ int attach(const char *path, char buf[], size_t sz);
         if (isDir) {
             NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", attachedDMGDiskName, @"/var/MobileSoftwareUpdate/mnt1", nil];
             [[self infoLabel] setText:@"Mounting DMG, please wait..."];
-            NSTask *task = [[NSTask alloc] init];
-            task.launchPath = @"/sbin/mount";
-            task.arguments = mountArgs;
-            task.terminationHandler = ^(NSTask *task){
+            NSTask *mountTask = [[NSTask alloc] init];
+            [mountTask setLaunchPath:@"/sbin/mount"];
+            [mountTask setArguments:mountArgs];
+            mountTask.terminationHandler = ^(NSTask *task){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[self headerLabel] setText:@"WARNING!"];
                     [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
@@ -272,7 +272,7 @@ int attach(const char *path, char buf[], size_t sz);
                     [[self fileListActivityIndicator] setHidden:TRUE];
                 });
             };
-            [task launch];
+            [mountTask launch];
         } else {
             [[NSFileManager defaultManager] removeItemAtPath:@"/var/MobileSoftwareUpdate/mnt1" error:&err];
             [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/MobileSoftwareUpdate/mnt1/" withIntermediateDirectories:TRUE attributes:nil error:&err];
@@ -345,7 +345,7 @@ int attach(const char *path, char buf[], size_t sz);
                                             @"--exclude=/usr/standalone/firmware/FUD/",
                                             @"--exclude=/usr/standalone/firmware/Savage/",
                                             @"--exclude=/System/Library/Pearl",
-                                            @"--exculde=/usr/standalone/firmware/Yonkers/",
+                                            @"--exclude=/usr/standalone/firmware/Yonkers/",
                                             @"/var/MobileSoftwareUpdate/mnt1/.",
                                             @"/", nil];
         if (![_filesystemType isEqualToString:@"apfs"]) {
@@ -515,7 +515,10 @@ int attach(const char *path, char buf[], size_t sz);
         [[self startRestoreButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [[self startRestoreButton] setEnabled:FALSE];
         [[self fileListActivityIndicator] setHidden:FALSE];
+        NSLog(@"SUCCESSIONTESTING: %@", [_successionPrefs objectForKey:@"custom_rsync_path"]);
+        NSLog(@"SUCCESSIONTESTING: %@", [rsyncTask launchPath]);
         if ([rsyncTask launchPath]) {
+            NSLog(@"SUCCESSIONTESTING: Code will never be executed!");
             [rsyncTask launch];
         }
     } else {
