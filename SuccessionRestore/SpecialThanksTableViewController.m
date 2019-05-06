@@ -27,7 +27,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return 11;
 }
 
 
@@ -166,6 +166,11 @@
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
             [[cell imageView] setImage:[UIImage imageNamed:@"swaggo"]];
+            break;
+        }
+        case 10:
+        {
+            [[cell textLabel] setText:@"rsync used under gpl3"];
             break;
         }
         default:
