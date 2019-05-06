@@ -515,10 +515,7 @@ int attach(const char *path, char buf[], size_t sz);
         [[self startRestoreButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [[self startRestoreButton] setEnabled:FALSE];
         [[self fileListActivityIndicator] setHidden:FALSE];
-        NSLog(@"SUCCESSIONTESTING: %@", [_successionPrefs objectForKey:@"custom_rsync_path"]);
-        NSLog(@"SUCCESSIONTESTING: %@", [rsyncTask launchPath]);
         if ([rsyncTask launchPath]) {
-            NSLog(@"SUCCESSIONTESTING: Code will never be executed!");
             [rsyncTask launch];
         }
     } else {
