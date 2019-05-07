@@ -528,7 +528,16 @@ int attach(const char *path, char buf[], size_t sz);
         [[self startRestoreButton] setEnabled:FALSE];
         [[self fileListActivityIndicator] setHidden:FALSE];
         if ([rsyncTask launchPath]) {
-            [rsyncTask launch];
+            if ([[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)] && [[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
+                UIAlertController *tooMuchAPFSAlert = [UIAlertController alertControllerWithTitle:@"Conflicting options enabled" message:@"You cannot have 'create backup snapshot' and 'create new orig-fs' enabled simultaneously, please go to Succession's settings page and disable one of the two." preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [[self navigationController] popToRootViewControllerAnimated:TRUE];
+                }];
+                [tooMuchAPFSAlert addAction:dismissAction];
+                [self presentViewController:tooMuchAPFSAlert animated:TRUE completion:nil];
+            } else {
+                [rsyncTask launch];
+            }
         }
     } else {
         [self errorAlert:@"Mountpoint does not contain rootfilesystem, please restart the app and try again."];
