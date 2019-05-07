@@ -488,6 +488,11 @@ int attach(const char *path, char buf[], size_t sz);
                             NSArray *createNewOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"orig-fs", nil];
                             [createNewOrigFS setArguments:createNewOrigFSArgs];
                             createNewOrigFS.terminationHandler = ^{
+                                NSTask *renameOrigFS = [[NSTask alloc] init];
+                                [renameOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                                NSArray *renameOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-r", @"orig-fs", @"-x", nil];
+                                [renameOrigFS setArguments:renameOrigFSArgs];
+                                [renameOrigFS launch];
                                 [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/snappy" error:nil];
                             };
                             [createNewOrigFS launch];
