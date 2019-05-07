@@ -90,20 +90,20 @@
             cell.textLabel.text = @"Create APFS snapshot 'orig-fs' after restore (requires snappy from Bingner's repo and iOS 10.3 or higher)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
-            UISwitch *createAPFSorigfsSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-            cell.accessoryView = createAPFSorigfsSwitch;
-            [createAPFSorigfsSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_orig-fs"] boolValue] animated:FALSE];
-            [createAPFSorigfsSwitch addTarget:self action:@selector(createAPFSorigfsSwitchChanged) forControlEvents:UIControlEventValueChanged];
+            _createAPFSorigfsSwitch = [[UISwitch alloc] init];
+            cell.accessoryView = _createAPFSorigfsSwitch;
+            [_createAPFSorigfsSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_orig-fs"] boolValue] animated:FALSE];
+            [_createAPFSorigfsSwitch addTarget:self action:@selector(createAPFSorigfsSwitchChanged) forControlEvents:UIControlEventValueChanged];
             break;
         }
         case 6: {
             cell.textLabel.text = @"Create APFS snapshot 'succession-prerestore' before restore for use with SnapBack to 'undo restore' (requires snappy from Bingner's repo and iOS 10.3 or higher)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
-            UISwitch *createAPFSsuccessionprerestoreSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-            cell.accessoryView = createAPFSsuccessionprerestoreSwitch;
-            [createAPFSsuccessionprerestoreSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] boolValue] animated:FALSE];
-            [createAPFSsuccessionprerestoreSwitch addTarget:self action:@selector(createAPFSsuccessionprerestoreSwitchChanged) forControlEvents:UIControlEventValueChanged];
+            _createAPFSsuccessionprerestoreSwitch = [[UISwitch alloc] init];
+            cell.accessoryView = _createAPFSsuccessionprerestoreSwitch;
+            [_createAPFSsuccessionprerestoreSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] boolValue] animated:FALSE];
+            [_createAPFSsuccessionprerestoreSwitch addTarget:self action:@selector(createAPFSsuccessionprerestoreSwitchChanged) forControlEvents:UIControlEventValueChanged];
             break;
         }
         case 7: {
@@ -190,9 +190,20 @@
 
 -(void)createAPFSorigfsSwitchChanged{
     if ([[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(0)]) {
-        [_successionPrefs setObject:@(1) forKey:@"create_APFS_orig-fs"];
-        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
-        [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+        UIAlertController *apfsWarning = [UIAlertController alertControllerWithTitle:@"Warning" message:@"Enabling this option will overwrite all other APFS snapshots. Are you sure you want to continue?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Enable" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self->_successionPrefs setObject:@(1) forKey:@"create_APFS_orig-fs"];
+            [self->_successionPrefs setObject:@(0) forKey:@"create_APFS_succession-prerestore"];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+            [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+            [self->_createAPFSsuccessionprerestoreSwitch setOn:[[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] boolValue] animated:TRUE];
+        }];
+        UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self->_createAPFSorigfsSwitch setOn:[[self->_successionPrefs objectForKey:@"create_APFS_orig-fs"] boolValue] animated:FALSE];
+        }];
+        [apfsWarning addAction:continueAction];
+        [apfsWarning addAction:dismissAction];
+        [self presentViewController:apfsWarning animated:TRUE completion:nil];
     } else {
         [_successionPrefs setObject:@(0) forKey:@"create_APFS_orig-fs"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
@@ -203,8 +214,10 @@
 -(void)createAPFSsuccessionprerestoreSwitchChanged{
     if ([[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(0)]) {
         [_successionPrefs setObject:@(1) forKey:@"create_APFS_succession-prerestore"];
+        [_successionPrefs setObject:@(0) forKey:@"create_APFS_orig-fs"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+        [_createAPFSorigfsSwitch setOn:[[_successionPrefs objectForKey:@"create_APFS_orig-fs"] boolValue] animated:TRUE];
     } else {
         [_successionPrefs setObject:@(0) forKey:@"create_APFS_succession-prerestore"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
