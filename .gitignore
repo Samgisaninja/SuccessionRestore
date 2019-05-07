@@ -4,3 +4,4 @@ Index
 *.log
 *.deb
 .logs
+.vscode
