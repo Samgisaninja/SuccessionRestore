@@ -1,0 +1,23 @@
+DEVICEIP=$1
+
+if [ -z "$IDEVICEIP" ]
+then
+	echo "\$IDEVICEIP not found, please type in your iDevice's ip address (local for localhost:2222)"
+	read IDEVICEIP
+fi
+if [ "$IDEVICEIP" == "local" ]
+then
+	echo "Trying to move deb to device"
+	scp -p 2222 com.samgisaninja.SuccessionRestore.deb root@localhost:/tmp
+	echo "Trying to install deb"
+	ssh -p 2222 root@localhost "dpkg -i /tmp/com.samgisaninja.SuccessionRestore.deb && uicache --path /Applications/SuccessionRestore.app/"
+	echo "Success!"
+else
+	echo "Trying to move deb to device"
+	scp com.samgisaninja.SuccessionRestore.deb root@$IDEVICEIP:/tmp
+	echo "Trying to install deb"
+	ssh root@$IDEVICEIP "dpkg -i /tmp/com.samgisaninja.SuccessionRestore.deb && uicache --path /Applications/SuccessionRestore.app/"
+	echo "Success!"
+fi
+
+## Changes made by nobbele/4ppleCracker
