@@ -76,13 +76,18 @@
         case 3: {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
-            NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"sbingner\n"] attributes: nameFontDict];
-            UIFont *roleFont = [UIFont systemFontOfSize:13];;
+            NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"sbingner\n"] attributes: nameFontDict];UIFont *roleFont = [UIFont systemFontOfSize:13];;
             NSDictionary *roleFontDict = [NSDictionary dictionaryWithObject: roleFont forKey:NSFontAttributeName];
-            NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"snappy" attributes: roleFontDict];
+            NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Snappy" attributes: roleFontDict];
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
-            [[cell imageView] setImage:[UIImage imageNamed:@"sbingner"]];
+            UIImage *pfpImage = [UIImage imageNamed:@"sbingner"];
+            CGSize newSize = CGSizeMake(50, 50);
+            UIGraphicsBeginImageContext(newSize);
+            [pfpImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+            UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            [[cell imageView] setImage:newImage];
             break;
             }
         case 4:
