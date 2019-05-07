@@ -122,12 +122,14 @@
             cell.textLabel.text = @"Reset all settings to defaults";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
+            cell.accessoryView = nil;
             break;
         }
         case 10: {
             cell.textLabel.text = [NSString stringWithFormat:@"Succession version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
+            cell.accessoryView = nil;
             break;
         }
         default:
