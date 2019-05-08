@@ -382,14 +382,18 @@ int attach(const char *path, char buf[], size_t sz);
         if ([[NSFileManager defaultManager] fileExistsAtPath:[_successionPrefs objectForKey:@"custom_rsync_path"]]) {
             [rsyncTask setLaunchPath:[_successionPrefs objectForKey:@"custom_rsync_path"]];
         } else {
-            if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"rsync"]]) {
-                UIAlertController *rsyncNotFound = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Unable to find rsync at custom path %@", [_successionPrefs objectForKey:@"custom_rsync_path"]]  message:[NSString stringWithFormat:@"%@ will be used", [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"rsync"]] preferredStyle:UIAlertControllerStyleAlert];
+            //if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"rsync"]]) {
+            if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/rsync"]) {
+                // UIAlertController *rsyncNotFound = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Unable to find rsync at custom path %@", [_successionPrefs objectForKey:@"custom_rsync_path"]]  message:[NSString stringWithFormat:@"%@ will be used", [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"rsync"]] preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController *rsyncNotFound = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Unable to find rsync at custom path %@", [_successionPrefs objectForKey:@"custom_rsync_path"]]  message:@"/usr/bin/rsync will be used" preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *useDefualtPathAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
                 [rsyncNotFound addAction:useDefualtPathAction];
                 [self presentViewController:rsyncNotFound animated:TRUE completion:nil];
-                [rsyncTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"rsync"]];
+                //[rsyncTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"rsync"]];
+                [rsyncTask setLaunchPath:@"/usr/bin/rsync"];
             } else {
-                [self errorAlert:[NSString stringWithFormat:@"Unable to find rsync at custom path %@\nPlease check your custom path in Succession's settings or reinstall Succession", [_successionPrefs objectForKey:@"custom_rsync_path"]]];
+                //[self errorAlert:[NSString stringWithFormat:@"Unable to find rsync at custom path %@\nPlease check your custom path in Succession's settings or reinstall Succession", [_successionPrefs objectForKey:@"custom_rsync_path"]]];
+                [self errorAlert:[NSString stringWithFormat:@"Unable to find rsync at custom path %@\nPlease check your custom path in Succession's settings or install rsync from Cydia", [_successionPrefs objectForKey:@"custom_rsync_path"]]];
             }
         }
         [rsyncTask setArguments:rsyncArgs];

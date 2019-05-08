@@ -233,11 +233,13 @@
         case 7: {
             UIAlertController *rsyncPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to rsync binary" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
             [rsyncPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"rsync"];
+                //textField.placeholder = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"rsync"];
+                textField.placeholder = @"/usr/bin/rsync";
             }];
             UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 if ([[[[rsyncPathAlert textFields] firstObject] text] isEqualToString:@""]) {
-                    [self->_successionPrefs setObject:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"rsync"] forKey:@"custom_rsync_path"];
+                    // [self->_successionPrefs setObject:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"rsync"] forKey:@"custom_rsync_path"];
+                    [self->_successionPrefs setObject:@"/usr/bin/rsync" forKey:@"custom_rsync_path"];
                     [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
                     [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
                 } else {
