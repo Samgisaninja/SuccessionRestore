@@ -98,7 +98,6 @@
 		8DE34FB920E9353B00A37037 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestoreViewController.h; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h; sourceTree = "<absolute>"; };
 		8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
-		8DFA1564227FC9410072BB17 /* rsync */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = rsync; sourceTree = "<group>"; };
 		8DFA1566227FCC320072BB17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpringBoardServices.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,7 +198,6 @@
 				8D4C260B21BF57C700BBA404 /* NSTask.h */,
 				8DE34FB920E9353B00A37037 /* RestoreViewController.h */,
 				8DC82B29226CD8EB00D21893 /* RestoreViewController.m */,
-				8DFA1564227FC9410072BB17 /* rsync */,
 				8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */,
 				8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */,
 				8D8F2FA82264095D0044CF00 /* SpecialThanksTableViewController.h */,
