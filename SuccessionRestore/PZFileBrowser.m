@@ -64,12 +64,12 @@ typedef struct LocalFile {
 
 + (id)browserWithPath:(NSString *)path
 {
-    return [[[self alloc] initWithPath:path] autorelease];
+    return [[self alloc] initWithPath:path];
 }
 
 + (id)browserWithPath:(NSString *)path byteRange:(NSRange)byteRange
 {
-    return [[[self alloc] initWithPath:path byteRange:byteRange] autorelease];
+    return [[self alloc] initWithPath:path byteRange:byteRange];
 }
 
 - (id)initWithPath:(NSString *)path
@@ -85,7 +85,6 @@ typedef struct LocalFile {
             self.fileCount = endOfCentralDirectory->CDEntries;
             free(endOfCentralDirectory);
         } else {
-            [self release];
             return nil;
         }
     }
@@ -105,7 +104,6 @@ typedef struct LocalFile {
             self.fileCount = endOfCentralDirectory->CDEntries;
             free(endOfCentralDirectory);
         } else {
-            [self release];
             return nil;
         }
     }
@@ -241,7 +239,7 @@ typedef struct LocalFile {
         offset += length;
     }
     free(fileHeader);
-    return [[allPaths copy] autorelease];
+    return [allPaths copy];
 }
 
 - (NSRange)getByteRangeFromPath:(NSString *)fromPath toPath:(NSString *)toPath
@@ -278,13 +276,6 @@ typedef struct LocalFile {
     }
     free(fileHeader);
     return range;
-}
-
-- (void)dealloc
-{
-    [_url release];
-    [_centralDirectory release];
-    [super dealloc];
 }
 
 @end
