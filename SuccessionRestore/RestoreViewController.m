@@ -334,7 +334,7 @@ int attach(const char *path, char buf[], size_t sz);
 -(void)successionRestore{
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH",
-                                            @"--delete-after",
+                                            @"--delete-delay",
                                             @"--progress",
                                             @"--ignore-errors",
                                             @"--force",
