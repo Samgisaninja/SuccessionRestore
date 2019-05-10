@@ -25,6 +25,7 @@
 		8DA9CA89206097B900A12FA4 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DA9CA84206097B900A12FA4 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8DC82B2A226CD8EB00D21893 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC82B29226CD8EB00D21893 /* RestoreViewController.m */; };
 		8DE5B2A822611C0F00502C8F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */; };
+		8DF7620D22861AFC0026D886 /* PZFileBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF7620C22861AFC0026D886 /* PZFileBrowser.m */; };
 		8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
 		8DFBE80222442FEE00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
 		8DFBE80322442FEE00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
@@ -98,6 +99,8 @@
 		8DE34FB920E9353B00A37037 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestoreViewController.h; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h; sourceTree = "<absolute>"; };
 		8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
+		8DF7620B22861AF50026D886 /* PZFileBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZFileBrowser.h; sourceTree = "<group>"; };
+		8DF7620C22861AFC0026D886 /* PZFileBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZFileBrowser.m; sourceTree = "<group>"; };
 		8DFA1566227FCC320072BB17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpringBoardServices.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -192,6 +195,8 @@
 				8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */,
 				8D5BA2861F7C792E00A169BF /* Info.plist */,
 				8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */,
+				8DF7620B22861AF50026D886 /* PZFileBrowser.h */,
+				8DF7620C22861AFC0026D886 /* PZFileBrowser.m */,
 				8D1327F320F26CDA00C72D10 /* libjb.h */,
 				8D5BA2871F7C792E00A169BF /* main.m */,
 				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
@@ -385,6 +390,7 @@
 				8D5BA2881F7C792E00A169BF /* main.m in Sources */,
 				8DA9CA86206097B900A12FA4 /* zip.c in Sources */,
 				8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */,
+				8DF7620D22861AFC0026D886 /* PZFileBrowser.m in Sources */,
 				8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */,
 				8D37B8F021263652008FF3EC /* hdik.c in Sources */,
 				8DA9CA89206097B900A12FA4 /* ZipArchive.mm in Sources */,
