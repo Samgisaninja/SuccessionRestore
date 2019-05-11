@@ -242,7 +242,9 @@ int attach(const char *path, char buf[], size_t sz);
                                 });
                                 break;
                             } else {
-                                [self errorAlert:[NSString stringWithFormat:@"Failed to mount DMG, %@", changedDevContents]];
+                                if (b == [changedDevContents count] - 1) {
+                                    [self errorAlert:[NSString stringWithFormat:@"Failed to mount DMG, %@", changedDevContents]];
+                                }
                             }
                         }
                     }
