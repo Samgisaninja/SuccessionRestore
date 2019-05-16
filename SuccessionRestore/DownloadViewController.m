@@ -11,6 +11,7 @@
 #import "ZipArchive/ZipArchive.h"
 #import "HomePageViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
+#import "PZFileBrowser.h"
 
 @interface DownloadViewController ()
 
@@ -163,11 +164,13 @@
                 // so now we have a direct link to where apple is hosting the IPSW for the user's device/firmware, but it's in a rather useless NSData object, so let's convet that to an NSString
                 NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 // update the UI, but unless the user has a really really slow device, they probably won't ever see this:
-                NSString * activityLabelText = [NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString];
-                self.activityLabel.text = activityLabelText;
+                [[self activityLabel] setText:[NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString]];
                 // now we reference _downloadLink, created in DownloadViewController.h, and set it equal to the NSURL version of the string we received from ipsw.me
                 self->_downloadLink = [NSURL URLWithString:downloadLinkString];
                 NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+                //PZFileBrowser *browser = [PZFileBrowser browserWithPath:downloadLinkString];
+                //NSArray *allPaths = [browser getAllPaths];
+                //[allPaths writeToFile:@"/var/mobile/Media/succession-paths.plist" atomically:TRUE];
                 // set the timeout for the download request to 200 minutes (12000 seconds), that should be enough time, eh?
                 sessionConfig.timeoutIntervalForRequest = 12000.0;
                 sessionConfig.timeoutIntervalForResource = 12000.0;
