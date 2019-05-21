@@ -18,4 +18,5 @@
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *fileListActivityIndicator;
 @property (strong, nonatomic) IBOutlet UIProgressView *restoreProgressBar;
 @property (strong, nonatomic) NSMutableDictionary *successionPrefs;
+@property (strong, nonatomic) NSString *theDiskString;
 @end
