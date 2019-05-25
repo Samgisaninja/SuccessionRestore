@@ -170,7 +170,7 @@ int attach(const char *path, char buf[], size_t sz);
         } else {
             UIAlertController *attachingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self prepareAttachRestoreDisk];
+                [self mountRestoreDisk:self->_theDiskString];
             }];
             [attachingAlert addAction:okAction];
             [self presentViewController:attachingAlert animated:TRUE completion:nil];
