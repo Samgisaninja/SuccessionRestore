@@ -372,7 +372,7 @@ int attach(const char *path, char buf[], size_t sz);
             if ([stringRead hasPrefix:@"Applications/"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding Applications...", stringRead]];
+                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Applications...", stringRead]];
                     [[self fileListActivityIndicator] setHidden:TRUE];
                     [[self restoreProgressBar] setHidden:FALSE];
                     [[self restoreProgressBar] setProgress:0];
@@ -381,7 +381,7 @@ int attach(const char *path, char buf[], size_t sz);
             if ([stringRead hasPrefix:@"Library/"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding Library...", stringRead]];
+                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Library...", stringRead]];
                     [[self fileListActivityIndicator] setHidden:TRUE];
                     [[self restoreProgressBar] setHidden:FALSE];
                     [[self restoreProgressBar] setProgress:0.33];
@@ -390,7 +390,7 @@ int attach(const char *path, char buf[], size_t sz);
             if ([stringRead hasPrefix:@"System/"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding System...", stringRead]];
+                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding System...", stringRead]];
                     [[self fileListActivityIndicator] setHidden:TRUE];
                     [[self restoreProgressBar] setHidden:FALSE];
                     [[self restoreProgressBar] setProgress:0.67];
@@ -399,7 +399,7 @@ int attach(const char *path, char buf[], size_t sz);
             if ([stringRead hasPrefix:@"usr/"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuliding usr...", stringRead]];
+                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding usr...", stringRead]];
                     [[self fileListActivityIndicator] setHidden:TRUE];
                     [[self restoreProgressBar] setHidden:FALSE];
                     [[self restoreProgressBar] setProgress:0.9];
