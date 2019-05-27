@@ -111,12 +111,12 @@ int attach(const char *path, char buf[], size_t sz);
                     [areYouSureAlert addAction:cancelAction];
                     [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
                 } else {
-                    UIAlertController *attachingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
                     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         [self mountRestoreDisk:[self->_theDiskString stringByAppendingString:@"s2s1"]];
                     }];
-                    [attachingAlert addAction:okAction];
-                    [self presentViewController:attachingAlert animated:TRUE completion:nil];
+                    [mountingAlert addAction:okAction];
+                    [self presentViewController:mountingAlert animated:TRUE completion:nil];
                 }
             }
         } else {
@@ -168,12 +168,12 @@ int attach(const char *path, char buf[], size_t sz);
             [areYouSureAlert addAction:cancelAction];
             [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
         } else {
-            UIAlertController *attachingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self mountRestoreDisk:self->_theDiskString];
+                [self mountRestoreDisk:[self->_theDiskString stringByAppendingString:@"s2s1"]];
             }];
-            [attachingAlert addAction:okAction];
-            [self presentViewController:attachingAlert animated:TRUE completion:nil];
+            [mountingAlert addAction:okAction];
+            [self presentViewController:mountingAlert animated:TRUE completion:nil];
         }
     }
 }
