@@ -112,9 +112,7 @@ int attach(const char *path, char buf[], size_t sz);
                     [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
                 } else {
                     UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        [self checkMounted];
-                    }];
+                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
                     [mountingAlert addAction:okAction];
                     [self presentViewController:mountingAlert animated:TRUE completion:^{
                         self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
@@ -172,9 +170,7 @@ int attach(const char *path, char buf[], size_t sz);
             [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
         } else {
             UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self checkMounted];
-            }];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
             [mountingAlert addAction:okAction];
             [self presentViewController:mountingAlert animated:TRUE completion:^{
                 self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
@@ -211,51 +207,11 @@ int attach(const char *path, char buf[], size_t sz);
 
 -(void) mountRestoreDisk{
     if ([self isMountPointPresent]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[self headerLabel] setHidden:TRUE];
-            [[self infoLabel] setHidden:TRUE];
-            [[self fileListActivityIndicator] setHidden:FALSE];
-            [[self startRestoreButton] setTitle:@"Mounting, please wait..." forState:UIControlStateNormal];
-            [[self startRestoreButton] setEnabled:FALSE];
-        });
         NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", _theDiskString, @"/var/MobileSoftwareUpdate/mnt1", nil];
         NSTask *mountTask = [[NSTask alloc] init];
         mountTask.launchPath = @"/sbin/mount";
         mountTask.arguments = mountArgs;
-        mountTask.terminationHandler = ^(NSTask *task){
-        };
         [mountTask launch];
-    }
-}
-
--(void)checkMounted{
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/launchd/"]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[self headerLabel] setText:@"WARNING!"];
-            [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
-            [[self headerLabel] setHidden:FALSE];
-            [[self infoLabel] setHidden:FALSE];
-            [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
-            [[self startRestoreButton] setEnabled:TRUE];
-            [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-            [[self fileListActivityIndicator] setHidden:TRUE];
-            UIAlertController *mountSuccessful = [UIAlertController alertControllerWithTitle:@"Filesystem mounted successfully!" message:@"Tap 'Erase iPhone' to get this party started!" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
-            [mountSuccessful addAction:dismissAction];
-            [self presentViewController:mountSuccessful animated:TRUE completion:nil];
-        });
-    } else {
-        if ([self->_theDiskString hasSuffix:@"s2s1"]) {
-            self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
-            [self mountRestoreDisk];
-        } else {
-            NSTask *umountTask;
-            [umountTask setLaunchPath:@"/sbin/umount"];
-            NSArray *umountArgs = [NSArray arrayWithObjects:@"-f", @"/var/MobileSoftwareUpdate/mnt1", nil];
-            [umountTask setArguments:umountArgs];
-            [umountTask launch];
-            [self errorAlert:@"Failed to mount DMG, please reboot and retry"];
-        }
     }
 }
 
