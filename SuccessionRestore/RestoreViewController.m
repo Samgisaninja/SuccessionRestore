@@ -315,7 +315,7 @@ int attach(const char *path, char buf[], size_t sz);
             [cmdString writeToFile:@"/private/var/mobile/succession.log" atomically:TRUE encoding:NSUTF8StringEncoding error:nil];
         }
         if ([[_successionPrefs objectForKey:@"delete-during"] isEqual:@(1)]) {
-            [rsyncMutableArgs removeObject:@"--delete-after"];
+            [rsyncMutableArgs removeObject:@"--delete-delay"];
             [rsyncMutableArgs addObject:@"--delete"];
         }
         if ([[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
