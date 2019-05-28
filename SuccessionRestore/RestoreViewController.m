@@ -219,36 +219,41 @@ int attach(const char *path, char buf[], size_t sz);
         mountTask.launchPath = @"/sbin/mount";
         mountTask.arguments = mountArgs;
         mountTask.terminationHandler = ^(NSTask *task){
-            if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/launchd/"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self headerLabel] setText:@"WARNING!"];
-                    [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
-                    [[self headerLabel] setHidden:FALSE];
-                    [[self infoLabel] setHidden:FALSE];
-                    [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
-                    [[self startRestoreButton] setEnabled:TRUE];
-                    [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    UIAlertController *mountSuccessful = [UIAlertController alertControllerWithTitle:@"Filesystem mounted successfully!" message:@"Tap 'Erase iPhone' to get this party started!" preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
-                    [mountSuccessful addAction:dismissAction];
-                    [self presentViewController:mountSuccessful animated:TRUE completion:nil];
-                });
-            } else {
-                if ([self->_theDiskString hasSuffix:@"s2s1"]) {
-                    self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
-                    [self mountRestoreDisk];
-                } else {
-                    NSTask *umountTask;
-                    [umountTask setLaunchPath:@"/sbin/umount"];
-                    NSArray *umountArgs = [NSArray arrayWithObjects:@"-f", @"/var/MobileSoftwareUpdate/mnt1", nil];
-                    [umountTask setArguments:umountArgs];
-                    [umountTask launch];
-                    [self errorAlert:@"Failed to mount DMG, please reboot and retry"];
-                }
-            }
+            self->_checkIfMounted = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkMounted) userInfo:nil repeats:FALSE];
         };
         [mountTask launch];
+    }
+}
+
+-(void)checkMounted{
+    [_checkIfMounted invalidate];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/launchd/"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self headerLabel] setText:@"WARNING!"];
+            [[self infoLabel] setText:[NSString stringWithFormat:@"Running this tool will immediately delete all data from your device.\nPlease make a backup of any data that you want to keep. This will also return your device to the setup screen.\nA valid SIM card may be needed for activation on iPhones."]];
+            [[self headerLabel] setHidden:FALSE];
+            [[self infoLabel] setHidden:FALSE];
+            [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
+            [[self startRestoreButton] setEnabled:TRUE];
+            [[self startRestoreButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+            [[self fileListActivityIndicator] setHidden:TRUE];
+            UIAlertController *mountSuccessful = [UIAlertController alertControllerWithTitle:@"Filesystem mounted successfully!" message:@"Tap 'Erase iPhone' to get this party started!" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+            [mountSuccessful addAction:dismissAction];
+            [self presentViewController:mountSuccessful animated:TRUE completion:nil];
+        });
+    } else {
+        if ([self->_theDiskString hasSuffix:@"s2s1"]) {
+            self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
+            [self mountRestoreDisk];
+        } else {
+            NSTask *umountTask;
+            [umountTask setLaunchPath:@"/sbin/umount"];
+            NSArray *umountArgs = [NSArray arrayWithObjects:@"-f", @"/var/MobileSoftwareUpdate/mnt1", nil];
+            [umountTask setArguments:umountArgs];
+            [umountTask launch];
+            [self errorAlert:@"Failed to mount DMG, please reboot and retry"];
+        }
     }
 }
 

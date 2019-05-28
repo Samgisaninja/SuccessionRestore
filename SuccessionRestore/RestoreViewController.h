@@ -19,4 +19,5 @@
 @property (strong, nonatomic) IBOutlet UIProgressView *restoreProgressBar;
 @property (strong, nonatomic) NSMutableDictionary *successionPrefs;
 @property (strong, nonatomic) NSMutableString *theDiskString;
+@property (strong, nonatomic) NSTimer *checkIfMounted;
 @end
