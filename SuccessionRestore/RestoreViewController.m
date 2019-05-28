@@ -113,11 +113,13 @@ int attach(const char *path, char buf[], size_t sz);
                 } else {
                     UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
                     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        [self checkMounted];
+                    }];
+                    [mountingAlert addAction:okAction];
+                    [self presentViewController:mountingAlert animated:TRUE completion:^{
                         self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
                         [self mountRestoreDisk];
                     }];
-                    [mountingAlert addAction:okAction];
-                    [self presentViewController:mountingAlert animated:TRUE completion:nil];
                 }
             }
         } else {
@@ -171,11 +173,13 @@ int attach(const char *path, char buf[], size_t sz);
         } else {
             UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self checkMounted];
+            }];
+            [mountingAlert addAction:okAction];
+            [self presentViewController:mountingAlert animated:TRUE completion:^{
                 self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
                 [self mountRestoreDisk];
             }];
-            [mountingAlert addAction:okAction];
-            [self presentViewController:mountingAlert animated:TRUE completion:nil];
         }
     }
 }
@@ -219,14 +223,12 @@ int attach(const char *path, char buf[], size_t sz);
         mountTask.launchPath = @"/sbin/mount";
         mountTask.arguments = mountArgs;
         mountTask.terminationHandler = ^(NSTask *task){
-            self->_checkIfMounted = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkMounted) userInfo:nil repeats:FALSE];
         };
         [mountTask launch];
     }
 }
 
 -(void)checkMounted{
-    [_checkIfMounted invalidate];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/launchd/"]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [[self headerLabel] setText:@"WARNING!"];
