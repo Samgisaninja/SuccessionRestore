@@ -113,7 +113,8 @@ int attach(const char *path, char buf[], size_t sz);
                 } else {
                     UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
                     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        [self mountRestoreDisk:[self->_theDiskString stringByAppendingString:@"s2s1"]];
+                        self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
+                        [self mountRestoreDisk];
                     }];
                     [mountingAlert addAction:okAction];
                     [self presentViewController:mountingAlert animated:TRUE completion:nil];
@@ -170,7 +171,8 @@ int attach(const char *path, char buf[], size_t sz);
         } else {
             UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self mountRestoreDisk:[self->_theDiskString stringByAppendingString:@"s2s1"]];
+                self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
+                [self mountRestoreDisk];
             }];
             [mountingAlert addAction:okAction];
             [self presentViewController:mountingAlert animated:TRUE completion:nil];
@@ -200,10 +202,10 @@ int attach(const char *path, char buf[], size_t sz);
     char theDisk[11];
     NSString *pathToDMG = @"/var/mobile/Media/Succession/rfs.dmg";
     attach([pathToDMG UTF8String], theDisk, sizeof(theDisk));
-    _theDiskString = [NSString stringWithFormat:@"%s", theDisk];
+    _theDiskString = [NSMutableString stringWithString:[NSString stringWithFormat:@"%s", theDisk]];
 }
 
--(void) mountRestoreDisk:(NSString *)attachedDMGDiskName{
+-(void) mountRestoreDisk{
     if ([self isMountPointPresent]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [[self headerLabel] setHidden:TRUE];
@@ -212,7 +214,7 @@ int attach(const char *path, char buf[], size_t sz);
             [[self startRestoreButton] setTitle:@"Mounting, please wait..." forState:UIControlStateNormal];
             [[self startRestoreButton] setEnabled:FALSE];
         });
-        NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", attachedDMGDiskName, @"/var/MobileSoftwareUpdate/mnt1", nil];
+        NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", _theDiskString, @"/var/MobileSoftwareUpdate/mnt1", nil];
         NSTask *mountTask = [[NSTask alloc] init];
         mountTask.launchPath = @"/sbin/mount";
         mountTask.arguments = mountArgs;
@@ -233,8 +235,9 @@ int attach(const char *path, char buf[], size_t sz);
                     [self presentViewController:mountSuccessful animated:TRUE completion:nil];
                 });
             } else {
-                if ([attachedDMGDiskName hasSuffix:@"s2s1"]) {
-                    [self mountRestoreDisk:[self->_theDiskString stringByAppendingString:@"s2"]];
+                if ([self->_theDiskString hasSuffix:@"s2s1"]) {
+                    self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
+                    [self mountRestoreDisk];
                 } else {
                     NSTask *umountTask;
                     [umountTask setLaunchPath:@"/sbin/umount"];
