@@ -313,7 +313,7 @@ int attach(const char *path, char buf[], size_t sz);
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [self logToFile:@"verified filesystem is mounted" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
         NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH",
-                                            @"--delete-delay",
+                                            @"--delete-after",
                                             @"--progress",
                                             @"--ignore-errors",
                                             @"--force",
@@ -349,7 +349,7 @@ int attach(const char *path, char buf[], size_t sz);
         }
         if ([[_successionPrefs objectForKey:@"delete-during"] isEqual:@(1)]) {
             [self logToFile:@"delete-during enabled" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-            [rsyncMutableArgs removeObject:@"--delete-delay"];
+            [rsyncMutableArgs removeObject:@"--delete-after"];
             [rsyncMutableArgs addObject:@"--delete"];
         }
         if ([[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
