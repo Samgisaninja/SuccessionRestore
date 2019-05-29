@@ -133,13 +133,22 @@ int attach(const char *path, char buf[], size_t sz);
                     [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
                 } else {
                     [self logToFile:@"Filesystem is not mounted, showing mount alert now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                    UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"Tap OK to continue." preferredStyle:UIAlertControllerStyleAlert];
                     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
                     [mountingAlert addAction:okAction];
                     [self presentViewController:mountingAlert animated:TRUE completion:^{
                         [self logToFile:[NSString stringWithFormat:@"mountingAlert handler called, identified theDiskString as %@", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                        self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
-                        [self mountRestoreDisk];
+                        if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2s1"]]) {
+                            self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
+                            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                            [self mountRestoreDisk];
+                        } else if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2"]]){
+                            self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
+                            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                            [self mountRestoreDisk];
+                        } else {
+                            [self errorAlert:[NSString stringWithFormat:@"unable to identify theDisk, neither %@ or %@ existed", [self->_theDiskString stringByAppendingString:@"s2s1"], [self->_theDiskString stringByAppendingString:@"s2"]]];
+                        }
                     }];
                 }
             }
@@ -216,13 +225,22 @@ int attach(const char *path, char buf[], size_t sz);
             [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
         } else {
             [self logToFile:@"Filesystem is not mounted, showing mount alert now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-            UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"This step might fail, if it does, you may need to reboot to get this to work." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"Tap OK to continue." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
             [mountingAlert addAction:okAction];
             [self presentViewController:mountingAlert animated:TRUE completion:^{
                 [self logToFile:[NSString stringWithFormat:@"mountingAlert handler called, identified theDiskString as %@", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
-                [self mountRestoreDisk];
+                if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2s1"]]) {
+                    self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
+                    [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                    [self mountRestoreDisk];
+                } else if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2"]]){
+                    self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
+                    [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                    [self mountRestoreDisk];
+                } else {
+                    [self errorAlert:[NSString stringWithFormat:@"unable to identify theDisk, neither %@ or %@ existed", [self->_theDiskString stringByAppendingString:@"s2s1"], [self->_theDiskString stringByAppendingString:@"s2"]]];
+                }
             }];
         }
     }
