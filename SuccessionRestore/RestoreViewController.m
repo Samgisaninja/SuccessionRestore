@@ -1,9 +1,9 @@
 //
-//  RestoreViewController.m
-//  SuccessionRestore
+//RestoreViewController.m
+//SuccessionRestore
 //
-//  Created by Sam Gardner on 6/30/18.
-//  Copyright © 2018 Sam Gardner. All rights reserved.
+//Created by Sam Gardner on 6/30/18.
+//Copyright © 2018 Sam Gardner. All rights reserved.
 //
 
 #import "RestoreViewController.h"
@@ -76,81 +76,7 @@ int attach(const char *path, char buf[], size_t sz);
                 [self presentViewController:needSnappy animated:TRUE completion:nil];
             } else {
                 [self logToFile:@"snappy requested and already installed" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-                    [self logToFile:@"filesystem is mounted, asking user to confirm they are ready to restore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                    UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
-                    UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                        [self logToFile:@"user wants to begin restore now, checking battery level" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                        [[UIDevice currentDevice] setBatteryMonitoringEnabled:TRUE];
-                        if ([[UIDevice currentDevice] batteryLevel] > 0.5) {
-                            [self logToFile:[NSString stringWithFormat:@"battery level is %f which is greater than 50%%, ready to go", [[UIDevice currentDevice] batteryLevel]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                            if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
-                                NSTask *deletePreviousBackupSnapTask = [[NSTask alloc] init];
-                                [deletePreviousBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
-                                NSArray *deletePreviousBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"succession-prerestore", nil];
-                                [deletePreviousBackupSnapTask setArguments:deletePreviousBackupSnapTaskArgs];
-                                [self logToFile:@"user elected to create succession-prerestore snapshot, deleting already present succession-prerestore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                [deletePreviousBackupSnapTask launch];
-                                NSTask *createBackupSnapTask = [[NSTask alloc] init];
-                                [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
-                                NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
-                                [createBackupSnapTask setArguments:createBackupSnapTaskArgs];
-                                [self logToFile:@"creating new succession-prerestore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                [createBackupSnapTask launch];
-                            }
-                            [self successionRestore];
-                        } else {
-                            [self logToFile:[NSString stringWithFormat:@"battery is %f which is less than 50%%, warning user", [[UIDevice currentDevice] batteryLevel]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                            UIAlertController *lowBatteryWarning = [UIAlertController alertControllerWithTitle:@"Low Battery" message:@"It is recommended you have at least 50% battery charge before beginning restore" preferredStyle:UIAlertControllerStyleAlert];
-                            UIAlertAction *cancelRestoreAction = [UIAlertAction actionWithTitle:@"Abort restore" style:UIAlertActionStyleDefault handler:nil];
-                            UIAlertAction *startRestoreAction = [UIAlertAction actionWithTitle:@"Restore anyways" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                                [self logToFile:@"user chose to override battery warning, restoring now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
-                                    NSTask *deletePreviousBackupSnapTask = [[NSTask alloc] init];
-                                    [deletePreviousBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
-                                    NSArray *deletePreviousBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"succession-prerestore", nil];
-                                    [deletePreviousBackupSnapTask setArguments:deletePreviousBackupSnapTaskArgs];
-                                    [self logToFile:@"user elected to create succession-prerestore snapshot, deleting already present succession-prerestore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                    [deletePreviousBackupSnapTask launch];
-                                    NSTask *createBackupSnapTask = [[NSTask alloc] init];
-                                    [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
-                                    NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
-                                    [createBackupSnapTask setArguments:createBackupSnapTaskArgs];
-                                    [self logToFile:@"creating new succession-prerestore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                    [createBackupSnapTask launch];
-                                }
-                                [self successionRestore];
-                            }];
-                            [lowBatteryWarning addAction:cancelRestoreAction];
-                            [lowBatteryWarning addAction:startRestoreAction];
-                            [self presentViewController:lowBatteryWarning animated:TRUE completion:nil];
-                        }
-                        [[UIDevice currentDevice] setBatteryMonitoringEnabled:FALSE];
-                    }];
-                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-                    [areYouSureAlert addAction:beginRestore];
-                    [areYouSureAlert addAction:cancelAction];
-                    [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
-                } else {
-                    [self logToFile:@"Filesystem is not mounted, showing mount alert now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                    UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"Tap OK to continue." preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                    [mountingAlert addAction:okAction];
-                    [self presentViewController:mountingAlert animated:TRUE completion:^{
-                        [self logToFile:[NSString stringWithFormat:@"mountingAlert handler called, identified theDiskString as %@", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                        if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2s1"]]) {
-                            self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
-                            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                            [self mountRestoreDisk];
-                        } else if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2"]]){
-                            self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
-                            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                            [self mountRestoreDisk];
-                        } else {
-                            [self errorAlert:[NSString stringWithFormat:@"unable to identify theDisk, neither %@ or %@ existed", [self->_theDiskString stringByAppendingString:@"s2s1"], [self->_theDiskString stringByAppendingString:@"s2"]]];
-                        }
-                    }];
-                }
+                [self showRestoreAlert];
             }
         } else {
             [self logToFile:@"apfs snapshot operations enabled, but iOS version not compatible with snappy" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
@@ -168,14 +94,41 @@ int attach(const char *path, char buf[], size_t sz);
         }
     } else {
         [self logToFile:@"no apfs snapshot operations requested" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
-            [self logToFile:@"filesystem is mounted, asking user to confirm they are ready to restore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-            UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
-            UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                [self logToFile:@"user wants to begin restore now, checking battery level" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                [[UIDevice currentDevice] setBatteryMonitoringEnabled:TRUE];
-                if ([[UIDevice currentDevice] batteryLevel] > 0.5) {
-                    [self logToFile:[NSString stringWithFormat:@"battery level is %f which is greater than 50%%, ready to go", [[UIDevice currentDevice] batteryLevel]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+        [self showRestoreAlert];
+    }
+}
+
+- (void) showRestoreAlert{
+    [self logToFile:@"showRestoreAlert called!" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+        [self logToFile:@"filesystem is mounted, asking user to confirm they are ready to restore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+        UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self logToFile:@"user wants to begin restore now, checking battery level" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+            [[UIDevice currentDevice] setBatteryMonitoringEnabled:TRUE];
+            if ([[UIDevice currentDevice] batteryLevel] > 0.5) {
+                [self logToFile:[NSString stringWithFormat:@"battery level is %f which is greater than 50%%, ready to go", [[UIDevice currentDevice] batteryLevel]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
+                    NSTask *deletePreviousBackupSnapTask = [[NSTask alloc] init];
+                    [deletePreviousBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
+                    NSArray *deletePreviousBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"succession-prerestore", nil];
+                    [deletePreviousBackupSnapTask setArguments:deletePreviousBackupSnapTaskArgs];
+                    [self logToFile:@"user elected to create succession-prerestore snapshot, deleting already present succession-prerestore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                    [deletePreviousBackupSnapTask launch];
+                    NSTask *createBackupSnapTask = [[NSTask alloc] init];
+                    [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
+                    NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
+                    [createBackupSnapTask setArguments:createBackupSnapTaskArgs];
+                    [self logToFile:@"creating new succession-prerestore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                    [createBackupSnapTask launch];
+                }
+                [self successionRestore];
+            } else {
+                [self logToFile:[NSString stringWithFormat:@"battery is %f which is less than 50%%, warning user", [[UIDevice currentDevice] batteryLevel]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                UIAlertController *lowBatteryWarning = [UIAlertController alertControllerWithTitle:@"Low Battery" message:@"It is recommended you have at least 50% battery charge before beginning restore" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelRestoreAction = [UIAlertAction actionWithTitle:@"Abort restore" style:UIAlertActionStyleDefault handler:nil];
+                UIAlertAction *startRestoreAction = [UIAlertAction actionWithTitle:@"Restore anyways" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                    [self logToFile:@"user chose to override battery warning, restoring now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
                     if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
                         NSTask *deletePreviousBackupSnapTask = [[NSTask alloc] init];
                         [deletePreviousBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
@@ -191,58 +144,36 @@ int attach(const char *path, char buf[], size_t sz);
                         [createBackupSnapTask launch];
                     }
                     [self successionRestore];
-                } else {
-                    [self logToFile:[NSString stringWithFormat:@"battery is %f which is less than 50%%, warning user", [[UIDevice currentDevice] batteryLevel]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                    UIAlertController *lowBatteryWarning = [UIAlertController alertControllerWithTitle:@"Low Battery" message:@"It is recommended you have at least 50% battery charge before beginning restore" preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *cancelRestoreAction = [UIAlertAction actionWithTitle:@"Abort restore" style:UIAlertActionStyleDefault handler:nil];
-                    UIAlertAction *startRestoreAction = [UIAlertAction actionWithTitle:@"Restore anyways" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                        [self logToFile:@"user chose to override battery warning, restoring now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                        if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
-                            NSTask *deletePreviousBackupSnapTask = [[NSTask alloc] init];
-                            [deletePreviousBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
-                            NSArray *deletePreviousBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"succession-prerestore", nil];
-                            [deletePreviousBackupSnapTask setArguments:deletePreviousBackupSnapTaskArgs];
-                            [self logToFile:@"user elected to create succession-prerestore snapshot, deleting already present succession-prerestore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                            [deletePreviousBackupSnapTask launch];
-                            NSTask *createBackupSnapTask = [[NSTask alloc] init];
-                            [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
-                            NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
-                            [createBackupSnapTask setArguments:createBackupSnapTaskArgs];
-                            [self logToFile:@"creating new succession-prerestore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                            [createBackupSnapTask launch];
-                        }
-                        [self successionRestore];
-                    }];
-                    [lowBatteryWarning addAction:cancelRestoreAction];
-                    [lowBatteryWarning addAction:startRestoreAction];
-                    [self presentViewController:lowBatteryWarning animated:TRUE completion:nil];
-                }
-                [[UIDevice currentDevice] setBatteryMonitoringEnabled:FALSE];
-            }];
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-            [areYouSureAlert addAction:beginRestore];
-            [areYouSureAlert addAction:cancelAction];
-            [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
-        } else {
-            [self logToFile:@"Filesystem is not mounted, showing mount alert now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-            UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"Tap OK to continue." preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-            [mountingAlert addAction:okAction];
-            [self presentViewController:mountingAlert animated:TRUE completion:^{
-                [self logToFile:[NSString stringWithFormat:@"mountingAlert handler called, identified theDiskString as %@", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2s1"]]) {
-                    self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
-                    [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                    [self mountRestoreDisk];
-                } else if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2"]]){
-                    self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
-                    [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                    [self mountRestoreDisk];
-                } else {
-                    [self errorAlert:[NSString stringWithFormat:@"unable to identify theDisk, neither %@ or %@ existed", [self->_theDiskString stringByAppendingString:@"s2s1"], [self->_theDiskString stringByAppendingString:@"s2"]]];
-                }
-            }];
-        }
+                }];
+                [lowBatteryWarning addAction:cancelRestoreAction];
+                [lowBatteryWarning addAction:startRestoreAction];
+                [self presentViewController:lowBatteryWarning animated:TRUE completion:nil];
+            }
+            [[UIDevice currentDevice] setBatteryMonitoringEnabled:FALSE];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        [areYouSureAlert addAction:beginRestore];
+        [areYouSureAlert addAction:cancelAction];
+        [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
+    } else {
+        [self logToFile:@"Filesystem is not mounted, showing mount alert now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+        UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"Tap OK to continue." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [mountingAlert addAction:okAction];
+        [self presentViewController:mountingAlert animated:TRUE completion:^{
+            [self logToFile:[NSString stringWithFormat:@"mountingAlert handler called, identified theDiskString as %@", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2s1"]]) {
+                self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
+                [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                [self mountRestoreDisk];
+            } else if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2"]]){
+                self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
+                [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                [self mountRestoreDisk];
+            } else {
+                [self errorAlert:[NSString stringWithFormat:@"unable to identify theDisk, neither %@ or %@ existed", [self->_theDiskString stringByAppendingString:@"s2s1"], [self->_theDiskString stringByAppendingString:@"s2"]]];
+            }
+        }];
     }
 }
 
@@ -383,7 +314,7 @@ int attach(const char *path, char buf[], size_t sz);
         } else {
             [self logToFile:[NSString stringWithFormat:@"couldnt find rsync at path %@, checking /usr/bin/rsync to see if user accidentally changed preferences", [_successionPrefs objectForKey:@"custom_rsync_path"]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
             if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/rsync"]) {
-                UIAlertController *rsyncNotFound = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Unable to find rsync at custom path %@", [_successionPrefs objectForKey:@"custom_rsync_path"]]  message:@"/usr/bin/rsync will be used" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController *rsyncNotFound = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Unable to find rsync at custom path %@", [_successionPrefs objectForKey:@"custom_rsync_path"]]message:@"/usr/bin/rsync will be used" preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *useDefualtPathAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
                 [rsyncNotFound addAction:useDefualtPathAction];
                 [self presentViewController:rsyncNotFound animated:TRUE completion:nil];
@@ -403,142 +334,142 @@ int attach(const char *path, char buf[], size_t sz);
         observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
                                                                      object:stdoutHandle queue:nil
                                                                  usingBlock:^(NSNotification *note)
-                    {
-                        
-                        NSData *dataRead = [stdoutHandle availableData];
-                        NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
-                        [self logToFile:stringRead atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                        [[self infoLabel] setText:@"Restoring, please wait..."];
-                        [[self headerLabel] setText:@"Progress bar may freeze for long periods of time, it's still working, leave it alone until your device reboots."];
-                        [[self headerLabel] setHighlighted:FALSE];
-                        if ([stringRead containsString:@"00 files..."]) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [[self outputLabel] setHidden:FALSE];
-                                [[self outputLabel] setText:stringRead];
-                                [[self fileListActivityIndicator] setHidden:FALSE];
-                                [[self restoreProgressBar] setHidden:TRUE];
-                            });
-                        }
-                        if ([stringRead hasPrefix:@"Applications/"]) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [[self outputLabel] setHidden:FALSE];
-                                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Applications...", stringRead]];
-                                [[self fileListActivityIndicator] setHidden:TRUE];
-                                [[self restoreProgressBar] setHidden:FALSE];
-                                [[self restoreProgressBar] setProgress:0];
-                            });
-                        }
-                        if ([stringRead hasPrefix:@"Library/"]) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [[self outputLabel] setHidden:FALSE];
-                                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Library...", stringRead]];
-                                [[self fileListActivityIndicator] setHidden:TRUE];
-                                [[self restoreProgressBar] setHidden:FALSE];
-                                [[self restoreProgressBar] setProgress:0.33];
-                            });
-                        }
-                        if ([stringRead hasPrefix:@"System/"]) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [[self outputLabel] setHidden:FALSE];
-                                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding System...", stringRead]];
-                                [[self fileListActivityIndicator] setHidden:TRUE];
-                                [[self restoreProgressBar] setHidden:FALSE];
-                                [[self restoreProgressBar] setProgress:0.67];
-                            });
-                        }
-                        if ([stringRead hasPrefix:@"usr/"]) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [[self outputLabel] setHidden:FALSE];
-                                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding usr...", stringRead]];
-                                [[self fileListActivityIndicator] setHidden:TRUE];
-                                [[self restoreProgressBar] setHidden:FALSE];
-                                [[self restoreProgressBar] setProgress:0.9];
-                            });
-                        }
-                        if ([stringRead containsString:@"speedup is"] && [stringRead containsString:@"bytes"] && [stringRead containsString:@"sent"] && [stringRead containsString:@"received"]) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [self logToFile:@"restore has completed!" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                [[self outputLabel] setHidden:TRUE];
-                                [[self headerLabel] setText:@"Restore complete"];
-                                [[self fileListActivityIndicator] setHidden:TRUE];
-                                [[self restoreProgressBar] setHidden:FALSE];
-                                [[self restoreProgressBar] setProgress:1.0];
-                                [[NSNotificationCenter defaultCenter] removeObserver:observer];
-                                if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]) {
-                                    [self logToFile:@"Test mode used, exiting..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                    UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Dry run complete!" message:@"YAY!" preferredStyle:UIAlertControllerStyleAlert];
-                                    UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                                        exit(0);
-                                    }];
-                                    [restoreCompleteController addAction:exitAction];
-                                    [self presentViewController:restoreCompleteController animated:TRUE completion:nil];
-                                } else {
-                                    if ([[self->_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
-                                        [self logToFile:@"user elected to replace orig-fs, deleting old orig-fs now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                        NSTask *deleteOrigFS = [[NSTask alloc] init];
-                                        [deleteOrigFS setLaunchPath:@"/usr/bin/snappy"];
-                                        NSArray *deleteOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"orig-fs", nil];
-                                        [deleteOrigFS setArguments:deleteOrigFSArgs];
-                                        [deleteOrigFS launch];
-                                        [self logToFile:@"user elected to replace orig-fs, creating new orig-fs now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                        NSTask *createNewOrigFS = [[NSTask alloc] init];
-                                        [createNewOrigFS setLaunchPath:@"/usr/bin/snappy"];
-                                        NSArray *createNewOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"orig-fs", nil];
-                                        [createNewOrigFS setArguments:createNewOrigFSArgs];
-                                        createNewOrigFS.terminationHandler = ^{
-                                            [self logToFile:@"renaming newly created orig-fs to system snapshot name" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                            NSTask *renameOrigFS = [[NSTask alloc] init];
-                                            [renameOrigFS setLaunchPath:@"/usr/bin/snappy"];
-                                            NSArray *renameOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-r", @"orig-fs", @"-x", nil];
-                                            [renameOrigFS setArguments:renameOrigFSArgs];
-                                            [renameOrigFS launch];
-                                            [self logToFile:@"ok, we're done with snappy, deleting now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                            NSError *err;
-                                            [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/snappy" error:&err];
-                                            if (err) {
-                                                [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete snappy: %@", [err localizedDescription]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                            }
-                                        };
-                                        [createNewOrigFS launch];
-                                    }
-                                    [self logToFile:@"showing restore complete alert" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                    UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebuilding icon cache, please wait..." preferredStyle:UIAlertControllerStyleAlert];
-                                    [self presentViewController:restoreCompleteController animated:TRUE completion:^{
-                                        if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
-                                            [self logToFile:@"Update install was used, rebuilding uicache" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                            if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/uicache"]) {
-                                                NSTask *uicacheTask = [[NSTask alloc] init];
-                                                NSArray *uicacheElectraArgs = [NSArray arrayWithObjects:@"--all", nil];
-                                                [uicacheTask setLaunchPath:@"/usr/bin/uicache"];
-                                                [uicacheTask setArguments:uicacheElectraArgs];
-                                                [uicacheTask launch];
-                                                uicacheTask.terminationHandler = ^(NSTask *task){
-                                                    [self logToFile:@"uicache complete, deleting it..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                                    NSError *err;
-                                                    [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/uicache" error:&err];
-                                                    if (err) {
-                                                        [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete uicache: %@", [err localizedDescription]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                                    }
-                                                    reboot(0x400);
-                                                };
-                                            } else {
-                                                [self logToFile:@"/usr/bin/uicache doesnt exist, oops. rebooting..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                                reboot(0x400);
-                                            }
-                                        } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){
-                                            [self logToFile:@"That was a test mode restore, but somehow the first check for this didnt get detected... anways, the app will just hang now..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                        } else {
-                                            extern int SBDataReset(mach_port_t, int);
-                                            extern mach_port_t SBSSpringBoardServerPort(void);
-                                            [self logToFile:[NSString stringWithFormat:@"That was a normal restore. go, mobile_obliteration! %u", SBSSpringBoardServerPort()] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                            SBDataReset(SBSSpringBoardServerPort(), 5);
-                                        }
-                                    }];
+        {
+            
+            NSData *dataRead = [stdoutHandle availableData];
+            NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
+            [self logToFile:stringRead atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+            [[self infoLabel] setText:@"Restoring, please wait..."];
+            [[self headerLabel] setText:@"Progress bar may freeze for long periods of time, it's still working, leave it alone until your device reboots."];
+            [[self headerLabel] setHighlighted:FALSE];
+            if ([stringRead containsString:@"00 files..."]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self outputLabel] setHidden:FALSE];
+                    [[self outputLabel] setText:stringRead];
+                    [[self fileListActivityIndicator] setHidden:FALSE];
+                    [[self restoreProgressBar] setHidden:TRUE];
+                });
+            }
+            if ([stringRead hasPrefix:@"Applications/"]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self outputLabel] setHidden:FALSE];
+                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Applications...", stringRead]];
+                    [[self fileListActivityIndicator] setHidden:TRUE];
+                    [[self restoreProgressBar] setHidden:FALSE];
+                    [[self restoreProgressBar] setProgress:0];
+                });
+            }
+            if ([stringRead hasPrefix:@"Library/"]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self outputLabel] setHidden:FALSE];
+                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Library...", stringRead]];
+                    [[self fileListActivityIndicator] setHidden:TRUE];
+                    [[self restoreProgressBar] setHidden:FALSE];
+                    [[self restoreProgressBar] setProgress:0.33];
+                });
+            }
+            if ([stringRead hasPrefix:@"System/"]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self outputLabel] setHidden:FALSE];
+                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding System...", stringRead]];
+                    [[self fileListActivityIndicator] setHidden:TRUE];
+                    [[self restoreProgressBar] setHidden:FALSE];
+                    [[self restoreProgressBar] setProgress:0.67];
+                });
+            }
+            if ([stringRead hasPrefix:@"usr/"]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self outputLabel] setHidden:FALSE];
+                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding usr...", stringRead]];
+                    [[self fileListActivityIndicator] setHidden:TRUE];
+                    [[self restoreProgressBar] setHidden:FALSE];
+                    [[self restoreProgressBar] setProgress:0.9];
+                });
+            }
+            if ([stringRead containsString:@"speedup is"] && [stringRead containsString:@"bytes"] && [stringRead containsString:@"sent"] && [stringRead containsString:@"received"]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self logToFile:@"restore has completed!" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                    [[self outputLabel] setHidden:TRUE];
+                    [[self headerLabel] setText:@"Restore complete"];
+                    [[self fileListActivityIndicator] setHidden:TRUE];
+                    [[self restoreProgressBar] setHidden:FALSE];
+                    [[self restoreProgressBar] setProgress:1.0];
+                    [[NSNotificationCenter defaultCenter] removeObserver:observer];
+                    if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]) {
+                        [self logToFile:@"Test mode used, exiting..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                        UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Dry run complete!" message:@"YAY!" preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                            exit(0);
+                        }];
+                        [restoreCompleteController addAction:exitAction];
+                        [self presentViewController:restoreCompleteController animated:TRUE completion:nil];
+                    } else {
+                        if ([[self->_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
+                            [self logToFile:@"user elected to replace orig-fs, deleting old orig-fs now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                            NSTask *deleteOrigFS = [[NSTask alloc] init];
+                            [deleteOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                            NSArray *deleteOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"orig-fs", nil];
+                            [deleteOrigFS setArguments:deleteOrigFSArgs];
+                            [deleteOrigFS launch];
+                            [self logToFile:@"user elected to replace orig-fs, creating new orig-fs now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                            NSTask *createNewOrigFS = [[NSTask alloc] init];
+                            [createNewOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                            NSArray *createNewOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"orig-fs", nil];
+                            [createNewOrigFS setArguments:createNewOrigFSArgs];
+                            createNewOrigFS.terminationHandler = ^{
+                                [self logToFile:@"renaming newly created orig-fs to system snapshot name" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                NSTask *renameOrigFS = [[NSTask alloc] init];
+                                [renameOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                                NSArray *renameOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-r", @"orig-fs", @"-x", nil];
+                                [renameOrigFS setArguments:renameOrigFSArgs];
+                                [renameOrigFS launch];
+                                [self logToFile:@"ok, we're done with snappy, deleting now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                NSError *err;
+                                [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/snappy" error:&err];
+                                if (err) {
+                                    [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete snappy: %@", [err localizedDescription]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
                                 }
-                            });
+                            };
+                            [createNewOrigFS launch];
                         }
-                        [stdoutHandle waitForDataInBackgroundAndNotify];
-                    }];
+                        [self logToFile:@"showing restore complete alert" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                        UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebuilding icon cache, please wait..." preferredStyle:UIAlertControllerStyleAlert];
+                        [self presentViewController:restoreCompleteController animated:TRUE completion:^{
+                            if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
+                                [self logToFile:@"Update install was used, rebuilding uicache" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/uicache"]) {
+                                    NSTask *uicacheTask = [[NSTask alloc] init];
+                                    NSArray *uicacheElectraArgs = [NSArray arrayWithObjects:@"--all", nil];
+                                    [uicacheTask setLaunchPath:@"/usr/bin/uicache"];
+                                    [uicacheTask setArguments:uicacheElectraArgs];
+                                    [uicacheTask launch];
+                                    uicacheTask.terminationHandler = ^(NSTask *task){
+                                        [self logToFile:@"uicache complete, deleting it..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                        NSError *err;
+                                        [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/uicache" error:&err];
+                                        if (err) {
+                                            [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete uicache: %@", [err localizedDescription]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                        }
+                                        reboot(0x400);
+                                    };
+                                } else {
+                                    [self logToFile:@"/usr/bin/uicache doesnt exist, oops. rebooting..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                    reboot(0x400);
+                                }
+                            } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){
+                                [self logToFile:@"That was a test mode restore, but somehow the first check for this didnt get detected... anways, the app will just hang now..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                            } else {
+                                extern int SBDataReset(mach_port_t, int);
+                                extern mach_port_t SBSSpringBoardServerPort(void);
+                                [self logToFile:[NSString stringWithFormat:@"That was a normal restore. go, mobile_obliteration! %u", SBSSpringBoardServerPort()] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                SBDataReset(SBSSpringBoardServerPort(), 5);
+                            }
+                        }];
+                    }
+                });
+            }
+            [stdoutHandle waitForDataInBackgroundAndNotify];
+        }];
         [self logToFile:@"Updating UI to prepare for restore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
         [[self infoLabel] setText:@"Working, do not leave the app..."];
         [[self headerLabel] setText:@""];
