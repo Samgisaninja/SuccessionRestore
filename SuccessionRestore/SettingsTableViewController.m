@@ -135,7 +135,7 @@
         default:
             break;
     }
-
+    
     return cell;
 }
 
@@ -250,7 +250,7 @@
             [rsyncPathAlert addAction:continueAction];
             [self presentViewController:rsyncPathAlert animated:TRUE completion:nil];
             break;
-            }
+        }
         case 8: {
             UIAlertController *ipswPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to IPSW" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
             [ipswPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -271,7 +271,7 @@
             [ipswPathAlert addAction:continueAction];
             [self presentViewController:ipswPathAlert animated:TRUE completion:nil];
             break;
-            }
+        }
         case 9: {
             UIAlertController *resetPrefsAlert = [UIAlertController alertControllerWithTitle:@"Reset all preferences?" message:@"Succession will restart" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
@@ -283,7 +283,7 @@
             [resetPrefsAlert addAction:cancelAction];
             [self presentViewController:resetPrefsAlert animated:TRUE completion:nil];
             break;
-          }
+        }
         default:
             break;
     }

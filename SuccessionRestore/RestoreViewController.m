@@ -401,144 +401,144 @@ int attach(const char *path, char buf[], size_t sz);
         [stdoutHandle waitForDataInBackgroundAndNotify];
         id observer;
         observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
-                                                                        object:stdoutHandle queue:nil
-                                                                    usingBlock:^(NSNotification *note)
-        {
-
-            NSData *dataRead = [stdoutHandle availableData];
-            NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
-            [self logToFile:stringRead atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-            [[self infoLabel] setText:@"Restoring, please wait..."];
-            [[self headerLabel] setText:@"Progress bar may freeze for long periods of time, it's still working, leave it alone until your device reboots."];
-            [[self headerLabel] setHighlighted:FALSE];
-            if ([stringRead containsString:@"00 files..."]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:stringRead];
-                    [[self fileListActivityIndicator] setHidden:FALSE];
-                    [[self restoreProgressBar] setHidden:TRUE];
-                });
-            }
-            if ([stringRead hasPrefix:@"Applications/"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Applications...", stringRead]];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    [[self restoreProgressBar] setHidden:FALSE];
-                    [[self restoreProgressBar] setProgress:0];
-                });
-            }
-            if ([stringRead hasPrefix:@"Library/"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Library...", stringRead]];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    [[self restoreProgressBar] setHidden:FALSE];
-                    [[self restoreProgressBar] setProgress:0.33];
-                });
-            }
-            if ([stringRead hasPrefix:@"System/"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding System...", stringRead]];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    [[self restoreProgressBar] setHidden:FALSE];
-                    [[self restoreProgressBar] setProgress:0.67];
-                });
-            }
-            if ([stringRead hasPrefix:@"usr/"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding usr...", stringRead]];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    [[self restoreProgressBar] setHidden:FALSE];
-                    [[self restoreProgressBar] setProgress:0.9];
-                });
-            }
-            if ([stringRead containsString:@"speedup is"] && [stringRead containsString:@"bytes"] && [stringRead containsString:@"sent"] && [stringRead containsString:@"received"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self logToFile:@"restore has completed!" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                    [[self outputLabel] setHidden:TRUE];
-                    [[self headerLabel] setText:@"Restore complete"];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    [[self restoreProgressBar] setHidden:FALSE];
-                    [[self restoreProgressBar] setProgress:1.0];
-                    [[NSNotificationCenter defaultCenter] removeObserver:observer];
-                    if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]) {
-                        [self logToFile:@"Test mode used, exiting..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                        UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Dry run complete!" message:@"YAY!" preferredStyle:UIAlertControllerStyleAlert];
-                        UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                        exit(0);
-                        }];
-                        [restoreCompleteController addAction:exitAction];
-                        [self presentViewController:restoreCompleteController animated:TRUE completion:nil];
-                    } else {
-                        if ([[self->_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
-                            [self logToFile:@"user elected to replace orig-fs, deleting old orig-fs now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                            NSTask *deleteOrigFS = [[NSTask alloc] init];
-                            [deleteOrigFS setLaunchPath:@"/usr/bin/snappy"];
-                            NSArray *deleteOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"orig-fs", nil];
-                            [deleteOrigFS setArguments:deleteOrigFSArgs];
-                            [deleteOrigFS launch];
-                            [self logToFile:@"user elected to replace orig-fs, creating new orig-fs now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                            NSTask *createNewOrigFS = [[NSTask alloc] init];
-                            [createNewOrigFS setLaunchPath:@"/usr/bin/snappy"];
-                            NSArray *createNewOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"orig-fs", nil];
-                            [createNewOrigFS setArguments:createNewOrigFSArgs];
-                            createNewOrigFS.terminationHandler = ^{
-                                [self logToFile:@"renaming newly created orig-fs to system snapshot name" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                NSTask *renameOrigFS = [[NSTask alloc] init];
-                                [renameOrigFS setLaunchPath:@"/usr/bin/snappy"];
-                                NSArray *renameOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-r", @"orig-fs", @"-x", nil];
-                                [renameOrigFS setArguments:renameOrigFSArgs];
-                                [renameOrigFS launch];
-                                [self logToFile:@"ok, we're done with snappy, deleting now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                NSError *err;
-                                [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/snappy" error:&err];
-                                if (err) {
-                                    [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete snappy: %@", [err localizedDescription]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                }
-                            };
-                            [createNewOrigFS launch];
+                                                                     object:stdoutHandle queue:nil
+                                                                 usingBlock:^(NSNotification *note)
+                    {
+                        
+                        NSData *dataRead = [stdoutHandle availableData];
+                        NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
+                        [self logToFile:stringRead atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                        [[self infoLabel] setText:@"Restoring, please wait..."];
+                        [[self headerLabel] setText:@"Progress bar may freeze for long periods of time, it's still working, leave it alone until your device reboots."];
+                        [[self headerLabel] setHighlighted:FALSE];
+                        if ([stringRead containsString:@"00 files..."]) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [[self outputLabel] setHidden:FALSE];
+                                [[self outputLabel] setText:stringRead];
+                                [[self fileListActivityIndicator] setHidden:FALSE];
+                                [[self restoreProgressBar] setHidden:TRUE];
+                            });
                         }
-                        [self logToFile:@"showing restore complete alert" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                        UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebuilding icon cache, please wait..." preferredStyle:UIAlertControllerStyleAlert];
-                        [self presentViewController:restoreCompleteController animated:TRUE completion:^{
-                            if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
-                                [self logToFile:@"Update install was used, rebuilding uicache" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/uicache"]) {
-                                    NSTask *uicacheTask = [[NSTask alloc] init];
-                                    NSArray *uicacheElectraArgs = [NSArray arrayWithObjects:@"--all", nil];
-                                    [uicacheTask setLaunchPath:@"/usr/bin/uicache"];
-                                    [uicacheTask setArguments:uicacheElectraArgs];
-                                    [uicacheTask launch];
-                                    uicacheTask.terminationHandler = ^(NSTask *task){
-                                        [self logToFile:@"uicache complete, deleting it..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                        NSError *err;
-                                        [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/uicache" error:&err];
-                                        if (err) {
-                                            [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete uicache: %@", [err localizedDescription]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                        }
-                                        reboot(0x400);
-                                    };
+                        if ([stringRead hasPrefix:@"Applications/"]) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [[self outputLabel] setHidden:FALSE];
+                                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Applications...", stringRead]];
+                                [[self fileListActivityIndicator] setHidden:TRUE];
+                                [[self restoreProgressBar] setHidden:FALSE];
+                                [[self restoreProgressBar] setProgress:0];
+                            });
+                        }
+                        if ([stringRead hasPrefix:@"Library/"]) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [[self outputLabel] setHidden:FALSE];
+                                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Library...", stringRead]];
+                                [[self fileListActivityIndicator] setHidden:TRUE];
+                                [[self restoreProgressBar] setHidden:FALSE];
+                                [[self restoreProgressBar] setProgress:0.33];
+                            });
+                        }
+                        if ([stringRead hasPrefix:@"System/"]) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [[self outputLabel] setHidden:FALSE];
+                                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding System...", stringRead]];
+                                [[self fileListActivityIndicator] setHidden:TRUE];
+                                [[self restoreProgressBar] setHidden:FALSE];
+                                [[self restoreProgressBar] setProgress:0.67];
+                            });
+                        }
+                        if ([stringRead hasPrefix:@"usr/"]) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [[self outputLabel] setHidden:FALSE];
+                                [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding usr...", stringRead]];
+                                [[self fileListActivityIndicator] setHidden:TRUE];
+                                [[self restoreProgressBar] setHidden:FALSE];
+                                [[self restoreProgressBar] setProgress:0.9];
+                            });
+                        }
+                        if ([stringRead containsString:@"speedup is"] && [stringRead containsString:@"bytes"] && [stringRead containsString:@"sent"] && [stringRead containsString:@"received"]) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [self logToFile:@"restore has completed!" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                [[self outputLabel] setHidden:TRUE];
+                                [[self headerLabel] setText:@"Restore complete"];
+                                [[self fileListActivityIndicator] setHidden:TRUE];
+                                [[self restoreProgressBar] setHidden:FALSE];
+                                [[self restoreProgressBar] setProgress:1.0];
+                                [[NSNotificationCenter defaultCenter] removeObserver:observer];
+                                if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]) {
+                                    [self logToFile:@"Test mode used, exiting..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                    UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Dry run complete!" message:@"YAY!" preferredStyle:UIAlertControllerStyleAlert];
+                                    UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                                        exit(0);
+                                    }];
+                                    [restoreCompleteController addAction:exitAction];
+                                    [self presentViewController:restoreCompleteController animated:TRUE completion:nil];
                                 } else {
-                                    [self logToFile:@"/usr/bin/uicache doesnt exist, oops. rebooting..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                    reboot(0x400);
+                                    if ([[self->_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
+                                        [self logToFile:@"user elected to replace orig-fs, deleting old orig-fs now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                        NSTask *deleteOrigFS = [[NSTask alloc] init];
+                                        [deleteOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                                        NSArray *deleteOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"orig-fs", nil];
+                                        [deleteOrigFS setArguments:deleteOrigFSArgs];
+                                        [deleteOrigFS launch];
+                                        [self logToFile:@"user elected to replace orig-fs, creating new orig-fs now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                        NSTask *createNewOrigFS = [[NSTask alloc] init];
+                                        [createNewOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                                        NSArray *createNewOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"orig-fs", nil];
+                                        [createNewOrigFS setArguments:createNewOrigFSArgs];
+                                        createNewOrigFS.terminationHandler = ^{
+                                            [self logToFile:@"renaming newly created orig-fs to system snapshot name" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                            NSTask *renameOrigFS = [[NSTask alloc] init];
+                                            [renameOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                                            NSArray *renameOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-r", @"orig-fs", @"-x", nil];
+                                            [renameOrigFS setArguments:renameOrigFSArgs];
+                                            [renameOrigFS launch];
+                                            [self logToFile:@"ok, we're done with snappy, deleting now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                            NSError *err;
+                                            [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/snappy" error:&err];
+                                            if (err) {
+                                                [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete snappy: %@", [err localizedDescription]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                            }
+                                        };
+                                        [createNewOrigFS launch];
+                                    }
+                                    [self logToFile:@"showing restore complete alert" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                    UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebuilding icon cache, please wait..." preferredStyle:UIAlertControllerStyleAlert];
+                                    [self presentViewController:restoreCompleteController animated:TRUE completion:^{
+                                        if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
+                                            [self logToFile:@"Update install was used, rebuilding uicache" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                            if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/uicache"]) {
+                                                NSTask *uicacheTask = [[NSTask alloc] init];
+                                                NSArray *uicacheElectraArgs = [NSArray arrayWithObjects:@"--all", nil];
+                                                [uicacheTask setLaunchPath:@"/usr/bin/uicache"];
+                                                [uicacheTask setArguments:uicacheElectraArgs];
+                                                [uicacheTask launch];
+                                                uicacheTask.terminationHandler = ^(NSTask *task){
+                                                    [self logToFile:@"uicache complete, deleting it..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                                    NSError *err;
+                                                    [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/uicache" error:&err];
+                                                    if (err) {
+                                                        [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete uicache: %@", [err localizedDescription]] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                                    }
+                                                    reboot(0x400);
+                                                };
+                                            } else {
+                                                [self logToFile:@"/usr/bin/uicache doesnt exist, oops. rebooting..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                                reboot(0x400);
+                                            }
+                                        } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){
+                                            [self logToFile:@"That was a test mode restore, but somehow the first check for this didnt get detected... anways, the app will just hang now..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                        } else {
+                                            extern int SBDataReset(mach_port_t, int);
+                                            extern mach_port_t SBSSpringBoardServerPort(void);
+                                            [self logToFile:[NSString stringWithFormat:@"That was a normal restore. go, mobile_obliteration! %u", SBSSpringBoardServerPort()] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                                            SBDataReset(SBSSpringBoardServerPort(), 5);
+                                        }
+                                    }];
                                 }
-                            } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){
-                                [self logToFile:@"That was a test mode restore, but somehow the first check for this didnt get detected... anways, the app will just hang now..." atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                            } else {
-                                extern int SBDataReset(mach_port_t, int);
-                                extern mach_port_t SBSSpringBoardServerPort(void);
-                                [self logToFile:[NSString stringWithFormat:@"That was a normal restore. go, mobile_obliteration! %u", SBSSpringBoardServerPort()] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-                                SBDataReset(SBSSpringBoardServerPort(), 5);
-                            }
+                            });
+                        }
+                        [stdoutHandle waitForDataInBackgroundAndNotify];
                     }];
-                }
-            });
-            }
-            [stdoutHandle waitForDataInBackgroundAndNotify];
-        }];
         [self logToFile:@"Updating UI to prepare for restore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
         [[self infoLabel] setText:@"Working, do not leave the app..."];
         [[self headerLabel] setText:@""];
@@ -566,7 +566,7 @@ int attach(const char *path, char buf[], size_t sz);
     } else {
         [self errorAlert:@"Mountpoint does not contain rootfilesystem, please restart the app and try again."];
     }
-
+    
 }
 
 

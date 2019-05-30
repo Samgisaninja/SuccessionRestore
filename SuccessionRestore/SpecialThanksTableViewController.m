@@ -62,17 +62,17 @@
             break;
         }
         case 2: {
-                UIFont *nameFont = [UIFont systemFontOfSize:17];
-                NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
-                NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"MidnightChips\n"] attributes: nameFontDict];
-                UIFont *roleFont = [UIFont systemFontOfSize:13];;
-                NSDictionary *roleFontDict = [NSDictionary dictionaryWithObject: roleFont forKey:NSFontAttributeName];
-                NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"APFS Snapshot Operations (SnapBack)" attributes: roleFontDict];
-                [nameString appendAttributedString:roleString];
-                [[cell textLabel] setAttributedText:nameString];
-                [[cell imageView] setImage:[UIImage imageNamed:@"Midnightchip"]];
-                break;
-            }
+            UIFont *nameFont = [UIFont systemFontOfSize:17];
+            NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
+            NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"MidnightChips\n"] attributes: nameFontDict];
+            UIFont *roleFont = [UIFont systemFontOfSize:13];;
+            NSDictionary *roleFontDict = [NSDictionary dictionaryWithObject: roleFont forKey:NSFontAttributeName];
+            NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"APFS Snapshot Operations (SnapBack)" attributes: roleFontDict];
+            [nameString appendAttributedString:roleString];
+            [[cell textLabel] setAttributedText:nameString];
+            [[cell imageView] setImage:[UIImage imageNamed:@"Midnightchip"]];
+            break;
+        }
         case 3: {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
@@ -89,7 +89,7 @@
             UIGraphicsEndImageContext();
             [[cell imageView] setImage:newImage];
             break;
-            }
+        }
         case 4:
         {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
@@ -216,48 +216,5 @@
     return newImage;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

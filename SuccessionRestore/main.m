@@ -49,18 +49,18 @@ void patch_setuid() {
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-   setuid(0);
-
-  if (getuid() != 0) {
-  	//Gets setuid on Electra 
-    patch_setuid();
-    platformize_me();
-    setuid(0); // electra requires you to call setuid again
-  }
-	//Gets setuid on Meridian
-  if (getuid() != 0) {
-      patch_setuid();
-  }
-	return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-}
+        setuid(0);
+        
+        if (getuid() != 0) {
+            //Gets setuid on Electra 
+            patch_setuid();
+            platformize_me();
+            setuid(0); // electra requires you to call setuid again
+        }
+        //Gets setuid on Meridian
+        if (getuid() != 0) {
+            patch_setuid();
+        }
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
 }
