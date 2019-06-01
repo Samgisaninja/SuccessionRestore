@@ -102,7 +102,17 @@ int attach(const char *path, char buf[], size_t sz);
     [self logToFile:@"showRestoreAlert called!" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [self logToFile:@"filesystem is mounted, asking user to confirm they are ready to restore" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
-        UIAlertController *areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
+        size_t size;
+        sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+        char *modelChar = malloc(size);
+        sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
+        NSString *deviceModel = [NSString stringWithUTF8String:modelChar];
+        free(modelChar);
+        if ([deviceModel containsString:@"iPad"]) {
+            _areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleAlert];
+        } else {
+            _areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
+        }
         UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             [self logToFile:@"user wants to begin restore now, checking battery level" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
             [[UIDevice currentDevice] setBatteryMonitoringEnabled:TRUE];
@@ -124,9 +134,9 @@ int attach(const char *path, char buf[], size_t sz);
             [[UIDevice currentDevice] setBatteryMonitoringEnabled:FALSE];
         }];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-        [areYouSureAlert addAction:beginRestore];
-        [areYouSureAlert addAction:cancelAction];
-        [self presentViewController:areYouSureAlert animated:TRUE completion:nil];
+        [_areYouSureAlert addAction:beginRestore];
+        [_areYouSureAlert addAction:cancelAction];
+        [self presentViewController:_areYouSureAlert animated:TRUE completion:nil];
     } else {
         [self logToFile:@"Filesystem is not mounted, showing mount alert now" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
         UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"Tap OK to continue." preferredStyle:UIAlertControllerStyleAlert];
