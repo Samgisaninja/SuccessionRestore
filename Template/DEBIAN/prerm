@@ -1,5 +1,5 @@
 #!/bin/bash
 
-if [!"$1"=="upgrade"] then
+if [ "$1" != "upgrade" ]; then
     rm -rf /private/var/mobile/Media/Succession/
-endif
+fi
