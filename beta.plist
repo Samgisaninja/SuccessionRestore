@@ -112,6 +112,11 @@
 		<key>iPhone9,2</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-09917/19FDD1DA-C5A5-11E8-AB01-91E36C2878E5/iPhone_5.5_P3_12.1_16B5068i_Restore.ipsw</string>
 	</dict>
+	<key>16C5036c</key>
+	<dict>
+		<key>iPhone8,2</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12756/6F0F2DE2-DC7D-11E8-9F79-90A4BDBB55A9/iPhone_5.5_12.1.1_16C5036c_Restore.ipsw</string>
+	</dict>
 	<key>16C5050a</key>
 	<dict>
 		<key>iPad4,1</key>
