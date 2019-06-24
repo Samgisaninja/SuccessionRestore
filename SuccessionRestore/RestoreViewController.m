@@ -215,8 +215,21 @@ int attach(const char *path, char buf[], size_t sz);
         [self logToFile:[NSString stringWithFormat:@"mountpoint is present! mounting %@ type disk %@ to mountpoint", _filesystemType, _theDiskString] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
         NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", _theDiskString, @"/private/var/MobileSoftwareUpdate/mnt1", nil];
         NSTask *mountTask = [[NSTask alloc] init];
-        mountTask.launchPath = @"/sbin/mount";
-        mountTask.arguments = mountArgs;
+        [mountTask setLaunchPath:@"/sbin/mount"];
+        [mountTask setArguments:mountArgs];
+        NSPipe *outputPipe = [NSPipe pipe];
+        [mountTask setStandardOutput:outputPipe];
+        NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
+        [stdoutHandle waitForDataInBackgroundAndNotify];
+        id observer;
+        observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
+                                                                     object:stdoutHandle queue:nil
+                                                                 usingBlock:^(NSNotification *note)
+                    {
+                        NSData *dataRead = [stdoutHandle availableData];
+                        NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
+                        [self logToFile:[NSString stringWithFormat:@"mount output: %@", stringRead] atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
+                    }];
         [mountTask launch];
         [self logToFile:@"mounting complete!" atLineNumber:[NSString stringWithFormat:@"%d", __LINE__]];
     }
@@ -513,17 +526,19 @@ int attach(const char *path, char buf[], size_t sz);
 }
 
 - (void)logToFile:(NSString *)message atLineNumber:(NSString *)lineNum {
-    if ([[_successionPrefs objectForKey:@"log-file"] isEqual:@(1)]) {
-        if (![[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mobile/succession.log"]) {
-            [[NSFileManager defaultManager] createFileAtPath:@"/private/var/mobile/succession.log" contents:nil attributes:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([[self->_successionPrefs objectForKey:@"log-file"] isEqual:@(1)]) {
+            if (![[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mobile/succession.log"]) {
+                [[NSFileManager defaultManager] createFileAtPath:@"/private/var/mobile/succession.log" contents:nil attributes:nil];
+            }
+            NSString *stringToLog = [NSString stringWithFormat:@"[SUCCESSIONLOG %@: %@] Line %@: %@\n", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [NSDate date], lineNum, message];
+            NSLog(@"%@", stringToLog);
+            NSFileHandle *logFileHandle = [NSFileHandle fileHandleForWritingAtPath:@"/private/var/mobile/succession.log"];
+            [logFileHandle seekToEndOfFile];
+            [logFileHandle writeData:[stringToLog dataUsingEncoding:NSUTF8StringEncoding]];
+            [logFileHandle closeFile];
         }
-        NSString *stringToLog = [NSString stringWithFormat:@"[SUCCESSIONLOG %@: %@] Line %@: %@\n", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [NSDate date], lineNum, message];
-        NSLog(@"%@", stringToLog);
-        NSFileHandle *logFileHandle = [NSFileHandle fileHandleForWritingAtPath:@"/private/var/mobile/succession.log"];
-        [logFileHandle seekToEndOfFile];
-        [logFileHandle writeData:[stringToLog dataUsingEncoding:NSUTF8StringEncoding]];
-        [logFileHandle closeFile];
-    }
+    });
 }
 
 @end
