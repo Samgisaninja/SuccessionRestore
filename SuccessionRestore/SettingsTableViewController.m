@@ -107,25 +107,26 @@
             break;
         }
         case 7: {
-            cell.textLabel.text = @"Use custom rsync path";
-            cell.textLabel.numberOfLines = 0;
-            [cell.textLabel sizeToFit];
-            break;
-        }
-        case 8: {
-            cell.textLabel.text = @"Use custom IPSW path";
-            cell.textLabel.numberOfLines = 0;
-            [cell.textLabel sizeToFit];
-            break;
-        }
-        case 9: {
             cell.textLabel.text = @"Use fast unzipping";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             UISwitch *advancedUnzipSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = advancedUnzipSwitch;
-            [advancedUnzipSwitch setOn:[[_successionPrefs objectForKey:@"delete-during"] boolValue] animated:NO];
+            [advancedUnzipSwitch setOn:[[_successionPrefs objectForKey:@"advanced-unzip"] boolValue] animated:NO];
             [advancedUnzipSwitch addTarget:self action:@selector(advancedUnzipSwitchChanged) forControlEvents:UIControlEventValueChanged];
+            break;
+        }
+        case 8: {
+            cell.textLabel.text = @"Use custom rsync path";
+            cell.textLabel.numberOfLines = 0;
+            [cell.textLabel sizeToFit];
+            break;
+        }
+        case 9: {
+            cell.textLabel.text = @"Use custom IPSW path";
+            cell.textLabel.numberOfLines = 0;
+            [cell.textLabel sizeToFit];
+            break;
         }
         case 10: {
             cell.textLabel.text = @"Reset all settings to defaults";
@@ -153,7 +154,7 @@
         case 0:
             [self performSegueWithIdentifier:@"goToSpecialThanksTableViewController" sender:self];
             break;
-        case 7: {
+        case 8: {
             UIAlertController *rsyncPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to rsync binary" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
             [rsyncPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                 textField.placeholder = @"/usr/bin/rsync";
@@ -174,7 +175,7 @@
             [self presentViewController:rsyncPathAlert animated:TRUE completion:nil];
             break;
         }
-        case 8: {
+        case 9: {
             UIAlertController *ipswPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to IPSW" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
             [ipswPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                 textField.placeholder = @"/var/mobile/Media/Succession/ipsw.ipsw";
