@@ -271,48 +271,73 @@
 - (void) postDownload {
     NSError * error;
     // This checks to see if you have an unzip binary in the default location on your device. If unzip exists, the new unzip system is used. The new unzip system uses `unzip -l` to list all the files in the compressed IPSW file, isolates the DMGs, then finds the largest DMG file and extracts it. "else", the old unzip system is used. The old unzip system extracts the entire IPSW, then checks all of the extracted files to determine which file is greater than an arbitrary 1.8 gigabytes. The new unzip system is significantly cleaner than the old one, for example: if Apple ever includes some file over 1.8 GB that isn't a rootfilesystem, the old system will fail, but the new system would succeed. The new system is also faster.
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/unzip"]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/unzip"] && [[_successionPrefs objectForKey:@"advanced-unzip"] isEqual:@(1)]) {
+        [self logToFile:@"Using new unzip system" atLineNumber:__LINE__];
         NSTask *getZipList = [[NSTask alloc] init];
+        [self logToFile:@"Created getZipList task" atLineNumber:__LINE__];
         NSArray *getZipListArgs = [NSArray arrayWithObjects:@"-l", @"/var/mobile/Media/Succession/ipsw.ipsw", nil];
+        [self logToFile:@"Created getZipList args" atLineNumber:__LINE__];
         [getZipList setLaunchPath:@"/usr/bin/unzip"];
+        [self logToFile:@"setLaunchPath for getZipList" atLineNumber:__LINE__];
         NSPipe *outputPipe = [NSPipe pipe];
+        [self logToFile:@"created outputPipe" atLineNumber:__LINE__];
         [getZipList setStandardOutput:outputPipe];
+        [self logToFile:@"set std output to outputPipe" atLineNumber:__LINE__];
         [getZipList setStandardError:outputPipe];
+        [self logToFile:@"set std errro to outputPipe" atLineNumber:__LINE__];
         NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
+        [self logToFile:@"created filehandle for outputPipe" atLineNumber:__LINE__];
         [getZipList setArguments:getZipListArgs];
+        [self logToFile:@"set arguments for task getZipList" atLineNumber:__LINE__];
         getZipList.terminationHandler = ^(NSTask *task) {
             NSData *dataRead = [stdoutHandle readDataToEndOfFile];
+            [self logToFile:@"read getZipList output as data" atLineNumber:__LINE__];
             NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
+            [self logToFile:@"converted getZipList output data to string" atLineNumber:__LINE__];
             NSArray *zipListOutput = [stringRead componentsSeparatedByString:@"\n"];
+            [self logToFile:@"parsed output into array" atLineNumber:__LINE__];
             NSMutableArray *dmgOutput = [[NSMutableArray alloc] init];
             NSMutableDictionary *namesAndSizes = [[NSMutableDictionary alloc] init];
             NSMutableArray *fileSizes = [[NSMutableArray alloc] init];
+            [self logToFile:@"created arrays and dictionaries for output parsing, starting fast enumeration of zipListOutput" atLineNumber:__LINE__];
             for (NSString *str in zipListOutput) {
                 if ([str hasSuffix:@".dmg"]) {
+                    [self logToFile:[NSString stringWithFormat:@"%@ contains '.dmg', added to dmgOutput", str] atLineNumber:__LINE__];
                     [dmgOutput addObject:str];
                 }
             }
             for (NSString *outputLine in dmgOutput) {
                 NSArray *splitString = [outputLine componentsSeparatedByString:@" "];
                 NSNumber *sizeOfFile = [[[NSNumberFormatter alloc] init] numberFromString:[splitString objectAtIndex:0]];
+                [self logToFile:[NSString stringWithFormat:@"seperated %@ into %@", outputLine, splitString] atLineNumber:__LINE__];
                 [namesAndSizes setObject:[splitString objectAtIndex:6] forKey:sizeOfFile];
                 [fileSizes addObject:sizeOfFile];
+                [self logToFile:[NSString stringWithFormat:@"namesAndSizes: %@\nfileSizes: %@", namesAndSizes, fileSizes] atLineNumber:__LINE__];
             }
             NSNumber *largestFileSize = [fileSizes valueForKeyPath:@"@max.self"];
+            [self logToFile:[NSString stringWithFormat:@"Largest file size is %@", largestFileSize] atLineNumber:__LINE__];
             NSString *largestFileName = [namesAndSizes objectForKey:largestFileSize];
+            [self logToFile:[NSString stringWithFormat:@"Name of largest file is %@", largestFileName] atLineNumber:__LINE__];
             [[self activityLabel] setText:[NSString stringWithFormat:@"Extracting %@ from IPSW...", largestFileName]];
             NSTask *unzipRFS = [[NSTask alloc] init];
+            [self logToFile:@"Created unzipRFS task" atLineNumber:__LINE__];
             NSArray *unzipRFSArgs = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/ipsw.ipsw", largestFileName, @"-d", @"/var/mobile/Media/Succession", nil];
+            [self logToFile:@"created unzipRFS arguments array" atLineNumber:__LINE__];
             [unzipRFS setLaunchPath:@"/usr/bin/unzip"];
+            [self logToFile:@"setLaunchPath for unzipRFS task" atLineNumber:__LINE__];
             [unzipRFS setArguments:unzipRFSArgs];
+            [self logToFile:@"setArgs for unzipRFS task" atLineNumber:__LINE__];
             unzipRFS.terminationHandler = ^(NSTask *task){
                 [[self activityLabel] setText:@"Retrieving extracted filesystem..."];
                 NSError *error;
                 NSString *workingDirPath = @"/var/mobile/Media/Succession/";
+                [self logToFile:[NSString stringWithFormat:@"moving %@ to /var/mobile/Media/Succession/rfs.dmg", [workingDirPath stringByAppendingPathComponent:largestFileName]] atLineNumber:__LINE__];
                 [[NSFileManager defaultManager] moveItemAtPath:[workingDirPath stringByAppendingPathComponent:largestFileName] toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:&error];
                 if (!error) {
                     [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
+                    [self logToFile:@"Deleted ipsw.ipsw" atLineNumber:__LINE__];
                     if (!error) {
+                        [self logToFile:@"Showing downloadComplete alert" atLineNumber:__LINE__];
                         UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                             [[self navigationController] popToRootViewControllerAnimated:TRUE];
@@ -327,9 +352,11 @@
                 }
             };
             [unzipRFS launch];
+            [self logToFile:@"Launched unzipRFS" atLineNumber:__LINE__];
             
         };
         [getZipList launch];
+        [self logToFile:@"Launched getZipList" atLineNumber:__LINE__];
     } else {
         // ZipArchive was a library that I found on cocoapods, AFAIK iOS does not have it's own archive (de)compression tools, so I had to import one. Hence the #import "ZipArchive/ZipArchive.h".
         // Create a zipArchive object
