@@ -100,6 +100,11 @@
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
+    if (![successionPrefs objectForKey:@"advanced-unzip"]) {
+        [successionPrefs setObject:@(1) forKey:@"advanced-unzip"];
+        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+        [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+    }
     if (![successionPrefs objectForKey:@"custom_rsync_path"]) {
         [successionPrefs setObject:@"/usr/bin/rsync" forKey:@"custom_rsync_path"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];

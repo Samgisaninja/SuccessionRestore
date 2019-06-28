@@ -33,7 +33,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 11;
+    return 12;
 }
 
 
@@ -119,13 +119,22 @@
             break;
         }
         case 9: {
+            cell.textLabel.text = @"Use fast unzipping";
+            cell.textLabel.numberOfLines = 0;
+            [cell.textLabel sizeToFit];
+            UISwitch *advancedUnzipSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+            cell.accessoryView = advancedUnzipSwitch;
+            [advancedUnzipSwitch setOn:[[_successionPrefs objectForKey:@"delete-during"] boolValue] animated:NO];
+            [advancedUnzipSwitch addTarget:self action:@selector(advancedUnzipSwitchChanged) forControlEvents:UIControlEventValueChanged];
+        }
+        case 10: {
             cell.textLabel.text = @"Reset all settings to defaults";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             cell.accessoryView = nil;
             break;
         }
-        case 10: {
+        case 11: {
             cell.textLabel.text = [NSString stringWithFormat:@"Succession version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
@@ -139,6 +148,69 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    switch ([indexPath row]) {
+        case 0:
+            [self performSegueWithIdentifier:@"goToSpecialThanksTableViewController" sender:self];
+            break;
+        case 7: {
+            UIAlertController *rsyncPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to rsync binary" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
+            [rsyncPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"/usr/bin/rsync";
+            }];
+            UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                if ([[[[rsyncPathAlert textFields] firstObject] text] isEqualToString:@""]) {
+                    [self->_successionPrefs setObject:@"/usr/bin/rsync" forKey:@"custom_rsync_path"];
+                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+                } else {
+                    [self->_successionPrefs setObject:[[[rsyncPathAlert textFields] firstObject] text] forKey:@"custom_rsync_path"];
+                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+                }
+                
+            }];
+            [rsyncPathAlert addAction:continueAction];
+            [self presentViewController:rsyncPathAlert animated:TRUE completion:nil];
+            break;
+        }
+        case 8: {
+            UIAlertController *ipswPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to IPSW" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
+            [ipswPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"/var/mobile/Media/Succession/ipsw.ipsw";
+            }];
+            UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                if ([[[[ipswPathAlert textFields] firstObject] text] isEqualToString:@""]) {
+                    [self->_successionPrefs setObject:@"/var/mobile/Media/Succession/ipsw.ipsw" forKey:@"custom_ipsw_path"];
+                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+                } else {
+                    [self->_successionPrefs setObject:[[[ipswPathAlert textFields] firstObject] text] forKey:@"custom_ipsw_path"];
+                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+                }
+                
+            }];
+            [ipswPathAlert addAction:continueAction];
+            [self presentViewController:ipswPathAlert animated:TRUE completion:nil];
+            break;
+        }
+        case 10: {
+            UIAlertController *resetPrefsAlert = [UIAlertController alertControllerWithTitle:@"Reset all preferences?" message:@"Succession will restart" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                exit(0);
+            }];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+            [resetPrefsAlert addAction:confirmAction];
+            [resetPrefsAlert addAction:cancelAction];
+            [self presentViewController:resetPrefsAlert animated:TRUE completion:nil];
+            break;
+        }
+        default:
+            break;
+    }
+}
 
 -(void)dryRunSwitchChanged{
     if ([[_successionPrefs objectForKey:@"dry-run"] isEqual:@(0)]) {
@@ -225,67 +297,15 @@
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    switch ([indexPath row]) {
-        case 0:
-            [self performSegueWithIdentifier:@"goToSpecialThanksTableViewController" sender:self];
-            break;
-        case 7: {
-            UIAlertController *rsyncPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to rsync binary" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
-            [rsyncPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = @"/usr/bin/rsync";
-            }];
-            UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                if ([[[[rsyncPathAlert textFields] firstObject] text] isEqualToString:@""]) {
-                    [self->_successionPrefs setObject:@"/usr/bin/rsync" forKey:@"custom_rsync_path"];
-                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
-                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-                } else {
-                    [self->_successionPrefs setObject:[[[rsyncPathAlert textFields] firstObject] text] forKey:@"custom_rsync_path"];
-                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
-                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-                }
-                
-            }];
-            [rsyncPathAlert addAction:continueAction];
-            [self presentViewController:rsyncPathAlert animated:TRUE completion:nil];
-            break;
-        }
-        case 8: {
-            UIAlertController *ipswPathAlert = [UIAlertController alertControllerWithTitle:@"Enter path to IPSW" message:@"Leave blank for default" preferredStyle:UIAlertControllerStyleAlert];
-            [ipswPathAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = @"/var/mobile/Media/Succession/ipsw.ipsw";
-            }];
-            UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                if ([[[[ipswPathAlert textFields] firstObject] text] isEqualToString:@""]) {
-                    [self->_successionPrefs setObject:@"/var/mobile/Media/Succession/ipsw.ipsw" forKey:@"custom_ipsw_path"];
-                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
-                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-                } else {
-                    [self->_successionPrefs setObject:[[[ipswPathAlert textFields] firstObject] text] forKey:@"custom_ipsw_path"];
-                    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
-                    [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-                }
-                
-            }];
-            [ipswPathAlert addAction:continueAction];
-            [self presentViewController:ipswPathAlert animated:TRUE completion:nil];
-            break;
-        }
-        case 9: {
-            UIAlertController *resetPrefsAlert = [UIAlertController alertControllerWithTitle:@"Reset all preferences?" message:@"Succession will restart" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
-                exit(0);
-            }];
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
-            [resetPrefsAlert addAction:confirmAction];
-            [resetPrefsAlert addAction:cancelAction];
-            [self presentViewController:resetPrefsAlert animated:TRUE completion:nil];
-            break;
-        }
-        default:
-            break;
+-(void)advancedUnzipSwitchChanged{
+    if ([[_successionPrefs objectForKey:@"advanced-unzip"] isEqual:@(0)]) {
+        [_successionPrefs setObject:@(1) forKey:@"advanced-unzip"];
+        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+        [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+    } else {
+        [_successionPrefs setObject:@(0) forKey:@"advanced-unzip"];
+        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+        [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
 }
 
