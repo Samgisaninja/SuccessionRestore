@@ -32,9 +32,21 @@ int attach(const char *path, char buf[], size_t sz);
 }
 
 - (void) viewDidAppear:(BOOL)animated{
+    size_t size;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char *modelChar = malloc(size);
+    sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
+    _deviceModel = [NSString stringWithUTF8String:modelChar];
+    free(modelChar);
+    if ([_deviceModel containsString:@"iPad"]) {
+        [[self startRestoreButton] setTitle:@"Erase iPad" forState:UIControlStateNormal];
+    } else if ([_deviceModel containsString:@"iPod"]){
+        [[self startRestoreButton] setTitle:@"Erase iPod Touch" forState:UIControlStateNormal];
+    } else {
+        [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
+    }
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [[self fileListActivityIndicator] setHidden:TRUE];
-        [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
     } else {
         [self prepareAttachRestoreDisk];
     }
@@ -103,13 +115,7 @@ int attach(const char *path, char buf[], size_t sz);
     [self logToFile:@"showRestoreAlert called!" atLineNumber:__LINE__];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [self logToFile:@"filesystem is mounted, asking user to confirm they are ready to restore" atLineNumber:__LINE__];
-        size_t size;
-        sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-        char *modelChar = malloc(size);
-        sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
-        NSString *deviceModel = [NSString stringWithUTF8String:modelChar];
-        free(modelChar);
-        if ([deviceModel containsString:@"iPad"]) {
+        if ([_deviceModel containsString:@"iPad"]) {
             _areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleAlert];
         } else {
             _areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
@@ -210,6 +216,20 @@ int attach(const char *path, char buf[], size_t sz);
     [self logToFile:[NSString stringWithFormat:@"attach returned %d", rv] atLineNumber:__LINE__];
     _theDiskString = [NSMutableString stringWithString:[NSString stringWithFormat:@"%s", theDisk]];
     [self logToFile:[NSString stringWithFormat:@"attached to %s aka %@", theDisk, _theDiskString] atLineNumber:__LINE__];
+    if ([_theDiskString containsString:@"disk"]) {
+        [self logToFile:@"auto-mounting" atLineNumber:__LINE__];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2s1"]]) {
+            self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
+            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
+            [self mountRestoreDisk];
+        } else if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2"]]){
+            self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
+            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
+            [self mountRestoreDisk];
+        } else {
+            [self errorAlert:[NSString stringWithFormat:@"unable to identify theDisk, neither %@ or %@ existed", [self->_theDiskString stringByAppendingString:@"s2s1"], [self->_theDiskString stringByAppendingString:@"s2"]]];
+        }
+    }
 }
 
 -(void) mountRestoreDisk{
