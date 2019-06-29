@@ -107,7 +107,7 @@
             break;
         }
         case 7: {
-            cell.textLabel.text = @"Use fast unzipping";
+            cell.textLabel.text = @"Use fast unzipping (experimental)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             UISwitch *advancedUnzipSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];

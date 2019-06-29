@@ -101,7 +101,7 @@
         [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
     if (![successionPrefs objectForKey:@"advanced-unzip"]) {
-        [successionPrefs setObject:@(1) forKey:@"advanced-unzip"];
+        [successionPrefs setObject:@(0) forKey:@"advanced-unzip"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
