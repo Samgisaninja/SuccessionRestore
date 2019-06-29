@@ -283,7 +283,7 @@
         [getZipList setStandardOutput:outputPipe];
         [self logToFile:@"set std output to outputPipe" atLineNumber:__LINE__];
         [getZipList setStandardError:outputPipe];
-        [self logToFile:@"set std errro to outputPipe" atLineNumber:__LINE__];
+        [self logToFile:@"set std error to outputPipe" atLineNumber:__LINE__];
         NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
         [self logToFile:@"created filehandle for outputPipe" atLineNumber:__LINE__];
         [getZipList setArguments:getZipListArgs];
@@ -365,6 +365,8 @@
 }
 
 -(void) oldUnzip {
+    [self logToFile:@"Using old unzip system" atLineNumber:__LINE__];
+    [[self activityLabel] setText:@"Extracting IPSW..."];
     NSError *error = [[NSError alloc] init];
     // ZipArchive was a library that I found on cocoapods, AFAIK iOS does not have it's own archive (de)compression tools, so I had to import one. Hence the #import "ZipArchive/ZipArchive.h".
     // Create a zipArchive object
