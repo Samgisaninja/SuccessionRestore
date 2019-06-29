@@ -27,7 +27,6 @@
     // Load preferences
     _successionPrefs = [NSDictionary dictionaryWithContentsOfFile:@"/private/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"];
     // Set up UI
-    [self logToFile:@"View Loaded" atLineNumber:__LINE__];
     [[self downloadProgressBar] setHidden:TRUE];
     self.activityLabel.text = @"";
     [[self unzipActivityIndicator] setHidden:TRUE];
