@@ -182,7 +182,7 @@
             NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Extensive testing and support" attributes: roleFontDict];
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
-            [[cell imageView] setImage:[UIImage imageNamed:@"swaggo"]];
+            [[cell imageView] setImage:[UIImage imageNamed:@"hawk"]];
             break;
         }
         case 11:
@@ -196,6 +196,12 @@
             [nameString appendAttributedString:roleString];
             [[cell textLabel] setAttributedText:nameString];
             [[cell imageView] setImage:[UIImage imageNamed:@"swaggo"]];
+            break;
+        }
+        case 12:
+        {
+            [[cell textLabel] setText:@"Objective-Zip Copyright (c) 2009-2012, Flying Dolphin Studio All rights reserved. Used under BSD3 License."];
+            [[cell imageView] setImage:nil];
             break;
         }
         default:
