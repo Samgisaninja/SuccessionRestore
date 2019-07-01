@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomePageViewController : UIViewController
+@interface HomePageViewController : UIViewController<NSURLSessionDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *deviceModelLabel;
 @property (weak, nonatomic) IBOutlet UILabel *iOSVersionLabel;

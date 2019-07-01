@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DownloadViewController : UIViewController
+@interface DownloadViewController : UIViewController<NSURLSessionDelegate>
 
 @property (strong, nonatomic) NSString *deviceModel;
 @property (strong, nonatomic) NSString *deviceBuild;
