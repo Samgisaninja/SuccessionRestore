@@ -275,8 +275,6 @@
                 NSMutableDictionary *namesAndSizes = [[NSMutableDictionary alloc] init];
                 NSMutableArray *fileSizes = [[NSMutableArray alloc] init];
                 for (OZFileInZipInfo *info in infos) {
-                    // Locate the file in the zip
-                    // [unzipFile locateFileInZip:info.name error:&error];
                     if ([info.name hasSuffix:@".dmg"]) {
                         [self logToFile:[NSString stringWithFormat:@"%@ is a DMG of size %llu!", info.name, info.size] atLineNumber:__LINE__];
                         [namesAndSizes setObject:info.name forKey:[NSNumber numberWithUnsignedLongLong:info.size]];
@@ -289,7 +287,7 @@
                 [self logToFile:[NSString stringWithFormat:@"Name of largest file is %@", largestFileName] atLineNumber:__LINE__];
                 [[self activityLabel] setText:[NSString stringWithFormat:@"Extracting %@ from IPSW...", largestFileName]];
                 [self logToFile:[NSString stringWithFormat:@"Extracting %@ from IPSW...", largestFileName] atLineNumber:__LINE__];
-                [unzipFile locateFileInZip:largestFileName error:&error];
+                [unzipFile locateFileInZip:@"BuildManifest.plist" error:&error];
                 if (!error) {
                     OZFileInZipInfo *info= [unzipFile getCurrentFileInZipInfo];
                     [self logToFile:[NSString stringWithFormat:@"Got info for file %@, size %llu", info.name, info.size] atLineNumber:__LINE__];
