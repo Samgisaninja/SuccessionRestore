@@ -27,9 +27,12 @@
     // Load preferences
     _successionPrefs = [NSDictionary dictionaryWithContentsOfFile:@"/private/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"];
     // Set up UI
-    [[self downloadProgressBar] setHidden:TRUE];
-    self.activityLabel.text = @"";
-    [[self unzipActivityIndicator] setHidden:TRUE];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self downloadProgressBar] setHidden:TRUE];
+        self.activityLabel.text = @"";
+        [[self unzipActivityIndicator] setHidden:TRUE];
+        
+    });
     // This creates a font that is 'monospaced', (each character is the same width). This font is later used for the download progress label, since that label is rapidly updated, monospacing the font makes it readable.
     UIFont *systemFont = [UIFont systemFontOfSize:17];
     UIFontDescriptor *monospacedNumberFontDescriptor = [systemFont.fontDescriptor fontDescriptorByAddingAttributes: @{UIFontDescriptorFeatureSettingsAttribute: @[@{UIFontFeatureTypeIdentifierKey: @6, UIFontFeatureSelectorIdentifierKey: @0}]}];
@@ -40,11 +43,13 @@
         UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW file detected!" message:[NSString stringWithFormat:@"You can either use the IPSW file you provided at %@ or you can download a clean one.", [_successionPrefs objectForKey:@"custom_ipsw_path"]] preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *useProvidedIPSW = [UIAlertAction actionWithTitle:@"Use provided IPSW" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             // If the user taps 'Use provided IPSW, this code is run. I do not understand why 'weakself' is necessary, I believe uroboro suggested I use it because of some memory issue(?) Anyways...
+            dispatch_async(dispatch_get_main_queue(), ^{
             [[self unzipActivityIndicator] setHidden:FALSE];
             self.activityLabel.text = @"Unzipping...";
             [self->_startDownloadButton setEnabled:FALSE];
             [self->_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
             [self->_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+            });
             __weak typeof(self) weakself = self;
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 // executes the code under -(void)postDownload
@@ -101,7 +106,9 @@
 }
 
 -(void) startDownload {
+    dispatch_async(dispatch_get_main_queue(), ^{
     self.activityLabel.text = @"Preparing download...";
+    });
     // If the iOS version is older than iOS 10, the root filesystem DMG is encrypted. Succession does not currently have support for decrypting DMGs, so ask the user to do it for us.
     if (kCFCoreFoundationVersionNumber < 1300) {
         UIAlertController *deviceNotSupported = [UIAlertController alertControllerWithTitle:@"Device not supported" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9.3.5 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
@@ -127,13 +134,19 @@
         }
         // Creates /var/mobile/Media/Succession in case dpkg didn't do so, or if the user deleted it
         [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:TRUE attributes:nil error:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
         self.activityLabel.text = @"Finding IPSW...";
+        });
         if ([[[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ReleaseType"] isEqualToString:@"Beta"]) {
-            [[self downloadProgressBar] setHidden:FALSE];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self downloadProgressBar] setHidden:FALSE];
+            });
+            
             NSURL * betaDownloadLink = [NSURL URLWithString:@"https://raw.githubusercontent.com/Samgisaninja/SuccessionRestore/master/beta.plist"];
             // update the UI, but unless the user has a really really slow device, they probably won't ever see this:
-            NSString * activityLabelText = [NSString stringWithFormat:@"Getting beta plist"];
-            self.activityLabel.text = activityLabelText;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self activityLabel] setText:@"Getting beta plist..."];
+            });
             NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
             // set the timeout for the download request to 200 minutes (12000 seconds), that should be enough time, eh?
             sessionConfig.timeoutIntervalForRequest = 12000.0;
@@ -156,13 +169,18 @@
             // to use the API mentioned above, I create a string that incorporates the iOS buildnumber and device model, then it is converted into an NSURL...
             NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
             // and after a little UI config...
-            [[self downloadProgressBar] setHidden:FALSE];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self downloadProgressBar] setHidden:FALSE];
+            });
+            
             // the request is made, and the string received from ipsw.me is passed to an NSData object called 'data' in the completion handler. Note that the request is created below, but it is not actually run until [getDownloadLinkTask resume];
             NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession] dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                 // so now we have a direct link to where apple is hosting the IPSW for the user's device/firmware, but it's in a rather useless NSData object, so let's convet that to an NSString
                 NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 // update the UI, but unless the user has a really really slow device, they probably won't ever see this:
+                dispatch_async(dispatch_get_main_queue(), ^{
                 [[self activityLabel] setText:[NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString]];
+                });
                 // now we reference _downloadLink, created in DownloadViewController.h, and set it equal to the NSURL version of the string we received from ipsw.me
                 self->_downloadLink = [NSURL URLWithString:downloadLinkString];
                 NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -200,8 +218,9 @@
             if ([[betaLinks objectForKey:deviceBuild] objectForKey:deviceModel]) {
                 // then get the matching link.
                 NSString *downloadLinkString = [NSString stringWithFormat:@"%@", [[betaLinks objectForKey:deviceBuild] objectForKey:deviceModel]];
-                NSString * activityLabelText = [NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString];
-                self.activityLabel.text = activityLabelText;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self activityLabel] setText:[NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString]];
+                });
                 // now we reference _downloadLink, created in DownloadViewController.h, and set it equal to the NSURL version of the string we received from ipsw.me
                 _downloadLink = [NSURL URLWithString:downloadLinkString];
                 NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -249,15 +268,19 @@
         }
     } else {
         // so, the IPSW download is now complete, but it's in... well we don't really know. but iOS knows! to be specific, it exists at [location path]. [location path] is not nearly as easy to work with as /var/mobile/Media/Succession/ipsw.ipsw, so let's move it there.
-        [[self downloadProgressBar] setHidden:TRUE];
-        self.activityLabel.text = @"Retrieving Download...";
-        [[self unzipActivityIndicator] setHidden:FALSE];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self downloadProgressBar] setHidden:TRUE];
+            [[self activityLabel] setText:@"Retrieving Download..."];
+            [[self unzipActivityIndicator] setHidden:FALSE];
+        });
         NSError * error;
         // NSFileManager lets us do pretty much anything with files, and also, if there's an error, error information will be stored in the NSError object I created above.
         [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:[_successionPrefs objectForKey:@"custom_ipsw_path"] error:&error];
         // I've never come across an error with this, but it's better to have error handling than to... not. Assuming there's no error, continue on to -(void)postDownload
         if (error != nil) {
-            self.activityLabel.text = [NSString stringWithFormat:@"Error moving downloaded ipsw: %@", error];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self activityLabel] setText:[NSString stringWithFormat:@"Error moving downloaded ipsw: %@", [error localizedDescription]]];
+            });
         } else {
             [self postDownload];
         }
@@ -265,8 +288,11 @@
 }
 
 - (void) postDownload {
+    dispatch_async(dispatch_get_main_queue(), ^{
     [[self unzipActivityIndicator] setHidden:FALSE];
     [[self activityLabel] setText:@"Verifying IPSW..."];
+        
+    });
     [[NSFileManager defaultManager] moveItemAtPath:[_successionPrefs objectForKey:@"custom_ipsw_path"] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:nil];
     OZZipFile *unzipIPSW;
     if (sizeof(void *) == 4) {
@@ -286,8 +312,10 @@
     OZZipReadStream *read= [unzipIPSW readCurrentFileInZip];
     NSMutableData *data= [[NSMutableData alloc] initWithLength:1024];
     NSMutableData *unzippedData = [[NSMutableData alloc] init];
+    dispatch_async(dispatch_get_main_queue(), ^{
     [[self unzipActivityIndicator] setHidden:TRUE];
     [[self downloadProgressBar] setHidden:FALSE];
+    });
     do {
         
         // Reset buffer length
@@ -300,7 +328,9 @@
         [data setLength:bytesRead];
         [unzippedData appendData:data];
         unsigned long unzipProgress = [unzippedData length];
-        [[self downloadProgressBar] setProgress:(unzipProgress/buildManifestLength)];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self downloadProgressBar] setProgress:(unzipProgress/buildManifestLength)];
+        });
         [self logToFile:[NSString stringWithFormat:@"Extracting BuildManifest, %d bytes extracted, %lu of %llu total", bytesRead, unzipProgress, buildManifestLength] atLineNumber:__LINE__];
         
     } while (YES);
@@ -326,7 +356,9 @@
                 while (file = [en nextObject]) {
                     res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&error];
                     if (!res && error) {
-                        self.activityLabel.text = [NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [[self activityLabel] setText:[NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]]];
+                        });
                     }
                 }
                 exit(0);
@@ -350,7 +382,9 @@
             while (file = [en nextObject]) {
                 res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&error];
                 if (!res && error) {
-                    self.activityLabel.text = [NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[self activityLabel] setText:[NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]]];
+                    });
                 }
             }
             exit(0);
@@ -366,8 +400,10 @@
 }
 
 -(void) extractDMG {
-    [[self unzipActivityIndicator] setHidden:FALSE];
-    [[self activityLabel] setText:@"Identifying rfs in compressed IPSW..."];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self unzipActivityIndicator] setHidden:FALSE];
+        [[self activityLabel] setText:@"Identifying rfs in compressed IPSW..."];
+    });
 }
 
 - (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
@@ -377,21 +413,27 @@
     // The if statments were done to fix a bug I was having where the "unzipping" wouldn't appear, even after the download was complete, so I say "ok, if the download is 'close enough', then show the user that it's done." This is dirty. oops.
     if (writtenSize < (totalSize - 0.1)) {
         // I use a mutable attributed string here. It's attributed so that I can change the font to that monospaced font I created earlier in viewDidLoad, and its mutable so that I can apply that font after the string's creation.
+        dispatch_async(dispatch_get_main_queue(), ^{
         NSMutableAttributedString *activityLabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Downloading IPSW:\n%.2f of %.2f MB", writtenSize, totalSize]];
         // apply the font
         [activityLabelText addAttribute:NSFontAttributeName value:_monospacedNumberSystemFont range:NSMakeRange(0, activityLabelText.string.length)];
         // set the label equal to my attributed string
         [_activityLabel setAttributedText:activityLabelText];
+        });
         // set the progressbar equal to the ratio of writtenSize to total file size.
-        self.downloadProgressBar.progress = (writtenSize/totalSize);
-        [[self downloadProgressBar] setHidden:FALSE];
-        [[self unzipActivityIndicator] setHidden:TRUE];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.downloadProgressBar.progress = (writtenSize/totalSize);
+            [[self downloadProgressBar] setHidden:FALSE];
+            [[self unzipActivityIndicator] setHidden:TRUE];
+        });
     }
     if (writtenSize > (totalSize - 0.1)) {
         // if the download is "close enough" to being done, show the unzip UI.
-        self.activityLabel.text = @"Unzipping...";
-        [[self downloadProgressBar] setHidden:TRUE];
-        [[self unzipActivityIndicator] setHidden:FALSE];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.activityLabel.text = @"Unzipping...";
+            [[self downloadProgressBar] setHidden:TRUE];
+            [[self unzipActivityIndicator] setHidden:FALSE];
+        });
     }
 }
 
