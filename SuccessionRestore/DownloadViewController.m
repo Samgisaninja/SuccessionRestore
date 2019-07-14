@@ -44,11 +44,11 @@
         UIAlertAction *useProvidedIPSW = [UIAlertAction actionWithTitle:@"Use provided IPSW" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             // If the user taps 'Use provided IPSW, this code is run. I do not understand why 'weakself' is necessary, I believe uroboro suggested I use it because of some memory issue(?) Anyways...
             dispatch_async(dispatch_get_main_queue(), ^{
-            [[self unzipActivityIndicator] setHidden:FALSE];
-            self.activityLabel.text = @"Unzipping...";
-            [self->_startDownloadButton setEnabled:FALSE];
-            [self->_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
-            [self->_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+                [[self unzipActivityIndicator] setHidden:FALSE];
+                self.activityLabel.text = @"Unzipping...";
+                [self->_startDownloadButton setEnabled:FALSE];
+                [self->_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
+                [self->_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
             });
             __weak typeof(self) weakself = self;
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -107,7 +107,7 @@
 
 -(void) startDownload {
     dispatch_async(dispatch_get_main_queue(), ^{
-    self.activityLabel.text = @"Preparing download...";
+        self.activityLabel.text = @"Preparing download...";
     });
     // If the iOS version is older than iOS 10, the root filesystem DMG is encrypted. Succession does not currently have support for decrypting DMGs, so ask the user to do it for us.
     if (kCFCoreFoundationVersionNumber < 1300) {
@@ -135,7 +135,7 @@
         // Creates /var/mobile/Media/Succession in case dpkg didn't do so, or if the user deleted it
         [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:TRUE attributes:nil error:nil];
         dispatch_async(dispatch_get_main_queue(), ^{
-        self.activityLabel.text = @"Finding IPSW...";
+            self.activityLabel.text = @"Finding IPSW...";
         });
         if ([[[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ReleaseType"] isEqualToString:@"Beta"]) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -179,7 +179,7 @@
                 NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 // update the UI, but unless the user has a really really slow device, they probably won't ever see this:
                 dispatch_async(dispatch_get_main_queue(), ^{
-                [[self activityLabel] setText:[NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString]];
+                    [[self activityLabel] setText:[NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString]];
                 });
                 // now we reference _downloadLink, created in DownloadViewController.h, and set it equal to the NSURL version of the string we received from ipsw.me
                 self->_downloadLink = [NSURL URLWithString:downloadLinkString];
@@ -289,8 +289,8 @@
 
 - (void) postDownload {
     dispatch_async(dispatch_get_main_queue(), ^{
-    [[self unzipActivityIndicator] setHidden:FALSE];
-    [[self activityLabel] setText:@"Verifying IPSW..."];
+        [[self unzipActivityIndicator] setHidden:FALSE];
+        [[self activityLabel] setText:@"Verifying IPSW..."];
         
     });
     [[NSFileManager defaultManager] moveItemAtPath:[_successionPrefs objectForKey:@"custom_ipsw_path"] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:nil];
@@ -313,8 +313,8 @@
     NSMutableData *data= [[NSMutableData alloc] initWithLength:1024];
     NSMutableData *unzippedData = [[NSMutableData alloc] init];
     dispatch_async(dispatch_get_main_queue(), ^{
-    [[self unzipActivityIndicator] setHidden:TRUE];
-    [[self downloadProgressBar] setHidden:FALSE];
+        [[self unzipActivityIndicator] setHidden:TRUE];
+        [[self downloadProgressBar] setHidden:FALSE];
     });
     do {
         
@@ -338,6 +338,10 @@
     [read finishedReading];
     [unzippedData writeToFile:@"/var/mobile/Media/Succession/BuildManifest.plist" atomically:TRUE];
     [self logToFile:@"Successfully written BuildManifest" atLineNumber:__LINE__];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self unzipActivityIndicator] setHidden:FALSE];
+        [[self downloadProgressBar] setHidden:TRUE];
+    });
     NSDictionary *IPSWBuildManifest = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Media/Succession/BuildManifest.plist"];
     if ([[IPSWBuildManifest objectForKey:@"ProductBuildVersion"] isEqualToString:deviceBuild]) {
         [self logToFile:[NSString stringWithFormat:@"Build number in BuildManifest %@ matches deviceBuild %@", [IPSWBuildManifest objectForKey:@"ProductBuildVersion"], deviceBuild] atLineNumber:__LINE__];
@@ -414,11 +418,11 @@
     if (writtenSize < (totalSize - 0.1)) {
         // I use a mutable attributed string here. It's attributed so that I can change the font to that monospaced font I created earlier in viewDidLoad, and its mutable so that I can apply that font after the string's creation.
         dispatch_async(dispatch_get_main_queue(), ^{
-        NSMutableAttributedString *activityLabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Downloading IPSW:\n%.2f of %.2f MB", writtenSize, totalSize]];
-        // apply the font
-        [activityLabelText addAttribute:NSFontAttributeName value:_monospacedNumberSystemFont range:NSMakeRange(0, activityLabelText.string.length)];
-        // set the label equal to my attributed string
-        [_activityLabel setAttributedText:activityLabelText];
+            NSMutableAttributedString *activityLabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Downloading IPSW:\n%.2f of %.2f MB", writtenSize, totalSize]];
+            // apply the font
+            [activityLabelText addAttribute:NSFontAttributeName value:self->_monospacedNumberSystemFont range:NSMakeRange(0, activityLabelText.string.length)];
+            // set the label equal to my attributed string
+            [self->_activityLabel setAttributedText:activityLabelText];
         });
         // set the progressbar equal to the ratio of writtenSize to total file size.
         dispatch_async(dispatch_get_main_queue(), ^{
