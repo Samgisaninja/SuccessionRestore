@@ -8,9 +8,8 @@
 
 #import "DownloadViewController.h"
 #include <sys/sysctl.h>
-#import "objective-zip/Objective-Zip/Objective-Zip.h"
-#import "objective-zip/Objective-Zip/OZZipFile+NSError.h"
-#import "objective-zip/Objective-Zip/OZZipReadStream.h"
+#import "Objective-Zip/Objective-Zip/Objective-Zip.h"
+#import "Objective-Zip/Objective-Zip/OZZipReadStream.h"
 #import "HomePageViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
 
@@ -69,7 +68,7 @@
                 UIAlertController *possibleIPSWMatchAlert = [UIAlertController alertControllerWithTitle:@"IPSW File Detected" message:[NSString stringWithFormat:@"I found an IPSW file, %@, would you like to move this IPSW to %@ and use it to restore?", file, [_successionPrefs objectForKey:@"custom_ipsw_path"]] preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *moveIPSW = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Use %@", file] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     NSString *successionFolder = @"/var/mobile/Media/Succession/";
-                    [[NSFileManager defaultManager] moveItemAtPath:[successionFolder stringByAppendingPathComponent:file] toPath:[_successionPrefs objectForKey:@"custom_ipsw_path"] error:nil];
+                    [[NSFileManager defaultManager] moveItemAtPath:[successionFolder stringByAppendingPathComponent:file] toPath:[self->_successionPrefs objectForKey:@"custom_ipsw_path"] error:nil];
                     [[self navigationController] popToRootViewControllerAnimated:TRUE];
                 }];
                 UIAlertAction *downloadIPSW = [UIAlertAction actionWithTitle:@"Download IPSW from Apple" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -255,7 +254,7 @@
         [[self unzipActivityIndicator] setHidden:FALSE];
         NSError * error;
         // NSFileManager lets us do pretty much anything with files, and also, if there's an error, error information will be stored in the NSError object I created above.
-        [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
+        [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:[_successionPrefs objectForKey:@"custom_ipsw_path"] error:&error];
         // I've never come across an error with this, but it's better to have error handling than to... not. Assuming there's no error, continue on to -(void)postDownload
         if (error != nil) {
             self.activityLabel.text = [NSString stringWithFormat:@"Error moving downloaded ipsw: %@", error];
@@ -266,262 +265,109 @@
 }
 
 - (void) postDownload {
-    NSError * error;
-    if ([[_successionPrefs objectForKey:@"advanced-unzip"] isEqual:@(1)]) {
-        OZZipFile *unzipFile = [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip error:&error];
-        if (!error) {
-            NSArray *infos = [unzipFile listFileInZipInfosWithError:&error];
-            if (!error) {
-                NSMutableDictionary *namesAndSizes = [[NSMutableDictionary alloc] init];
-                NSMutableArray *fileSizes = [[NSMutableArray alloc] init];
-                for (OZFileInZipInfo *info in infos) {
-                    if ([info.name hasSuffix:@".dmg"]) {
-                        [self logToFile:[NSString stringWithFormat:@"%@ is a DMG of size %llu!", info.name, info.size] atLineNumber:__LINE__];
-                        [namesAndSizes setObject:info.name forKey:[NSNumber numberWithUnsignedLongLong:info.size]];
-                        [fileSizes addObject:[NSNumber numberWithUnsignedLongLong:info.size]];
+    [[self unzipActivityIndicator] setHidden:FALSE];
+    [[self activityLabel] setText:@"Verifying IPSW..."];
+    [[NSFileManager defaultManager] moveItemAtPath:[_successionPrefs objectForKey:@"custom_ipsw_path"] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:nil];
+    OZZipFile *unzipIPSW;
+    if (sizeof(void *) == 4) {
+        unzipIPSW = [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip legacy32BitMode:TRUE];
+    } else {
+        unzipIPSW = [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip legacy32BitMode:TRUE];
+    }
+    [unzipIPSW locateFileInZip:@"BuildManifest.plist"];
+    NSArray *infos = [unzipIPSW listFileInZipInfos];
+    OZFileInZipInfo *buildManifestInfo;
+    for (OZFileInZipInfo *possiblyBuildManifestInfo in infos) {
+        if ([[possiblyBuildManifestInfo name] isEqualToString:@"BuildManifest.plist"]) {
+            buildManifestInfo = possiblyBuildManifestInfo;
+        }
+    }
+    unsigned long long buildManifestLength = [buildManifestInfo length];
+    OZZipReadStream *read= [unzipIPSW readCurrentFileInZip];
+    NSMutableData *data= [[NSMutableData alloc] initWithLength:1024];
+    NSMutableData *unzippedData = [[NSMutableData alloc] init];
+    [[self unzipActivityIndicator] setHidden:TRUE];
+    [[self downloadProgressBar] setHidden:FALSE];
+    do {
+        
+        // Reset buffer length
+        [data setLength:1024];
+        
+        // Read bytes and check for end of file
+        int bytesRead= (int)[read readDataWithBuffer:data];
+        if (bytesRead <= 0)
+            break;
+        [data setLength:bytesRead];
+        [unzippedData appendData:data];
+        unsigned long unzipProgress = [unzippedData length];
+        [[self downloadProgressBar] setProgress:(unzipProgress/buildManifestLength)];
+        [self logToFile:[NSString stringWithFormat:@"Extracting BuildManifest, %d bytes extracted, %lu of %llu total", bytesRead, unzipProgress, buildManifestLength] atLineNumber:__LINE__];
+        
+    } while (YES);
+    
+    [read finishedReading];
+    [unzippedData writeToFile:@"/var/mobile/Media/Succession/BuildManifest.plist" atomically:TRUE];
+    [self logToFile:@"Successfully written BuildManifest" atLineNumber:__LINE__];
+    NSDictionary *IPSWBuildManifest = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Media/Succession/BuildManifest.plist"];
+    if ([[IPSWBuildManifest objectForKey:@"ProductBuildVersion"] isEqualToString:deviceBuild]) {
+        [self logToFile:[NSString stringWithFormat:@"Build number in BuildManifest %@ matches deviceBuild %@", [IPSWBuildManifest objectForKey:@"ProductBuildVersion"], deviceBuild] atLineNumber:__LINE__];
+        if ([[IPSWBuildManifest objectForKey:@"SupportedProductTypes"] containsObject:deviceModel]) {
+            [self logToFile:[NSString stringWithFormat:@"Product Type in BuildManifest %@ matches deviceBuild %@", [IPSWBuildManifest objectForKey:@"SupportedProductTypes"], deviceModel] atLineNumber:__LINE__];
+            [self logToFile:@"Successfully verified IPSW" atLineNumber:__LINE__];
+            [self extractDMG];
+        } else {
+            UIAlertController *ipswDoesntMatch = [UIAlertController alertControllerWithTitle:@"Provided IPSW does not appear to match this device" message:@"The IPSW you provided does not appear to match this device/iOS version. You may override this warning, but you will most likely bootloop." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Delete and Exit" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                NSFileManager* fm = [[NSFileManager alloc] init];
+                NSDirectoryEnumerator* en = [fm enumeratorAtPath:@"/var/mobile/Media/Succession"];
+                NSError* error = nil;
+                BOOL res;
+                NSString* file;
+                while (file = [en nextObject]) {
+                    res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&error];
+                    if (!res && error) {
+                        self.activityLabel.text = [NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]];
                     }
                 }
-                NSNumber *largestFileSize = [fileSizes valueForKeyPath:@"@max.self"];
-                [self logToFile:[NSString stringWithFormat:@"Largest file size is %@", largestFileSize] atLineNumber:__LINE__];
-                NSString *largestFileName = [namesAndSizes objectForKey:largestFileSize];
-                [self logToFile:[NSString stringWithFormat:@"Name of largest file is %@", largestFileName] atLineNumber:__LINE__];
-                [[self activityLabel] setText:[NSString stringWithFormat:@"Extracting %@ from IPSW...", largestFileName]];
-                [self logToFile:[NSString stringWithFormat:@"Extracting %@ from IPSW...", largestFileName] atLineNumber:__LINE__];
-                [unzipFile locateFileInZip:@"BuildManifest.plist" error:&error];
-                if (!error) {
-                    OZFileInZipInfo *info= [unzipFile getCurrentFileInZipInfo];
-                    [self logToFile:[NSString stringWithFormat:@"Got info for file %@, size %llu", info.name, info.size] atLineNumber:__LINE__];
-                    OZZipReadStream *read = [unzipFile readCurrentFileInZip];
-                    NSMutableData *data = [[NSMutableData alloc] initWithLength:256];
-                    [read readDataWithBuffer:data];
-                    [read finishedReading];
-                    [data writeToFile:@"/var/mobileMedia/Succession/rfs.dmg" atomically:TRUE];
-                } else {
-                    [self errorAlert:[NSString stringWithFormat:@"Unable to locate %@ in zipFile", largestFileName]];
-                }
-            } else {
-                [self errorAlert:@"Failed to list files in ipsw.ipsw"];
-            }
-        } else {
-            [self errorAlert:@"Failed to create unzipIPSW object"];
+                exit(0);
+            }];
+            UIAlertAction *overrideAction = [UIAlertAction actionWithTitle:@"Override" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                [self logToFile:@"User chose to override mismatch, continuing" atLineNumber:__LINE__];
+                [self extractDMG];
+            }];
+            [ipswDoesntMatch addAction:overrideAction];
+            [ipswDoesntMatch addAction:cancelAction];
+            [self presentViewController:ipswDoesntMatch animated:TRUE completion:nil];
         }
-        
+    } else {
+        UIAlertController *ipswDoesntMatch = [UIAlertController alertControllerWithTitle:@"Provided IPSW does not appear to match this device" message:@"The IPSW you provided does not appear to match this device/iOS version. You may override this warning, but you will most likely bootloop." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Delete and Exit" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSFileManager* fm = [[NSFileManager alloc] init];
+            NSDirectoryEnumerator* en = [fm enumeratorAtPath:@"/var/mobile/Media/Succession"];
+            NSError* error = nil;
+            BOOL res;
+            NSString* file;
+            while (file = [en nextObject]) {
+                res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&error];
+                if (!res && error) {
+                    self.activityLabel.text = [NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]];
+                }
+            }
+            exit(0);
+        }];
+        UIAlertAction *overrideAction = [UIAlertAction actionWithTitle:@"Override" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self logToFile:@"User chose to override mismatch, continuing" atLineNumber:__LINE__];
+            [self extractDMG];
+        }];
+        [ipswDoesntMatch addAction:overrideAction];
+        [ipswDoesntMatch addAction:cancelAction];
+        [self presentViewController:ipswDoesntMatch animated:TRUE completion:nil];
     }
-    /*
-     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/unzip"] && [[_successionPrefs objectForKey:@"advanced-unzip"] isEqual:@(1)]) {
-     [self logToFile:@"Using new unzip system" atLineNumber:__LINE__];
-     NSTask *getZipList = [[NSTask alloc] init];
-     [self logToFile:@"Created getZipList task" atLineNumber:__LINE__];
-     NSArray *getZipListArgs = [NSArray arrayWithObjects:@"-l", @"/var/mobile/Media/Succession/ipsw.ipsw", nil];
-     [self logToFile:@"Created getZipList args" atLineNumber:__LINE__];
-     [getZipList setLaunchPath:@"/usr/bin/unzip"];
-     [self logToFile:@"setLaunchPath for getZipList" atLineNumber:__LINE__];
-     NSPipe *outputPipe = [NSPipe pipe];
-     [self logToFile:@"created outputPipe" atLineNumber:__LINE__];
-     [getZipList setStandardOutput:outputPipe];
-     [self logToFile:@"set std output to outputPipe" atLineNumber:__LINE__];
-     [getZipList setStandardError:outputPipe];
-     [self logToFile:@"set std error to outputPipe" atLineNumber:__LINE__];
-     NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
-     [self logToFile:@"created filehandle for outputPipe" atLineNumber:__LINE__];
-     [getZipList setArguments:getZipListArgs];
-     [self logToFile:@"set arguments for task getZipList" atLineNumber:__LINE__];
-     getZipList.terminationHandler = ^(NSTask *task) {
-     NSData *dataRead = [stdoutHandle readDataToEndOfFile];
-     [self logToFile:@"read getZipList output as data" atLineNumber:__LINE__];
-     NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
-     [self logToFile:[NSString stringWithFormat:@"getZipList output: %@", stringRead] atLineNumber:__LINE__];
-     NSArray *zipListOutput = [stringRead componentsSeparatedByString:@"\n"];
-     [self logToFile:@"parsed output into array" atLineNumber:__LINE__];
-     NSMutableArray *dmgOutput = [[NSMutableArray alloc] init];
-     NSMutableDictionary *namesAndSizes = [[NSMutableDictionary alloc] init];
-     NSMutableArray *fileSizes = [[NSMutableArray alloc] init];
-     [self logToFile:@"created arrays and dictionaries for output parsing, starting fast enumeration of zipListOutput" atLineNumber:__LINE__];
-     for (NSString *str in zipListOutput) {
-     if ([str hasSuffix:@".dmg"]) {
-     [self logToFile:[NSString stringWithFormat:@"%@ contains '.dmg', added to dmgOutput", str] atLineNumber:__LINE__];
-     [dmgOutput addObject:str];
-     }
-     }
-     for (NSString *outputLine in dmgOutput) {
-     NSArray *splitString = [outputLine componentsSeparatedByString:@" "];
-     NSNumber *sizeOfFile = [[[NSNumberFormatter alloc] init] numberFromString:[splitString objectAtIndex:0]];
-     [self logToFile:[NSString stringWithFormat:@"seperated %@ into %@", outputLine, splitString] atLineNumber:__LINE__];
-     [namesAndSizes setObject:[splitString objectAtIndex:6] forKey:sizeOfFile];
-     [fileSizes addObject:sizeOfFile];
-     [self logToFile:[NSString stringWithFormat:@"namesAndSizes: %@\nfileSizes: %@", namesAndSizes, fileSizes] atLineNumber:__LINE__];
-     }
-     NSNumber *largestFileSize = [fileSizes valueForKeyPath:@"@max.self"];
-     [self logToFile:[NSString stringWithFormat:@"Largest file size is %@", largestFileSize] atLineNumber:__LINE__];
-     NSString *largestFileName = [namesAndSizes objectForKey:largestFileSize];
-     [self logToFile:[NSString stringWithFormat:@"Name of largest file is %@", largestFileName] atLineNumber:__LINE__];
-     [[self activityLabel] setText:[NSString stringWithFormat:@"Extracting %@ from IPSW...", largestFileName]];
-     if ([largestFileName containsString:@"dmg"]) {
-     NSTask *unzipBuildManifest = [[NSTask alloc] init];
-     NSArray *unzipBuildManifestArgs = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/ipsw.ipsw", @"BuildManifest.plist", @"-d", @"/var/mobile/Media/Succession", nil];
-     [unzipBuildManifest setLaunchPath:@"/usr/bin/unzip"];
-     [unzipBuildManifest setArguments:unzipBuildManifestArgs];
-     unzipBuildManifest.terminationHandler = ^(NSTask *task){
-     NSDictionary *IPSWBuildManifest = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Media/Succession/BuildManifest.plist"];
-     if ([[IPSWBuildManifest objectForKey:@"ProductBuildVersion"] isEqualToString:self->deviceBuild]) {
-     if ([[IPSWBuildManifest objectForKey:@"SupportedProductTypes"] containsObject:self->deviceModel]) {
-     NSTask *unzipRFS = [[NSTask alloc] init];
-     [self logToFile:@"Created unzipRFS task" atLineNumber:__LINE__];
-     NSArray *unzipRFSArgs = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/ipsw.ipsw", largestFileName, @"-d", @"/var/mobile/Media/Succession", nil];
-     [self logToFile:@"created unzipRFS arguments array" atLineNumber:__LINE__];
-     [unzipRFS setLaunchPath:@"/usr/bin/unzip"];
-     [self logToFile:@"setLaunchPath for unzipRFS task" atLineNumber:__LINE__];
-     [unzipRFS setArguments:unzipRFSArgs];
-     [self logToFile:@"setArgs for unzipRFS task" atLineNumber:__LINE__];
-     unzipRFS.terminationHandler = ^(NSTask *task){
-     [[self activityLabel] setText:@"Retrieving extracted filesystem..."];
-     NSError *error;
-     NSString *workingDirPath = @"/var/mobile/Media/Succession/";
-     [self logToFile:[NSString stringWithFormat:@"moving %@ to /var/mobile/Media/Succession/rfs.dmg", [workingDirPath stringByAppendingPathComponent:largestFileName]] atLineNumber:__LINE__];
-     [[NSFileManager defaultManager] moveItemAtPath:[workingDirPath stringByAppendingPathComponent:largestFileName] toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:&error];
-     if (!error) {
-     [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
-     [self logToFile:@"Deleted ipsw.ipsw" atLineNumber:__LINE__];
-     if (!error) {
-     [self logToFile:@"Showing downloadComplete alert" atLineNumber:__LINE__];
-     UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
-     UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-     [[self navigationController] popToRootViewControllerAnimated:TRUE];
-     }];
-     [downloadComplete addAction:backToHomePage];
-     [self presentViewController:downloadComplete animated:TRUE completion:nil];
-     } else {
-     [self errorAlert:@"Failed to clean up, please delete /var/mobile/Media/Succession/ipsw.ipsw"];
-     }
-     } else {
-     [self errorAlert:@"Failed to retrieve extracted filesystem, please check /var/mobile/Media/Succession/ for a DMG file and rename it to 'rfs.dmg' (without the quotes)"];
-     }
-     };
-     [unzipRFS launch];
-     [self logToFile:@"Launched unzipRFS" atLineNumber:__LINE__];
-     } else {
-     UIAlertController *ipswDoesntMatch = [UIAlertController alertControllerWithTitle:@"Provided IPSW does not appear to match this device" message:@"The IPSW you provided does not appear to match this device/iOS version. You may override this warning, but you will most likely bootloop." preferredStyle:UIAlertControllerStyleAlert];
-     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Delete and Exit" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-     NSFileManager* fm = [[NSFileManager alloc] init];
-     NSDirectoryEnumerator* en = [fm enumeratorAtPath:@"/var/mobile/Media/Succession"];
-     NSError* error = nil;
-     BOOL res;
-     NSString* file;
-     while (file = [en nextObject]) {
-     res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&error];
-     if (!res && error) {
-     self.activityLabel.text = [NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]];
-     }
-     }
-     exit(0);
-     }];
-     UIAlertAction *overrideAction = [UIAlertAction actionWithTitle:@"Override" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-     NSTask *unzipRFS = [[NSTask alloc] init];
-     [self logToFile:@"Created unzipRFS task" atLineNumber:__LINE__];
-     NSArray *unzipRFSArgs = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/ipsw.ipsw", largestFileName, @"-d", @"/var/mobile/Media/Succession", nil];
-     [self logToFile:@"created unzipRFS arguments array" atLineNumber:__LINE__];
-     [unzipRFS setLaunchPath:@"/usr/bin/unzip"];
-     [self logToFile:@"setLaunchPath for unzipRFS task" atLineNumber:__LINE__];
-     [unzipRFS setArguments:unzipRFSArgs];
-     [self logToFile:@"setArgs for unzipRFS task" atLineNumber:__LINE__];
-     unzipRFS.terminationHandler = ^(NSTask *task){
-     [[self activityLabel] setText:@"Retrieving extracted filesystem..."];
-     NSError *error;
-     NSString *workingDirPath = @"/var/mobile/Media/Succession/";
-     [self logToFile:[NSString stringWithFormat:@"moving %@ to /var/mobile/Media/Succession/rfs.dmg", [workingDirPath stringByAppendingPathComponent:largestFileName]] atLineNumber:__LINE__];
-     [[NSFileManager defaultManager] moveItemAtPath:[workingDirPath stringByAppendingPathComponent:largestFileName] toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:&error];
-     if (!error) {
-     [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
-     [self logToFile:@"Deleted ipsw.ipsw" atLineNumber:__LINE__];
-     if (!error) {
-     [self logToFile:@"Showing downloadComplete alert" atLineNumber:__LINE__];
-     UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
-     UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-     [[self navigationController] popToRootViewControllerAnimated:TRUE];
-     }];
-     [downloadComplete addAction:backToHomePage];
-     [self presentViewController:downloadComplete animated:TRUE completion:nil];
-     } else {
-     [self errorAlert:@"Failed to clean up, please delete /var/mobile/Media/Succession/ipsw.ipsw"];
-     }
-     } else {
-     [self errorAlert:@"Failed to retrieve extracted filesystem, please check /var/mobile/Media/Succession/ for a DMG file and rename it to 'rfs.dmg' (without the quotes)"];
-     }
-     };
-     [unzipRFS launch];
-     [self logToFile:@"Launched unzipRFS" atLineNumber:__LINE__];
-     }];
-     [ipswDoesntMatch addAction:cancelAction];
-     [ipswDoesntMatch addAction:overrideAction];
-     [self presentViewController:ipswDoesntMatch animated:TRUE completion:nil];
-     }
-     } else {
-     UIAlertController *ipswDoesntMatch = [UIAlertController alertControllerWithTitle:@"Provided IPSW does not appear to match this device" message:@"The IPSW you provided does not appear to match this device/iOS version. You may override this warning, but it is strongly reccommended that you do not continue." preferredStyle:UIAlertControllerStyleAlert];
-     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Delete and Exit" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-     NSFileManager* fm = [[NSFileManager alloc] init];
-     NSDirectoryEnumerator* en = [fm enumeratorAtPath:@"/var/mobile/Media/Succession"];
-     NSError* error = nil;
-     BOOL res;
-     NSString* file;
-     while (file = [en nextObject]) {
-     res = [fm removeItemAtPath:[@"/var/mobile/Media/Succession" stringByAppendingPathComponent:file] error:&error];
-     if (!res && error) {
-     self.activityLabel.text = [NSString stringWithFormat:@"Error deleting files: %@", [error localizedDescription]];
-     }
-     }
-     exit(0);
-     }];
-     UIAlertAction *overrideAction = [UIAlertAction actionWithTitle:@"Override" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-     NSTask *unzipRFS = [[NSTask alloc] init];
-     [self logToFile:@"Created unzipRFS task" atLineNumber:__LINE__];
-     NSArray *unzipRFSArgs = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/ipsw.ipsw", largestFileName, @"-d", @"/var/mobile/Media/Succession", nil];
-     [self logToFile:@"created unzipRFS arguments array" atLineNumber:__LINE__];
-     [unzipRFS setLaunchPath:@"/usr/bin/unzip"];
-     [self logToFile:@"setLaunchPath for unzipRFS task" atLineNumber:__LINE__];
-     [unzipRFS setArguments:unzipRFSArgs];
-     [self logToFile:@"setArgs for unzipRFS task" atLineNumber:__LINE__];
-     unzipRFS.terminationHandler = ^(NSTask *task){
-     [[self activityLabel] setText:@"Retrieving extracted filesystem..."];
-     NSError *error;
-     NSString *workingDirPath = @"/var/mobile/Media/Succession/";
-     [self logToFile:[NSString stringWithFormat:@"moving %@ to /var/mobile/Media/Succession/rfs.dmg", [workingDirPath stringByAppendingPathComponent:largestFileName]] atLineNumber:__LINE__];
-     [[NSFileManager defaultManager] moveItemAtPath:[workingDirPath stringByAppendingPathComponent:largestFileName] toPath:@"/var/mobile/Media/Succession/rfs.dmg" error:&error];
-     if (!error) {
-     [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:&error];
-     [self logToFile:@"Deleted ipsw.ipsw" atLineNumber:__LINE__];
-     if (!error) {
-     [self logToFile:@"Showing downloadComplete alert" atLineNumber:__LINE__];
-     UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
-     UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-     [[self navigationController] popToRootViewControllerAnimated:TRUE];
-     }];
-     [downloadComplete addAction:backToHomePage];
-     [self presentViewController:downloadComplete animated:TRUE completion:nil];
-     } else {
-     [self errorAlert:@"Failed to clean up, please delete /var/mobile/Media/Succession/ipsw.ipsw"];
-     }
-     } else {
-     [self errorAlert:@"Failed to retrieve extracted filesystem, please check /var/mobile/Media/Succession/ for a DMG file and rename it to 'rfs.dmg' (without the quotes)"];
-     }
-     };
-     [unzipRFS launch];
-     [self logToFile:@"Launched unzipRFS" atLineNumber:__LINE__];
-     }];
-     [ipswDoesntMatch addAction:cancelAction];
-     [ipswDoesntMatch addAction:overrideAction];
-     [self presentViewController:ipswDoesntMatch animated:TRUE completion:nil];
-     }
-     };
-     [unzipBuildManifest launch];
-     } else {
-     [self oldUnzip];
-     }
-     };
-     [getZipList launch];
-     [self logToFile:@"Launched getZipList" atLineNumber:__LINE__];
-     } else {
-     [self oldUnzip];
-     } */
+}
+
+-(void) extractDMG {
+    [[self unzipActivityIndicator] setHidden:FALSE];
+    [[self activityLabel] setText:@"Identifying rfs in compressed IPSW..."];
 }
 
 - (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {

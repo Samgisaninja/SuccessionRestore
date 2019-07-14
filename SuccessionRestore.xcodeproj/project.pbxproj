@@ -45,6 +45,7 @@
 		8D5BA2881F7C792E00A169BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2871F7C792E00A169BF /* main.m */; };
 		8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D876121202679E2004A6F27 /* DownloadViewController.m */; };
 		8D8F2FAA2264095D0044CF00 /* SpecialThanksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */; };
+		8DC4F49E22DA78470094D505 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D876121202679E2004A6F27 /* DownloadViewController.m */; };
 		8DC82B2A226CD8EB00D21893 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC82B29226CD8EB00D21893 /* RestoreViewController.m */; };
 		8DE5B2A822611C0F00502C8F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */; };
 		8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
@@ -562,6 +563,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DC4F49E22DA78470094D505 /* DownloadViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
