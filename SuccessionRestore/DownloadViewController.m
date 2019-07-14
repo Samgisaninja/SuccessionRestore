@@ -309,8 +309,8 @@
         }
     }
     unsigned long long buildManifestLength = [buildManifestInfo length];
-    OZZipReadStream *read= [unzipIPSW readCurrentFileInZip];
-    NSMutableData *data= [[NSMutableData alloc] initWithLength:1024];
+    OZZipReadStream *read = [unzipIPSW readCurrentFileInZip];
+    NSMutableData *data = [[NSMutableData alloc] initWithLength:1024];
     NSMutableData *unzippedData = [[NSMutableData alloc] init];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[self unzipActivityIndicator] setHidden:TRUE];
@@ -408,6 +408,75 @@
         [[self unzipActivityIndicator] setHidden:FALSE];
         [[self activityLabel] setText:@"Identifying rfs in compressed IPSW..."];
     });
+    OZZipFile *unzipIPSW;
+    if (sizeof(void *) == 4) {
+        unzipIPSW = [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip legacy32BitMode:TRUE];
+    } else {
+        unzipIPSW = [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip legacy32BitMode:TRUE];
+    }
+    [unzipIPSW locateFileInZip:@"BuildManifest.plist"];
+    NSMutableDictionary *namesAndSizes = [[NSMutableDictionary alloc] init];
+    NSArray *infos = [unzipIPSW listFileInZipInfos];
+    NSMutableArray *fileSizes = [[NSMutableArray alloc] init];
+    for (OZFileInZipInfo *info in infos) {
+        if ([info.name hasSuffix:@".dmg"]) {
+            [self logToFile:[NSString stringWithFormat:@"%@ is a DMG of size %llu!", [info name], [info length]] atLineNumber:__LINE__];
+            [namesAndSizes setObject:[info name] forKey:[NSNumber numberWithUnsignedLongLong:[info length]]];
+            [fileSizes addObject:[NSNumber numberWithUnsignedLongLong:[info length]]];
+        }
+    }
+    NSNumber *largestFileSize = [fileSizes valueForKeyPath:@"@max.self"];
+    [self logToFile:[NSString stringWithFormat:@"Largest file size is %@", largestFileSize] atLineNumber:__LINE__];
+    NSString *largestFileName = [namesAndSizes objectForKey:largestFileSize];
+    [unzipIPSW locateFileInZip:largestFileName];
+    [self logToFile:[NSString stringWithFormat:@"Name of largest file is %@", largestFileName] atLineNumber:__LINE__];
+    
+    unsigned long long dmgLengthULL = (unsigned long long)[[namesAndSizes allKeysForObject:largestFileName] firstObject];
+    float dmgLength = (float)dmgLengthULL;
+    OZZipReadStream *read = [unzipIPSW readCurrentFileInZip];
+    NSMutableData *data = [[NSMutableData alloc] initWithLength:16384];
+    [[NSFileManager defaultManager] createFileAtPath:@"/var/mobile/Media/Succession/rfs.dmg" contents:nil attributes:nil];
+    float unzipProgress = 0;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self unzipActivityIndicator] setHidden:TRUE];
+        [[self downloadProgressBar] setHidden:FALSE];
+        [[self activityLabel] setText:[NSString stringWithFormat:@"Extracting %@ from IPSW", largestFileName]];
+    });
+    do {
+        
+        // Reset buffer length
+        [data setLength:16384];
+        
+        // Read bytes and check for end of file
+        int bytesRead= (int)[read readDataWithBuffer:data];
+        if (bytesRead <= 0)
+            break;
+        [data setLength:bytesRead];
+        unzipProgress = unzipProgress + bytesRead;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self downloadProgressBar] setProgress:(unzipProgress/dmgLength)];
+        });
+        NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:@"/var/mobile/Media/Succession/rfs.dmg"];
+        [fileHandle seekToEndOfFile];
+        [fileHandle writeData:data];
+        [fileHandle closeFile];
+        [self logToFile:[NSString stringWithFormat:@"Extracting DMG, %d bytes extracted, %f of %f total", bytesRead, unzipProgress, dmgLength] atLineNumber:__LINE__];
+    } while (YES);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self unzipActivityIndicator] setHidden:FALSE];
+        [[self downloadProgressBar] setHidden:TRUE];
+        [[self activityLabel] setText:[NSString stringWithFormat:@"Cleaning up..."]];
+    });
+    // Delete everything else
+    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/BuildManifest.plist" error:nil];
+    // Let the user know that download is now complete
+    UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[self navigationController] popToRootViewControllerAnimated:TRUE];
+    }];
+    [downloadComplete addAction:backToHomePage];
+    [self presentViewController:downloadComplete animated:TRUE completion:nil];
 }
 
 - (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
