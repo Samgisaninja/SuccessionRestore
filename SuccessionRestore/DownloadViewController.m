@@ -434,7 +434,7 @@
     unsigned long long dmgLengthULL = (unsigned long long)[[namesAndSizes allKeysForObject:largestFileName] firstObject];
     float dmgLength = (float)dmgLengthULL;
     OZZipReadStream *read = [unzipIPSW readCurrentFileInZip];
-    NSMutableData *data = [[NSMutableData alloc] initWithLength:16384];
+    NSMutableData *data = [[NSMutableData alloc] initWithLength:32768];
     [[NSFileManager defaultManager] createFileAtPath:@"/var/mobile/Media/Succession/rfs.dmg" contents:nil attributes:nil];
     float unzipProgress = 0;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -445,7 +445,7 @@
     do {
         
         // Reset buffer length
-        [data setLength:16384];
+        [data setLength:32768];
         
         // Read bytes and check for end of file
         int bytesRead= (int)[read readDataWithBuffer:data];
@@ -462,6 +462,8 @@
         [fileHandle closeFile];
         [self logToFile:[NSString stringWithFormat:@"Extracting DMG, %d bytes extracted, %f of %f total", bytesRead, unzipProgress, dmgLength] atLineNumber:__LINE__];
     } while (YES);
+    [read finishedReading];
+    [unzipIPSW close];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[self unzipActivityIndicator] setHidden:FALSE];
         [[self downloadProgressBar] setHidden:TRUE];
