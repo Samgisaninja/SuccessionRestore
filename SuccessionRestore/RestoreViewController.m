@@ -234,6 +234,12 @@ int attach(const char *path, char buf[], size_t sz);
 
 -(void) mountRestoreDisk{
     [self logToFile:@"mountRestoreDisk called!" atLineNumber:__LINE__];
+    if ([_theDiskString hasSuffix:@"s2s1s2s1"]) {
+        [self logToFile:[NSString stringWithFormat:@"theDiskString %@ has been double-apended, correcting", _theDiskString] atLineNumber:__LINE__];
+        _theDiskString = [NSMutableString stringWithString:[_theDiskString stringByReplacingOccurrencesOfString:@"s2s1s2s1" withString:@""]];
+        _theDiskString = [NSMutableString stringWithString:[_theDiskString stringByAppendingString:@"s2s1"]];
+        [self logToFile:[NSString stringWithFormat:@"corrected theDiskString is now %@", _theDiskString] atLineNumber:__LINE__];
+    }
     if ([self isMountPointPresent]) {
         [self logToFile:[NSString stringWithFormat:@"mountpoint is present! mounting %@ type disk %@ to mountpoint", _filesystemType, _theDiskString] atLineNumber:__LINE__];
         NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", _theDiskString, @"/private/var/MobileSoftwareUpdate/mnt1", nil];
