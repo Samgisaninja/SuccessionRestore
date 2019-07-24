@@ -205,6 +205,37 @@
     }
 }
 
+- (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    // So, iOS provides A LOT of information to us during the download, the oly thing I'm really interested in is the totalBytesWritten and the totalBytesExpectedToWrite. Here I convert them into float values so that I can do math with them easier. I also convert them to MB, as bytes aren't really user-friendly
+    float totalSize = (totalBytesExpectedToWrite/1024)/1024.f;
+    float writtenSize = (totalBytesWritten/1024)/1024.f;
+    // The if statments were done to fix a bug I was having where the "unzipping" wouldn't appear, even after the download was complete, so I say "ok, if the download is 'close enough', then show the user that it's done." This is dirty. oops.
+    if (writtenSize < (totalSize - 0.1)) {
+        // I use a mutable attributed string here. It's attributed so that I can change the font to that monospaced font I created earlier in viewDidLoad, and its mutable so that I can apply that font after the string's creation.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSMutableAttributedString *activityLabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Downloading IPSW:\n%.2f of %.2f MB", writtenSize, totalSize]];
+            // apply the font
+            [activityLabelText addAttribute:NSFontAttributeName value:self->_monospacedNumberSystemFont range:NSMakeRange(0, activityLabelText.string.length)];
+            // set the label equal to my attributed string
+            [self->_activityLabel setAttributedText:activityLabelText];
+        });
+        // set the progressbar equal to the ratio of writtenSize to total file size.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.downloadProgressBar.progress = (writtenSize/totalSize);
+            [[self downloadProgressBar] setHidden:FALSE];
+            [[self unzipActivityIndicator] setHidden:TRUE];
+        });
+    }
+    if (writtenSize > (totalSize - 0.1)) {
+        // if the download is "close enough" to being done, show the unzip UI.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.activityLabel.text = @"Unzipping...";
+            [[self downloadProgressBar] setHidden:TRUE];
+            [[self unzipActivityIndicator] setHidden:FALSE];
+        });
+    }
+}
+
 - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     // so this method gets executed when "a download finished, and it's located at the NSString returned by [location path]". This presents the problem of, "well, was it a beta version, and it just downloaded the beta information plist from my github, or did it just finish downloading an IPSW?". The filename and extension are not preserved, so the best way I could think of to determine which was to check if the file was big (IPSW) or small (plist).
     unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:[location path] error:nil] fileSize];
@@ -294,54 +325,36 @@
         
     });
     [[NSFileManager defaultManager] moveItemAtPath:[_successionPrefs objectForKey:@"custom_ipsw_path"] toPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:nil];
-    OZZipFile *unzipIPSW;
-    if (sizeof(void *) == 4) {
-        unzipIPSW = [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip legacy32BitMode:TRUE];
-    } else {
-        unzipIPSW = [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip legacy32BitMode:TRUE];
-    }
-    [unzipIPSW locateFileInZip:@"BuildManifest.plist"];
-    NSArray *infos = [unzipIPSW listFileInZipInfos];
-    OZFileInZipInfo *buildManifestInfo;
-    for (OZFileInZipInfo *possiblyBuildManifestInfo in infos) {
-        if ([[possiblyBuildManifestInfo name] isEqualToString:@"BuildManifest.plist"]) {
-            buildManifestInfo = possiblyBuildManifestInfo;
+    OZZipFile *zip= [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip];
+    NSMutableData *buffer = [[NSMutableData alloc] initWithLength:1024];
+    NSArray *zipContentList= [zip listFileInZipInfos];
+    for (OZFileInZipInfo *fileInZipInfo in zipContentList) {
+        if ([[fileInZipInfo name] isEqualToString:@"BuildManifest.plist"]) {
+            // Create file
+            NSString *filePath = [NSString stringWithFormat:@"/var/mobile/Media/Succession/%@", fileInZipInfo.name];
+            [[NSFileManager defaultManager] createFileAtPath:filePath contents:[NSData data] attributes:nil];
+            NSFileHandle *file= [NSFileHandle fileHandleForWritingAtPath:filePath];
+            [zip locateFileInZip:fileInZipInfo.name];
+            OZZipReadStream *readStream= [zip readCurrentFileInZip];
+            [buffer setLength:1024];
+            int totalBytesRead= 0;
+            do {
+                int bytesRead= [readStream readDataWithBuffer:buffer];
+                if (bytesRead > 0) {
+                    [buffer setLength:bytesRead];
+                    [file writeData:buffer];
+                    [self logToFile:[NSString stringWithFormat:@"Writing %@, %d of %llu bytes...", [fileInZipInfo name], totalBytesRead, [fileInZipInfo length]] atLineNumber:__LINE__];
+                    totalBytesRead += bytesRead;
+                    
+                } else
+                    break;
+                
+            } while (YES);
+            [file closeFile];
+            [readStream finishedReading];
         }
     }
-    unsigned long long buildManifestLength = [buildManifestInfo length];
-    OZZipReadStream *read = [unzipIPSW readCurrentFileInZip];
-    NSMutableData *data = [[NSMutableData alloc] initWithLength:1024];
-    NSMutableData *unzippedData = [[NSMutableData alloc] init];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[self unzipActivityIndicator] setHidden:TRUE];
-        [[self downloadProgressBar] setHidden:FALSE];
-    });
-    do {
-        
-        // Reset buffer length
-        [data setLength:1024];
-        
-        // Read bytes and check for end of file
-        int bytesRead= (int)[read readDataWithBuffer:data];
-        if (bytesRead <= 0)
-            break;
-        [data setLength:bytesRead];
-        [unzippedData appendData:data];
-        unsigned long unzipProgress = [unzippedData length];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[self downloadProgressBar] setProgress:(unzipProgress/buildManifestLength)];
-        });
-        [self logToFile:[NSString stringWithFormat:@"Extracting BuildManifest, %d bytes extracted, %lu of %llu total", bytesRead, unzipProgress, buildManifestLength] atLineNumber:__LINE__];
-        
-    } while (YES);
-    
-    [read finishedReading];
-    [unzippedData writeToFile:@"/var/mobile/Media/Succession/BuildManifest.plist" atomically:TRUE];
-    [self logToFile:@"Successfully written BuildManifest" atLineNumber:__LINE__];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[self unzipActivityIndicator] setHidden:FALSE];
-        [[self downloadProgressBar] setHidden:TRUE];
-    });
+    [zip close];
     NSDictionary *IPSWBuildManifest = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Media/Succession/BuildManifest.plist"];
     if ([[IPSWBuildManifest objectForKey:@"ProductBuildVersion"] isEqualToString:deviceBuild]) {
         [self logToFile:[NSString stringWithFormat:@"Build number in BuildManifest %@ matches deviceBuild %@", [IPSWBuildManifest objectForKey:@"ProductBuildVersion"], deviceBuild] atLineNumber:__LINE__];
@@ -480,38 +493,6 @@
     [downloadComplete addAction:backToHomePage];
     [self presentViewController:downloadComplete animated:TRUE completion:nil];
 }
-
-- (void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-    // So, iOS provides A LOT of information to us during the download, the oly thing I'm really interested in is the totalBytesWritten and the totalBytesExpectedToWrite. Here I convert them into float values so that I can do math with them easier. I also convert them to MB, as bytes aren't really user-friendly
-    float totalSize = (totalBytesExpectedToWrite/1024)/1024.f;
-    float writtenSize = (totalBytesWritten/1024)/1024.f;
-    // The if statments were done to fix a bug I was having where the "unzipping" wouldn't appear, even after the download was complete, so I say "ok, if the download is 'close enough', then show the user that it's done." This is dirty. oops.
-    if (writtenSize < (totalSize - 0.1)) {
-        // I use a mutable attributed string here. It's attributed so that I can change the font to that monospaced font I created earlier in viewDidLoad, and its mutable so that I can apply that font after the string's creation.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSMutableAttributedString *activityLabelText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Downloading IPSW:\n%.2f of %.2f MB", writtenSize, totalSize]];
-            // apply the font
-            [activityLabelText addAttribute:NSFontAttributeName value:self->_monospacedNumberSystemFont range:NSMakeRange(0, activityLabelText.string.length)];
-            // set the label equal to my attributed string
-            [self->_activityLabel setAttributedText:activityLabelText];
-        });
-        // set the progressbar equal to the ratio of writtenSize to total file size.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.downloadProgressBar.progress = (writtenSize/totalSize);
-            [[self downloadProgressBar] setHidden:FALSE];
-            [[self unzipActivityIndicator] setHidden:TRUE];
-        });
-    }
-    if (writtenSize > (totalSize - 0.1)) {
-        // if the download is "close enough" to being done, show the unzip UI.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.activityLabel.text = @"Unzipping...";
-            [[self downloadProgressBar] setHidden:TRUE];
-            [[self unzipActivityIndicator] setHidden:FALSE];
-        });
-    }
-}
-
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller
           didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
