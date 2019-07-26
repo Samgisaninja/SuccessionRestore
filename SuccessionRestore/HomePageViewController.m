@@ -116,12 +116,33 @@
     [[[self navigationController] navigationBar] setHidden:TRUE];
     //Checks to see if DMG has already been downloaded and sets buttons accordingly
     NSDictionary *successionPrefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"];
+    NSArray *contentsOfSuccessionFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Media/Succession/" error:nil];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"]) {
         [_downloadDMGButton setHidden:TRUE];
         [_prepareToRestoreButton setHidden:FALSE];
         [_prepareToRestoreButton setEnabled:TRUE];
         [_infoLabel setHidden:TRUE];
+        for (NSString *file in contentsOfSuccessionFolder) {
+            if (![file isEqualToString:@"rfs.dmg"]) {
+                [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"/var/mobile/Media/Succession/%@"] error:nil];
+            }
+        }
     } else {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[successionPrefs objectForKey:@"custom_ipsw_path"]]) {
+            UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW detected!" message:@"Please go to the download page if you'd like to use the IPSW file you provided." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+            [ipswDetected addAction:okAction];
+            [self presentViewController:ipswDetected animated:TRUE completion:nil];
+        } else {
+            for (NSString *file in contentsOfSuccessionFolder) {
+                if ([file containsString:@".ipsw"]) {
+                    UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW detected!" message:@"Please go to the download page if you'd like to use the IPSW file you provided." preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+                    [ipswDetected addAction:okAction];
+                    [self presentViewController:ipswDetected animated:TRUE completion:nil];
+                }
+            }
+        }
         [_downloadDMGButton setHidden:FALSE];
         [_prepareToRestoreButton setHidden:TRUE];
         [_prepareToRestoreButton setEnabled:FALSE];
@@ -129,20 +150,9 @@
         [_infoLabel setText:[NSString stringWithFormat:@"Please download an IPSW\nSuccession can do this automatically (press 'Download clean Filesystem' below) or you can place an IPSW in %@", [successionPrefs objectForKey:@"custom_ipsw_path"]]];
     }
     if ([[NSFileManager defaultManager] fileExistsAtPath:[successionPrefs objectForKey:@"custom_ipsw_path"]]) {
-        UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW detected!" message:@"Please go to the download page if you'd like to use the IPSW file you provided." preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
-        [ipswDetected addAction:okAction];
-        [self presentViewController:ipswDetected animated:TRUE completion:nil];
+        
     } else {
-        NSArray *contentsOfSuccessionFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Media/Succession/" error:nil];
-        for (NSString *file in contentsOfSuccessionFolder) {
-            if ([file containsString:@".ipsw"]) {
-                UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW detected!" message:@"Please go to the download page if you'd like to use the IPSW file you provided." preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
-                [ipswDetected addAction:okAction];
-                [self presentViewController:ipswDetected animated:TRUE completion:nil];
-            }
-        }
+        
     }
 }
 
