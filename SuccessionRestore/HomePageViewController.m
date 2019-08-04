@@ -124,7 +124,7 @@
         [_infoLabel setHidden:TRUE];
         for (NSString *file in contentsOfSuccessionFolder) {
             if (![file isEqualToString:@"rfs.dmg"]) {
-                [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"/var/mobile/Media/Succession/%@"] error:nil];
+                [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"/var/mobile/Media/Succession/%@", file] error:nil];
             }
         }
     } else {
