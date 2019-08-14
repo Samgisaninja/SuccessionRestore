@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8D13280720F2F3A800C72D10 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D13280620F2F3A800C72D10 /* IOKit.framework */; };
 		8D175B5B224429CB00FF7DFD /* NSTask.h in Sources */ = {isa = PBXBuildFile; fileRef = 8D4C260B21BF57C700BBA404 /* NSTask.h */; settings = {COMPILER_FLAGS = "-w"; }; };
-		8D37B8F021263652008FF3EC /* hdik.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D37B8EF21263652008FF3EC /* hdik.c */; };
 		8D47CCB622C86B7800BCFAED /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 8D47CC7322C86B7800BCFAED /* LICENSE.md */; };
 		8D47CCB722C86B7800BCFAED /* crypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC7522C86B7800BCFAED /* crypt.c */; };
 		8D47CCB822C86B7800BCFAED /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC7622C86B7800BCFAED /* unzip.c */; };
@@ -72,19 +71,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8D1327F320F26CDA00C72D10 /* libjb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libjb.h; sourceTree = "<group>"; };
-		8D1327FB20F26FF100C72D10 /* unjail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unjail.h; sourceTree = "<group>"; };
 		8D13280020F2CFB800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../Downloads/IOKit.framework; sourceTree = "<group>"; };
 		8D13280620F2F3A800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = SuccessionRestore/IOKit.framework; sourceTree = "<group>"; };
-		8D37B8EF21263652008FF3EC /* hdik.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hdik.c; sourceTree = "<group>"; };
-		8D37B8F221263676008FF3EC /* IOTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOTypes.h; sourceTree = "<group>"; };
-		8D37B8F321263676008FF3EC /* IOKitKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitKeys.h; sourceTree = "<group>"; };
-		8D37B8F421263676008FF3EC /* IOMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOMessage.h; sourceTree = "<group>"; };
-		8D37B8F521263676008FF3EC /* IOReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOReturn.h; sourceTree = "<group>"; };
-		8D37B8F621263676008FF3EC /* OSMessageNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSMessageNotification.h; sourceTree = "<group>"; };
-		8D37B8F721263676008FF3EC /* OSKext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKext.h; sourceTree = "<group>"; };
-		8D37B8F821263676008FF3EC /* IOKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKit.h; sourceTree = "<group>"; };
-		8D37B8F921263676008FF3EC /* IOKitLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitLib.h; sourceTree = "<group>"; };
 		8D47CC7322C86B7800BCFAED /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		8D47CC7522C86B7800BCFAED /* crypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crypt.c; sourceTree = "<group>"; };
 		8D47CC7622C86B7800BCFAED /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
@@ -219,21 +207,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8D37B8F121263676008FF3EC /* IOKit */ = {
-			isa = PBXGroup;
-			children = (
-				8D37B8F221263676008FF3EC /* IOTypes.h */,
-				8D37B8F321263676008FF3EC /* IOKitKeys.h */,
-				8D37B8F421263676008FF3EC /* IOMessage.h */,
-				8D37B8F521263676008FF3EC /* IOReturn.h */,
-				8D37B8F621263676008FF3EC /* OSMessageNotification.h */,
-				8D37B8F721263676008FF3EC /* OSKext.h */,
-				8D37B8F821263676008FF3EC /* IOKit.h */,
-				8D37B8F921263676008FF3EC /* IOKitLib.h */,
-			);
-			path = IOKit;
-			sourceTree = "<group>";
-		};
 		8D47CC7222C86B7800BCFAED /* objective-zip */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,12 +337,10 @@
 				8D876121202679E2004A6F27 /* DownloadViewController.m */,
 				8D980C982303D26C009717B4 /* hdik64 */,
 				8D980C962303D125009717B4 /* hdik32 */,
-				8D37B8EF21263652008FF3EC /* hdik.c */,
 				8D5BA27B1F7C792E00A169BF /* HomePageViewController.h */,
 				8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */,
 				8D5BA2861F7C792E00A169BF /* Info.plist */,
 				8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */,
-				8D1327F320F26CDA00C72D10 /* libjb.h */,
 				8D5BA2871F7C792E00A169BF /* main.m */,
 				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
 				8D4C260B21BF57C700BBA404 /* NSTask.h */,
@@ -380,9 +351,7 @@
 				8D8F2FA82264095D0044CF00 /* SpecialThanksTableViewController.h */,
 				8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */,
 				8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */,
-				8D1327FB20F26FF100C72D10 /* unjail.h */,
 				8D47CC7222C86B7800BCFAED /* objective-zip */,
-				8D37B8F121263676008FF3EC /* IOKit */,
 			);
 			path = SuccessionRestore;
 			sourceTree = "<group>";
@@ -554,7 +523,6 @@
 				8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */,
 				8D47CCBB22C86B7800BCFAED /* inflate.c in Sources */,
 				8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */,
-				8D37B8F021263652008FF3EC /* hdik.c in Sources */,
 				8D47CCBF22C86B7800BCFAED /* crc32.c in Sources */,
 				8D47CCCC22C86B7800BCFAED /* NSDate+DOSDate.m in Sources */,
 				8D47CCBD22C86B7800BCFAED /* deflate.c in Sources */,

@@ -27,7 +27,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 13;
+    return 12;
 }
 
 
@@ -52,18 +52,6 @@
         case 1: {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
-            NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"xerub\n"] attributes: nameFontDict];
-            UIFont *roleFont = [UIFont systemFontOfSize:13];;
-            NSDictionary *roleFontDict = [NSDictionary dictionaryWithObject: roleFont forKey:NSFontAttributeName];
-            NSMutableAttributedString *roleString = [[NSMutableAttributedString alloc] initWithString:@"Disk attaching" attributes: roleFontDict];
-            [nameString appendAttributedString:roleString];
-            [[cell textLabel] setAttributedText:nameString];
-            [[cell imageView] setImage:[UIImage imageNamed:@"xerub"]];
-            break;
-        }
-        case 2: {
-            UIFont *nameFont = [UIFont systemFontOfSize:17];
-            NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
             NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"MidnightChips\n"] attributes: nameFontDict];
             UIFont *roleFont = [UIFont systemFontOfSize:13];;
             NSDictionary *roleFontDict = [NSDictionary dictionaryWithObject: roleFont forKey:NSFontAttributeName];
@@ -73,7 +61,7 @@
             [[cell imageView] setImage:[UIImage imageNamed:@"Midnightchip"]];
             break;
         }
-        case 3: {
+        case 2: {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
             NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"sbingner\n"] attributes: nameFontDict];UIFont *roleFont = [UIFont systemFontOfSize:13];;
@@ -90,7 +78,7 @@
             [[cell imageView] setImage:newImage];
             break;
         }
-        case 4:
+        case 3:
         {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
@@ -103,7 +91,7 @@
             [[cell imageView] setImage:[UIImage imageNamed:@"pwn20wnd"]];
             break;
         }
-        case 5:
+        case 4:
         {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
@@ -116,7 +104,7 @@
             [[cell imageView] setImage:[UIImage imageNamed:@"cryptiiiic"]];
             break;
         }
-        case 6:
+        case 5:
         {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
@@ -129,7 +117,7 @@
             [[cell imageView] setImage:[UIImage imageNamed:@"4pplecracker"]];
             break;
         }
-        case 7:
+        case 6:
         {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
@@ -141,7 +129,7 @@
             [[cell imageView] setImage:[UIImage imageNamed:@"PsychoTea"]];
             break;
         }
-        case 8:
+        case 7:
         {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
@@ -159,7 +147,7 @@
             [[cell imageView] setImage:newImage];
             break;
         }
-        case 9:
+        case 8:
         {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
@@ -172,7 +160,7 @@
             [[cell imageView] setImage:[UIImage imageNamed:@"xerusdesign"]];
             break;
         }
-        case 10:
+        case 9:
         {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
@@ -185,7 +173,7 @@
             [[cell imageView] setImage:[UIImage imageNamed:@"hawk"]];
             break;
         }
-        case 11:
+        case 10:
         {
             UIFont *nameFont = [UIFont systemFontOfSize:17];
             NSDictionary *nameFontDict = [NSDictionary dictionaryWithObject: nameFont forKey:NSFontAttributeName];
@@ -198,7 +186,7 @@
             [[cell imageView] setImage:[UIImage imageNamed:@"swaggo"]];
             break;
         }
-        case 12:
+        case 11:
         {
             [[cell textLabel] setText:@"Objective-Zip Copyright (c) 2009-2012, Flying Dolphin Studio All rights reserved. Used under BSD3 License."];
             [[cell imageView] setImage:nil];

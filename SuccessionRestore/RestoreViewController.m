@@ -7,13 +7,9 @@
 //
 
 #import "RestoreViewController.h"
-#include <spawn.h>
 #include <sys/sysctl.h>
-#import "libjb.h"
-#import "unjail.h"
 #import "NSTask.h"
 
-int attach(const char *path, char buf[], size_t sz);
 
 @interface RestoreViewController ()
 
