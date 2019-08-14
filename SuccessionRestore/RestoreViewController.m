@@ -209,62 +209,37 @@ int attach(const char *path, char buf[], size_t sz);
 
 - (void) attachRestoreDisk {
     [self logToFile:@"attachRestoreDisk called!" atLineNumber:__LINE__];
-    if (sizeof(void*) == 4) {
-        [self logToFile:@"attachRestoreDisk is using 32-bit method!" atLineNumber:__LINE__];
-        NSTask *attachTask = [[NSTask alloc] init];
-        [attachTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"]];
-        NSArray *attachArgs = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/rfs.dmg", nil];
-        [attachTask setArguments:attachArgs];
-        NSPipe *stdOutPipe = [NSPipe pipe];
-        NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
-        [attachTask setStandardOutput:stdOutPipe];
-        attachTask.terminationHandler = ^{
-            NSData *outData = [outPipeRead readDataToEndOfFile];
-            NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
-            [self logToFile:[NSString stringWithFormat:@"hdik output is: %@", outString] atLineNumber:__LINE__];
-            NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
-            [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
-            for (NSString *line in outLines) {
-                [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
-                if ([line containsString:@"s2"]) {
-                    [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
-                    NSArray *lineWords = [line componentsSeparatedByString:@" "];
-                    for (NSString *word in lineWords) {
-                        if ([word hasPrefix:@"/dev/disk"]) {
-                            NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
-                            [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
-                            self->_theDiskString = [NSMutableString stringWithString:word];
-                            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
-                            [self mountRestoreDisk];
-                        }
+    NSTask *attachTask = [[NSTask alloc] init];
+    [attachTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"]];
+    NSArray *attachArgs = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/rfs.dmg", nil];
+    [attachTask setArguments:attachArgs];
+    NSPipe *stdOutPipe = [NSPipe pipe];
+    NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
+    [attachTask setStandardOutput:stdOutPipe];
+    attachTask.terminationHandler = ^{
+        NSData *outData = [outPipeRead readDataToEndOfFile];
+        NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
+        [self logToFile:[NSString stringWithFormat:@"hdik output is: %@", outString] atLineNumber:__LINE__];
+        NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+        [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
+        for (NSString *line in outLines) {
+            [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+            if ([line containsString:@"s2"]) {
+                [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
+                NSArray *lineWords = [line componentsSeparatedByString:@" "];
+                for (NSString *word in lineWords) {
+                    if ([word hasPrefix:@"/dev/disk"]) {
+                        NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
+                        [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
+                        self->_theDiskString = [NSMutableString stringWithString:word];
+                        [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
+                        [self mountRestoreDisk];
                     }
                 }
             }
-        };
-        [attachTask launch];
-    } else  {
-        int rv;
-        char theDisk[11];
-        NSString *pathToDMG = @"/private/var/mobile/Media/Succession/rfs.dmg";
-        rv = attach([pathToDMG UTF8String], theDisk, sizeof(theDisk));
-        [self logToFile:[NSString stringWithFormat:@"attach returned %d", rv] atLineNumber:__LINE__];
-        _theDiskString = [NSMutableString stringWithString:[NSString stringWithFormat:@"%s", theDisk]];
-        [self logToFile:[NSString stringWithFormat:@"attached to %s aka %@", theDisk, _theDiskString] atLineNumber:__LINE__];
-        if ([_theDiskString containsString:@"disk"]) {
-            [self logToFile:@"auto-mounting" atLineNumber:__LINE__];
-            if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2s1"]]) {
-                self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
-                [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
-                [self mountRestoreDisk];
-            } else if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2"]]){
-                self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
-                [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
-                [self mountRestoreDisk];
-            } else {
-                [self errorAlert:[NSString stringWithFormat:@"unable to identify theDisk, neither %@ or %@ existed", [self->_theDiskString stringByAppendingString:@"s2s1"], [self->_theDiskString stringByAppendingString:@"s2"]]];
-            }
         }
-    }
+    };
+    [attachTask launch];
 }
 
 -(void) mountRestoreDisk{
