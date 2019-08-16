@@ -6,7 +6,7 @@
 //  Copyright © 2019 Sam Gardner. All rights reserved.
 //
 //:configuration = Debug
-IPHONEOS_DEPLOYMENT_TARGET = 10
+IPHONEOS_DEPLOYMENT_TARGET = 8
 
 //:configuration = Release
-IPHONEOS_DEPLOYMENT_TARGET = 10
+IPHONEOS_DEPLOYMENT_TARGET = 8
