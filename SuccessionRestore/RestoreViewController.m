@@ -331,6 +331,10 @@
                                             @"--exclude=/usr/standalone/firmware/Savage/",
                                             @"--exclude=/System/Library/Pearl",
                                             @"--exclude=/usr/standalone/firmware/Yonkers/",
+                                            @"--exclude=/private/var/containers/",
+                                            @"--exclude=/var/containers/",
+                                            @"--exclude=/private/var/keybags/",
+                                            @"--exclude=/var/keybags/",
                                             @"/private/var/MobileSoftwareUpdate/mnt1/.",
                                             @"/", nil];
         if (![_filesystemType isEqualToString:@"apfs"]) {
