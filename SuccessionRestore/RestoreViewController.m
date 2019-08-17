@@ -390,7 +390,7 @@
                                             @"--exclude=/var/containers/",
                                             @"--exclude=/private/var/keybags/",
                                             @"--exclude=/var/keybags/",
-                                            @"/private/var/MobileSoftwareUpdate/mnt1/.",
+                                            [_mountpoint stringByAppendingPathComponent:@"."],
                                             @"/", nil];
         if (![_filesystemType isEqualToString:@"apfs"]) {
             [self logToFile:@"non-APFS detected, excluding dyld-shared-cache to prevent running out of storage" atLineNumber:__LINE__];
