@@ -24,6 +24,11 @@
     [[self restoreProgressBar] setHidden:TRUE];
     _successionPrefs = [NSMutableDictionary dictionaryWithDictionary:[NSDictionary dictionaryWithContentsOfFile:@"/private/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"]];
     [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mobile/succession.log" error:nil];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"]]) {
+        _mountpoint = @"/private/var/MobileSoftwareUpdate/mnt1";
+    } else {
+        _mountpoint = @"/mnt/";
+    }
     [self logToFile:@"RestoreViewController has loaded!" atLineNumber:__LINE__];
 }
 
@@ -41,7 +46,7 @@
     } else {
         [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
     }
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[_mountpoint stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
         [[self fileListActivityIndicator] setHidden:TRUE];
     } else {
         [self prepareAttachRestoreDisk];
@@ -77,6 +82,8 @@
                         if (@available(iOS 10.0, *)) {
                             NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
                             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=https://repo.bingner.com/"] options:URLOptions completionHandler:nil];
+                        } else {
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=https://repo.bingner.com/"]];
                         }
                         [self logToFile:@"user adding source for snappy" atLineNumber:__LINE__];
                     }];
@@ -111,7 +118,7 @@
 
 - (void) showRestoreAlert{
     [self logToFile:@"showRestoreAlert called!" atLineNumber:__LINE__];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[_mountpoint stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
         [self logToFile:@"filesystem is mounted, asking user to confirm they are ready to restore" atLineNumber:__LINE__];
         if ([_deviceModel containsString:@"iPad"]) {
             _areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleAlert];
@@ -149,17 +156,13 @@
         [mountingAlert addAction:okAction];
         [self presentViewController:mountingAlert animated:TRUE completion:^{
             [self logToFile:[NSString stringWithFormat:@"mountingAlert handler called, identified theDiskString as %@", self->_theDiskString] atLineNumber:__LINE__];
-            if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2s1"]]) {
-                self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2s1"]];
-                [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
-                [self mountRestoreDisk];
-            } else if ([[NSFileManager defaultManager] fileExistsAtPath:[self->_theDiskString stringByAppendingString:@"s2"]]){
-                self->_theDiskString = [NSMutableString stringWithString:[self->_theDiskString stringByAppendingString:@"s2"]];
+            if (self->_theDiskString) {
                 [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
                 [self mountRestoreDisk];
             } else {
-                [self errorAlert:[NSString stringWithFormat:@"unable to identify theDisk, neither %@ or %@ existed", [self->_theDiskString stringByAppendingString:@"s2s1"], [self->_theDiskString stringByAppendingString:@"s2"]]];
+                [self errorAlert:@"Unable to find attached disk. Please enable logging and try again. If the issue persists, contact me on reddit u/Samg_is_a_Ninja or email stgardner4@att.net"];
             }
+            
         }];
     }
 }
@@ -208,36 +211,80 @@
 - (void) attachRestoreDisk {
     [self logToFile:@"attachRestoreDisk called!" atLineNumber:__LINE__];
     NSTask *attachTask = [[NSTask alloc] init];
-    [attachTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"]];
-    NSArray *attachArgs = [NSArray arrayWithObjects:@"/var/mobile/Media/Succession/rfs.dmg", nil];
+    NSArray *attachArgs = [NSArray arrayWithObjects:@"/private/var/mobile/Media/Succession/rfs.dmg", nil];
     [attachTask setArguments:attachArgs];
     NSPipe *stdOutPipe = [NSPipe pipe];
     NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
     [attachTask setStandardOutput:stdOutPipe];
-    attachTask.terminationHandler = ^{
-        NSData *outData = [outPipeRead readDataToEndOfFile];
-        NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
-        [self logToFile:[NSString stringWithFormat:@"hdik output is: %@", outString] atLineNumber:__LINE__];
-        NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
-        [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
-        for (NSString *line in outLines) {
-            [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
-            if ([line containsString:@"s2"]) {
-                [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
-                NSArray *lineWords = [line componentsSeparatedByString:@" "];
-                for (NSString *word in lineWords) {
-                    if ([word hasPrefix:@"/dev/disk"]) {
-                        NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
-                        [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
-                        self->_theDiskString = [NSMutableString stringWithString:word];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"]]) {
+        [self logToFile:@"Using hdik for attach" atLineNumber:__LINE__];
+        [attachTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"]];
+        attachTask.terminationHandler = ^{
+            NSData *outData = [outPipeRead readDataToEndOfFile];
+            NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
+            [self logToFile:[NSString stringWithFormat:@"hdik output is: %@", outString] atLineNumber:__LINE__];
+            NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+            [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
+            for (NSString *line in outLines) {
+                [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+                if ([line containsString:@"s2"]) {
+                    [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
+                    NSArray *lineWords = [line componentsSeparatedByString:@" "];
+                    for (NSString *word in lineWords) {
+                        if ([word hasPrefix:@"/dev/disk"]) {
+                            NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
+                            [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
+                            self->_theDiskString = [NSMutableString stringWithString:word];
+                            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
+                            [self mountRestoreDisk];
+                        }
+                    }
+                }
+            }
+        };
+        [attachTask launch];
+    } else {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/attach"]) {
+            [self logToFile:@"Using comex attach for attach" atLineNumber:__LINE__];
+            [attachTask setLaunchPath:@"/usr/sbin/attach"];
+            attachTask.terminationHandler = ^{
+                NSData *outData = [outPipeRead readDataToEndOfFile];
+                NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
+                [self logToFile:[NSString stringWithFormat:@"attach output is: %@", outString] atLineNumber:__LINE__];
+                NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+                [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
+                for (NSString *line in outLines) {
+                    [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+                    if ([line containsString:@"s3"]) {
+                        [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", line] atLineNumber:__LINE__];
+                        self->_theDiskString = [NSMutableString stringWithString:line];
                         [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
                         [self mountRestoreDisk];
                     }
                 }
+            };
+            [attachTask launch];
+        } else {
+            UIAlertController *needsAttach = [UIAlertController alertControllerWithTitle:@"Succession requires additional components to be installed" message:@"Please add http://pmbonneau.com/cydia to your sources and install 'attach' to continue." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                exit(0);
+            }];
+            UIAlertAction *addRepoAction = [UIAlertAction actionWithTitle:@"Add repo to cydia" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                if (@available(iOS 10.0, *)) {
+                    NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=http://pmbonneau.com/cydia"] options:URLOptions completionHandler:nil];
+                } else {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=http://pmbonneau.com/cydia"]];
+                }
+            }];
+            NSString *sources = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/cydia.list" encoding:NSUTF8StringEncoding error:nil];
+            if (![sources containsString:@"pmbonneau.com/cydia"]) {
+                [needsAttach addAction:addRepoAction];
             }
+            [needsAttach addAction:exitAction];
+            [self presentViewController:needsAttach animated:TRUE completion:nil];
         }
-    };
-    [attachTask launch];
+    }
 }
 
 -(void) mountRestoreDisk{
@@ -248,27 +295,35 @@
         _theDiskString = [NSMutableString stringWithString:[_theDiskString stringByAppendingString:@"s2s1"]];
         [self logToFile:[NSString stringWithFormat:@"corrected theDiskString is now %@", _theDiskString] atLineNumber:__LINE__];
     }
+    if (![_theDiskString hasPrefix:@"/dev/"]) {
+        [self logToFile:[NSString stringWithFormat:@"creating pathname /dev/%@ from %@", _theDiskString, _theDiskString] atLineNumber:__LINE__];
+        _theDiskString = [NSMutableString stringWithFormat:@"/dev/%@", _theDiskString];
+    }
     if ([self isMountPointPresent]) {
         [self logToFile:[NSString stringWithFormat:@"mountpoint is present! mounting %@ type disk %@ to mountpoint", _filesystemType, _theDiskString] atLineNumber:__LINE__];
-        NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", _filesystemType, @"-o", @"ro", _theDiskString, @"/private/var/MobileSoftwareUpdate/mnt1", nil];
+        NSArray *mountArgs = [NSArray arrayWithObjects:@"-o", @"ro", _theDiskString, _mountpoint, nil];
         NSTask *mountTask = [[NSTask alloc] init];
-        [mountTask setLaunchPath:@"/sbin/mount"];
+        if ([_filesystemType isEqualToString:@"hfs"]) {
+            [mountTask setLaunchPath:@"/sbin/mount_hfs"];
+        } else if ([_filesystemType isEqualToString:@"apfs"]) {
+            [mountTask setLaunchPath:@"/sbin/mount_apfs"];
+        } else {
+            [self errorAlert:@"Failed to identify binary for mountTask"];
+        }
         [mountTask setArguments:mountArgs];
         NSPipe *outputPipe = [NSPipe pipe];
         [mountTask setStandardOutput:outputPipe];
         NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
-        [stdoutHandle waitForDataInBackgroundAndNotify];
-        id observer;
-        observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
-                                                                     object:stdoutHandle queue:nil
-                                                                 usingBlock:^(NSNotification *note)
-                    {
-                        NSData *dataRead = [stdoutHandle availableData];
-                        NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
-                        [self logToFile:[NSString stringWithFormat:@"mount output: %@", stringRead] atLineNumber:__LINE__];
-                    }];
+        mountTask.terminationHandler = ^{
+            NSString *stringRead = [[NSString alloc] initWithData:[stdoutHandle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+            [self logToFile:[NSString stringWithFormat:@"mount output: %@", stringRead] atLineNumber:__LINE__];
+            if ([stringRead containsString:@"error"]) {
+                [self errorAlert:[NSString stringWithFormat:@"Failed to mount DMG:\n%@", stringRead]];
+            } else {
+                [self logToFile:@"mounting complete!" atLineNumber:__LINE__];
+            }
+        };
         [mountTask launch];
-        [self logToFile:@"mounting complete!" atLineNumber:__LINE__];
     }
 }
 
@@ -276,28 +331,28 @@
     [self logToFile:@"isMountPointPresent called!" atLineNumber:__LINE__];
     NSError *err;
     BOOL isDir;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" isDirectory:&isDir]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:_mountpoint isDirectory:&isDir]) {
         [self logToFile:@"mountpoint is present" atLineNumber:__LINE__];
         if (isDir) {
             [self logToFile:@"mountpoint is present and is dir, we're done here" atLineNumber:__LINE__];
             return TRUE;
         } else {
             [self logToFile:@"file is present at mountpoint, deleting..." atLineNumber:__LINE__];
-            [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" error:&err];
+            [[NSFileManager defaultManager] removeItemAtPath:_mountpoint error:&err];
             [self logToFile:@"file deleted, creating empty dir..." atLineNumber:__LINE__];
-            [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&err];
+            [[NSFileManager defaultManager] createDirectoryAtPath:_mountpoint withIntermediateDirectories:TRUE attributes:nil error:&err];
             [self logToFile:@"dir created, verifying..." atLineNumber:__LINE__];
             if (!err) {
                 [self logToFile:@"mountpoint verified, returning TRUE for isMountPointPresent" atLineNumber:__LINE__];
                 return TRUE;
             } else {
-                [self errorAlert:[err localizedDescription]];
+                [self errorAlert:[NSString stringWithFormat:@"Failed to create %@:\n%@", _mountpoint, [err localizedDescription]]];
                 return FALSE;
             }
         }
     } else {
         [self logToFile:@"no file or dir at mountpoint, creating an empty dir..." atLineNumber:__LINE__];
-        [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&err];
+        [[NSFileManager defaultManager] createDirectoryAtPath:_mountpoint withIntermediateDirectories:TRUE attributes:nil error:&err];
         [self logToFile:@"dir created, verifying..." atLineNumber:__LINE__];
         if (!err) {
             [self logToFile:@"mountpoint verified, returning TRUE for isMountPointPresent" atLineNumber:__LINE__];
@@ -310,7 +365,7 @@
 }
 -(void)successionRestore{
     [self logToFile:@"successionRestore called!" atLineNumber:__LINE__];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[_mountpoint stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
         [self logToFile:@"verified filesystem is mounted" atLineNumber:__LINE__];
         NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH",
                                             @"--delete-after",

@@ -7,15 +7,11 @@ then
     echo "Succession has detected 32-bit!"
     rm /Applications/SuccessionRestore.app/SuccessionRestore
     mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore
-    rm /Applications/SuccessionRestore/hdik64
-    mv /Applications/SuccessionRestore.app/hdik32 /Applications/SuccessionRestore.app/hdik
 fi
 if [ "$(uname -p)" == "arm64" ]
 then
     echo "Succession has detected 64-bit!"
     rm /Applications/SuccessionRestore.app/SuccessionRestore32
-    rm /Applications/SuccessionRestore/hdik32
-    mv /Applications/SuccessionRestore.app/hdik64 /Applications/SuccessionRestore.app/hdik
 fi
 if [ ! -f /Applications/Setup.app/Setup ]; then
     if [ -f /Applications/Setup.app/Setup.bak ]; then
