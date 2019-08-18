@@ -129,7 +129,7 @@
     } else if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/standalone/update/ramdisk/armv7SURamDisk.dmg"]) {
         [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"] error:nil];
         [[NSFileManager defaultManager] moveItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"] toPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"] error:nil];
-    } else if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/standalone/update/ramdisk/H5GSURamDisk.dmg"]) {
+    } else {
         [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"] error:nil];
         [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"] error:nil];
     }

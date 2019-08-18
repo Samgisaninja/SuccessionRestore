@@ -276,6 +276,7 @@
                 } else {
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=http://pmbonneau.com/cydia"]];
                 }
+                exit(0);
             }];
             NSString *sources = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/cydia.list" encoding:NSUTF8StringEncoding error:nil];
             if (![sources containsString:@"pmbonneau.com/cydia"]) {
