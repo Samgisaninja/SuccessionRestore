@@ -223,24 +223,29 @@
             NSData *outData = [outPipeRead readDataToEndOfFile];
             NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
             [self logToFile:[NSString stringWithFormat:@"hdik output is: %@", outString] atLineNumber:__LINE__];
-            NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
-            [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
-            for (NSString *line in outLines) {
-                [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
-                if ([line containsString:@"s2"]) {
-                    [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
-                    NSArray *lineWords = [line componentsSeparatedByString:@" "];
-                    for (NSString *word in lineWords) {
-                        if ([word hasPrefix:@"/dev/disk"]) {
-                            NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
-                            [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
-                            self->_theDiskString = [NSMutableString stringWithString:word];
-                            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
-                            [self mountRestoreDisk];
+            if ([outString isEqualToString:@""]) {
+                NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+                [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
+                for (NSString *line in outLines) {
+                    [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+                    if ([line containsString:@"s2"]) {
+                        [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
+                        NSArray *lineWords = [line componentsSeparatedByString:@" "];
+                        for (NSString *word in lineWords) {
+                            if ([word hasPrefix:@"/dev/disk"]) {
+                                NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
+                                [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
+                                self->_theDiskString = [NSMutableString stringWithString:word];
+                                [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
+                                [self mountRestoreDisk];
+                            }
                         }
                     }
                 }
+            } else {
+                [self errorAlert:@"Attaching image failed because hdik returned no output. Please reboot and try again."];
             }
+            
         };
         [attachTask launch];
     } else {
@@ -353,14 +358,29 @@
         }
     } else {
         [self logToFile:@"no file or dir at mountpoint, creating an empty dir..." atLineNumber:__LINE__];
-        [[NSFileManager defaultManager] createDirectoryAtPath:_mountpoint withIntermediateDirectories:TRUE attributes:nil error:&err];
-        [self logToFile:@"dir created, verifying..." atLineNumber:__LINE__];
-        if (!err) {
-            [self logToFile:@"mountpoint verified, returning TRUE for isMountPointPresent" atLineNumber:__LINE__];
-            return TRUE;
+        if ([_mountpoint isEqualToString:@"/private/var/MobileSoftwareUpdate/mnt1"]) {
+            [self logToFile:@"MobileSoftwareUpdate mountpoint not present, proceeding with dirty tricks" atLineNumber:__LINE__];
+            [[NSFileManager defaultManager] copyItemAtPath:@"/private/var/MobileSoftwareUpdate/" toPath:@"/private/var/COPY/" error:&err];
+            [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/COPY/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&err];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/MobileSoftwareUpdate/" error:&err];
+            [[NSFileManager defaultManager] moveItemAtPath:@"/private/var/COPY/" toPath:@"/private/var/MobileSoftwareUpdate/" error:&err];
+            if (!err) {
+                [self logToFile:@"dirty tricks succeeded, returning TRUE for isMountPointPresent" atLineNumber:__LINE__];
+                return TRUE;
+            } else {
+                [self errorAlert:[NSString stringWithFormat:@"Dirty trick failed with error: %@", [err localizedDescription]]];
+                return FALSE;
+            }
         } else {
-            [self errorAlert:[err localizedDescription]];
-            return FALSE;
+            [[NSFileManager defaultManager] createDirectoryAtPath:_mountpoint withIntermediateDirectories:TRUE attributes:nil error:&err];
+            [self logToFile:@"dir created, verifying..." atLineNumber:__LINE__];
+            if (!err) {
+                [self logToFile:@"mountpoint verified, returning TRUE for isMountPointPresent" atLineNumber:__LINE__];
+                return TRUE;
+            } else {
+                [self errorAlert:[err localizedDescription]];
+                return FALSE;
+            }
         }
     }
 }
