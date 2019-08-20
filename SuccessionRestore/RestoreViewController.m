@@ -223,7 +223,7 @@
             NSData *outData = [outPipeRead readDataToEndOfFile];
             NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
             [self logToFile:[NSString stringWithFormat:@"hdik output is: %@", outString] atLineNumber:__LINE__];
-            if ([outString isEqualToString:@""]) {
+            if (![outString containsString:@"disk"]) {
                 NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
                 [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
                 for (NSString *line in outLines) {
