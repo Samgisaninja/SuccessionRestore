@@ -22,15 +22,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[[self navigationController] navigationBar] setHidden:TRUE];
-    // Checks if the current process is running as root (UID 0), if not, present an alert
-    if (getuid() != 0){
-        UIAlertController *notRoot = [UIAlertController alertControllerWithTitle:@"Succession is not running as root" message:@"Succession does not have full permissions and is currently incapable of restoring your device. Please reinstall Succession from Cydia or over SSH." preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            exit(0);
-        }];
-        [notRoot addAction:exitAction];
-        [self presentViewController:notRoot animated:TRUE completion:nil];
-    }
     // Create a size_t and set it to the size used to allocate modelChar
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
