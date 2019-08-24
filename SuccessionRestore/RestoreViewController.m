@@ -400,7 +400,7 @@
                                             @"--exclude=/usr/standalone/firmware/sep-firmware.img4",
                                             @"--exclude=/usr/local/standalone/firmware/Baseband",
                                             @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/",
-                                            @"--exclude=/var/MobileSoftwareUpdate/mnt1",
+                                            [NSString stringWithFormat:@"--exclude=%@", _mountpoint],
                                             @"--exclude=/private/etc/fstab",
                                             @"--exclude=/etc/fstab",
                                             @"--exclude=/usr/standalone/firmware/FUD/",
