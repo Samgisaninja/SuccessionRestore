@@ -2,15 +2,26 @@
 mkdir /var/mobile/Media/Succession/
 chmod 0777 /var/mobile/Media/Succession/
 killall SuccessionRestore
-if [ "$(uname -p)" == "arm" ]
+if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv7 ]
 then
     echo "Succession has detected 32-bit!"
     rm /Applications/SuccessionRestore.app/SuccessionRestore
     mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore
 fi
-if [ "$(uname -p)" == "arm64" ]
+if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv7s ]
+then
+    echo "Succession has detected 32-bit!"
+    rm /Applications/SuccessionRestore.app/SuccessionRestore
+    mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore
+fi
+if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64 ]
 then
     echo "Succession has detected 64-bit!"
+    rm /Applications/SuccessionRestore.app/SuccessionRestore32
+fi
+if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e ]
+then
+    echo "Succession has detected arm64e!"
     rm /Applications/SuccessionRestore.app/SuccessionRestore32
 fi
 if [ ! -f /Applications/Setup.app/Setup ]; then
