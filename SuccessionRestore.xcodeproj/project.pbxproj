@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8D13280720F2F3A800C72D10 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D13280620F2F3A800C72D10 /* IOKit.framework */; };
 		8D175B5B224429CB00FF7DFD /* NSTask.h in Sources */ = {isa = PBXBuildFile; fileRef = 8D4C260B21BF57C700BBA404 /* NSTask.h */; settings = {COMPILER_FLAGS = "-w"; }; };
+		8D40BF0F231261F300240454 /* hdik-arm64e in Resources */ = {isa = PBXBuildFile; fileRef = 8D40BF0E231261F300240454 /* hdik-arm64e */; };
 		8D47CCB622C86B7800BCFAED /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 8D47CC7322C86B7800BCFAED /* LICENSE.md */; };
 		8D47CCB722C86B7800BCFAED /* crypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC7522C86B7800BCFAED /* crypt.c */; };
 		8D47CCB822C86B7800BCFAED /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC7622C86B7800BCFAED /* unzip.c */; };
@@ -73,6 +74,7 @@
 /* Begin PBXFileReference section */
 		8D13280020F2CFB800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../Downloads/IOKit.framework; sourceTree = "<group>"; };
 		8D13280620F2F3A800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = SuccessionRestore/IOKit.framework; sourceTree = "<group>"; };
+		8D40BF0E231261F300240454 /* hdik-arm64e */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "hdik-arm64e"; sourceTree = "<group>"; };
 		8D47CC7322C86B7800BCFAED /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		8D47CC7522C86B7800BCFAED /* crypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crypt.c; sourceTree = "<group>"; };
 		8D47CC7622C86B7800BCFAED /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				8D876120202679E2004A6F27 /* DownloadViewController.h */,
 				8D876121202679E2004A6F27 /* DownloadViewController.m */,
 				8D980C982303D26C009717B4 /* hdik-arm64 */,
+				8D40BF0E231261F300240454 /* hdik-arm64e */,
 				8D980C962303D125009717B4 /* hdik-armv7 */,
 				8D5BA27B1F7C792E00A169BF /* HomePageViewController.h */,
 				8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */,
@@ -473,6 +476,7 @@
 				8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */,
 				8D980C992303D26C009717B4 /* hdik-arm64 in Resources */,
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,
+				8D40BF0F231261F300240454 /* hdik-arm64e in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -707,7 +711,7 @@
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
 				INFOPLIST_FILE = SuccessionRestore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -732,7 +736,7 @@
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
 				INFOPLIST_FILE = SuccessionRestore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
