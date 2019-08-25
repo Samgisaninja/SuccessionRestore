@@ -7,22 +7,35 @@ then
     echo "Succession has detected 32-bit!"
     rm /Applications/SuccessionRestore.app/SuccessionRestore
     mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore
+    rm /Applications/SuccessionRestore.app/hdik-arm64
+    rm /Applications/SuccessionRestore.app/hdik-arm64e
+    mv /Applications/SuccessionRestore.app/hdik-armv7 /Applications/SuccessionRestore.app/hdik
 fi
 if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv7s ]
 then
     echo "Succession has detected 32-bit!"
     rm /Applications/SuccessionRestore.app/SuccessionRestore
     mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore
+    rm /Applications/SuccessionRestore.app/hdik-arm64
+    rm /Applications/SuccessionRestore.app/hdik-arm64e
+    mv /Applications/SuccessionRestore.app/hdik-armv7 /Applications/SuccessionRestore.app/hdik
 fi
 if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64 ]
 then
     echo "Succession has detected 64-bit!"
     rm /Applications/SuccessionRestore.app/SuccessionRestore32
+    rm /Applications/SuccessionRestore.app/hdik-armv7
+    rm /Applications/SuccessionRestore.app/hdik-arm64e
+    mv /Applications/SuccessionRestore.app/hdik-arm64 /Applications/SuccessionRestore.app/hdik
 fi
 if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e ]
 then
     echo "Succession has detected arm64e!"
     rm /Applications/SuccessionRestore.app/SuccessionRestore32
+    rm /Applications/SuccessionRestore.app/SuccessionRestore32
+    rm /Applications/SuccessionRestore.app/hdik-armv7
+    rm /Applications/SuccessionRestore.app/hdik-arm64
+    mv /Applications/SuccessionRestore.app/hdik-arm64e /Applications/SuccessionRestore.app/hdik
 fi
 if [ ! -f /Applications/Setup.app/Setup ]; then
     if [ -f /Applications/Setup.app/Setup.bak ]; then

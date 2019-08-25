@@ -114,22 +114,6 @@
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/standalone/update/ramdisk/arm64eSURamDisk.dmg"]) {
-        [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"] error:nil];
-        [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"] error:nil];
-        [[NSFileManager defaultManager] moveItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64e"] toPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"] error:nil];
-    } else if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/standalone/update/ramdisk/arm64SURamDisk.dmg"]) {
-        [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"] error:nil];
-        [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64e"] error:nil];
-        [[NSFileManager defaultManager] moveItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"] toPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"] error:nil];
-    } else if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/standalone/update/ramdisk/armv7SURamDisk.dmg"]) {
-        [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"] error:nil];
-        [[NSFileManager defaultManager] moveItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"] toPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"] error:nil];
-    } else {
-        [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"] error:nil];
-        [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64e"] error:nil];
-        [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"] error:nil];
-    }
 }
 
 - (void) viewDidAppear:(BOOL)animated{
