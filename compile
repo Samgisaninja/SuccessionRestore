@@ -14,6 +14,7 @@ ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore32
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-armv7
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-arm64
+ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-arm64e
 rm -f ./SuccessionRestore.app/embedded.mobileprovision
 mkdir ./com.samgisaninja.SuccessionRestore
 cp -r ./Template/* ./com.samgisaninja.SuccessionRestore/
@@ -23,6 +24,7 @@ sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/Success
 sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore32
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-armv7
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-arm64
+sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-arm64e
 rm -rf ./Build
 rm -rf ./Index
 find . -type f -name .DS_Store -delete && xattr -cr *
