@@ -82,7 +82,7 @@
                     [self->_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
                     [[UIApplication sharedApplication] setIdleTimerDisabled:TRUE];
                     [self->_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-                    [self startDownload];
+                    [self prepareDownload];
                 }];
                 [possibleIPSWMatchAlert addAction:moveIPSW];
                 [possibleIPSWMatchAlert addAction:downloadIPSW];
@@ -102,58 +102,100 @@
     [_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
     [[UIApplication sharedApplication] setIdleTimerDisabled:TRUE];
     [_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [self startDownload];
+    [self prepareDownload];
 }
 
--(void) startDownload {
+-(void)prepareDownload{
     dispatch_async(dispatch_get_main_queue(), ^{
         self.activityLabel.text = @"Preparing download...";
     });
-    // If the iOS version is older than iOS 10, the root filesystem DMG is encrypted. Succession does not currently have support for decrypting DMGs, so ask the user to do it for us.
+    // If the iOS version is older than iOS 10, the root filesystem DMG is encrypted. Let's make sure we can do that.
     if (kCFCoreFoundationVersionNumber < 1300) {
-        UIAlertController *deviceNotSupported = [UIAlertController alertControllerWithTitle:@"Device not supported" message:@"Please extract a clean IPSW for your device/iOS version and place the largest DMG file in /var/mobile/Media/Succession. On iOS 9.3.5 and older, you will need to decrypt the DMG first." preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            exit(0);
-        }];
-        [deviceNotSupported addAction:exitAction];
-        [self presentViewController:deviceNotSupported animated:TRUE completion:nil];
+        _needsDecryption = TRUE;
+        // Before we continue, let's make sure there's a key available for the device we're looking for.
+        NSString *rootfsKey = [self getRFSKey];
+        if (![rootfsKey isEqualToString:@"Failed."]){
+            [self startDownload];
+        }
     } else {
-        // Removes all files in /var/mobile/Media/Succession to delete any mess from previous uses
-        NSString *workingDir = @"/var/mobile/Media/Succession/";
-        NSArray *itemsToDelete = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:workingDir error:nil];
-        for (NSString *item in itemsToDelete) {
-            [[NSFileManager defaultManager] removeItemAtPath:[workingDir stringByAppendingString:item] error:nil];
+        _needsDecryption = FALSE;
+        [self startDownload];
+    }
+}
+
+-(void)startDownload {
+    // Removes all files in /var/mobile/Media/Succession to delete any mess from previous uses
+    NSString *workingDir = @"/var/mobile/Media/Succession/";
+    NSArray *itemsToDelete = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:workingDir error:nil];
+    for (NSString *item in itemsToDelete) {
+        [[NSFileManager defaultManager] removeItemAtPath:[workingDir stringByAppendingString:item] error:nil];
+    }
+    // Deletes partial downloads in Succession's sandbox folder
+    NSString *tmpDir = NSTemporaryDirectory();
+    NSArray *tmpToDelete = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpDir error:nil];
+    for (NSString *item in tmpToDelete) {
+        if ([item containsString:@"CFNetworkDownload"]) {
+            [[NSFileManager defaultManager] removeItemAtPath:[tmpDir stringByAppendingString:item] error:nil];
         }
-        // Deletes partial downloads in Succession's sandbox folder
-        NSString *tmpDir = NSTemporaryDirectory();
-        NSArray *tmpToDelete = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpDir error:nil];
-        for (NSString *item in tmpToDelete) {
-            if ([item containsString:@"CFNetworkDownload"]) {
-                [[NSFileManager defaultManager] removeItemAtPath:[tmpDir stringByAppendingString:item] error:nil];
-            }
-        }
-        // Creates /var/mobile/Media/Succession in case dpkg didn't do so, or if the user deleted it
-        [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:TRUE attributes:nil error:nil];
+    }
+    // Creates /var/mobile/Media/Succession in case dpkg didn't do so, or if the user deleted it
+    [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Media/Succession/" withIntermediateDirectories:TRUE attributes:nil error:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.activityLabel.text = @"Finding IPSW...";
+    });
+    if ([[[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ReleaseType"] isEqualToString:@"Beta"]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.activityLabel.text = @"Finding IPSW...";
+            [[self downloadProgressBar] setHidden:FALSE];
         });
-        if ([[[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ReleaseType"] isEqualToString:@"Beta"]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[self downloadProgressBar] setHidden:FALSE];
-            });
-            
-            NSURL * betaDownloadLink = [NSURL URLWithString:@"https://raw.githubusercontent.com/Samgisaninja/SuccessionRestore/master/beta.plist"];
+        
+        NSURL * betaDownloadLink = [NSURL URLWithString:@"https://raw.githubusercontent.com/Samgisaninja/SuccessionRestore/master/beta.plist"];
+        // update the UI, but unless the user has a really really slow device, they probably won't ever see this:
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self activityLabel] setText:@"Getting beta plist..."];
+        });
+        NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+        // set the timeout for the download request to 200 minutes (12000 seconds), that should be enough time, eh?
+        sessionConfig.timeoutIntervalForRequest = 12000.0;
+        sessionConfig.timeoutIntervalForResource = 12000.0;
+        // define a download task with the custom timeout and download link
+        NSURLSessionDownloadTask *getBetaTask = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:betaDownloadLink];
+        // start the beta plist download task. NSURLSessionDownloadTasks call
+        //
+        // "-(void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite"
+        //
+        // frequently throughout the download process, which is where my code for updating the UI is. They also call
+        //
+        // - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+        //
+        // when finished, which is where I have my code for what to do once the download is finished
+        [getBetaTask resume];
+    } else {
+        // ipsw.me has an API that provides the apple download link to an ipsw for a specific device/iOS build number. If you want, you can try this, typing https://api.ipsw.me/v2/iPhone10,3/16C104/url/ into a web broswer returns http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/041-28434/A2958D62-02EA-11E9-9292-C8F3416D60E4/iPhone10,3,iPhone10,6_12.1.2_16C104_Restore.ipsw
+        NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
+        // to use the API mentioned above, I create a string that incorporates the iOS buildnumber and device model, then it is converted into an NSURL...
+        NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
+        // and after a little UI config...
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self downloadProgressBar] setHidden:FALSE];
+        });
+        
+        // the request is made, and the string received from ipsw.me is passed to an NSData object called 'data' in the completion handler. Note that the request is created below, but it is not actually run until [getDownloadLinkTask resume];
+        NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession] dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            // so now we have a direct link to where apple is hosting the IPSW for the user's device/firmware, but it's in a rather useless NSData object, so let's convet that to an NSString
+            NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             // update the UI, but unless the user has a really really slow device, they probably won't ever see this:
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[self activityLabel] setText:@"Getting beta plist..."];
+                [[self activityLabel] setText:[NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString]];
             });
+            // now we reference _downloadLink, created in DownloadViewController.h, and set it equal to the NSURL version of the string we received from ipsw.me
+            self->_downloadLink = [NSURL URLWithString:downloadLinkString];
             NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
             // set the timeout for the download request to 200 minutes (12000 seconds), that should be enough time, eh?
             sessionConfig.timeoutIntervalForRequest = 12000.0;
             sessionConfig.timeoutIntervalForResource = 12000.0;
             // define a download task with the custom timeout and download link
-            NSURLSessionDownloadTask *getBetaTask = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:betaDownloadLink];
-            // start the beta plist download task. NSURLSessionDownloadTasks call
+            NSURLSessionDownloadTask *task = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:self->_downloadLink];
+            // start the ipsw download task. NSURLSessionDownloadTasks call
             //
             // "-(void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite"
             //
@@ -162,46 +204,90 @@
             // - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
             //
             // when finished, which is where I have my code for what to do once the download is finished
-            [getBetaTask resume];
+            [task resume];
+        }];
+        [getDownloadLinkTask resume];
+    }
+}
+
+-(NSString *)getRFSKey{
+    // Let's fetch the rootfilesystem decryption key from theiphonewiki. TheiPhoneWiki's URLs are annoyingly machine unfriendly, formatted as https://www.theiphonewiki.com/wiki/<iOS_Codename>_<Buildnumber>_(<Machine ID>)
+    // The hard part here is the version codename. Muirey03 suggested to me that it might be possible to obtain the codename from MobileGestalt, but every time I tried to call it, Succession would crash. So, hardcoding! Hooray for lack of future-proofing! (or in this case, past-proofing? idk.)
+    NSDictionary *codenameForVersion = @{
+                                         @"7.0" : @"Innsbruck",
+                                         @"7.0.1" : @"Innsbruck",
+                                         @"7.0.2" : @"Innsbruck",
+                                         @"7.0.3" : @"InnsbruckTaos",
+                                         @"7.0.4" : @"InnsbruckTaos",
+                                         @"7.0.5" : @"InnsbruckTaos",
+                                         @"7.0.6" : @"InnsbruckTaos",
+                                         @"7.1" : @"Sochi",
+                                         @"7.1.1" : @"SUSochi",
+                                         @"7.1.2" : @"Sochi",
+                                         @"8.0" : @"Okemo",
+                                         @"8.0.1" : @"Okemo",
+                                         @"8.0.2" : @"Okemo",
+                                         @"8.1" : @"OkemoTaos",
+                                         @"8.1.1" : @"SUOkemoTaos",
+                                         @"8.1.2" : @"SUOkemoTaos",
+                                         @"8.1.3" : @"SUOkemoTaosTwo",
+                                         @"8.2" : @"OkemoZurs",
+                                         @"8.3" : @"Stowe",
+                                         @"8.4" : @"Copper",
+                                         @"8.4.1" : @"Donner",
+                                         @"9.0" : @"Monarch",
+                                         @"9.0.1" : @"Monarch",
+                                         @"9.0.2" : @"Monarch",
+                                         @"9.1" : @"Boulder",
+                                         @"9.2" : @"Castlerock",
+                                         @"9.2.1" : @"Dillon",
+                                         @"9.3" : @"Eagle",
+                                         @"9.3.1" : @"Eagle",
+                                         @"9.3.2" : @"Frisco",
+                                         @"9.3.3" : @"Genoa",
+                                         @"9.3.4" : @"Genoa",
+                                         @"9.3.5" : @"Genoa",
+                                         @"9.3.6" : @"Genoa"
+                                         };
+    // Hopefully that's accurate, if it isnt... welp.
+    // SO! back to what we were doing, let's figure out what codename goes with this iOS version.
+    // First let's check to make sure there isn't some edge case where I don't have the codename for the user's iOS version, getting the value for a nonexistent key results in a crash.
+    if ([[codenameForVersion allKeys] containsObject:deviceVersion]) {
+        // yay, I have the codename for the user's iOS version. Let's make it useful.
+        NSString *codename = [codenameForVersion objectForKey:deviceVersion];
+        // Now, the easiest way I could think of to obtain the decryption keys was to download the HTML page of theiphonewiki, convert it to a string, and parse, like so:
+        NSURL *keyPageURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://theiphonewiki.com/wiki/%@_%@_(%@)", codename, deviceBuild, deviceModel]];
+        // Get the data of the page at keyPageURL
+        NSData *keyPageData = [NSData dataWithContentsOfURL:keyPageURL];
+        // Convert the data to a string
+        NSString *keyPageString = [NSString stringWithUTF8String:[keyPageData bytes]];
+        // Now let's check to see if theiphonewiki actually has the key we need
+        if ([keyPageString containsString:@"<code id=\"keypage-rootfs-key\">"]) {
+            // yay! it does. Lets parse now.
+            // separate the into an array to isolate the rfs key
+            NSArray *keyPageStringSeparated = [keyPageString componentsSeparatedByString:@"<code id=\"keypage-rootfs-key\">"];
+            // get all the text after "keypage-rootfs-key>"
+            NSString *theFunPartOfKeyPageString = [keyPageStringSeparated objectAtIndex:1];
+            // trim it down further
+            NSArray *theFunPartSeparated = [theFunPartOfKeyPageString componentsSeparatedByString:@"</code>"];
+            [self logToFile:[theFunPartSeparated firstObject] atLineNumber:__LINE__];
+            return [theFunPartSeparated firstObject];
         } else {
-            // ipsw.me has an API that provides the apple download link to an ipsw for a specific device/iOS build number. If you want, you can try this, typing https://api.ipsw.me/v2/iPhone10,3/16C104/url/ into a web broswer returns http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/041-28434/A2958D62-02EA-11E9-9292-C8F3416D60E4/iPhone10,3,iPhone10,6_12.1.2_16C104_Restore.ipsw
-            NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
-            // to use the API mentioned above, I create a string that incorporates the iOS buildnumber and device model, then it is converted into an NSURL...
-            NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
-            // and after a little UI config...
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[self downloadProgressBar] setHidden:FALSE];
-            });
-            
-            // the request is made, and the string received from ipsw.me is passed to an NSData object called 'data' in the completion handler. Note that the request is created below, but it is not actually run until [getDownloadLinkTask resume];
-            NSURLSessionDataTask *getDownloadLinkTask = [[NSURLSession sharedSession] dataTaskWithURL:ipswAPIURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                // so now we have a direct link to where apple is hosting the IPSW for the user's device/firmware, but it's in a rather useless NSData object, so let's convet that to an NSString
-                NSString * downloadLinkString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                // update the UI, but unless the user has a really really slow device, they probably won't ever see this:
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self activityLabel] setText:[NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString]];
-                });
-                // now we reference _downloadLink, created in DownloadViewController.h, and set it equal to the NSURL version of the string we received from ipsw.me
-                self->_downloadLink = [NSURL URLWithString:downloadLinkString];
-                NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-                // set the timeout for the download request to 200 minutes (12000 seconds), that should be enough time, eh?
-                sessionConfig.timeoutIntervalForRequest = 12000.0;
-                sessionConfig.timeoutIntervalForResource = 12000.0;
-                // define a download task with the custom timeout and download link
-                NSURLSessionDownloadTask *task = [[NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]] downloadTaskWithURL:self->_downloadLink];
-                // start the ipsw download task. NSURLSessionDownloadTasks call
-                //
-                // "-(void) URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite"
-                //
-                // frequently throughout the download process, which is where my code for updating the UI is. They also call
-                //
-                // - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
-                //
-                // when finished, which is where I have my code for what to do once the download is finished
-                [task resume];
+            // oof. key isnt available. :rip:
+            [self logToFile:[NSString stringWithFormat:@"Key for %@ %@ not available.", deviceModel, deviceBuild] atLineNumber:__LINE__];
+            UIAlertController *deviceNotSupported = [UIAlertController alertControllerWithTitle:@"Device not supported." message:@"The filesystem for your iOS version is encrypted, and a decryption key is not publicly available. If you are a researcher with a private key, please decrypt the DMG yourself using xpwn and place it in /var/mobile/Media/Succession/rfs.dmg (oh, and could you also pretty please post it to theiphonewiki)." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                exit(0);
             }];
-            [getDownloadLinkTask resume];
+            [deviceNotSupported addAction:exitAction];
+            [self presentViewController:deviceNotSupported animated:TRUE completion:nil];
+            return @"Failed.";
         }
+        
+    } else {
+        // If the iOS version isn't in the dict above, then :rip:
+        [self errorAlert:[NSString stringWithFormat:@"Couldn't get codename for your iOS %@\nPlease email me stgardner4@att.net or dm me on reddit u/Samg_is_a_Ninja", deviceBuild]];
+        return @"Failed.";
     }
 }
 
@@ -347,7 +433,7 @@
                     totalBytesRead += bytesRead;
                     
                 } else
-                    break;
+                break;
                 
             } while (YES);
             [file closeFile];
@@ -463,7 +549,7 @@
         // Read bytes and check for end of file
         int bytesRead= (int)[read readDataWithBuffer:data];
         if (bytesRead <= 0)
-            break;
+        break;
         [data setLength:bytesRead];
         unzipProgress = unzipProgress + bytesRead;
         dispatch_async(dispatch_get_main_queue(), ^{

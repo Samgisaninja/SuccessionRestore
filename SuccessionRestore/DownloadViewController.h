@@ -21,4 +21,5 @@
 @property (strong, nonatomic) IBOutlet UIProgressView *downloadProgressBar;
 @property (strong, nonatomic) UIFont *monospacedNumberSystemFont;
 @property (strong, nonatomic) NSDictionary *successionPrefs;
+@property (nonatomic) BOOL needsDecryption;
 @end
