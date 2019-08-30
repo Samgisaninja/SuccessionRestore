@@ -8,6 +8,45 @@ This project is free (and always will be), donations are never required but high
 
 *rsync used in accordance with gpl3*
 
+## Device Support
+
+Succession supports version/device combinations that have rootfilesystem DMGs that can be dumped. This means:
+
+- Succession supports ALL devices on iOS 10.0 and newer (firmware files are not encrypted)
+
+- Succession 1.4 supports *most* devices on 8.0-9.3.5 (decryption keys provided by theiphonewiki), but here's a list anyway:
+
+### Note: Succession 1.4 is still in beta testing and will be released shortly
+
+iPhone 4s:
+- All versions, 8.0-9.3.5 (9.3.6 not supported at this time)
+
+iPhone 5
+- All versions, 8.0-9.3.5
+
+iPhone 5s
+- All versions, 8.0-9.3.5
+
+iPhone 6
+- All versions, 8.0-9.3.5
+
+iPhone 6 Plus
+- All versions, 8.0-9.3.5
+
+iPhone 6S
+- All versions, 9.0-9.3.5 
+
+iPhone 6S Plus
+- Not supported.
+
+iPhone SE
+- Not supported.
+
+All iPad models are supported, 8.0-9.3.5, EXCEPT the iPad Pro 12.9" first gen and the iPad Pro 9.7" first gen
+
+All iPod touch models are supported on all versions, 8.0-9.3.5
+
+
 ## Installation
 
 Succession is currently available from:
