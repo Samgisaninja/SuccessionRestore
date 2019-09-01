@@ -56,7 +56,8 @@
                         NSData *dataRead = [stdoutHandle availableData];
                         NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
                         [self logToFile:stringRead atLineNumber:__LINE__];
-                        [[self activityLabel] setText:stringRead];
+                        NSArray *splitStringRead = [stringRead componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+                        [[self activityLabel] setText:[splitStringRead lastObject]];
                         [stdoutHandle waitForDataInBackgroundAndNotify];
                     }];
     [decryptDMGTask setLaunchPath:@"/usr/bin/dmg"];
