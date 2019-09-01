@@ -47,7 +47,10 @@
     _deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
     self.iOSBuildLabel.text = [NSString stringWithFormat:@"%@", _deviceBuild];
-    
+    // Checks iOS version. If iOS < 10.0, then delete hdik to force succession to require attach later.
+    if (kCFCoreFoundationVersionNumber < 1300) {
+        [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"] error:nil];
+    }
     // Checks if the app has ever been run before
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"]) {
         // Present an alert asking the user to consider donating.
@@ -123,11 +126,27 @@
     NSArray *contentsOfSuccessionFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Media/Succession/" error:nil];
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"]) {
         [_downloadDMGButton setHidden:TRUE];
+        [_downloadDMGButton setEnabled:FALSE];
         [_prepareToRestoreButton setHidden:FALSE];
         [_prepareToRestoreButton setEnabled:TRUE];
+        [_decryptDMGButton setHidden:TRUE];
+        [_decryptDMGButton setEnabled:FALSE];
         [_infoLabel setHidden:TRUE];
         for (NSString *file in contentsOfSuccessionFolder) {
             if (![file isEqualToString:@"rfs.dmg"]) {
+                [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"/var/mobile/Media/Succession/%@", file] error:nil];
+            }
+        }
+    } else if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/encrypted.dmg"]) {
+        [_downloadDMGButton setHidden:TRUE];
+        [_downloadDMGButton setEnabled:FALSE];
+        [_prepareToRestoreButton setHidden:TRUE];
+        [_prepareToRestoreButton setEnabled:FALSE];
+        [_decryptDMGButton setHidden:FALSE];
+        [_decryptDMGButton setEnabled:TRUE];
+        [_infoLabel setHidden:TRUE];
+        for (NSString *file in contentsOfSuccessionFolder) {
+            if (![file isEqualToString:@"encrypted.dmg"]) {
                 [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"/var/mobile/Media/Succession/%@", file] error:nil];
             }
         }
@@ -148,8 +167,11 @@
             }
         }
         [_downloadDMGButton setHidden:FALSE];
+        [_downloadDMGButton setEnabled:TRUE];
         [_prepareToRestoreButton setHidden:TRUE];
         [_prepareToRestoreButton setEnabled:FALSE];
+        [_decryptDMGButton setHidden:TRUE];
+        [_decryptDMGButton setEnabled:FALSE];
         [_infoLabel setHidden:FALSE];
         [_infoLabel setText:[NSString stringWithFormat:@"Please download an IPSW\nSuccession can do this automatically (press 'Download clean Filesystem' below) or you can place an IPSW in %@", [successionPrefs objectForKey:@"custom_ipsw_path"]]];
     }

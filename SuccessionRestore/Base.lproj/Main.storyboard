@@ -80,8 +80,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hGj-tl-f2h">
-                                <rect key="frame" x="57" y="214" width="206" height="30"/>
-                                <state key="normal" title="This information is not correct"/>
+                                <rect key="frame" x="7" y="214" width="306" height="30"/>
+                                <state key="normal" title="Tap here if the information above is incorrect"/>
                                 <connections>
                                     <action selector="infoNotAccurateButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E5H-ru-e58"/>
                                 </connections>
@@ -131,6 +131,13 @@
                                     <segue destination="7XZ-Lu-4ed" kind="show" id="dP1-pA-wqa"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8KW-wv-Z19">
+                                <rect key="frame" x="113" y="415" width="94" height="30"/>
+                                <state key="normal" title="Decrypt DMG"/>
+                                <connections>
+                                    <segue destination="eCG-Qp-MkS" kind="show" id="bsv-Yw-jZB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -149,6 +156,7 @@
                             <constraint firstItem="OyJ-6j-gtA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Plj-Ru-MSD"/>
                             <constraint firstItem="abp-eL-6Z5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="15" id="RnZ-FT-JAg"/>
                             <constraint firstItem="4EC-dm-fKT" firstAttribute="top" secondItem="4X9-XI-Fwg" secondAttribute="bottom" constant="5" id="SOm-Ps-Oog"/>
+                            <constraint firstItem="Lgt-1f-oP7" firstAttribute="top" secondItem="8KW-wv-Z19" secondAttribute="bottom" id="TXM-ej-Lzi"/>
                             <constraint firstItem="mPx-3W-jp3" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Tse-j7-V5W"/>
                             <constraint firstItem="hGj-tl-f2h" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="VdA-85-Opa"/>
                             <constraint firstItem="5Z8-mG-XV3" firstAttribute="top" secondItem="S0F-S6-ikK" secondAttribute="bottom" constant="25" id="aTq-TJ-mUT"/>
@@ -171,10 +179,12 @@
                             <constraint firstItem="zSR-tn-iUQ" firstAttribute="top" secondItem="4EC-dm-fKT" secondAttribute="bottom" id="v0B-NW-fbe"/>
                             <constraint firstItem="4EC-dm-fKT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xVJ-J8-erK"/>
                             <constraint firstItem="rhB-vO-tJs" firstAttribute="top" secondItem="4EC-dm-fKT" secondAttribute="bottom" constant="25" id="yZc-0p-aje"/>
+                            <constraint firstItem="8KW-wv-Z19" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="z3W-YT-9Oe"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="e97-rM-swL"/>
                     <connections>
+                        <outlet property="decryptDMGButton" destination="8KW-wv-Z19" id="Buk-rK-KM9"/>
                         <outlet property="deviceModelLabel" destination="5Z8-mG-XV3" id="VfZ-sd-ZJ3"/>
                         <outlet property="downloadDMGButton" destination="C3s-O3-PD4" id="AXX-29-MY3"/>
                         <outlet property="iOSBuildLabel" destination="eEO-N4-nGY" id="4DR-yh-dmk"/>
@@ -333,7 +343,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="49D-k6-08i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2701.875" y="470"/>
+            <point key="canvasLocation" x="2702" y="1244"/>
         </scene>
         <!--Download View Controller-->
         <scene sceneID="quC-Q0-Rzh">
@@ -410,13 +420,59 @@
             </objects>
             <point key="canvasLocation" x="2701.875" y="-267.5"/>
         </scene>
+        <!--Decrypt View Controller-->
+        <scene sceneID="lyy-P0-52m">
+            <objects>
+                <viewController id="eCG-Qp-MkS" customClass="DecryptViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LIe-Bt-FHw"/>
+                        <viewControllerLayoutGuide type="bottom" id="paI-Bz-WUy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WsL-W5-iRl">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Onw-iV-nps">
+                                <rect key="frame" x="150" y="230" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AI8-Bj-MOW">
+                                <rect key="frame" x="139" y="275" width="42" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Decrypting..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggU-pB-2mY">
+                                <rect key="frame" x="110.5" y="159" width="99" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="AI8-Bj-MOW" firstAttribute="top" secondItem="Onw-iV-nps" secondAttribute="bottom" constant="25" id="aVE-uj-Yzc"/>
+                            <constraint firstItem="ggU-pB-2mY" firstAttribute="centerX" secondItem="WsL-W5-iRl" secondAttribute="centerX" id="hfU-sY-k12"/>
+                            <constraint firstItem="Onw-iV-nps" firstAttribute="top" secondItem="ggU-pB-2mY" secondAttribute="bottom" constant="50" id="pco-TP-60F"/>
+                            <constraint firstItem="Onw-iV-nps" firstAttribute="centerX" secondItem="WsL-W5-iRl" secondAttribute="centerX" id="qmI-I8-O8d"/>
+                            <constraint firstItem="Onw-iV-nps" firstAttribute="centerY" secondItem="WsL-W5-iRl" secondAttribute="centerY" id="whD-Lb-2Ak"/>
+                            <constraint firstItem="AI8-Bj-MOW" firstAttribute="centerX" secondItem="WsL-W5-iRl" secondAttribute="centerX" id="xiv-nR-9r5"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityLabel" destination="AI8-Bj-MOW" id="Dk7-uW-CGB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FtH-E4-uAT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2702" y="495"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="6bz-BM-BWQ">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jg5-x8-9be" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jN8-KD-1wR">
-                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -55,10 +55,10 @@
                 self->_needsDecryption = TRUE;
                 if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/dmg"]) {
                     // Before we continue, let's make sure there's a key available for the device we're looking for.
-                    // NSString *rootfsKey = [self getRFSKey];
-                    // if (![rootfsKey isEqualToString:@"Failed."]){
+                     NSString *rootfsKey = [self getRFSKey];
+                    if (![rootfsKey isEqualToString:@"Failed."]){
                     [self postDownload];
-                    // }
+                    }
                 } else {
                     UIAlertController *needsXPwn = [UIAlertController alertControllerWithTitle:@"Succession requires additional components to be installed" message:@"Please install xpwn from the saurik/Telesphoreo repo." preferredStyle:UIAlertControllerStyleAlert];
                     UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
@@ -600,7 +600,8 @@
     // Let the user know that download is now complete
     NSString *message;
     if (_needsDecryption) {
-        message = @"The rootfilesystem was successfully extracted, but it needs to be decrypted.";
+        [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/rfs.dmg" toPath:@"/var/mobile/Media/Succession/encrypted.dmg" error:nil];
+        message = @"The rootfilesystem was successfully extracted, but it needs to be decrypted. Please go back to the home page and tap \"Decrypt DMG\"";
     } else {
         message = @"The rootfilesystem was successfully extracted to /var/mobile/Media/Succession/rfs.dmg";
     }
@@ -608,53 +609,7 @@
     UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [[self navigationController] popToRootViewControllerAnimated:TRUE];
     }];
-    UIAlertAction *decryptDMGAction = [UIAlertAction actionWithTitle:@"Let's go!" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self logToFile:@"decryptDMGAction handler" atLineNumber:__LINE__];
-        [[NSFileManager defaultManager] moveItemAtPath:@"/var/mobile/Media/Succession/rfs.dmg" toPath:@"/var/mobile/Media/Succession/encrypted.dmg" error:nil];
-        [self logToFile:@"moved" atLineNumber:__LINE__];
-        NSTask *decryptDMGTask = [[NSTask alloc] init];
-        [self logToFile:@"task created" atLineNumber:__LINE__];
-        [decryptDMGTask setLaunchPath:@"/usr/bin/dmg"];
-        [self logToFile:@"launchpath set" atLineNumber:__LINE__];
-        [decryptDMGTask setArguments:[NSArray arrayWithObjects:@"extract", @"/var/mobile/Media/Succession/encrypted.dmg", @"/var/mobile/Media/Succession/rfs.dmg", @"-k", [self getRFSKey], nil]];
-        [self logToFile:@"args set" atLineNumber:__LINE__];
-        [self logToFile:[NSString stringWithFormat:@"%@ %@", [decryptDMGTask launchPath], [[decryptDMGTask arguments] componentsSeparatedByString:@" "]] atLineNumber:__LINE__];
-        NSPipe *outputPipe = [NSPipe pipe];
-        [self logToFile:@"pipe created" atLineNumber:__LINE__];
-        [decryptDMGTask setStandardOutput:outputPipe];
-        [self logToFile:@"stdout set to pipe" atLineNumber:__LINE__];
-        NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
-        [self logToFile:@"handle created" atLineNumber:__LINE__];
-        [stdoutHandle waitForDataInBackgroundAndNotify];
-        [self logToFile:@"stdouthandle setup" atLineNumber:__LINE__];
-        id observer;
-        [self logToFile:@"observer created" atLineNumber:__LINE__];
-        observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification object:stdoutHandle queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-            NSData *dataRead = [stdoutHandle availableData];
-            NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self logToFile:stringRead atLineNumber:__LINE__];
-                [[self activityLabel] setText:[NSString stringWithFormat:@"Decrypting... %@", stringRead]];
-            });
-        }];
-        [self logToFile:@"observer setup" atLineNumber:__LINE__];
-        decryptDMGTask.terminationHandler = ^{
-            // Let the user know that download is now complete
-            UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted and decrypted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [[self navigationController] popToRootViewControllerAnimated:TRUE];
-            }];
-            [downloadComplete addAction:backToHomePage];
-            [self presentViewController:downloadComplete animated:TRUE completion:nil];
-        };
-        [self logToFile:@"Launching dmg task..." atLineNumber:__LINE__];
-        [decryptDMGTask launch];
-    }];
-    if (_needsDecryption) {
-        [downloadComplete addAction:decryptDMGAction];
-    } else {
-        [downloadComplete addAction:backToHomePage];
-    }
+    [downloadComplete addAction:backToHomePage];
     [self presentViewController:downloadComplete animated:TRUE completion:nil];
 }
 

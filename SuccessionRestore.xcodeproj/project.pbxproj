@@ -43,6 +43,7 @@
 		8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2811F7C792E00A169BF /* Assets.xcassets */; };
 		8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */; };
 		8D5BA2881F7C792E00A169BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2871F7C792E00A169BF /* main.m */; };
+		8D7ABB0F2319DDCD0098C52B /* DecryptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D7ABB0E2319DDCD0098C52B /* DecryptViewController.m */; };
 		8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D876121202679E2004A6F27 /* DownloadViewController.m */; };
 		8D8F2FAA2264095D0044CF00 /* SpecialThanksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */; };
 		8D980C972303D125009717B4 /* hdik-armv7 in Resources */ = {isa = PBXBuildFile; fileRef = 8D980C962303D125009717B4 /* hdik-armv7 */; };
@@ -152,6 +153,8 @@
 		8D5BA2871F7C792E00A169BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D5BA28D1F7C792F00A169BF /* SuccessionRestoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D7ABB0D2319DDCD0098C52B /* DecryptViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DecryptViewController.h; sourceTree = "<group>"; };
+		8D7ABB0E2319DDCD0098C52B /* DecryptViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DecryptViewController.m; sourceTree = "<group>"; };
 		8D876120202679E2004A6F27 /* DownloadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadViewController.h; sourceTree = "<group>"; };
 		8D876121202679E2004A6F27 /* DownloadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadViewController.m; sourceTree = "<group>"; };
 		8D8F2FA82264095D0044CF00 /* SpecialThanksTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpecialThanksTableViewController.h; sourceTree = "<group>"; };
@@ -337,6 +340,8 @@
 				8D5BA2811F7C792E00A169BF /* Assets.xcassets */,
 				8D876120202679E2004A6F27 /* DownloadViewController.h */,
 				8D876121202679E2004A6F27 /* DownloadViewController.m */,
+				8D7ABB0D2319DDCD0098C52B /* DecryptViewController.h */,
+				8D7ABB0E2319DDCD0098C52B /* DecryptViewController.m */,
 				8D980C982303D26C009717B4 /* hdik-arm64 */,
 				8D40BF0E231261F300240454 /* hdik-arm64e */,
 				8D980C962303D125009717B4 /* hdik-armv7 */,
@@ -517,6 +522,7 @@
 				8D47CCB922C86B7800BCFAED /* zip.c in Sources */,
 				8D47CCC222C86B7800BCFAED /* gzlib.c in Sources */,
 				8D47CCC522C86B7800BCFAED /* gzwrite.c in Sources */,
+				8D7ABB0F2319DDCD0098C52B /* DecryptViewController.m in Sources */,
 				8D47CCCE22C86B7800BCFAED /* OZZipReadStream.m in Sources */,
 				8D47CCC422C86B7800BCFAED /* uncompr.c in Sources */,
 				8D47CCC022C86B7800BCFAED /* infback.c in Sources */,
@@ -711,7 +717,7 @@
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
 				INFOPLIST_FILE = SuccessionRestore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -736,7 +742,7 @@
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
 				INFOPLIST_FILE = SuccessionRestore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
