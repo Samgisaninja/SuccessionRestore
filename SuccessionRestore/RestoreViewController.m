@@ -226,22 +226,27 @@
             if ([outString containsString:@"disk"]) {
                 NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
                 [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
-                for (NSString *line in outLines) {
-                    [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
-                    if ([line containsString:@"s2"]) {
-                        [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
-                        NSArray *lineWords = [line componentsSeparatedByString:@" "];
-                        for (NSString *word in lineWords) {
-                            if ([word hasPrefix:@"/dev/disk"]) {
-                                NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
-                                [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
-                                self->_theDiskString = [NSMutableString stringWithString:word];
-                                [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
-                                [self mountRestoreDisk];
+                if ([outLines count] > 1) {
+                    for (NSString *line in outLines) {
+                        [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+                        if ([line containsString:@"s2"]) {
+                            [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
+                            NSArray *lineWords = [line componentsSeparatedByString:@" "];
+                            for (NSString *word in lineWords) {
+                                if ([word hasPrefix:@"/dev/disk"]) {
+                                    NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
+                                    [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
+                                    self->_theDiskString = [NSMutableString stringWithString:word];
+                                    [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
+                                    [self mountRestoreDisk];
+                                }
                             }
                         }
                     }
+                } else {
+                    self->_theDiskString = [outLines firstObject];
                 }
+                
             } else {
                 [self errorAlert:@"Attaching image failed because hdik returned no output. Please reboot and try again."];
             }
