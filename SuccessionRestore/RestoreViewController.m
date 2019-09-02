@@ -151,7 +151,7 @@
         [self presentViewController:_areYouSureAlert animated:TRUE completion:nil];
     } else {
         [self logToFile:@"Filesystem is not mounted, showing mount alert now" atLineNumber:__LINE__];
-        UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"Tap OK to continue." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *mountingAlert = [UIAlertController alertControllerWithTitle:@"Mounting filesystem..." message:@"If this alert shows more than twice without rebooting, please contact me, u/Samg_is_a_Ninja on reddit or stgardner4@att.net" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [mountingAlert addAction:okAction];
         [self presentViewController:mountingAlert animated:TRUE completion:^{
@@ -262,15 +262,19 @@
                 NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
                 [self logToFile:[NSString stringWithFormat:@"attach output is: %@", outString] atLineNumber:__LINE__];
                 NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
-                [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
-                for (NSString *line in outLines) {
-                    [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
-                    if ([line containsString:@"s3"]) {
-                        [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", line] atLineNumber:__LINE__];
-                        self->_theDiskString = [NSMutableString stringWithString:line];
-                        [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
-                        [self mountRestoreDisk];
+                [self logToFile:[NSString stringWithFormat:@"%@\n\n%lu", [outLines componentsJoinedByString:@", "], (unsigned long)[outLines count]] atLineNumber:__LINE__];
+                if ([outLines count] != 2) {
+                    for (NSString *line in outLines) {
+                        [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+                        if ([line containsString:@"s3"]) {
+                            [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", line] atLineNumber:__LINE__];
+                            self->_theDiskString = [NSMutableString stringWithString:line];
+                            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
+                            [self mountRestoreDisk];
+                        }
                     }
+                } else {
+                    self->_theDiskString = [outLines firstObject];
                 }
             };
             [attachTask launch];
