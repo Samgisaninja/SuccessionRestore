@@ -420,6 +420,10 @@
                                             @"--exclude=/var/containers/",
                                             @"--exclude=/private/var/keybags/",
                                             @"--exclude=/var/keybags/",
+                                            @"--exclude=/applelogo",
+                                            @"--exclude=/devicetree",
+                                            @"--exclude=/kernelcache",
+                                            @"--exclude=/ramdisk",
                                             [_mountpoint stringByAppendingPathComponent:@"."],
                                             @"/", nil];
         if (![_filesystemType isEqualToString:@"apfs"]) {
