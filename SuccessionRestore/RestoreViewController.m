@@ -24,7 +24,7 @@
     [[self restoreProgressBar] setHidden:TRUE];
     _successionPrefs = [NSMutableDictionary dictionaryWithDictionary:[NSDictionary dictionaryWithContentsOfFile:@"/private/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"]];
     [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mobile/succession.log" error:nil];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"]]) {
+    if (kCFCoreFoundationVersionNumber < 1200) {
         _mountpoint = @"/private/var/MobileSoftwareUpdate/mnt1";
     } else {
         _mountpoint = @"/mnt/";
@@ -156,11 +156,11 @@
         [mountingAlert addAction:okAction];
         [self presentViewController:mountingAlert animated:TRUE completion:^{
             [self logToFile:[NSString stringWithFormat:@"mountingAlert handler called, identified theDiskString as %@", self->_theDiskString] atLineNumber:__LINE__];
-            if (self->_theDiskString) {
+            if ([self->_theDiskString containsString:@"disk"]) {
                 [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
                 [self mountRestoreDisk];
             } else {
-                [self errorAlert:@"Unable to find attached disk. Please enable logging and try again. If the issue persists, contact me on reddit u/Samg_is_a_Ninja or email stgardner4@att.net"];
+                [self prepareAttachRestoreDisk];
             }
             
         }];

@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8D13280720F2F3A800C72D10 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D13280620F2F3A800C72D10 /* IOKit.framework */; };
 		8D175B5B224429CB00FF7DFD /* NSTask.h in Sources */ = {isa = PBXBuildFile; fileRef = 8D4C260B21BF57C700BBA404 /* NSTask.h */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8D40BF0F231261F300240454 /* hdik-arm64e in Resources */ = {isa = PBXBuildFile; fileRef = 8D40BF0E231261F300240454 /* hdik-arm64e */; };
 		8D47CCB622C86B7800BCFAED /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 8D47CC7322C86B7800BCFAED /* LICENSE.md */; };
 		8D47CCB722C86B7800BCFAED /* crypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC7522C86B7800BCFAED /* crypt.c */; };
 		8D47CCB822C86B7800BCFAED /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC7622C86B7800BCFAED /* unzip.c */; };
-		8D47CCB922C86B7800BCFAED /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC7722C86B7800BCFAED /* zip.c */; };
+		8D47CCB922C86B7800BCFAED /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC7722C86B7800BCFAED /* zip.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8D47CCBA22C86B7800BCFAED /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC7822C86B7800BCFAED /* ioapi.c */; };
 		8D47CCBB22C86B7800BCFAED /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC8022C86B7800BCFAED /* inflate.c */; };
 		8D47CCBC22C86B7800BCFAED /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC8122C86B7800BCFAED /* compress.c */; };
@@ -26,7 +25,7 @@
 		8D47CCC322C86B7800BCFAED /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC8F22C86B7800BCFAED /* inftrees.c */; };
 		8D47CCC422C86B7800BCFAED /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC9022C86B7800BCFAED /* uncompr.c */; };
 		8D47CCC522C86B7800BCFAED /* gzwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC9122C86B7800BCFAED /* gzwrite.c */; };
-		8D47CCC622C86B7800BCFAED /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC9222C86B7800BCFAED /* trees.c */; };
+		8D47CCC622C86B7800BCFAED /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC9222C86B7800BCFAED /* trees.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8D47CCC722C86B7800BCFAED /* gzclose.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC9322C86B7800BCFAED /* gzclose.c */; };
 		8D47CCC822C86B7800BCFAED /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC9522C86B7800BCFAED /* inffast.c */; };
 		8D47CCC922C86B7800BCFAED /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D47CC9622C86B7800BCFAED /* adler32.c */; };
@@ -71,6 +70,18 @@
 			remoteInfo = SuccessionRestore;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8D15CACB2320967400C118FD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8D13280020F2CFB800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../Downloads/IOKit.framework; sourceTree = "<group>"; };
@@ -180,7 +191,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */,
-				8D13280720F2F3A800C72D10 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +384,7 @@
 				8D5BA2711F7C792E00A169BF /* Sources */,
 				8D5BA2721F7C792E00A169BF /* Frameworks */,
 				8D5BA2731F7C792E00A169BF /* Resources */,
+				8D15CACB2320967400C118FD /* CopyFiles */,
 			);
 			buildRules = (
 			);
