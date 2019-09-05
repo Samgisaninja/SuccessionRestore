@@ -13,7 +13,7 @@ cp -r ./Template/* ./com.samgisaninja.SuccessionRestore/
 mkdir com.samgisaninja.SuccessionRestore/Applications/
 mv SuccessionRestore.app/SuccessionRestore SuccessionRestore.app/SuccessionRestore_
 mv SuccessionRestore.app com.samgisaninja.SuccessionRestore/Applications/
-mv SuccessionHelper com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore
+cp SuccessionHelper com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore
 sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore_
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-armv7

@@ -86,6 +86,7 @@
 /* Begin PBXFileReference section */
 		8D13280020F2CFB800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../Downloads/IOKit.framework; sourceTree = "<group>"; };
 		8D13280620F2F3A800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = SuccessionRestore/IOKit.framework; sourceTree = "<group>"; };
+		8D15CACE2320CACE00C118FD /* SuccessionHelper */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SuccessionHelper; sourceTree = "<group>"; };
 		8D40BF0E231261F300240454 /* hdik-arm64e */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "hdik-arm64e"; sourceTree = "<group>"; };
 		8D47CC7322C86B7800BCFAED /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		8D47CC7522C86B7800BCFAED /* crypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crypt.c; sourceTree = "<group>"; };
@@ -323,6 +324,7 @@
 				8DC82B2C226CDC3400D21893 /* compile32.xcconfig */,
 				8DC82B28226CD8CA00D21893 /* compile */,
 				8DFA1566227FCC320072BB17 /* README.md */,
+				8D15CACE2320CACE00C118FD /* SuccessionHelper */,
 				8DC0111E226AC22200A31E33 /* Template */,
 				8D5BA2771F7C792E00A169BF /* SuccessionRestore */,
 				8D5BA2761F7C792E00A169BF /* Products */,
