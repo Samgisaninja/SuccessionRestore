@@ -3,7 +3,6 @@
 echo "COMPILING..."
 xcodebuild -target SuccessionRestore -xcconfig compile32.xcconfig -configuration Debug >> /dev/null
 mv ./Build/Debug-iphoneos/SuccessionRestore.app ./
-mv ./SuccessionRestore32 ./SuccessionRestore.app/SuccessionRestore32
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-armv7
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-arm64
@@ -12,8 +11,11 @@ rm -f ./SuccessionRestore.app/embedded.mobileprovision
 mkdir ./com.samgisaninja.SuccessionRestore
 cp -r ./Template/* ./com.samgisaninja.SuccessionRestore/
 mkdir com.samgisaninja.SuccessionRestore/Applications/
+mv SuccessionRestore.app/SuccessionRestore SuccessionRestore.app/SuccessionRestore_
 mv SuccessionRestore.app com.samgisaninja.SuccessionRestore/Applications/
-sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore
+mv SuccessionHelper com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore
+sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore_
+sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-armv7
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-arm64
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-arm64e

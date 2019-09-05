@@ -176,7 +176,6 @@
 		8DC0111E226AC22200A31E33 /* Template */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Template; sourceTree = "<group>"; };
 		8DC82B28226CD8CA00D21893 /* compile */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = compile; sourceTree = "<group>"; };
 		8DC82B29226CD8EB00D21893 /* RestoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestoreViewController.m; sourceTree = "<group>"; usesTabs = 0; };
-		8DC82B2B226CDC1400D21893 /* compile64.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile64.xcconfig; sourceTree = "<group>"; };
 		8DC82B2C226CDC3400D21893 /* compile32.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile32.xcconfig; sourceTree = "<group>"; };
 		8DE34FB920E9353B00A37037 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestoreViewController.h; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h; sourceTree = "<absolute>"; };
 		8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
@@ -321,7 +320,6 @@
 			isa = PBXGroup;
 			children = (
 				8DAC229E2277B9B000EA2A59 /* beta.plist */,
-				8DC82B2B226CDC1400D21893 /* compile64.xcconfig */,
 				8DC82B2C226CDC3400D21893 /* compile32.xcconfig */,
 				8DC82B28226CD8CA00D21893 /* compile */,
 				8DFA1566227FCC320072BB17 /* README.md */,
