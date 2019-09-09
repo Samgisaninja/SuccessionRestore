@@ -2,43 +2,96 @@
 mkdir /var/mobile/Media/Succession/
 chmod 0777 /var/mobile/Media/Succession/
 killall SuccessionRestore
-if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e ]
+KERNELVERSION=$(uname -r)
+searchstring="."
+MINORVERSION=${KERNELVERSION%$searchstring*}
+MAJORVERSION=${MINORVERSION%$searchstring*}
+if [ "$MAJORVERSION" -gt 16 ]
 then
-    echo "Succession has detected arm64e!"
-    rm /Applications/SuccessionRestore.app/SuccessionRestore32
-    rm /Applications/SuccessionRestore.app/SuccessionRestore32
-    rm /Applications/SuccessionRestore.app/hdik-armv7
-    rm /Applications/SuccessionRestore.app/hdik-arm64
-    mv /Applications/SuccessionRestore.app/hdik-arm64e /Applications/SuccessionRestore.app/hdik
-else
-    if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64 ]
+    echo "Succession has detected iOS 11 or higher!"
+    if [ $(uname -p) = "arm" ]
     then
-        echo "Succession has detected 64-bit!"
+        echo "Succession has detected arm64e!"
+        rm /Applications/SuccessionRestore.app/SuccessionHelper
+        rm /Applications/SuccessionRestore.app/SuccessionRestore32
+        rm /Applications/SuccessionRestore.app/hdik-armv7
+        rm /Applications/SuccessionRestore.app/hdik-arm64
+        mv /Applications/SuccessionRestore.app/hdik-arm64e /Applications/SuccessionRestore.app/hdik
+    elif [ $(uname -p) = "arm64" ]
+    then
+        echo "Succession has detected arm64!"
+        rm /Applications/SuccessionRestore.app/SuccessionHelper
         rm /Applications/SuccessionRestore.app/SuccessionRestore32
         rm /Applications/SuccessionRestore.app/hdik-armv7
         rm /Applications/SuccessionRestore.app/hdik-arm64e
         mv /Applications/SuccessionRestore.app/hdik-arm64 /Applications/SuccessionRestore.app/hdik
     else
-        if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv7s ]
-        then
-            echo "Succession has detected 32-bit!"
-            rm /Applications/SuccessionRestore.app/SuccessionRestore
-            mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore
-            rm /Applications/SuccessionRestore.app/hdik-arm64
-            rm /Applications/SuccessionRestore.app/hdik-arm64e
-            mv /Applications/SuccessionRestore.app/hdik-armv7 /Applications/SuccessionRestore.app/hdik
-        else
-            if [ -f /System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv7 ]
-            then
-                echo "Succession has detected 32-bit!"
-                rm /Applications/SuccessionRestore.app/SuccessionRestore
-                mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore
-                rm /Applications/SuccessionRestore.app/hdik-arm64
-                rm /Applications/SuccessionRestore.app/hdik-arm64e
-                mv /Applications/SuccessionRestore.app/hdik-armv7 /Applications/SuccessionRestore.app/hdik
-            fi
-        fi
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
     fi
+elif [ "$MAJORVERSION" -gt 15 ]
+then
+    echo "Succession has detected iOS 10.0-10.3.4!"
+    if [ $(uname -p) = "arm" ]
+    then
+        echo "Succession has detected 32-bit!"
+        rm /Applications/SuccessionRestore.app/SuccessionHelper
+        rm /Applications/SuccessionRestore.app/SuccessionRestore
+        mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore
+        rm /Applications/SuccessionRestore.app/hdik-arm64
+        rm /Applications/SuccessionRestore.app/hdik-arm64e
+        mv /Applications/SuccessionRestore.app/hdik-armv7 /Applications/SuccessionRestore.app/hdik
+    elif [ $(uname -p) = "arm64" ]
+    then
+        echo "Succession has detected 64-bit!"
+        rm /Applications/SuccessionRestore.app/SuccessionHelper
+        rm /Applications/SuccessionRestore.app/SuccessionRestore32
+        rm /Applications/SuccessionRestore.app/hdik-armv7
+        rm /Applications/SuccessionRestore.app/hdik-arm64e
+        mv /Applications/SuccessionRestore.app/hdik-arm64 /Applications/SuccessionRestore.app/hdik
+    else
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+    fi
+elif [ "$MAJORVERSION" -lt 15 ]
+then
+    echo "Succession has detected iOS 9.3.6 or lower!"
+    if [ $(uname -p) = "arm" ]
+    then
+        echo "Succession has detected 32-bit!"
+        rm /Applications/SuccessionRestore.app/SuccessionRestore
+        mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore_
+        mv /Applications/SuccessionRestore.app/SuccessionHelper /Applications/SuccessionRestore.app/SuccessionRestore
+        rm /Applications/SuccessionRestore.app/hdik-arm64
+        rm /Applications/SuccessionRestore.app/hdik-arm64e
+        mv /Applications/SuccessionRestore.app/hdik-armv7 /Applications/SuccessionRestore.app/hdik
+    elif [ $(uname -p) = "arm64" ]
+    then
+        echo "Succession has detected 64-bit!"
+        mv /Applications/SuccessionRestore.app/SuccessionRestore /Applications/SuccessionRestore.app/SuccessionRestore_
+        mv /Applications/SuccessionRestore.app/SuccessionHelper /Applications/SuccessionRestore.app/SuccessionRestore
+        rm /Applications/SuccessionRestore.app/hdik-armv7
+        rm /Applications/SuccessionRestore.app/hdik-arm64e
+        mv /Applications/SuccessionRestore.app/hdik-arm64 /Applications/SuccessionRestore.app/hdik
+    else
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+        echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+    fi
+else
+    echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+    echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+    echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+    echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
+    echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
 fi
 if [ ! -f /Applications/Setup.app/Setup ]; then
     if [ -f /Applications/Setup.app/Setup.bak ]; then

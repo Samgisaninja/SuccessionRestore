@@ -12,6 +12,7 @@ mv ./Build/Debug-iphoneos/SuccessionRestore.app ./
 mv ./SuccessionRestore32 ./SuccessionRestore.app/SuccessionRestore32
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore32
+ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionHelper
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-armv7
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-arm64
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-arm64e
@@ -22,6 +23,7 @@ mkdir com.samgisaninja.SuccessionRestore/Applications/
 mv SuccessionRestore.app com.samgisaninja.SuccessionRestore/Applications/
 sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore
 sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore32
+sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionHelper
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-armv7
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-arm64
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-arm64e
