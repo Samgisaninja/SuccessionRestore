@@ -59,7 +59,7 @@ then
         echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
         echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
     fi
-elif [ "$MAJORVERSION" -lt 15 ]
+elif [ "$MAJORVERSION" -lt 16 ]
 then
     echo "Succession has detected iOS 9.3.6 or lower!"
     if [ $(uname -p) = "arm" ]
