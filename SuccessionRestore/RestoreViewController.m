@@ -46,18 +46,21 @@
     } else {
         [self prepareAttachRestoreDisk];
     }
-    if ([[[[NSFileManager defaultManager] attributesOfFileSystemForPath:@"/" error:nil] objectForKey:NSFileSystemFreeSize] unsignedLongLongValue] < 2147483648) {
-        if (![[_successionPrefs objectForKey:@"delete-during"] isEqual:@(1)]) {
-            UIAlertController *lowStorageAlert = [UIAlertController alertControllerWithTitle:@"Low storage space detected!" message:[NSString stringWithFormat:@"It is reccommended that you use low-storage mode to prevent the device from running out of storage while Succesion is running\nNote that if Succession exits while it is running, it is more likely to fail destructively, so... don't exit Succession, and you might want to run it from safe mode."] preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *useLowStorageModeAction = [UIAlertAction actionWithTitle:@"Use low storage mode" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self->_successionPrefs setObject:@(1) forKey:@"delete-during"];
-                [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
-                [self->_successionPrefs writeToFile:@"/private/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+    if ([_deviceModel isEqualToString:@"iPhone8,1"] || [_deviceModel isEqualToString:@"iPhone8,2"]) {
+        char *buildChar = malloc(size);
+        sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
+        NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
+        if ([deviceBuild hasPrefix:@"13"]) {
+            UIAlertController *hacktivationWarning = [UIAlertController alertControllerWithTitle:@"Warning!" message:@"Apple is blocking activations on iOS 9.X on the iPhone 6s and 6s Plus. It is recommended that you enable \"Hacktivate device\" in Succession's settings to force your device to not require activation" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *enableHacktivationAction = [UIAlertAction actionWithTitle:@"Enable Hacktivation" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self->_successionPrefs setObject:@(1) forKey:@"hacktivation"];
+                [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                [self->_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
             }];
-            UIAlertAction *useDefaultSettingsAction = [UIAlertAction actionWithTitle:@"Perform restore normally" style:UIAlertActionStyleCancel handler:nil];
-            [lowStorageAlert addAction:useLowStorageModeAction];
-            [lowStorageAlert addAction:useDefaultSettingsAction];
-            [self presentViewController:lowStorageAlert animated:TRUE completion:nil];
+            UIAlertAction *ignoreAction = [UIAlertAction actionWithTitle:@"Ignore this warning" style:UIAlertActionStyleDestructive handler:nil];
+            [hacktivationWarning addAction:enableHacktivationAction];
+            [hacktivationWarning addAction:ignoreAction];
+            [self presentViewController:hacktivationWarning animated:TRUE completion:nil];
         }
     }
 }
@@ -381,7 +384,7 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1"] stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
         [self logToFile:@"verified filesystem is mounted" atLineNumber:__LINE__];
         NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH",
-                                            @"--delete-after",
+                                            @"--delete",
                                             @"--progress",
                                             @"--ignore-errors",
                                             @"--force",
@@ -421,11 +424,6 @@
             [rsyncMutableArgs addObject:@"--exclude=/var"];
             [rsyncMutableArgs addObject:@"--exclude=/private/var/"];
             [rsyncMutableArgs addObject:@"--exclude=/usr/bin/uicache"];
-        }
-        if ([[_successionPrefs objectForKey:@"delete-during"] isEqual:@(1)]) {
-            [self logToFile:@"delete-during enabled" atLineNumber:__LINE__];
-            [rsyncMutableArgs removeObject:@"--delete-after"];
-            [rsyncMutableArgs addObject:@"--delete"];
         }
         if ([[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
             [self logToFile:@"user elected to create new orig-fs after restore, excluding snappy" atLineNumber:__LINE__];
@@ -530,6 +528,10 @@
                                     [restoreCompleteController addAction:exitAction];
                                     [self presentViewController:restoreCompleteController animated:TRUE completion:nil];
                                 } else {
+                                    if ([[self->_successionPrefs objectForKey:@"hacktivation"] isEqual:@(1)]) {
+                                        [self logToFile:@"User chose to hacktivate device, deleting setup.app now" atLineNumber:__LINE__];
+                                        [[NSFileManager defaultManager] removeItemAtPath:@"/Applications/Setup.app/" error:nil];
+                                    }
                                     if ([[self->_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
                                         [self logToFile:@"user elected to replace orig-fs, deleting old orig-fs now" atLineNumber:__LINE__];
                                         NSTask *deleteOrigFS = [[NSTask alloc] init];

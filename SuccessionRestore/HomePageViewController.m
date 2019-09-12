@@ -92,8 +92,8 @@
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
-    if (![successionPrefs objectForKey:@"delete-during"]) {
-        [successionPrefs setObject:@(0) forKey:@"delete-during"];
+    if (![successionPrefs objectForKey:@"hacktivation"]) {
+        [successionPrefs setObject:@(0) forKey:@"hacktivation"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }

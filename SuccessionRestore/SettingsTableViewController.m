@@ -77,13 +77,13 @@
             break;
         }
         case 4: {
-            cell.textLabel.text = @"Delete extraneous files during restore instead of after (for devices low on storage space)";
+            cell.textLabel.text = @"Hacktivate device after restore (delete Setup.app)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             UISwitch *deleteDuringSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = deleteDuringSwitch;
-            [deleteDuringSwitch setOn:[[_successionPrefs objectForKey:@"delete-during"] boolValue] animated:NO];
-            [deleteDuringSwitch addTarget:self action:@selector(deleteDuringSwitchChanged) forControlEvents:UIControlEventValueChanged];
+            [deleteDuringSwitch setOn:[[_successionPrefs objectForKey:@"hacktivation"] boolValue] animated:NO];
+            [deleteDuringSwitch addTarget:self action:@selector(hacktivationSwitchChanged) forControlEvents:UIControlEventValueChanged];
             break;
         }
         case 5: {
@@ -239,13 +239,13 @@
     }
 }
 
--(void)deleteDuringSwitchChanged{
-    if ([[_successionPrefs objectForKey:@"delete-during"] isEqual:@(0)]) {
-        [_successionPrefs setObject:@(1) forKey:@"delete-during"];
+-(void)hacktivationSwitchChanged{
+    if ([[_successionPrefs objectForKey:@"hacktivation"] isEqual:@(0)]) {
+        [_successionPrefs setObject:@(1) forKey:@"hacktivation"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     } else {
-        [_successionPrefs setObject:@(0) forKey:@"delete-during"];
+        [_successionPrefs setObject:@(0) forKey:@"hacktivation"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
