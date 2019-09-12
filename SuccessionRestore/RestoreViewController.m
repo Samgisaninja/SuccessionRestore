@@ -246,7 +246,8 @@
                 }
                 
             } else {
-                [self errorAlert:@"Attaching image failed because hdik returned no output. Please reboot and try again."];
+                // I guess just try again?
+                [self attachRestoreDisk];
             }
             
         };
