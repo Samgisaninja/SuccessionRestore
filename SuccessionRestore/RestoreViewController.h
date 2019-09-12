@@ -21,5 +21,4 @@
 @property (strong, nonatomic) NSMutableString *theDiskString;
 @property (strong, nonatomic) UIAlertController *areYouSureAlert;
 @property (strong, nonatomic) NSString *deviceModel;
-@property (strong, nonatomic) NSString *mountpoint;
 @end

@@ -24,11 +24,6 @@
     [[self restoreProgressBar] setHidden:TRUE];
     _successionPrefs = [NSMutableDictionary dictionaryWithDictionary:[NSDictionary dictionaryWithContentsOfFile:@"/private/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"]];
     [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mobile/succession.log" error:nil];
-    if (kCFCoreFoundationVersionNumber < 1200) {
-        _mountpoint = @"/private/var/MobileSoftwareUpdate/mnt1";
-    } else {
-        _mountpoint = @"/mnt/";
-    }
     [self logToFile:@"RestoreViewController has loaded!" atLineNumber:__LINE__];
 }
 
@@ -46,7 +41,7 @@
     } else {
         [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
     }
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[_mountpoint stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1"] stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
         [[self fileListActivityIndicator] setHidden:TRUE];
     } else {
         [self prepareAttachRestoreDisk];
@@ -118,7 +113,7 @@
 
 - (void) showRestoreAlert{
     [self logToFile:@"showRestoreAlert called!" atLineNumber:__LINE__];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[_mountpoint stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1"] stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
         [self logToFile:@"filesystem is mounted, asking user to confirm they are ready to restore" atLineNumber:__LINE__];
         if ([_deviceModel containsString:@"iPad"]) {
             _areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleAlert];
@@ -316,7 +311,7 @@
     }
     if ([self isMountPointPresent]) {
         [self logToFile:[NSString stringWithFormat:@"mountpoint is present! mounting %@ type disk %@ to mountpoint", _filesystemType, _theDiskString] atLineNumber:__LINE__];
-        NSArray *mountArgs = [NSArray arrayWithObjects:@"-o", @"ro", _theDiskString, _mountpoint, nil];
+        NSArray *mountArgs = [NSArray arrayWithObjects:@"-o", @"ro", _theDiskString, @"/private/var/MobileSoftwareUpdate/mnt1", nil];
         NSTask *mountTask = [[NSTask alloc] init];
         if ([_filesystemType isEqualToString:@"hfs"]) {
             [mountTask setLaunchPath:@"/sbin/mount_hfs"];
@@ -346,56 +341,44 @@
     [self logToFile:@"isMountPointPresent called!" atLineNumber:__LINE__];
     NSError *err;
     BOOL isDir;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:_mountpoint isDirectory:&isDir]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" isDirectory:&isDir]) {
         [self logToFile:@"mountpoint is present" atLineNumber:__LINE__];
         if (isDir) {
             [self logToFile:@"mountpoint is present and is dir, we're done here" atLineNumber:__LINE__];
             return TRUE;
         } else {
             [self logToFile:@"file is present at mountpoint, deleting..." atLineNumber:__LINE__];
-            [[NSFileManager defaultManager] removeItemAtPath:_mountpoint error:&err];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" error:&err];
             [self logToFile:@"file deleted, creating empty dir..." atLineNumber:__LINE__];
-            [[NSFileManager defaultManager] createDirectoryAtPath:_mountpoint withIntermediateDirectories:TRUE attributes:nil error:&err];
+            [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&err];
             [self logToFile:@"dir created, verifying..." atLineNumber:__LINE__];
             if (!err) {
                 [self logToFile:@"mountpoint verified, returning TRUE for isMountPointPresent" atLineNumber:__LINE__];
                 return TRUE;
             } else {
-                [self errorAlert:[NSString stringWithFormat:@"Failed to create %@:\n%@", _mountpoint, [err localizedDescription]]];
+                [self errorAlert:[NSString stringWithFormat:@"Failed to create /private/var/MobileSoftwareUpdate/mnt1:\n%@", [err localizedDescription]]];
                 return FALSE;
             }
         }
     } else {
         [self logToFile:@"no file or dir at mountpoint, creating an empty dir..." atLineNumber:__LINE__];
-        if ([_mountpoint isEqualToString:@"/private/var/MobileSoftwareUpdate/mnt1"]) {
-            [self logToFile:@"MobileSoftwareUpdate mountpoint not present, proceeding with dirty tricks" atLineNumber:__LINE__];
-            [[NSFileManager defaultManager] copyItemAtPath:@"/private/var/MobileSoftwareUpdate/" toPath:@"/private/var/COPY/" error:&err];
-            [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/COPY/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&err];
-            [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/MobileSoftwareUpdate/" error:&err];
-            [[NSFileManager defaultManager] moveItemAtPath:@"/private/var/COPY/" toPath:@"/private/var/MobileSoftwareUpdate/" error:&err];
-            if (!err) {
-                [self logToFile:@"dirty tricks succeeded, returning TRUE for isMountPointPresent" atLineNumber:__LINE__];
-                return TRUE;
-            } else {
-                [self errorAlert:[NSString stringWithFormat:@"Dirty trick failed with error: %@", [err localizedDescription]]];
-                return FALSE;
-            }
+        [self logToFile:@"MobileSoftwareUpdate mountpoint not present, proceeding with dirty tricks" atLineNumber:__LINE__];
+        [[NSFileManager defaultManager] copyItemAtPath:@"/private/var/MobileSoftwareUpdate/" toPath:@"/private/var/COPY/" error:&err];
+        [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/COPY/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&err];
+        [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/MobileSoftwareUpdate/" error:&err];
+        [[NSFileManager defaultManager] moveItemAtPath:@"/private/var/COPY/" toPath:@"/private/var/MobileSoftwareUpdate/" error:&err];
+        if (!err) {
+            [self logToFile:@"dirty tricks succeeded, returning TRUE for isMountPointPresent" atLineNumber:__LINE__];
+            return TRUE;
         } else {
-            [[NSFileManager defaultManager] createDirectoryAtPath:_mountpoint withIntermediateDirectories:TRUE attributes:nil error:&err];
-            [self logToFile:@"dir created, verifying..." atLineNumber:__LINE__];
-            if (!err) {
-                [self logToFile:@"mountpoint verified, returning TRUE for isMountPointPresent" atLineNumber:__LINE__];
-                return TRUE;
-            } else {
-                [self errorAlert:[err localizedDescription]];
-                return FALSE;
-            }
+            [self errorAlert:[NSString stringWithFormat:@"Dirty trick failed with error: %@", [err localizedDescription]]];
+            return FALSE;
         }
     }
 }
 -(void)successionRestore{
     [self logToFile:@"successionRestore called!" atLineNumber:__LINE__];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[_mountpoint stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1"] stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
         [self logToFile:@"verified filesystem is mounted" atLineNumber:__LINE__];
         NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH",
                                             @"--delete-after",
@@ -409,7 +392,6 @@
                                             @"--exclude=/usr/standalone/firmware/sep-firmware.img4",
                                             @"--exclude=/usr/local/standalone/firmware/Baseband",
                                             @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/",
-                                            [NSString stringWithFormat:@"--exclude=%@", _mountpoint],
                                             @"--exclude=/private/etc/fstab",
                                             @"--exclude=/etc/fstab",
                                             @"--exclude=/usr/standalone/firmware/FUD/",
@@ -424,7 +406,7 @@
                                             @"--exclude=/devicetree",
                                             @"--exclude=/kernelcache",
                                             @"--exclude=/ramdisk",
-                                            [_mountpoint stringByAppendingPathComponent:@"."],
+                                            @"/private/var/MobileSoftwareUpdate/mnt1/.",
                                             @"/", nil];
         if (![_filesystemType isEqualToString:@"apfs"]) {
             [self logToFile:@"non-APFS detected, excluding dyld-shared-cache to prevent running out of storage" atLineNumber:__LINE__];
