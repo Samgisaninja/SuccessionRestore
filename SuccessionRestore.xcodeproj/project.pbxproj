@@ -52,26 +52,7 @@
 		8DC82B2A226CD8EB00D21893 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC82B29226CD8EB00D21893 /* RestoreViewController.m */; };
 		8DE5B2A822611C0F00502C8F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */; };
 		8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
-		8DFBE80222442FEE00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
-		8DFBE80322442FEE00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		8D5BA28E1F7C792F00A169BF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8D5BA26D1F7C792E00A169BF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D5BA2741F7C792E00A169BF;
-			remoteInfo = SuccessionRestore;
-		};
-		8D5BA2991F7C792F00A169BF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8D5BA26D1F7C792E00A169BF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D5BA2741F7C792E00A169BF;
-			remoteInfo = SuccessionRestore;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		8D15CACB2320967400C118FD /* CopyFiles */ = {
@@ -164,8 +145,6 @@
 		8D5BA2841F7C792E00A169BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D5BA2861F7C792E00A169BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D5BA2871F7C792E00A169BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		8D5BA28D1F7C792F00A169BF /* SuccessionRestoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuccessionRestoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D73E988232635580016335E /* SuccessionHelper */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = SuccessionHelper; sourceTree = "<group>"; };
 		8D73E98A232636B70016335E /* compile64.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile64.xcconfig; sourceTree = "<group>"; };
 		8D7ABB0D2319DDCD0098C52B /* DecryptViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DecryptViewController.h; sourceTree = "<group>"; };
@@ -194,22 +173,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D5BA28A1F7C792F00A169BF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8DFBE80222442FEE00A96C2C /* SpringBoardServices.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D5BA2951F7C792F00A169BF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8DFBE80322442FEE00A96C2C /* SpringBoardServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,8 +302,6 @@
 			isa = PBXGroup;
 			children = (
 				8D5BA2751F7C792E00A169BF /* SuccessionRestore.app */,
-				8D5BA28D1F7C792F00A169BF /* SuccessionRestoreTests.xctest */,
-				8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -399,42 +360,6 @@
 			productReference = 8D5BA2751F7C792E00A169BF /* SuccessionRestore.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8D5BA28C1F7C792F00A169BF /* SuccessionRestoreTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8D5BA2A41F7C792F00A169BF /* Build configuration list for PBXNativeTarget "SuccessionRestoreTests" */;
-			buildPhases = (
-				8D5BA2891F7C792F00A169BF /* Sources */,
-				8D5BA28A1F7C792F00A169BF /* Frameworks */,
-				8D5BA28B1F7C792F00A169BF /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8D5BA28F1F7C792F00A169BF /* PBXTargetDependency */,
-			);
-			name = SuccessionRestoreTests;
-			productName = SuccessionRestoreTests;
-			productReference = 8D5BA28D1F7C792F00A169BF /* SuccessionRestoreTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		8D5BA2971F7C792F00A169BF /* SuccessionRestoreUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8D5BA2A71F7C792F00A169BF /* Build configuration list for PBXNativeTarget "SuccessionRestoreUITests" */;
-			buildPhases = (
-				8D5BA2941F7C792F00A169BF /* Sources */,
-				8D5BA2951F7C792F00A169BF /* Frameworks */,
-				8D5BA2961F7C792F00A169BF /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8D5BA29A1F7C792F00A169BF /* PBXTargetDependency */,
-			);
-			name = SuccessionRestoreUITests;
-			productName = SuccessionRestoreUITests;
-			productReference = 8D5BA2981F7C792F00A169BF /* SuccessionRestoreUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -453,16 +378,6 @@
 							};
 						};
 					};
-					8D5BA28C1F7C792F00A169BF = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 8D5BA2741F7C792E00A169BF;
-					};
-					8D5BA2971F7C792F00A169BF = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 8D5BA2741F7C792E00A169BF;
-					};
 				};
 			};
 			buildConfigurationList = 8D5BA2701F7C792E00A169BF /* Build configuration list for PBXProject "SuccessionRestore" */;
@@ -479,8 +394,6 @@
 			projectRoot = "";
 			targets = (
 				8D5BA2741F7C792E00A169BF /* SuccessionRestore */,
-				8D5BA28C1F7C792F00A169BF /* SuccessionRestoreTests */,
-				8D5BA2971F7C792F00A169BF /* SuccessionRestoreUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -499,20 +412,6 @@
 				8D40BF0F231261F300240454 /* hdik-arm64e in Resources */,
 				8D73E989232635580016335E /* SuccessionHelper in Resources */,
 				8D24F5062325C67D00215579 /* (null) in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D5BA28B1F7C792F00A169BF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D5BA2961F7C792F00A169BF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,34 +460,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8D5BA2891F7C792F00A169BF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D5BA2941F7C792F00A169BF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		8D5BA28F1F7C792F00A169BF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8D5BA2741F7C792E00A169BF /* SuccessionRestore */;
-			targetProxy = 8D5BA28E1F7C792F00A169BF /* PBXContainerItemProxy */;
-		};
-		8D5BA29A1F7C792F00A169BF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8D5BA2741F7C792E00A169BF /* SuccessionRestore */;
-			targetProxy = 8D5BA2991F7C792F00A169BF /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8D5BA27E1F7C792E00A169BF /* Main.storyboard */ = {
@@ -773,80 +645,6 @@
 			};
 			name = Release;
 		};
-		8D5BA2A51F7C792F00A169BF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 62PB6NV7YN;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/SuccessionRestore",
-				);
-				INFOPLIST_FILE = SuccessionRestoreTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestoreTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SuccessionRestore.app/SuccessionRestore";
-			};
-			name = Debug;
-		};
-		8D5BA2A61F7C792F00A169BF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 62PB6NV7YN;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/SuccessionRestore",
-				);
-				INFOPLIST_FILE = SuccessionRestoreTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestoreTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SuccessionRestore.app/SuccessionRestore";
-			};
-			name = Release;
-		};
-		8D5BA2A81F7C792F00A169BF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 62PB6NV7YN;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/SuccessionRestore",
-				);
-				INFOPLIST_FILE = SuccessionRestoreUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestoreUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SuccessionRestore;
-			};
-			name = Debug;
-		};
-		8D5BA2A91F7C792F00A169BF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 62PB6NV7YN;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/SuccessionRestore",
-				);
-				INFOPLIST_FILE = SuccessionRestoreUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestoreUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SuccessionRestore;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -864,24 +662,6 @@
 			buildConfigurations = (
 				8D5BA2A21F7C792F00A169BF /* Debug */,
 				8D5BA2A31F7C792F00A169BF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8D5BA2A41F7C792F00A169BF /* Build configuration list for PBXNativeTarget "SuccessionRestoreTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8D5BA2A51F7C792F00A169BF /* Debug */,
-				8D5BA2A61F7C792F00A169BF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8D5BA2A71F7C792F00A169BF /* Build configuration list for PBXNativeTarget "SuccessionRestoreUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8D5BA2A81F7C792F00A169BF /* Debug */,
-				8D5BA2A91F7C792F00A169BF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
