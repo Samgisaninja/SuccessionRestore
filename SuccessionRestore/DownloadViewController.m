@@ -44,34 +44,39 @@
         UIAlertController *ipswDetected = [UIAlertController alertControllerWithTitle:@"IPSW file detected!" message:[NSString stringWithFormat:@"You can either use the IPSW file you provided at %@ or you can download a clean one.", [_successionPrefs objectForKey:@"custom_ipsw_path"]] preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *useProvidedIPSW = [UIAlertAction actionWithTitle:@"Use provided IPSW" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             // If the user taps 'Use provided IPSW, this code is run. I do not understand why 'weakself' is necessary, I believe uroboro suggested I use it because of some memory issue(?) Anyways...
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[self unzipActivityIndicator] setHidden:FALSE];
-                self.activityLabel.text = @"Unzipping...";
-                [self->_startDownloadButton setEnabled:FALSE];
-                [self->_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
-                [self->_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-            });
-            if (kCFCoreFoundationVersionNumber < 1300) {
-                self->_needsDecryption = TRUE;
-                if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/dmg"]) {
-                    // Before we continue, let's make sure there's a key available for the device we're looking for.
-                     NSString *rootfsKey = [self getRFSKey];
-                    if (![rootfsKey isEqualToString:@"Failed."]){
-                    [self postDownload];
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+            
+            dispatch_async(queue, ^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self unzipActivityIndicator] setHidden:FALSE];
+                    self.activityLabel.text = @"Unzipping...";
+                    [self->_startDownloadButton setEnabled:FALSE];
+                    [self->_startDownloadButton setTitle:@"Working, please do not leave the app..." forState:UIControlStateNormal];
+                    [self->_startDownloadButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+                });
+                if (kCFCoreFoundationVersionNumber < 1300) {
+                    self->_needsDecryption = TRUE;
+                    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/dmg"]) {
+                        // Before we continue, let's make sure there's a key available for the device we're looking for.
+                        NSString *rootfsKey = [self getRFSKey];
+                        if (![rootfsKey isEqualToString:@"Failed."]){
+                            [self postDownload];
+                        }
+                    } else {
+                        UIAlertController *needsXPwn = [UIAlertController alertControllerWithTitle:@"Succession requires additional components to be installed" message:@"Please install xpwn from the saurik/Telesphoreo repo." preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                            exit(0);
+                        }];
+                        [needsXPwn addAction:exitAction];
+                        [self presentViewController:needsXPwn animated:TRUE completion:nil];
                     }
                 } else {
-                    UIAlertController *needsXPwn = [UIAlertController alertControllerWithTitle:@"Succession requires additional components to be installed" message:@"Please install xpwn from the saurik/Telesphoreo repo." preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                        exit(0);
-                    }];
-                    [needsXPwn addAction:exitAction];
-                    [self presentViewController:needsXPwn animated:TRUE completion:nil];
+                    self->_needsDecryption = FALSE;
+                    [self postDownload];
                 }
-            } else {
-                self->_needsDecryption = FALSE;
-                [self postDownload];
-            }
+            });
         }];
+        
         UIAlertAction *downloadNewIPSW = [UIAlertAction actionWithTitle:@"Download a clean IPSW" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             // Sets up UI for downloading and executes the code under -(void)startDownload. The "self->" is there to shut up an Xcode warning, if Xcode warns you about this in your project, you should probably add it.
             [self->_startDownloadButton setEnabled:FALSE];
@@ -239,41 +244,41 @@
     // Let's fetch the rootfilesystem decryption key from theiphonewiki. TheiPhoneWiki's URLs are annoyingly machine unfriendly, formatted as https://www.theiphonewiki.com/wiki/<iOS_Codename>_<Buildnumber>_(<Machine ID>)
     // The hard part here is the version codename. Muirey03 suggested to me that it might be possible to obtain the codename from MobileGestalt, but every time I tried to call it, Succession would crash. So, hardcoding! Hooray for lack of future-proofing! (or in this case, past-proofing? idk.)
     NSDictionary *codenameForVersion = @{
-                                         @"7.0" : @"Innsbruck",
-                                         @"7.0.1" : @"Innsbruck",
-                                         @"7.0.2" : @"Innsbruck",
-                                         @"7.0.3" : @"InnsbruckTaos",
-                                         @"7.0.4" : @"InnsbruckTaos",
-                                         @"7.0.5" : @"InnsbruckTaos",
-                                         @"7.0.6" : @"InnsbruckTaos",
-                                         @"7.1" : @"Sochi",
-                                         @"7.1.1" : @"SUSochi",
-                                         @"7.1.2" : @"Sochi",
-                                         @"8.0" : @"Okemo",
-                                         @"8.0.1" : @"Okemo",
-                                         @"8.0.2" : @"Okemo",
-                                         @"8.1" : @"OkemoTaos",
-                                         @"8.1.1" : @"SUOkemoTaos",
-                                         @"8.1.2" : @"SUOkemoTaos",
-                                         @"8.1.3" : @"SUOkemoTaosTwo",
-                                         @"8.2" : @"OkemoZurs",
-                                         @"8.3" : @"Stowe",
-                                         @"8.4" : @"Copper",
-                                         @"8.4.1" : @"Donner",
-                                         @"9.0" : @"Monarch",
-                                         @"9.0.1" : @"Monarch",
-                                         @"9.0.2" : @"Monarch",
-                                         @"9.1" : @"Boulder",
-                                         @"9.2" : @"Castlerock",
-                                         @"9.2.1" : @"Dillon",
-                                         @"9.3" : @"Eagle",
-                                         @"9.3.1" : @"Eagle",
-                                         @"9.3.2" : @"Frisco",
-                                         @"9.3.3" : @"Genoa",
-                                         @"9.3.4" : @"Genoa",
-                                         @"9.3.5" : @"Genoa",
-                                         @"9.3.6" : @"Genoa"
-                                         };
+        @"7.0" : @"Innsbruck",
+        @"7.0.1" : @"Innsbruck",
+        @"7.0.2" : @"Innsbruck",
+        @"7.0.3" : @"InnsbruckTaos",
+        @"7.0.4" : @"InnsbruckTaos",
+        @"7.0.5" : @"InnsbruckTaos",
+        @"7.0.6" : @"InnsbruckTaos",
+        @"7.1" : @"Sochi",
+        @"7.1.1" : @"SUSochi",
+        @"7.1.2" : @"Sochi",
+        @"8.0" : @"Okemo",
+        @"8.0.1" : @"Okemo",
+        @"8.0.2" : @"Okemo",
+        @"8.1" : @"OkemoTaos",
+        @"8.1.1" : @"SUOkemoTaos",
+        @"8.1.2" : @"SUOkemoTaos",
+        @"8.1.3" : @"SUOkemoTaosTwo",
+        @"8.2" : @"OkemoZurs",
+        @"8.3" : @"Stowe",
+        @"8.4" : @"Copper",
+        @"8.4.1" : @"Donner",
+        @"9.0" : @"Monarch",
+        @"9.0.1" : @"Monarch",
+        @"9.0.2" : @"Monarch",
+        @"9.1" : @"Boulder",
+        @"9.2" : @"Castlerock",
+        @"9.2.1" : @"Dillon",
+        @"9.3" : @"Eagle",
+        @"9.3.1" : @"Eagle",
+        @"9.3.2" : @"Frisco",
+        @"9.3.3" : @"Genoa",
+        @"9.3.4" : @"Genoa",
+        @"9.3.5" : @"Genoa",
+        @"9.3.6" : @"Genoa"
+    };
     // Hopefully that's accurate, if it isnt... welp.
     // SO! back to what we were doing, let's figure out what codename goes with this iOS version.
     // First let's check to make sure there isn't some edge case where I don't have the codename for the user's iOS version, getting the value for a nonexistent key results in a crash.
