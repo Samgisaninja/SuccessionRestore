@@ -618,6 +618,7 @@
                 [tooMuchAPFSAlert addAction:dismissAction];
                 [self presentViewController:tooMuchAPFSAlert animated:TRUE completion:nil];
             } else {
+                [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mobile/Media/Succession/rfs.dmg" error:nil];
                 [rsyncTask launch];
             }
         } else {
