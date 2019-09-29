@@ -50,6 +50,7 @@
 		8D980C972303D125009717B4 /* hdik-armv7 in Resources */ = {isa = PBXBuildFile; fileRef = 8D980C962303D125009717B4 /* hdik-armv7 */; };
 		8D980C992303D26C009717B4 /* hdik-arm64 in Resources */ = {isa = PBXBuildFile; fileRef = 8D980C982303D26C009717B4 /* hdik-arm64 */; };
 		8DC82B2A226CD8EB00D21893 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC82B29226CD8EB00D21893 /* RestoreViewController.m */; };
+		8DCED5FB234134F800B8DD4F /* binaryinfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DCED5FA234134F800B8DD4F /* binaryinfo.txt */; };
 		8DE5B2A822611C0F00502C8F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */; };
 		8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
 /* End PBXBuildFile section */
@@ -160,6 +161,7 @@
 		8DC82B28226CD8CA00D21893 /* compile */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = compile; sourceTree = "<group>"; };
 		8DC82B29226CD8EB00D21893 /* RestoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestoreViewController.m; sourceTree = "<group>"; usesTabs = 0; };
 		8DC82B2C226CDC3400D21893 /* compile32.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile32.xcconfig; sourceTree = "<group>"; };
+		8DCED5FA234134F800B8DD4F /* binaryinfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = binaryinfo.txt; sourceTree = "<group>"; };
 		8DE34FB920E9353B00A37037 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestoreViewController.h; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h; sourceTree = "<absolute>"; };
 		8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */,
 				8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */,
 				8D47CC7222C86B7800BCFAED /* objective-zip */,
+				8DCED5FA234134F800B8DD4F /* binaryinfo.txt */,
 			);
 			path = SuccessionRestore;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				8D980C972303D125009717B4 /* hdik-armv7 in Resources */,
 				8D47CCB622C86B7800BCFAED /* LICENSE.md in Resources */,
 				8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */,
+				8DCED5FB234134F800B8DD4F /* binaryinfo.txt in Resources */,
 				8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */,
 				8D980C992303D26C009717B4 /* hdik-arm64 in Resources */,
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,
@@ -612,7 +616,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
-				MARKETING_VERSION = "1.4~b33";
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -638,7 +642,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
-				MARKETING_VERSION = "1.4~b33";
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

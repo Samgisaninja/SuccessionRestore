@@ -17,6 +17,7 @@ then
         rm /Applications/SuccessionRestore.app/hdik-armv7
         rm /Applications/SuccessionRestore.app/hdik-arm64
         mv /Applications/SuccessionRestore.app/hdik-arm64e /Applications/SuccessionRestore.app/hdik
+        rm /Applications/SuccessionRestore.app/binaryinfo.txt
     elif [ $(uname -p) = "arm64" ]
     then
         echo "Succession has detected arm64!"
@@ -25,6 +26,7 @@ then
         rm /Applications/SuccessionRestore.app/hdik-armv7
         rm /Applications/SuccessionRestore.app/hdik-arm64e
         mv /Applications/SuccessionRestore.app/hdik-arm64 /Applications/SuccessionRestore.app/hdik
+        rm /Applications/SuccessionRestore.app/binaryinfo.txt
     else
         echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
         echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
@@ -44,6 +46,7 @@ then
         rm /Applications/SuccessionRestore.app/hdik-arm64
         rm /Applications/SuccessionRestore.app/hdik-arm64e
         mv /Applications/SuccessionRestore.app/hdik-armv7 /Applications/SuccessionRestore.app/hdik
+        rm /Applications/SuccessionRestore.app/binaryinfo.txt
     elif [ $(uname -p) = "arm64" ]
     then
         echo "Succession has detected 64-bit!"
@@ -52,6 +55,7 @@ then
         rm /Applications/SuccessionRestore.app/hdik-armv7
         rm /Applications/SuccessionRestore.app/hdik-arm64e
         mv /Applications/SuccessionRestore.app/hdik-arm64 /Applications/SuccessionRestore.app/hdik
+        rm /Applications/SuccessionRestore.app/binaryinfo.txt
     else
         echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
         echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
@@ -71,6 +75,7 @@ then
         rm /Applications/SuccessionRestore.app/hdik-arm64
         rm /Applications/SuccessionRestore.app/hdik-arm64e
         mv /Applications/SuccessionRestore.app/hdik-armv7 /Applications/SuccessionRestore.app/hdik
+        rm /Applications/SuccessionRestore.app/binaryinfo.txt
     elif [ $(uname -p) = "arm64" ]
     then
         echo "Succession has detected 64-bit!"
@@ -79,6 +84,7 @@ then
         rm /Applications/SuccessionRestore.app/hdik-armv7
         rm /Applications/SuccessionRestore.app/hdik-arm64e
         mv /Applications/SuccessionRestore.app/hdik-arm64 /Applications/SuccessionRestore.app/hdik
+        rm /Applications/SuccessionRestore.app/binaryinfo.txt
     else
         echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
         echo "ERROR! Unable to determine system information. Please follow the directions in /Applications/SuccessionRestore.app/binaryinfo.txt"
