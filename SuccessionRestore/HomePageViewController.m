@@ -51,6 +51,17 @@
     if (kCFCoreFoundationVersionNumber < 1300) {
         [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"] error:nil];
     }
+    // Don't run on the 6s on 9.X due to activation issue
+    if ([_deviceModel isEqualToString:@"iPhone8,1"] || [_deviceModel isEqualToString:@"iPhone8,2"]) {
+        if ([_deviceVersion hasPrefix:@"9."]) {
+            UIAlertController *activationError = [UIAlertController alertControllerWithTitle:@"Succession is disabled" message:@"Apple does not allow the iPhone 6s or 6s Plus to activate on iOS 9.X. Running succession would force you to restore to the latest version of iOS, and is therefore disabled. Sorry about that :/" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                exit(0);
+            }];
+            [activationError addAction:exitAction];
+            [self presentViewController:activationError animated:TRUE completion:nil];
+        }
+    }
     // Checks if the app has ever been run before
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"]) {
         // Present an alert asking the user to consider donating.

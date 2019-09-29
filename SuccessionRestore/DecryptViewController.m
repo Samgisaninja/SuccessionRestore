@@ -63,7 +63,7 @@
     [self logToFile:@"launchpath set" atLineNumber:__LINE__];
     decryptDMGTask.terminationHandler = ^{
         // Let the user know that download is now complete
-        UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Download Complete" message:@"The rootfilesystem was successfully extracted and decrypted to /var/mobile/Media/Succession/rfs.dmg" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *downloadComplete = [UIAlertController alertControllerWithTitle:@"Decrypt Complete" message:@"The rootfilesystem was successfully decrypted" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *backToHomePage = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [[self navigationController] popToRootViewControllerAnimated:TRUE];
         }];
