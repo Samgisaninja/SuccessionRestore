@@ -14,9 +14,7 @@ Succession supports version/device combinations that have rootfilesystem DMGs th
 
 - Succession supports ALL devices on iOS 10.0 and newer (firmware files are not encrypted)
 
-- Succession 1.4 supports *most* devices on 8.0-9.3.5 (decryption keys provided by theiphonewiki), but here's a list anyway:
-
-### Note: Succession 1.4 is still in beta testing and will be released shortly
+- Succession 1.4+ supports *most* devices on 8.0-9.3.5 (decryption keys provided by theiphonewiki), but here's a list anyway:
 
 iPhone 4s:
 - All versions, 8.0-9.3.5 (9.3.6 not supported at this time)
