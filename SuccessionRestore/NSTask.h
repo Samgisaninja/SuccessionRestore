@@ -100,6 +100,7 @@
 + (void)topWithTimeout:(double)arg1 queue:(id)arg2 errorBlock:(id /* block */)arg3 completeBlock:(id /* block */)arg4;
 + (void)tracerouteWithAddress:(id)arg1 maxTTL:(long long)arg2 waittime:(long long)arg3 queries:(long long)arg4 interfaceName:(id)arg5 timeout:(double)arg6 queue:(id)arg7 errorBlock:(id /* block */)arg8 completeBlock:(id /* block */)arg9;
 + (void)untarWithSource:(id)arg1 destination:(id)arg2 timeout:(double)arg3 queue:(id)arg4 errorBlock:(id /* block */)arg5 completeBlock:(id /* block */)arg6;
+- (void)waitUntilExit;
 + (void)wlCurpowerWithTimeout:(double)arg1 queue:(id)arg2 errorBlock:(id /* block */)arg3 completeBlock:(id /* block */)arg4;
 
 @end
