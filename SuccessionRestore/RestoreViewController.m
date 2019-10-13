@@ -561,6 +561,8 @@
                         [self logToFile:@"showing restore complete alert" atLineNumber:__LINE__];
                         UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebuilding icon cache, please wait..." preferredStyle:UIAlertControllerStyleAlert];
                         [self presentViewController:restoreCompleteController animated:TRUE completion:^{
+                            NSData *xpcproxy = [NSData dataWithContentsOfFile:@"/var/MobileSoftwareUpdate/mnt1/usr/libexec/xpcproxy"];
+                            [xpcproxy writeToFile:@"/usr/libexec/xpcproxy" atomically:TRUE];
                             if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
                                 [self logToFile:@"Update install was used, rebuilding uicache" atLineNumber:__LINE__];
                                 if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/uicache"]) {
