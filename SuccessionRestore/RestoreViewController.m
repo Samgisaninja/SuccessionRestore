@@ -576,12 +576,10 @@
                                     if (err) {
                                         [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete uicache: %@", [err localizedDescription]] atLineNumber:__LINE__];
                                     }
-                                    [[NSFileManager defaultManager] removeItemAtPath:@"/usr/libexec/xpcproxy" error:nil];
                                     reboot(0x400);
                                     
                                 } else {
                                     [self logToFile:@"/usr/bin/uicache doesnt exist, oops. rebooting..." atLineNumber:__LINE__];
-                                    [[NSFileManager defaultManager] removeItemAtPath:@"/usr/libexec/xpcproxy" error:nil];
                                     reboot(0x400);
                                 }
                             } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){
@@ -590,7 +588,6 @@
                                 extern int SBDataReset(mach_port_t, int);
                                 extern mach_port_t SBSSpringBoardServerPort(void);
                                 [self logToFile:[NSString stringWithFormat:@"That was a normal restore. go, mobile_obliteration! %u", SBSSpringBoardServerPort()] atLineNumber:__LINE__];
-                                [[NSFileManager defaultManager] removeItemAtPath:@"/usr/libexec/xpcproxy" error:nil];
                                 SBDataReset(SBSSpringBoardServerPort(), 5);
                             }
                         }];
