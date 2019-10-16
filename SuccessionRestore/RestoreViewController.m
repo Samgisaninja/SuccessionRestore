@@ -577,13 +577,9 @@
                                         [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete uicache: %@", [err localizedDescription]] atLineNumber:__LINE__];
                                     }
                                     reboot(0x400);
-                                    NSData *xpcproxy = [NSData dataWithContentsOfFile:@"/var/MobileSoftwareUpdate/mnt1/usr/libexec/xpcproxy"];
-                                    [xpcproxy writeToFile:@"/usr/libexec/xpcproxy" atomically:TRUE];
                                 } else {
                                     [self logToFile:@"/usr/bin/uicache doesnt exist, oops. rebooting..." atLineNumber:__LINE__];
                                     reboot(0x400);
-                                    NSData *xpcproxy = [NSData dataWithContentsOfFile:@"/var/MobileSoftwareUpdate/mnt1/usr/libexec/xpcproxy"];
-                                    [xpcproxy writeToFile:@"/usr/libexec/xpcproxy" atomically:TRUE];
                                 }
                             } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){
                                 [self logToFile:@"That was a test mode restore, but somehow the first check for this didnt get detected... anways, the app will just hang now..." atLineNumber:__LINE__];
@@ -592,8 +588,6 @@
                                 extern mach_port_t SBSSpringBoardServerPort(void);
                                 [self logToFile:[NSString stringWithFormat:@"That was a normal restore. go, mobile_obliteration! %u", SBSSpringBoardServerPort()] atLineNumber:__LINE__];
                                 SBDataReset(SBSSpringBoardServerPort(), 5);
-                                NSData *xpcproxy = [NSData dataWithContentsOfFile:@"/var/MobileSoftwareUpdate/mnt1/usr/libexec/xpcproxy"];
-                                [xpcproxy writeToFile:@"/usr/libexec/xpcproxy" atomically:TRUE];
                             }
                         }];
                     }
