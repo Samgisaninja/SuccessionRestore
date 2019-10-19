@@ -514,42 +514,27 @@
             [[self infoLabel] setText:@"Restoring, please wait..."];
             [[self headerLabel] setText:@"Progress bar may freeze for long periods of time, it's still working, leave it alone until your device reboots."];
             [[self headerLabel] setHidden:FALSE];
+            NSArray *stringWords = [stringRead componentsSeparatedByString:@" "];
+            for (NSString *word in stringWords) {
+                if ([word hasPrefix:@"Applications/"] || [word hasPrefix:@"bin/"] || [word containsString:@"dev/"] || [word hasPrefix:@"Library/"] || [word containsString:@"private/"]|| [word containsString:@"sbin/"] || [word hasPrefix:@"System/"] || [word hasPrefix:@"usr/"]) {
+                    [[self fileListActivityIndicator] setHidden:TRUE];
+                    [[self restoreProgressBar] setHidden:FALSE];
+                    [[self outputLabel] setHidden:FALSE];
+                    [[self outputLabel] setText:[NSString stringWithFormat:@"Restoring %@", word]];
+                }
+            }
             [[self outputLabel] setText:stringRead];
             if ([stringRead hasPrefix:@"Applications/"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Applications...", stringRead]];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    [[self restoreProgressBar] setHidden:FALSE];
-                    [[self restoreProgressBar] setProgress:0];
-                });
+                [[self restoreProgressBar] setProgress:0];
             }
             if ([stringRead hasPrefix:@"Library/"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding Library...", stringRead]];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    [[self restoreProgressBar] setHidden:FALSE];
-                    [[self restoreProgressBar] setProgress:0.33];
-                });
+                [[self restoreProgressBar] setProgress:0.33];
             }
             if ([stringRead hasPrefix:@"System/"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding System...", stringRead]];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    [[self restoreProgressBar] setHidden:FALSE];
-                    [[self restoreProgressBar] setProgress:0.67];
-                });
+                [[self restoreProgressBar] setProgress:0.67];
             }
             if ([stringRead hasPrefix:@"usr/"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"%@\nRebuilding usr...", stringRead]];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    [[self restoreProgressBar] setHidden:FALSE];
-                    [[self restoreProgressBar] setProgress:0.9];
-                });
+                [[self restoreProgressBar] setProgress:0.9];
             }
             if ([stringRead containsString:@"speedup is"] && [stringRead containsString:@"bytes"] && [stringRead containsString:@"sent"] && [stringRead containsString:@"received"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
