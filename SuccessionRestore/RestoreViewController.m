@@ -513,7 +513,8 @@
             [self logToFile:stringRead atLineNumber:__LINE__];
             [[self infoLabel] setText:@"Restoring, please wait..."];
             [[self headerLabel] setText:@"Progress bar may freeze for long periods of time, it's still working, leave it alone until your device reboots."];
-            [[self headerLabel] setHighlighted:FALSE];
+            [[self headerLabel] setHidden:FALSE];
+            [[self outputLabel] setText:stringRead];
             if ([stringRead hasPrefix:@"Applications/"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[self outputLabel] setHidden:FALSE];
