@@ -523,7 +523,6 @@
                     [[self outputLabel] setText:[NSString stringWithFormat:@"Restoring %@", word]];
                 }
             }
-            [[self outputLabel] setText:stringRead];
             if ([stringRead hasPrefix:@"Applications/"]) {
                 [[self restoreProgressBar] setProgress:0];
             }
