@@ -41,7 +41,7 @@
     } else {
         [[self startRestoreButton] setTitle:@"Erase iPhone" forState:UIControlStateNormal];
     }
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1"] stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
         [[self fileListActivityIndicator] setHidden:TRUE];
     } else {
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -520,7 +520,11 @@
                     [[self fileListActivityIndicator] setHidden:TRUE];
                     [[self restoreProgressBar] setHidden:FALSE];
                     [[self outputLabel] setHidden:FALSE];
-                    [[self outputLabel] setText:[NSString stringWithFormat:@"Restoring %@", word]];
+                    if ([stringRead containsString:@"deleting"]) {
+                        [[self outputLabel] setText:[NSString stringWithFormat:@"Deleting %@", word]];
+                    } else {
+                       [[self outputLabel] setText:[NSString stringWithFormat:@"Restoring %@", word]];
+                    }
                 }
             }
             if ([stringRead hasPrefix:@"Applications/"]) {
