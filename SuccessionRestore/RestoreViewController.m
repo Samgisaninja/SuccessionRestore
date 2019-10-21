@@ -378,11 +378,17 @@
         if ([stringRead containsString:@"error"]) {
             [self errorAlert:[NSString stringWithFormat:@"Failed to mount DMG:\n%@", stringRead]];
         } else {
-            [self logToFile:@"mounting complete!" atLineNumber:__LINE__];
-            [[self headerLabel] setText:@"WARNING!!!"];
-            [[self infoLabel] setHidden:FALSE];
-            [[self fileListActivityIndicator] setHidden:TRUE];
-            [[self startRestoreButton] setHidden:FALSE];
+            do {
+                if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launcd"]) {
+                    [self logToFile:@"mounting complete!" atLineNumber:__LINE__];
+                    [[self headerLabel] setText:@"WARNING!!!"];
+                    [[self infoLabel] setHidden:FALSE];
+                    [[self fileListActivityIndicator] setHidden:TRUE];
+                    [[self startRestoreButton] setHidden:FALSE];
+                    break;
+                }
+            } while (TRUE);
+            
         }
     }
 }
@@ -514,6 +520,10 @@
             [[self infoLabel] setText:@"Restoring, please wait..."];
             [[self headerLabel] setText:@"Progress bar may freeze for long periods of time, it's still working, leave it alone until your device reboots."];
             [[self headerLabel] setHidden:FALSE];
+            if ([stringRead containsString:@"cannot delete non-empty directory"]) {
+                [self errorAlert:@"Succession has failed due to an issue with rsync. I don't know what caused this, sorry. You can follow the discussion of this issue at https://github.com/SuccessionRestore/issues/44"];
+                [rsyncTask terminate];
+            }
             NSArray *stringWords = [stringRead componentsSeparatedByString:@" "];
             for (NSString *word in stringWords) {
                 if ([word hasPrefix:@"Applications/"] || [word hasPrefix:@"bin/"] || [word containsString:@"dev/"] || [word hasPrefix:@"Library/"] || [word containsString:@"private/"]|| [word containsString:@"sbin/"] || [word hasPrefix:@"System/"] || [word hasPrefix:@"usr/"]) {
