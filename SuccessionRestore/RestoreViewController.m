@@ -378,16 +378,15 @@
         if ([stringRead containsString:@"error"]) {
             [self errorAlert:[NSString stringWithFormat:@"Failed to mount DMG:\n%@", stringRead]];
         } else {
-            do {
-                if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launcd"]) {
-                    [self logToFile:@"mounting complete!" atLineNumber:__LINE__];
-                    [[self headerLabel] setText:@"WARNING!!!"];
-                    [[self infoLabel] setHidden:FALSE];
-                    [[self fileListActivityIndicator] setHidden:TRUE];
-                    [[self startRestoreButton] setHidden:FALSE];
-                    break;
-                }
-            } while (TRUE);
+            [self logToFile:@"Verifying successful mount" atLineNumber:__LINE__];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+                [self logToFile:@"Mounted successfully, updating UI" atLineNumber:__LINE__];
+                [self logToFile:@"mounting complete!" atLineNumber:__LINE__];
+                [[self headerLabel] setText:@"WARNING!!!"];
+                [[self infoLabel] setHidden:FALSE];
+                [[self fileListActivityIndicator] setHidden:TRUE];
+                [[self startRestoreButton] setHidden:FALSE];
+            }
             
         }
     }
@@ -520,7 +519,7 @@
             [[self infoLabel] setText:@"Restoring, please wait..."];
             [[self headerLabel] setText:@"Progress bar may freeze for long periods of time, it's still working, leave it alone until your device reboots."];
             [[self headerLabel] setHidden:FALSE];
-            if ([stringRead containsString:@"cannot delete non-empty directory"]) {
+            if ([stringRead containsString:@"cannot delete non-empty directory"] && [stringRead containsString:@"Applications/"]) {
                 [self errorAlert:@"Succession has failed due to an issue with rsync. I don't know what caused this, sorry. You can follow the discussion of this issue at https://github.com/SuccessionRestore/issues/44"];
                 [rsyncTask terminate];
             }
