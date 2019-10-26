@@ -530,7 +530,7 @@
                     [[self restoreProgressBar] setHidden:FALSE];
                     [[self outputLabel] setHidden:FALSE];
                     if ([stringRead containsString:@"deleting"]) {
-                        [[self outputLabel] setText:[NSString stringWithFormat:@"Deleting %@", word]];
+                        [[self outputLabel] setText:[NSString stringWithFormat:@"Deleting from %@", word]];
                     } else {
                        [[self outputLabel] setText:[NSString stringWithFormat:@"Restoring %@", word]];
                     }
