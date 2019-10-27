@@ -462,6 +462,9 @@
                                             @"--exclude=/kernelcache",
                                             @"--exclude=/ramdisk",
                                             @"--exclude=/usr/libexec/xpcproxy",
+                                            @"--exclude=/Library/Caches/xpcproxy",
+                                            @"--exclude=/tmp/xpcproxy",
+                                            @"--exclude=/var/tmp/xpcproxy",
                                             @"/private/var/MobileSoftwareUpdate/mnt1/.",
                                             @"/", nil];
         if (![_filesystemType isEqualToString:@"apfs"]) {
