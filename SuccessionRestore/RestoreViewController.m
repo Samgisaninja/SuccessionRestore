@@ -461,12 +461,14 @@
                                             @"--exclude=/devicetree",
                                             @"--exclude=/kernelcache",
                                             @"--exclude=/ramdisk",
-                                            @"--exclude=/usr/libexec/xpcproxy",
-                                            @"--exclude=/Library/Caches/xpcproxy",
-                                            @"--exclude=/tmp/xpcproxy",
-                                            @"--exclude=/var/tmp/xpcproxy",
                                             @"/private/var/MobileSoftwareUpdate/mnt1/.",
                                             @"/", nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/Caches/xpcproxy"] || [[NSFileManager defaultManager] fileExistsAtPath:@"/var/tmp/xpcproxy"]) {
+            [rsyncMutableArgs addObject:@"--exclude=/Library/Caches/"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/libexec/xpcproxy"];
+            [rsyncMutableArgs addObject:@"--exclude=/tmp/xpcproxy"];
+            [rsyncMutableArgs addObject:@"--exclude=/var/tmp/xpcproxy"];
+        }
         if (![_filesystemType isEqualToString:@"apfs"]) {
             [self logToFile:@"non-APFS detected, excluding dyld-shared-cache to prevent running out of storage" atLineNumber:__LINE__];
             [rsyncMutableArgs addObject:@"--exclude=/System/Library/Caches/com.apple.dyld/"];
