@@ -319,6 +319,7 @@
                 }
             } else {
                 self->_theDiskString = [outLines firstObject];
+                [self mountRestoreDisk];
             }
         } else {
             UIAlertController *needsAttach = [UIAlertController alertControllerWithTitle:@"Succession requires additional components to be installed" message:@"Please add http://pmbonneau.com/cydia to your sources and install 'attach' to continue." preferredStyle:UIAlertControllerStyleAlert];
