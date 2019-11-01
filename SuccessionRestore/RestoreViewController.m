@@ -262,40 +262,41 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"]]) {
         [self logToFile:@"Using hdik for attach" atLineNumber:__LINE__];
         [attachTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"]];
-        [attachTask launch];
-        [attachTask waitUntilExit];
-        NSData *outData = [outPipeRead readDataToEndOfFile];
-        NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
-        [self logToFile:[NSString stringWithFormat:@"hdik output is: %@", outString] atLineNumber:__LINE__];
-        if ([outString containsString:@"disk"]) {
-            NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
-            [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
-            if ([outLines count] > 1) {
-                for (NSString *line in outLines) {
-                    [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
-                    if ([line containsString:@"s2"]) {
-                        [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
-                        NSArray *lineWords = [line componentsSeparatedByString:@" "];
-                        for (NSString *word in lineWords) {
-                            if ([word hasPrefix:@"/dev/disk"]) {
-                                NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
-                                [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
-                                self->_theDiskString = [NSMutableString stringWithString:word];
-                                [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
-                                [self mountRestoreDisk];
+        attachTask.terminationHandler = ^{
+            NSData *outData = [outPipeRead readDataToEndOfFile];
+            NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
+            [self logToFile:[NSString stringWithFormat:@"hdik output is: %@", outString] atLineNumber:__LINE__];
+            if ([outString containsString:@"disk"]) {
+                NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+                [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
+                if ([outLines count] > 1) {
+                    for (NSString *line in outLines) {
+                        [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+                        if ([line containsString:@"s2"]) {
+                            [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
+                            NSArray *lineWords = [line componentsSeparatedByString:@" "];
+                            for (NSString *word in lineWords) {
+                                if ([word hasPrefix:@"/dev/disk"]) {
+                                    NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
+                                    [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
+                                    self->_theDiskString = [NSMutableString stringWithString:word];
+                                    [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
+                                    [self mountRestoreDisk];
+                                }
                             }
                         }
                     }
+                } else {
+                    self->_theDiskString = [outLines firstObject];
                 }
+                
             } else {
-                self->_theDiskString = [outLines firstObject];
+                // I guess just try again?
+                [self attachRestoreDisk];
             }
-            
-        } else {
-            // I guess just try again?
-            [self attachRestoreDisk];
-        }
-        
+        };
+        [attachTask launch];
+        [attachTask waitUntilExit];
     } else {
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/attach"]) {
             [self logToFile:@"Using comex attach for attach" atLineNumber:__LINE__];
