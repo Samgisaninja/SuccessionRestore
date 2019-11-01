@@ -118,6 +118,7 @@
             cell.textLabel.text = @"Use custom IPSW path";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
+            cell.accessoryView = nil;
             break;
         }
         case 9: {
