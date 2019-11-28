@@ -470,6 +470,32 @@
             [rsyncMutableArgs addObject:@"--exclude=/usr/libexec/xpcproxy"];
             [rsyncMutableArgs addObject:@"--exclude=/tmp/xpcproxy"];
             [rsyncMutableArgs addObject:@"--exclude=/var/tmp/xpcproxy"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/a*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/b*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/c*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/d*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/e*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/f*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/g*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/h*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/i*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/j*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/k*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/l*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/m*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/n*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/o*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/p*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/q*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/r*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/s*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/t*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/u*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/v*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/w*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/x*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/y*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/z*"];
         }
         if (![_filesystemType isEqualToString:@"apfs"]) {
             [self logToFile:@"non-APFS detected, excluding dyld-shared-cache to prevent running out of storage" atLineNumber:__LINE__];
