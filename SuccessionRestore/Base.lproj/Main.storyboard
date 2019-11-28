@@ -3,7 +3,7 @@
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -288,7 +288,7 @@
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="startRestoreButtonAction:" destination="0pb-7p-nji" eventType="touchUpInside" id="Qbm-o9-LJW"/>
+                                    <action selector="tappedRestoreButton:" destination="0pb-7p-nji" eventType="touchUpInside" id="mM2-qy-FJm"/>
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pUS-T0-gWD">
@@ -331,12 +331,12 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="fileListActivityIndicator" destination="pUS-T0-gWD" id="WHq-23-SYS"/>
-                        <outlet property="headerLabel" destination="ypX-hC-Cbb" id="uxw-ef-BNJ"/>
-                        <outlet property="infoLabel" destination="Vva-Lf-eva" id="gXK-Pm-deo"/>
-                        <outlet property="outputLabel" destination="4sw-LN-GhA" id="MZh-ek-WoA"/>
-                        <outlet property="restoreProgressBar" destination="jUQ-Nk-mJ8" id="W8Y-HL-Mu8"/>
-                        <outlet property="startRestoreButton" destination="2Cc-GK-dNy" id="7dF-ub-Rxg"/>
+                        <outlet property="eraseButton" destination="2Cc-GK-dNy" id="yaP-zt-Adz"/>
+                        <outlet property="outputLabel" destination="4sw-LN-GhA" id="Mvq-93-Dex"/>
+                        <outlet property="progressIndicator" destination="pUS-T0-gWD" id="hKx-eH-oXR"/>
+                        <outlet property="restoreProgressBar" destination="jUQ-Nk-mJ8" id="fAd-E8-DwS"/>
+                        <outlet property="subtitleLabel" destination="Vva-Lf-eva" id="bTa-Le-T5d"/>
+                        <outlet property="titleLabel" destination="ypX-hC-Cbb" id="0WY-vE-c1c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="49D-k6-08i" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -370,7 +370,7 @@
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sav-SP-fAw">
-                                <rect key="frame" x="107" y="124" width="106" height="30"/>
+                                <rect key="frame" x="107" y="130" width="106" height="30"/>
                                 <state key="normal" title="Start Download"/>
                                 <connections>
                                     <action selector="startDownloadButtonAction:" destination="iAG-Yy-aYr" eventType="touchUpInside" id="OhS-0v-xkR"/>
