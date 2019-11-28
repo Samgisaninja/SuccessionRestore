@@ -49,9 +49,10 @@
 		8D8F2FAA2264095D0044CF00 /* SpecialThanksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */; };
 		8D980C972303D125009717B4 /* hdik-armv7 in Resources */ = {isa = PBXBuildFile; fileRef = 8D980C962303D125009717B4 /* hdik-armv7 */; };
 		8D980C992303D26C009717B4 /* hdik-arm64 in Resources */ = {isa = PBXBuildFile; fileRef = 8D980C982303D26C009717B4 /* hdik-arm64 */; };
-		8DC82B2A226CD8EB00D21893 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC82B29226CD8EB00D21893 /* RestoreViewController.m */; };
+		8DC82B2A226CD8EB00D21893 /* RestoreViewController-old.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC82B29226CD8EB00D21893 /* RestoreViewController-old.m */; };
 		8DCED5FB234134F800B8DD4F /* binaryinfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DCED5FA234134F800B8DD4F /* binaryinfo.txt */; };
 		8DE5B2A822611C0F00502C8F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */; };
+		8DF38BF523904B9300C65695 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF38BF423904B9300C65695 /* RestoreViewController.m */; };
 		8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
 /* End PBXBuildFile section */
 
@@ -159,12 +160,14 @@
 		8DAC229E2277B9B000EA2A59 /* beta.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = beta.plist; sourceTree = "<group>"; };
 		8DC0111E226AC22200A31E33 /* Template */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Template; sourceTree = "<group>"; };
 		8DC82B28226CD8CA00D21893 /* compile */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = compile; sourceTree = "<group>"; };
-		8DC82B29226CD8EB00D21893 /* RestoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestoreViewController.m; sourceTree = "<group>"; usesTabs = 0; };
+		8DC82B29226CD8EB00D21893 /* RestoreViewController-old.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RestoreViewController-old.m"; sourceTree = "<group>"; usesTabs = 0; };
 		8DC82B2C226CDC3400D21893 /* compile32.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile32.xcconfig; sourceTree = "<group>"; };
 		8DCED5FA234134F800B8DD4F /* binaryinfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = binaryinfo.txt; sourceTree = "<group>"; };
-		8DE34FB920E9353B00A37037 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestoreViewController.h; path = /Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController.h; sourceTree = "<absolute>"; };
+		8DE34FB920E9353B00A37037 /* RestoreViewController-old.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RestoreViewController-old.h"; path = "/Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController-old.h"; sourceTree = "<absolute>"; };
 		8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
+		8DF38BF323904B9300C65695 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestoreViewController.h; sourceTree = "<group>"; };
+		8DF38BF423904B9300C65695 /* RestoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestoreViewController.m; sourceTree = "<group>"; };
 		8DFA1566227FCC320072BB17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpringBoardServices.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -329,8 +332,10 @@
 				8D5BA2871F7C792E00A169BF /* main.m */,
 				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
 				8D4C260B21BF57C700BBA404 /* NSTask.h */,
-				8DE34FB920E9353B00A37037 /* RestoreViewController.h */,
-				8DC82B29226CD8EB00D21893 /* RestoreViewController.m */,
+				8DE34FB920E9353B00A37037 /* RestoreViewController-old.h */,
+				8DC82B29226CD8EB00D21893 /* RestoreViewController-old.m */,
+				8DF38BF323904B9300C65695 /* RestoreViewController.h */,
+				8DF38BF423904B9300C65695 /* RestoreViewController.m */,
 				8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */,
 				8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */,
 				8D8F2FA82264095D0044CF00 /* SpecialThanksTableViewController.h */,
@@ -432,9 +437,10 @@
 				8D47CCCD22C86B7800BCFAED /* OZFileInZipInfo.m in Sources */,
 				8D47CCC622C86B7800BCFAED /* trees.c in Sources */,
 				8D47CCCB22C86B7800BCFAED /* OZZipFile.m in Sources */,
-				8DC82B2A226CD8EB00D21893 /* RestoreViewController.m in Sources */,
+				8DC82B2A226CD8EB00D21893 /* RestoreViewController-old.m in Sources */,
 				8D47CCC822C86B7800BCFAED /* inffast.c in Sources */,
 				8D47CCD122C86B7800BCFAED /* OZZipWriteStream.m in Sources */,
+				8DF38BF523904B9300C65695 /* RestoreViewController.m in Sources */,
 				8D5BA27D1F7C792E00A169BF /* HomePageViewController.m in Sources */,
 				8D47CCC922C86B7800BCFAED /* adler32.c in Sources */,
 				8D47CCC322C86B7800BCFAED /* inftrees.c in Sources */,

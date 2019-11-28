@@ -2,23 +2,16 @@
 //  RestoreViewController.h
 //  SuccessionRestore
 //
-//  Created by Sam Gardner on 6/30/18.
-//  Copyright © 2018 Sam Gardner. All rights reserved.
+//  Created by Sam Gardner on 11/28/19.
+//  Copyright © 2019 Sam Gardner. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface RestoreViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UILabel *headerLabel;
-@property (strong, nonatomic) IBOutlet UILabel *infoLabel;
-@property (strong, nonatomic) IBOutlet UILabel *outputLabel;
-@property (strong, nonatomic) IBOutlet UIButton *startRestoreButton;
-@property (strong, nonatomic) NSString *filesystemType;
-@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *fileListActivityIndicator;
-@property (strong, nonatomic) IBOutlet UIProgressView *restoreProgressBar;
-@property (strong, nonatomic) NSMutableDictionary *successionPrefs;
-@property (strong, nonatomic) NSMutableString *theDiskString;
-@property (strong, nonatomic) UIAlertController *areYouSureAlert;
-@property (strong, nonatomic) NSString *deviceModel;
 @end
+
+NS_ASSUME_NONNULL_END
