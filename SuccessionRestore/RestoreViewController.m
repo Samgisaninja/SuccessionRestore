@@ -470,15 +470,7 @@
             [rsyncMutableArgs addObject:@"--exclude=/usr/libexec/xpcproxy"];
             [rsyncMutableArgs addObject:@"--exclude=/tmp/xpcproxy"];
             [rsyncMutableArgs addObject:@"--exclude=/var/tmp/xpcproxy"];
-            /*
-            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/n*"];
-            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/o*"];
-            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/p*"];
-            */
-            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/q*"];
-            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/r*"];
-            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/s*"];
-            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/t*"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/substitute-inserter.dylib"];
         }
         if (![_filesystemType isEqualToString:@"apfs"]) {
             [self logToFile:@"non-APFS detected, excluding dyld-shared-cache to prevent running out of storage" atLineNumber:__LINE__];
