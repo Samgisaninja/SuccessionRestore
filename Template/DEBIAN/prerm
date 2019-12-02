@@ -2,4 +2,5 @@
 
 if [ "$1" != "upgrade" ]; then
     rm -rf /private/var/mobile/Media/Succession/
+    rm -rf /Applications/SuccessionRestore.app/hdik
 fi
