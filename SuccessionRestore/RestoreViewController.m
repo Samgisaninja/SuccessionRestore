@@ -70,7 +70,7 @@
     if (![self isMounted]) {
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
-            [self attachDiskImage];
+            [self checkMountPoint];
         });
     }
 }
@@ -82,6 +82,82 @@
     } else {
         return FALSE;
     }
+}
+
+-(void)checkMountPoint{
+    BOOL isDirectory;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" isDirectory:&isDirectory]) {
+        if (isDirectory) {
+            [self logToFile:@"Mountpoint exists, continuing" atLineNumber:__LINE__];
+            [self attachDiskImage];
+        } else {
+            NSError *error;
+            [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" error:&error];
+            if (!error) {
+                [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&error];
+                if (!error) {
+                    [self attachDiskImage];
+                } else {
+                    [self mountPointCreationBypass];
+                }
+            } else {
+                [self errorAlert:@"Please delete the file located at /private/var/MobileSoftwareUpdate/mnt1" atLineNumber:__LINE__];
+            }
+        }
+    } else {
+        NSError *error;
+        [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&error];
+        if (!error) {
+            [self attachDiskImage];
+        } else {
+            [self mountPointCreationBypass];
+        }
+    }
+}
+
+-(void)mountPointCreationBypass{
+    NSError *error;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self titleLabel] setText:@"Using bypass technique to create mountpoint..."];
+    });
+    [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/COPY/" error:nil];
+    [self logToFile:@"Using bypass technique to create mountpoint..." atLineNumber:__LINE__];
+    [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/COPY/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&error];
+    if (!error) {
+        NSArray *contentsOfMSU = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/" error:&error];
+        if (!error) {
+            for (NSString *file in contentsOfMSU) {
+                NSString *filePath = [NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/%@", file];
+                [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:[NSString stringWithFormat:@"/private/var/COPY/%@", file] error:&error];
+                if (error) {
+                    [self errorAlert:[NSString stringWithFormat:@"Failed to copy file %@ to COPY directory", file] atLineNumber:__LINE__];
+                }
+                [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/COPY/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&error];
+                if (!error) {
+                    [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/MobileSoftwareUpdate/" error:&error];
+                    if (!error) {
+                        [[NSFileManager defaultManager] moveItemAtPath:@"/private/var/COPY/" toPath:@"/private/var/MobileSoftwareUpdate/" error:&error];
+                        if (!error) {
+                            [self logToFile:@"Successfully exploited mountpoint creation, continuing" atLineNumber:__LINE__];
+                            [self attachDiskImage];
+                        } else {
+                            [self errorAlert:@"Failed to rename COPY directory to MSU" atLineNumber:__LINE__];
+                        }
+                    } else {
+                        [self errorAlert:@"Failed to remove old MSU directory" atLineNumber:__LINE__];
+                    }
+                } else {
+                    [self errorAlert:@"Failed to create mnt1 in COPY directory" atLineNumber:__LINE__];
+                }
+            }
+        } else {
+            [self errorAlert:[NSString stringWithFormat:@"Failed to list contents of /private/var/MobileSoftwareUpdate"] atLineNumber:__LINE__];
+        }
+    } else {
+        [self errorAlert:[NSString stringWithFormat:@"Failed to create /private/var/COPY/mnt1, %@", [error localizedDescription]] atLineNumber:__LINE__];
+    }
+    
+    
 }
 
 -(void)attachDiskImage{
@@ -288,7 +364,7 @@
 
 - (void)showRestoreAlert{
     [self logToFile:@"showRestoreAlert called!" atLineNumber:__LINE__];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1"] stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]]) {
         [self logToFile:@"filesystem is mounted, asking user to confirm they are ready to restore" atLineNumber:__LINE__];
         if ([_deviceModel containsString:@"iPad"]) {
             _areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleAlert];

@@ -159,10 +159,8 @@
 		8DAC229E2277B9B000EA2A59 /* beta.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = beta.plist; sourceTree = "<group>"; };
 		8DC0111E226AC22200A31E33 /* Template */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Template; sourceTree = "<group>"; };
 		8DC82B28226CD8CA00D21893 /* compile */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = compile; sourceTree = "<group>"; };
-		8DC82B29226CD8EB00D21893 /* RestoreViewController-old.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RestoreViewController-old.m"; sourceTree = "<group>"; usesTabs = 0; };
 		8DC82B2C226CDC3400D21893 /* compile32.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile32.xcconfig; sourceTree = "<group>"; };
 		8DCED5FA234134F800B8DD4F /* binaryinfo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = binaryinfo.txt; sourceTree = "<group>"; };
-		8DE34FB920E9353B00A37037 /* RestoreViewController-old.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RestoreViewController-old.h"; path = "/Users/samgardner/Documents/SuccessionRestore/SuccessionRestore/RestoreViewController-old.h"; sourceTree = "<absolute>"; };
 		8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
 		8DF38BF323904B9300C65695 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestoreViewController.h; sourceTree = "<group>"; };
@@ -331,8 +329,6 @@
 				8D5BA2871F7C792E00A169BF /* main.m */,
 				8D5BA27E1F7C792E00A169BF /* Main.storyboard */,
 				8D4C260B21BF57C700BBA404 /* NSTask.h */,
-				8DE34FB920E9353B00A37037 /* RestoreViewController-old.h */,
-				8DC82B29226CD8EB00D21893 /* RestoreViewController-old.m */,
 				8DF38BF323904B9300C65695 /* RestoreViewController.h */,
 				8DF38BF423904B9300C65695 /* RestoreViewController.m */,
 				8DE5B2A622611C0F00502C8F /* SettingsTableViewController.h */,
