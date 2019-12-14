@@ -284,7 +284,71 @@
     }
 }
 
-
+- (void)showRestoreAlert{
+    [self logToFile:@"showRestoreAlert called!" atLineNumber:__LINE__];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1"] stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
+        [self logToFile:@"filesystem is mounted, asking user to confirm they are ready to restore" atLineNumber:__LINE__];
+        if ([_deviceModel containsString:@"iPad"]) {
+            _areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleAlert];
+        } else {
+            _areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleActionSheet];
+        }
+        UIAlertAction *beginRestore = [UIAlertAction actionWithTitle:@"Begin restore" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self logToFile:@"user wants to begin restore now, checking battery level" atLineNumber:__LINE__];
+            [[UIDevice currentDevice] setBatteryMonitoringEnabled:TRUE];
+            if ([[UIDevice currentDevice] batteryLevel] > 0.5) {
+                if (@available(iOS 9.0, *)) {
+                    if ([[NSProcessInfo processInfo] isLowPowerModeEnabled]) {
+                        UIAlertController *disableLowPowerMode = [UIAlertController alertControllerWithTitle:@"Low Power Mode enabled" message:@"Low Power Mode causes your device to auto-lock after 30 seconds, please go to settings and turn that off." preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"I've turned it off, start restoring" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                            [self beginRestore];
+                        }];
+                        [disableLowPowerMode addAction:okAction];
+                        [self presentViewController:disableLowPowerMode animated:TRUE completion:nil];
+                    } else {
+                        [self logToFile:[NSString stringWithFormat:@"battery level is %f which is greater than 50%%, ready to go", [[UIDevice currentDevice] batteryLevel]] atLineNumber:__LINE__];
+                        [self beginRestore];
+                    }
+                } else {
+                    [self logToFile:[NSString stringWithFormat:@"battery level is %f which is greater than 50%%, ready to go", [[UIDevice currentDevice] batteryLevel]] atLineNumber:__LINE__];
+                    [self beginRestore];
+                }
+            } else {
+                [self logToFile:[NSString stringWithFormat:@"battery is %f which is less than 50%%, warning user", [[UIDevice currentDevice] batteryLevel]] atLineNumber:__LINE__];
+                UIAlertController *lowBatteryWarning = [UIAlertController alertControllerWithTitle:@"Low Battery" message:@"It is recommended you have at least 50% battery charge before beginning restore" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelRestoreAction = [UIAlertAction actionWithTitle:@"Abort restore" style:UIAlertActionStyleDefault handler:nil];
+                UIAlertAction *startRestoreAction = [UIAlertAction actionWithTitle:@"Restore anyways" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                    if (@available(iOS 9.0, *)) {
+                        if ([[NSProcessInfo processInfo] isLowPowerModeEnabled]) {
+                            UIAlertController *disableLowPowerMode = [UIAlertController alertControllerWithTitle:@"Low Power Mode enabled" message:@"Low Power Mode causes your device to auto-lock after 30 seconds, please go to settings and turn that off." preferredStyle:UIAlertControllerStyleAlert];
+                            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"I've turned it off, start restoring" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                [self beginRestore];
+                            }];
+                            [disableLowPowerMode addAction:okAction];
+                            [self presentViewController:disableLowPowerMode animated:TRUE completion:nil];
+                        } else {
+                            [self logToFile:@"user chose to override battery warning, restoring now" atLineNumber:__LINE__];
+                            [self beginRestore];
+                        }
+                    } else {
+                        [self logToFile:@"user chose to override battery warning, restoring now" atLineNumber:__LINE__];
+                        [self beginRestore];
+                    }
+                }];
+                [lowBatteryWarning addAction:cancelRestoreAction];
+                [lowBatteryWarning addAction:startRestoreAction];
+                [self presentViewController:lowBatteryWarning animated:TRUE completion:nil];
+            }
+            [[UIDevice currentDevice] setBatteryMonitoringEnabled:FALSE];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        [_areYouSureAlert addAction:beginRestore];
+        [_areYouSureAlert addAction:cancelAction];
+        [self presentViewController:_areYouSureAlert animated:TRUE completion:nil];
+    } else {
+        
+    }
+}
 
 
 

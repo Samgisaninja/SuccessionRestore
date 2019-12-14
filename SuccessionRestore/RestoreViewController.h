@@ -19,5 +19,6 @@
 @property (strong, nonatomic) NSMutableDictionary *successionPrefs;
 @property (strong, nonatomic) NSString *deviceModel;
 @property (strong, nonatomic) NSString *deviceType;
+@property (strong, nonatomic) UIAlertController *areYouSureAlert;
 @end
 
