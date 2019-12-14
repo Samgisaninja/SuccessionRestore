@@ -19,5 +19,6 @@
 @property (strong, nonatomic) NSDictionary *successionPrefs;
 @property (strong, nonatomic) NSString *deviceModel;
 @property (strong, nonatomic) NSString *deviceType;
+@property (strong, nonatomic) NSString *theDiskString;
 @end
 

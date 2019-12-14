@@ -49,7 +49,6 @@
 		8D8F2FAA2264095D0044CF00 /* SpecialThanksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */; };
 		8D980C972303D125009717B4 /* hdik-armv7 in Resources */ = {isa = PBXBuildFile; fileRef = 8D980C962303D125009717B4 /* hdik-armv7 */; };
 		8D980C992303D26C009717B4 /* hdik-arm64 in Resources */ = {isa = PBXBuildFile; fileRef = 8D980C982303D26C009717B4 /* hdik-arm64 */; };
-		8DC82B2A226CD8EB00D21893 /* RestoreViewController-old.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC82B29226CD8EB00D21893 /* RestoreViewController-old.m */; };
 		8DCED5FB234134F800B8DD4F /* binaryinfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DCED5FA234134F800B8DD4F /* binaryinfo.txt */; };
 		8DE5B2A822611C0F00502C8F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */; };
 		8DF38BF523904B9300C65695 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF38BF423904B9300C65695 /* RestoreViewController.m */; };
@@ -437,7 +436,6 @@
 				8D47CCCD22C86B7800BCFAED /* OZFileInZipInfo.m in Sources */,
 				8D47CCC622C86B7800BCFAED /* trees.c in Sources */,
 				8D47CCCB22C86B7800BCFAED /* OZZipFile.m in Sources */,
-				8DC82B2A226CD8EB00D21893 /* RestoreViewController-old.m in Sources */,
 				8D47CCC822C86B7800BCFAED /* inffast.c in Sources */,
 				8D47CCD122C86B7800BCFAED /* OZZipWriteStream.m in Sources */,
 				8DF38BF523904B9300C65695 /* RestoreViewController.m in Sources */,
@@ -622,7 +620,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
-				MARKETING_VERSION = 1.4.3;
+				MARKETING_VERSION = "1.4.5-DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -648,7 +646,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
-				MARKETING_VERSION = 1.4.3;
+				MARKETING_VERSION = "1.4.5-DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
