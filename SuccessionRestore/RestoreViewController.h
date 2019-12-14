@@ -20,5 +20,6 @@
 @property (strong, nonatomic) NSString *deviceModel;
 @property (strong, nonatomic) NSString *deviceType;
 @property (strong, nonatomic) UIAlertController *areYouSureAlert;
+@property (strong, nonatomic) NSString *filesystemType;
 @end
 

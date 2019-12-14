@@ -193,9 +193,11 @@
     if (!error) {
         if ([fstabString containsString:@"apfs"]) {
             [self logToFile:@"Identified filesystem as APFS!" atLineNumber:__LINE__];
+            _filesystemType = @"apfs";
             [self mountAttachedDisk:diskPath ofType:@"apfs"];
         } else if ([fstabString containsString:@"hfs"]){
             [self logToFile:@"Identified filesystem as HFS!" atLineNumber:__LINE__];
+            _filesystemType = @"hfs";
             [self mountAttachedDisk:diskPath ofType:@"hfs"];
         } else {
             [self errorAlert:[NSString stringWithFormat:@"Failed to identify filesystem, read fstab successfully, but fstab did not contain filesystem type: %@", fstabString] atLineNumber:__LINE__];
@@ -369,6 +371,244 @@
         [createBackupSnapTask waitUntilExit];
     }
     [self successionRestore];
+}
+
+-(void)successionRestore{
+    [self logToFile:@"successionRestore called!" atLineNumber:__LINE__];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1"] stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
+        [self logToFile:@"verified filesystem is mounted" atLineNumber:__LINE__];
+        NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH",
+                                            @"--delete",
+                                            @"--progress",
+                                            @"--ignore-errors",
+                                            @"--force",
+                                            @"--exclude=/Developer",
+                                            @"--exclude=/System/Library/Caches/com.apple.kernelcaches/kernelcache",
+                                            @"--exclude=/System/Library/Caches/apticket.der",
+                                            @"--exclude=System/Library/Caches/com.apple.factorydata/",
+                                            @"--exclude=/usr/standalone/firmware/sep-firmware.img4",
+                                            @"--exclude=/usr/local/standalone/firmware/Baseband",
+                                            @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/",
+                                            @"--exclude=/private/etc/fstab",
+                                            @"--exclude=/etc/fstab",
+                                            @"--exclude=/usr/standalone/firmware/FUD/",
+                                            @"--exclude=/usr/standalone/firmware/Savage/",
+                                            @"--exclude=/System/Library/Pearl",
+                                            @"--exclude=/usr/standalone/firmware/Yonkers/",
+                                            @"--exclude=/private/var/containers/",
+                                            @"--exclude=/var/containers/",
+                                            @"--exclude=/private/var/keybags/",
+                                            @"--exclude=/var/keybags/",
+                                            @"--exclude=/applelogo",
+                                            @"--exclude=/devicetree",
+                                            @"--exclude=/kernelcache",
+                                            @"--exclude=/ramdisk",
+                                            @"/private/var/MobileSoftwareUpdate/mnt1/.",
+                                            @"/", nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/Caches/xpcproxy"] || [[NSFileManager defaultManager] fileExistsAtPath:@"/var/tmp/xpcproxy"]) {
+            [rsyncMutableArgs addObject:@"--exclude=/Library/Caches/"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/libexec/xpcproxy"];
+            [rsyncMutableArgs addObject:@"--exclude=/tmp/xpcproxy"];
+            [rsyncMutableArgs addObject:@"--exclude=/var/tmp/xpcproxy"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/lib/substitute-inserter.dylib"];
+        }
+        if (![_filesystemType isEqualToString:@"apfs"]) {
+            [self logToFile:@"non-APFS detected, excluding dyld-shared-cache to prevent running out of storage" atLineNumber:__LINE__];
+            [rsyncMutableArgs addObject:@"--exclude=/System/Library/Caches/com.apple.dyld/"];
+        }
+        if ([[_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]) {
+            [self logToFile:@"test mode is enabled, performing dry run rsync" atLineNumber:__LINE__];
+            [rsyncMutableArgs addObject:@"--dry-run"];
+        }
+        if ([[_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
+            [self logToFile:@"update install mode enabled, excluding user data and uicache" atLineNumber:__LINE__];
+            [rsyncMutableArgs addObject:@"--exclude=/var"];
+            [rsyncMutableArgs addObject:@"--exclude=/private/var/"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/bin/uicache"];
+        }
+        if ([[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
+            [self logToFile:@"user elected to create new orig-fs after restore, excluding snappy" atLineNumber:__LINE__];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/bin/snappy"];
+        }
+        [self logToFile:[NSString stringWithFormat:@"rsync %@", [rsyncMutableArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
+        NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
+        NSTask *rsyncTask = [[NSTask alloc] init];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[_successionPrefs objectForKey:@"custom_rsync_path"]]) {
+            [self logToFile:[NSString stringWithFormat:@"found rsync at path: %@", [_successionPrefs objectForKey:@"custom_rsync_path"]] atLineNumber:__LINE__];
+            [rsyncTask setLaunchPath:[_successionPrefs objectForKey:@"custom_rsync_path"]];
+        } else {
+            [self logToFile:[NSString stringWithFormat:@"couldnt find rsync at path %@, checking /usr/bin/rsync to see if user accidentally changed preferences", [_successionPrefs objectForKey:@"custom_rsync_path"]] atLineNumber:__LINE__];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/rsync"]) {
+                UIAlertController *rsyncNotFound = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Unable to find rsync at custom path %@", [_successionPrefs objectForKey:@"custom_rsync_path"]]message:@"/usr/bin/rsync will be used" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *useDefualtPathAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+                [rsyncNotFound addAction:useDefualtPathAction];
+                [self presentViewController:rsyncNotFound animated:TRUE completion:nil];
+                [self logToFile:@"found rsync at default path, using /usr/bin/rsync" atLineNumber:__LINE__];
+                [rsyncTask setLaunchPath:@"/usr/bin/rsync"];
+            } else {
+                [self logToFile:@"unable to find rysnc at user-specified path or custom path, asking to reinstall rsync" atLineNumber:__LINE__];
+                [self errorAlert:[NSString stringWithFormat:@"Unable to find rsync at custom path %@\nPlease check your custom path in Succession's settings or install rsync from Cydia", [_successionPrefs objectForKey:@"custom_rsync_path"]] atLineNumber:__LINE__];
+            }
+        }
+        [rsyncTask setArguments:rsyncArgs];
+        NSPipe *outputPipe = [NSPipe pipe];
+        [rsyncTask setStandardOutput:outputPipe];
+        NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
+        [stdoutHandle waitForDataInBackgroundAndNotify];
+        id observer;
+        observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
+                                                                     object:stdoutHandle queue:nil
+                                                                 usingBlock:^(NSNotification *note)
+                    {
+            
+            NSData *dataRead = [stdoutHandle availableData];
+            NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
+            [self logToFile:stringRead atLineNumber:__LINE__];
+            [[self titleLabel] setText:@"Restoring, please wait..."];
+            [[self subtitleLabel] setText:@"Progress bar may freeze for long periods of time, it's still working, leave it alone until your device reboots."];
+            [[self titleLabel] setHidden:FALSE];
+            if ([stringRead containsString:@"cannot delete non-empty directory"] && [stringRead containsString:@"Applications/"]) {
+                [self errorAlert:@"Succession has failed due to an issue with rsync. I don't know what caused this, sorry. You can follow the discussion of this issue at https://github.com/SuccessionRestore/issues/44" atLineNumber:__LINE__];
+                [rsyncTask terminate];
+            }
+            NSArray *stringWords = [stringRead componentsSeparatedByString:@" "];
+            for (NSString *word in stringWords) {
+                if ([word hasPrefix:@"Applications/"] || [word hasPrefix:@"bin/"] || [word containsString:@"dev/"] || [word hasPrefix:@"Library/"] || [word containsString:@"private/"]|| [word containsString:@"sbin/"] || [word hasPrefix:@"System/"] || [word hasPrefix:@"usr/"]) {
+                    [[self progressIndicator] setHidden:TRUE];
+                    [[self restoreProgressBar] setHidden:FALSE];
+                    [[self outputLabel] setHidden:FALSE];
+                    if ([stringRead containsString:@"deleting"]) {
+                        [[self outputLabel] setText:[NSString stringWithFormat:@"Deleting from %@", word]];
+                    } else {
+                       [[self outputLabel] setText:[NSString stringWithFormat:@"Restoring %@", word]];
+                    }
+                }
+            }
+            if ([stringRead hasPrefix:@"Applications/"]) {
+                [[self restoreProgressBar] setProgress:0];
+            }
+            if ([stringRead hasPrefix:@"Library/"]) {
+                [[self restoreProgressBar] setProgress:0.33];
+            }
+            if ([stringRead hasPrefix:@"System/"]) {
+                [[self restoreProgressBar] setProgress:0.67];
+            }
+            if ([stringRead hasPrefix:@"usr/"]) {
+                [[self restoreProgressBar] setProgress:0.9];
+            }
+            if ([stringRead containsString:@"speedup is"] && [stringRead containsString:@"bytes"] && [stringRead containsString:@"sent"] && [stringRead containsString:@"received"]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self logToFile:@"restore has completed!" atLineNumber:__LINE__];
+                    [[self outputLabel] setHidden:TRUE];
+                    [[self titleLabel] setText:@"Restore complete"];
+                    [[self progressIndicator] setHidden:TRUE];
+                    [[self restoreProgressBar] setHidden:FALSE];
+                    [[self restoreProgressBar] setProgress:1.0];
+                    [[NSNotificationCenter defaultCenter] removeObserver:observer];
+                    if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]) {
+                        [self logToFile:@"Test mode used, exiting..." atLineNumber:__LINE__];
+                        UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Dry run complete!" message:@"YAY!" preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                            exit(0);
+                        }];
+                        [restoreCompleteController addAction:exitAction];
+                        [self presentViewController:restoreCompleteController animated:TRUE completion:nil];
+                    } else {
+                        if ([[self->_successionPrefs objectForKey:@"hacktivation"] isEqual:@(1)]) {
+                            [self logToFile:@"User chose to hacktivate device, deleting setup.app now" atLineNumber:__LINE__];
+                            [[NSFileManager defaultManager] removeItemAtPath:@"/Applications/Setup.app/" error:nil];
+                        }
+                        if ([[self->_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
+                            [self logToFile:@"user elected to replace orig-fs, deleting old orig-fs now" atLineNumber:__LINE__];
+                            NSTask *deleteOrigFS = [[NSTask alloc] init];
+                            [deleteOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                            NSArray *deleteOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"orig-fs", nil];
+                            [deleteOrigFS setArguments:deleteOrigFSArgs];
+                            [deleteOrigFS launch];
+                            [self logToFile:@"user elected to replace orig-fs, creating new orig-fs now" atLineNumber:__LINE__];
+                            NSTask *createNewOrigFS = [[NSTask alloc] init];
+                            [createNewOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                            NSArray *createNewOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"orig-fs", nil];
+                            [createNewOrigFS setArguments:createNewOrigFSArgs];
+                            [createNewOrigFS launch];
+                            [createNewOrigFS waitUntilExit];
+                            [self logToFile:@"renaming newly created orig-fs to system snapshot name" atLineNumber:__LINE__];
+                            NSTask *renameOrigFS = [[NSTask alloc] init];
+                            [renameOrigFS setLaunchPath:@"/usr/bin/snappy"];
+                            NSArray *renameOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-r", @"orig-fs", @"-x", nil];
+                            [renameOrigFS setArguments:renameOrigFSArgs];
+                            [renameOrigFS launch];
+                            [self logToFile:@"ok, we're done with snappy, deleting now" atLineNumber:__LINE__];
+                            NSError *err;
+                            [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/snappy" error:&err];
+                            if (err) {
+                                [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete snappy: %@", [err localizedDescription]] atLineNumber:__LINE__];
+                            }
+                        }
+                        [self logToFile:@"showing restore complete alert" atLineNumber:__LINE__];
+                        UIAlertController *restoreCompleteController = [UIAlertController alertControllerWithTitle:@"Restore Succeeded!" message:@"Rebuilding icon cache, please wait..." preferredStyle:UIAlertControllerStyleAlert];
+                        [self presentViewController:restoreCompleteController animated:TRUE completion:^{
+                            if ([[self->_successionPrefs objectForKey:@"update-install"] isEqual:@(1)]) {
+                                [self logToFile:@"Update install was used, rebuilding uicache" atLineNumber:__LINE__];
+                                if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/uicache"]) {
+                                    NSTask *uicacheTask = [[NSTask alloc] init];
+                                    NSArray *uicacheElectraArgs = [NSArray arrayWithObjects:@"--all", nil];
+                                    [uicacheTask setLaunchPath:@"/usr/bin/uicache"];
+                                    [uicacheTask setArguments:uicacheElectraArgs];
+                                    [uicacheTask launch];
+                                    [uicacheTask waitUntilExit];
+                                    [self logToFile:@"uicache complete, deleting it..." atLineNumber:__LINE__];
+                                    NSError *err;
+                                    [[NSFileManager defaultManager] removeItemAtPath:@"/usr/bin/uicache" error:&err];
+                                    if (err) {
+                                        [self logToFile:[NSString stringWithFormat:@"non-fatal error, not showing alert. unable to delete uicache: %@", [err localizedDescription]] atLineNumber:__LINE__];
+                                    }
+                                    reboot(0x400);
+                                } else {
+                                    [self logToFile:@"/usr/bin/uicache doesnt exist, oops. rebooting..." atLineNumber:__LINE__];
+                                    reboot(0x400);
+                                }
+                            } else if ([[self->_successionPrefs objectForKey:@"dry-run"] isEqual:@(1)]){
+                                [self logToFile:@"That was a test mode restore, but somehow the first check for this didnt get detected... anways, the app will just hang now..." atLineNumber:__LINE__];
+                            } else {
+                                extern int SBDataReset(mach_port_t, int);
+                                extern mach_port_t SBSSpringBoardServerPort(void);
+                                [self logToFile:[NSString stringWithFormat:@"That was a normal restore. go, mobile_obliteration! %u", SBSSpringBoardServerPort()] atLineNumber:__LINE__];
+                                SBDataReset(SBSSpringBoardServerPort(), 5);
+                            }
+                        }];
+                    }
+                });
+            }
+            [stdoutHandle waitForDataInBackgroundAndNotify];
+        }];
+        [self logToFile:@"Updating UI to prepare for restore" atLineNumber:__LINE__];
+        [[self titleLabel] setText:@"Working, do not leave the app..."];
+        [[self subtitleLabel] setText:@""];
+        [[self eraseButton] setTitle:@"Restore in progress..." forState:UIControlStateNormal];
+        [[self eraseButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+        [[self eraseButton] setEnabled:FALSE];
+        [[self progressIndicator] setHidden:FALSE];
+        if ([rsyncTask launchPath]) {
+            [self logToFile:@"rsyncTask has a valid launchPath" atLineNumber:__LINE__];
+            if ([[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)] && [[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
+                [self logToFile:@"Both orig-fs and succession-prerestore are selected, these options confilct, aborting restore..." atLineNumber:__LINE__];
+                UIAlertController *tooMuchAPFSAlert = [UIAlertController alertControllerWithTitle:@"Conflicting options enabled" message:@"You cannot have 'create backup snapshot' and 'create new orig-fs' enabled simultaneously, please go to Succession's settings page and disable one of the two." preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [self logToFile:@"restore aborted" atLineNumber:__LINE__];
+                    [[self navigationController] popToRootViewControllerAnimated:TRUE];
+                }];
+                [tooMuchAPFSAlert addAction:dismissAction];
+                [self presentViewController:tooMuchAPFSAlert animated:TRUE completion:nil];
+            } else {
+                [rsyncTask launch];
+            }
+        } else {
+            [self errorAlert:@"Unable to apply launchPath to rsyncTask. Please (re)install rsync from Cydia." atLineNumber:__LINE__];
+        }
+    } else {
+        [self errorAlert:@"Mountpoint does not contain rootfilesystem, please restart the app and try again." atLineNumber:__LINE__];
+    }
 }
 
 
