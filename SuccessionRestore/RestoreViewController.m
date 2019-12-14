@@ -51,7 +51,7 @@
         [[self restoreProgressBar] setHidden:TRUE];
     } else {
         [[self titleLabel] setText:@"Attaching..."];
-        [[self subtitleLabel] setText:@"This should take less than 10 seconds"];
+        [[self subtitleLabel] setText:@""];
         [[self eraseButton] setTitle:@"Please Wait..." forState:UIControlStateNormal];
         if (@available(iOS 13.0, *)) {
             [[self eraseButton] setTitleColor:[UIColor labelColor] forState:UIControlStateNormal];
@@ -60,7 +60,7 @@
         }
         [[self eraseButton] setEnabled:FALSE];
         [[self outputLabel] setHidden:TRUE];
-        [[self progressIndicator] setHidden:TRUE];
+        [[self progressIndicator] setHidden:FALSE];
         [[self restoreProgressBar] setHidden:TRUE];
     }
 }
@@ -110,32 +110,59 @@
                 for (NSString *line in outLines) {
                     [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
                     if ([line containsString:@"s2"]) {
-                        [self logToFile:[NSString stringWithFormat:@"found attached diskname in %@", line] atLineNumber:__LINE__];
+                        [self logToFile:[NSString stringWithFormat:@"found attached diskpath in %@", line] atLineNumber:__LINE__];
                         NSArray *lineWords = [line componentsSeparatedByString:@" "];
                         for (NSString *word in lineWords) {
                             if ([word hasPrefix:@"/dev/disk"]) {
-                                NSString *diskname = [word stringByReplacingOccurrencesOfString:@"/dev/" withString:@""];
-                                [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskname] atLineNumber:__LINE__];
-                                self->_theDiskString = [NSMutableString stringWithString:word];
-                                [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", self->_theDiskString] atLineNumber:__LINE__];
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    [[self eraseButton] setTitle:self->_theDiskString forState:UIControlStateNormal];
-                                });
-                                //[self mountRestoreDisk];
+                                [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", word] atLineNumber:__LINE__];
+                                [self prepareMountAttachedDisk:word];
+                                break;
                             }
                         }
                     }
                 }
             } else {
-                self->_theDiskString = [outLines firstObject];
+                NSString *diskPath = [outLines firstObject];
+                [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", diskPath] atLineNumber:__LINE__];
+                [self prepareMountAttachedDisk:diskPath];
             }
         };
         [hdikTask launch];
         [hdikTask waitUntilExit];
     } else if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"]] || [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64e"]] || [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"]]) {
-        [self errorAlert:@"Succession has not been configured. Please reinstall Succession using Cydia or Zebra. If you installed Succession manually, please extract Succession's postinst script and run it"];
+        [self errorAlert:@"Succession has not been configured. Please reinstall Succession using Cydia or Zebra. If you installed Succession manually, please extract Succession's postinst script and run it" atLineNumber:__LINE__];
     } else {
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/attach"]) {
+            [self logToFile:@"Using comex attach for attach" atLineNumber:__LINE__];
+            NSTask *attachTask = [[NSTask alloc] init];
+            [attachTask setLaunchPath:@"/usr/sbin/attach"];
+            NSPipe *stdOutPipe = [NSPipe pipe];
+            NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
+            attachTask.terminationHandler = ^{
+                NSData *outData = [outPipeRead readDataToEndOfFile];
+                NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
+                [self logToFile:[NSString stringWithFormat:@"attach output is: %@", outString] atLineNumber:__LINE__];
+                NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+                [self logToFile:[NSString stringWithFormat:@"%@\n\n%lu", [outLines componentsJoinedByString:@", "], (unsigned long)[outLines count]] atLineNumber:__LINE__];
+                if ([outLines count] != 2) {
+                    for (NSString *line in outLines) {
+                        [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+                        if ([line containsString:@"s3"]) {
+                            [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", line] atLineNumber:__LINE__];
+                            NSString *theDiskString = [NSMutableString stringWithString:line];
+                            [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", theDiskString] atLineNumber:__LINE__];
+                            [self prepareMountAttachedDisk:theDiskString];
+                            break;
+                        }
+                    }
+                } else {
+                    NSString *theDiskString = [outLines firstObject];
+                    [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", theDiskString] atLineNumber:__LINE__];
+                    [self prepareMountAttachedDisk:theDiskString];
+                }
+            };
+            [attachTask launch];
+            [attachTask waitUntilExit];
             
         } else {
             UIAlertController *needsAttach = [UIAlertController alertControllerWithTitle:@"Succession requires additional components to be installed" message:@"Please add http://pmbonneau.com/cydia to your sources and install 'attach' to continue." preferredStyle:UIAlertControllerStyleAlert];
@@ -161,8 +188,59 @@
     }
 }
 
--(void)errorAlert:(NSString *)message{
-    [self logToFile:[NSString stringWithFormat:@"ERROR! %@", message] atLineNumber:__LINE__];
+-(void)prepareMountAttachedDisk:(NSString *)diskPath{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self titleLabel] setText:@"Identifying filesystem type..."];
+    });
+    NSError *error;
+    NSString *fstabString = [NSString stringWithContentsOfFile:@"/private/etc/fstab" encoding:NSUTF8StringEncoding error:&error];
+    if (!error) {
+        if ([fstabString containsString:@"apfs"]) {
+            [self logToFile:@"Identified filesystem as APFS!" atLineNumber:__LINE__];
+            [self mountAttachedDisk:diskPath ofType:@"apfs"];
+        } else if ([fstabString containsString:@"hfs"]){
+            [self logToFile:@"Identified filesystem as HFS!" atLineNumber:__LINE__];
+            [self mountAttachedDisk:diskPath ofType:@"hfs"];
+        } else {
+            [self errorAlert:[NSString stringWithFormat:@"Failed to identify filesystem, read fstab successfully, but fstab did not contain filesystem type: %@", fstabString] atLineNumber:__LINE__];
+        }
+    } else {
+        [self errorAlert:[NSString stringWithFormat:@"Failed to read fstab: %@", [error localizedDescription]] atLineNumber:__LINE__];
+    }
+}
+
+-(void)mountAttachedDisk:(NSString *)diskPath ofType:(NSString *)filesystemType{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self titleLabel] setText:@"Mounting Filesystem..."];
+        [[self subtitleLabel] setText:@"This should take less than 10 seconds."];
+    });
+    NSTask *mountTask = [[NSTask alloc] init];
+    [mountTask setLaunchPath:@"/sbin/mount"];
+    NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", filesystemType, @"-o", @"ro", diskPath, @"/private/var/MobileSoftwareUpdate/mnt1", nil];
+    [mountTask setArguments:mountArgs];
+    NSPipe *stdOutPipe = [NSPipe pipe];
+    NSFileHandle *stdOutFileRead = [stdOutPipe fileHandleForReading];
+    mountTask.terminationHandler = ^{
+        NSData *outData = [stdOutFileRead readDataToEndOfFile];
+        NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
+        [self logToFile:[NSString stringWithFormat:@"mounting complete! %@", outString] atLineNumber:__LINE__];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self titleLabel] setText:@"WARNING!!!"];
+            [[self subtitleLabel] setText:@"Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones and cellular iPads."];
+            [[self eraseButton] setTitle:[NSString stringWithFormat:@"Erase %@", self->_deviceType] forState:UIControlStateNormal];
+            [[self eraseButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+            [[self eraseButton] setEnabled:TRUE];
+            [[self outputLabel] setHidden:TRUE];
+            [[self progressIndicator] setHidden:TRUE];
+            [[self restoreProgressBar] setHidden:TRUE];
+        });
+    };
+    [mountTask launch];
+    [mountTask waitUntilExit];
+}
+
+-(void)errorAlert:(NSString *)message atLineNumber:(int)lineNum{
+    [self logToFile:[NSString stringWithFormat:@"ERROR! %@", message] atLineNumber:lineNum];
     UIAlertController *errorAlertController = [UIAlertController alertControllerWithTitle:@"Error" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         exit(0);
