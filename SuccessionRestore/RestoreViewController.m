@@ -350,6 +350,26 @@
     }
 }
 
+- (void)beginRestore{
+    [self logToFile:@"beginRestore called!" atLineNumber:__LINE__];
+    if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
+        NSTask *deletePreviousBackupSnapTask = [[NSTask alloc] init];
+        [deletePreviousBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
+        NSArray *deletePreviousBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"succession-prerestore", nil];
+        [deletePreviousBackupSnapTask setArguments:deletePreviousBackupSnapTaskArgs];
+        [self logToFile:@"user elected to create succession-prerestore snapshot, deleting already present succession-prerestore" atLineNumber:__LINE__];
+        [deletePreviousBackupSnapTask launch];
+        [deletePreviousBackupSnapTask waitUntilExit];
+        NSTask *createBackupSnapTask = [[NSTask alloc] init];
+        [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
+        NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
+        [createBackupSnapTask setArguments:createBackupSnapTaskArgs];
+        [self logToFile:@"creating new succession-prerestore" atLineNumber:__LINE__];
+        [createBackupSnapTask launch];
+        [createBackupSnapTask waitUntilExit];
+    }
+    [self successionRestore];
+}
 
 
 
