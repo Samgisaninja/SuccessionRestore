@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //Load Preferences
-    _successionPrefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"];
+    _successionPrefs = [NSMutableDictionary dictionaryWithDictionary:[NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"]];
     //Get device machine ID, used several times in the future
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
@@ -73,10 +73,6 @@
             [self attachDiskImage];
         });
     }
-}
-
-- (IBAction)tappedRestoreButton:(id)sender {
-    
 }
 
 -(BOOL)isMounted{
@@ -238,6 +234,63 @@
     [mountTask launch];
     [mountTask waitUntilExit];
 }
+
+- (IBAction)tappedRestoreButton:(id)sender {
+    [self logToFile:@"tappedRestoreButton called" atLineNumber:__LINE__];
+    if ([[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)] || [[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
+        [self logToFile:@"snappy operations enabled" atLineNumber:__LINE__];
+        if (kCFCoreFoundationVersionNumber > 1349.56) {
+            [self logToFile:@"ios version compatible with snappy" atLineNumber:__LINE__];
+            if (![[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/snappy"]) {
+                [self logToFile:@"snappy not installed, asking to install it" atLineNumber:__LINE__];
+                UIAlertController *needSnappy = [UIAlertController alertControllerWithTitle:@"Snappy required" message:@"Your current preferences indicate you would like to perform operations with APFS snapshots, but you do not have snappy installed. Please install snappy from https://repo.bingner.com" preferredStyle:UIAlertControllerStyleAlert];
+                NSString *sources = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/cydia.list" encoding:NSUTF8StringEncoding error:nil];
+                if (![sources containsString:@"bingner.com"]) {
+                    UIAlertAction *addRepo = [UIAlertAction actionWithTitle:@"Add repository to cydia" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        if (@available(iOS 10.0, *)) {
+                            NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=https://repo.bingner.com/"] options:URLOptions completionHandler:nil];
+                        } else {
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=https://repo.bingner.com/"]];
+                        }
+                        [self logToFile:@"user adding source for snappy" atLineNumber:__LINE__];
+                    }];
+                    [needSnappy addAction:addRepo];
+                }
+                UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+                [needSnappy addAction:dismissAction];
+                [self presentViewController:needSnappy animated:TRUE completion:nil];
+            } else {
+                [self logToFile:@"snappy requested and already installed" atLineNumber:__LINE__];
+                [self showRestoreAlert];
+            }
+        } else {
+            [self logToFile:@"apfs snapshot operations enabled, but iOS version not compatible with snappy" atLineNumber:__LINE__];
+            UIAlertController *snapshotsNotSupported = [UIAlertController alertControllerWithTitle:@"APFS operations not supported" message:@"You must be running iOS 10.3 or higher to use APFS features." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismis" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self logToFile:@"user disabled snappy options" atLineNumber:__LINE__];
+                [self->_successionPrefs setObject:@(0) forKey:@"create_APFS_orig-fs"];
+                [self->_successionPrefs setObject:@(0) forKey:@"create_APFS_succession-prerestore"];
+                [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+                [self->_successionPrefs writeToFile:@"/private/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+                [[self navigationController] popToRootViewControllerAnimated:TRUE];
+            }];
+            [snapshotsNotSupported addAction:dismissAction];
+            [self presentViewController:snapshotsNotSupported animated:TRUE completion:nil];
+        }
+    } else {
+        [self logToFile:@"no apfs snapshot operations requested" atLineNumber:__LINE__];
+        [self showRestoreAlert];
+    }
+}
+
+
+
+
+
+
+
+
 
 -(void)errorAlert:(NSString *)message atLineNumber:(int)lineNum{
     [self logToFile:[NSString stringWithFormat:@"ERROR! %@", message] atLineNumber:lineNum];

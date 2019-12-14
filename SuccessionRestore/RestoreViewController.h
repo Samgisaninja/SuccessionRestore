@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *progressIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *outputLabel;
 @property (weak, nonatomic) IBOutlet UIButton *eraseButton;
-@property (strong, nonatomic) NSDictionary *successionPrefs;
+@property (strong, nonatomic) NSMutableDictionary *successionPrefs;
 @property (strong, nonatomic) NSString *deviceModel;
 @property (strong, nonatomic) NSString *deviceType;
 @end
