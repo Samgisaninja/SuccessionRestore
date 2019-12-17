@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jg5-x8-9be">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jg5-x8-9be">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -273,8 +273,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vva-Lf-eva">
-                                <rect key="frame" x="0.0" y="64.5" width="320" height="122"/>
-                                <string key="text">Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones. </string>
+                                <rect key="frame" x="0.0" y="64.5" width="320" height="142.5"/>
+                                <string key="text">Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones and cellular iPads.</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -288,7 +288,7 @@
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="startRestoreButtonAction:" destination="0pb-7p-nji" eventType="touchUpInside" id="Qbm-o9-LJW"/>
+                                    <action selector="tappedRestoreButton:" destination="0pb-7p-nji" eventType="touchUpInside" id="NDi-Fb-4N9"/>
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pUS-T0-gWD">
@@ -331,12 +331,12 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="fileListActivityIndicator" destination="pUS-T0-gWD" id="WHq-23-SYS"/>
-                        <outlet property="headerLabel" destination="ypX-hC-Cbb" id="uxw-ef-BNJ"/>
-                        <outlet property="infoLabel" destination="Vva-Lf-eva" id="gXK-Pm-deo"/>
-                        <outlet property="outputLabel" destination="4sw-LN-GhA" id="MZh-ek-WoA"/>
-                        <outlet property="restoreProgressBar" destination="jUQ-Nk-mJ8" id="W8Y-HL-Mu8"/>
-                        <outlet property="startRestoreButton" destination="2Cc-GK-dNy" id="7dF-ub-Rxg"/>
+                        <outlet property="eraseButton" destination="2Cc-GK-dNy" id="yaP-zt-Adz"/>
+                        <outlet property="outputLabel" destination="4sw-LN-GhA" id="Mvq-93-Dex"/>
+                        <outlet property="progressIndicator" destination="pUS-T0-gWD" id="hKx-eH-oXR"/>
+                        <outlet property="restoreProgressBar" destination="jUQ-Nk-mJ8" id="fAd-E8-DwS"/>
+                        <outlet property="subtitleLabel" destination="Vva-Lf-eva" id="bTa-Le-T5d"/>
+                        <outlet property="titleLabel" destination="ypX-hC-Cbb" id="0WY-vE-c1c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="49D-k6-08i" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -370,7 +370,7 @@
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sav-SP-fAw">
-                                <rect key="frame" x="107" y="124" width="106" height="30"/>
+                                <rect key="frame" x="107" y="130" width="106" height="30"/>
                                 <state key="normal" title="Start Download"/>
                                 <connections>
                                     <action selector="startDownloadButtonAction:" destination="iAG-Yy-aYr" eventType="touchUpInside" id="OhS-0v-xkR"/>
