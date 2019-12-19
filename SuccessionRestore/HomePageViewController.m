@@ -189,13 +189,28 @@
 }
 
 - (IBAction)contactSupportButton:(id)sender {
-    //Opens a PM to my reddit
-    if (@available(iOS 10.0, *)) {
-        NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"] options:URLOptions completionHandler:nil];
-    } else {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"]];
-    }
+    UIAlertController *contactSupport = [UIAlertController alertControllerWithTitle:@"Contact Samg_is_a_Ninja" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *twitterSupport = [UIAlertAction actionWithTitle:@"On Twitter" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //Opens a DM to my twitter
+        if (@available(iOS 10.0, *)) {
+            NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/messages/compose?recipient_id=1207116990248296448"] options:URLOptions completionHandler:nil];
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/messages/compose?recipient_id=1207116990248296448"]];
+        }
+    }];
+    UIAlertAction *redditSupport = [UIAlertAction actionWithTitle:@"On Reddit" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //Opens a PM to my reddit
+        if (@available(iOS 10.0, *)) {
+            NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"] options:URLOptions completionHandler:nil];
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/message/compose/?to=samg_is_a_ninja"]];
+        }
+    }];
+    [contactSupport addAction:twitterSupport];
+    [contactSupport addAction:redditSupport];
+    [self presentViewController:contactSupport animated:TRUE completion:nil];
 }
 
 - (IBAction)donateButton:(id)sender {
