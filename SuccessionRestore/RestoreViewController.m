@@ -235,7 +235,6 @@
             };
             [attachTask launch];
             [attachTask waitUntilExit];
-            
         } else {
             UIAlertController *needsAttach = [UIAlertController alertControllerWithTitle:@"Succession requires additional components to be installed" message:@"Please add http://pmbonneau.com/cydia to your sources and install 'attach' to continue." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
@@ -261,6 +260,7 @@
 }
 
 -(void)prepareMountAttachedDisk:(NSString *)diskPath{
+    [self logToFile:@"prepareMountAttachedDisk called!" atLineNumber:__LINE__];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[self titleLabel] setText:@"Identifying filesystem type..."];
     });
@@ -430,6 +430,9 @@
 
 - (void)beginRestore{
     [self logToFile:@"beginRestore called!" atLineNumber:__LINE__];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        [self.navigationController.view removeGestureRecognizer:self.navigationController.interactivePopGestureRecognizer];
+    }
     if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
         NSTask *deletePreviousBackupSnapTask = [[NSTask alloc] init];
         [deletePreviousBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
@@ -556,7 +559,7 @@
                     if ([stringRead containsString:@"deleting"]) {
                         [[self outputLabel] setText:[NSString stringWithFormat:@"Deleting from %@", word]];
                     } else {
-                       [[self outputLabel] setText:[NSString stringWithFormat:@"Restoring %@", word]];
+                        [[self outputLabel] setText:[NSString stringWithFormat:@"Restoring %@", word]];
                     }
                 }
             }
