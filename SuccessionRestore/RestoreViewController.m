@@ -208,11 +208,19 @@
             [self logToFile:@"Using comex attach for attach" atLineNumber:__LINE__];
             NSTask *attachTask = [[NSTask alloc] init];
             [attachTask setLaunchPath:@"/usr/sbin/attach"];
-            NSPipe *stdOutPipe = [NSPipe pipe];
-            [attachTask setStandardOutput:stdOutPipe];
-            NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
+            NSPipe *outputPipe = [NSPipe pipe];
+            [attachTask setStandardOutput:outputPipe];
+            NSFileHandle *stdOutHandle = [outputPipe fileHandleForReading];
+            [stdOutHandle waitForDataInBackgroundAndNotify];
+            id observer;
+            observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification object:stdOutHandle queue:nil usingBlock:^(NSNotification *note) {
+                NSData *dataRead = [stdOutHandle availableData];
+                NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
+                [self logToFile:[NSString stringWithFormat:@"live attach output: %@", stringRead] atLineNumber:__LINE__];
+                [stdOutHandle waitForDataInBackgroundAndNotify];
+            }];
             attachTask.terminationHandler = ^{
-                NSData *outData = [outPipeRead readDataToEndOfFile];
+                NSData *outData = [stdOutHandle readDataToEndOfFile];
                 NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
                 [self logToFile:[NSString stringWithFormat:@"attach output is: %@", outString] atLineNumber:__LINE__];
                 NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
