@@ -616,7 +616,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
-				MARKETING_VERSION = "1.4.5~b2";
+				MARKETING_VERSION = "1.4.5~b5";
 				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -642,7 +642,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
-				MARKETING_VERSION = "1.4.5~b2";
+				MARKETING_VERSION = "1.4.5~b5";
 				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
