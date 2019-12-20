@@ -209,6 +209,7 @@
             NSTask *attachTask = [[NSTask alloc] init];
             [attachTask setLaunchPath:@"/usr/sbin/attach"];
             NSPipe *stdOutPipe = [NSPipe pipe];
+            [attachTask setStandardOutput:stdOutPipe];
             NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
             attachTask.terminationHandler = ^{
                 NSData *outData = [outPipeRead readDataToEndOfFile];
