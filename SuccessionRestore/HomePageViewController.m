@@ -47,10 +47,6 @@
     _deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
     self.iOSBuildLabel.text = [NSString stringWithFormat:@"%@", _deviceBuild];
-    // Checks iOS version. If iOS < 10.0, then delete hdik to force succession to require attach later.
-    if (kCFCoreFoundationVersionNumber < 1300) {
-        [[NSFileManager defaultManager] removeItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"] error:nil];
-    }
     // Don't run on the 6s on 9.X due to activation issue
     if ([_deviceModel isEqualToString:@"iPhone8,1"] || [_deviceModel isEqualToString:@"iPhone8,2"]) {
         if ([_deviceVersion hasPrefix:@"9."]) {
