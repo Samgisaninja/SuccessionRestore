@@ -201,7 +201,6 @@
                     [self prepareMountAttachedDisk:diskPath];
                 }
             } else {
-                sleep(10);
                 NSMutableArray *afterAttachDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
                 [afterAttachDevContents removeObjectsInArray:beforeAttachDevContents];
                 [self logToFile:[afterAttachDevContents componentsJoinedByString:@"\n"] atLineNumber:__LINE__];
