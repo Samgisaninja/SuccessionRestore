@@ -8,6 +8,8 @@ This project is free (and always will be), donations are never required but high
 
 *rsync used in accordance with gpl3*
 
+*attach generously provided by comex*
+
 ## Device Support
 
 Succession supports version/device combinations that have rootfilesystem DMGs that can be dumped. This means:

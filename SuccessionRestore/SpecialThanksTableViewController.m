@@ -27,7 +27,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 12;
+    return 13;
 }
 
 
@@ -187,6 +187,12 @@
             break;
         }
         case 11:
+        {
+            [[cell textLabel] setText:@"Attach by comex"];
+            [[cell imageView] setImage:nil];
+            break;
+        }
+        case 12:
         {
             [[cell textLabel] setText:@"Objective-Zip Copyright (c) 2009-2012, Flying Dolphin Studio All rights reserved. Used under BSD3 License."];
             [[cell imageView] setImage:nil];

@@ -52,6 +52,7 @@
 		8DCED5FB234134F800B8DD4F /* binaryinfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DCED5FA234134F800B8DD4F /* binaryinfo.txt */; };
 		8DE5B2A822611C0F00502C8F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */; };
 		8DF38BF523904B9300C65695 /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF38BF423904B9300C65695 /* RestoreViewController.m */; };
+		8DF4B8C523AF1AE3009EAB13 /* attach in Resources */ = {isa = PBXBuildFile; fileRef = 8DF4B8C423AF1AE3009EAB13 /* attach */; };
 		8DFBE80122442FEB00A96C2C /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */; };
 /* End PBXBuildFile section */
 
@@ -165,6 +166,7 @@
 		8DE5B2A722611C0F00502C8F /* SettingsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
 		8DF38BF323904B9300C65695 /* RestoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestoreViewController.h; sourceTree = "<group>"; };
 		8DF38BF423904B9300C65695 /* RestoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestoreViewController.m; sourceTree = "<group>"; };
+		8DF4B8C423AF1AE3009EAB13 /* attach */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = attach; sourceTree = "<group>"; };
 		8DFA1566227FCC320072BB17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpringBoardServices.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -319,6 +321,7 @@
 				8D7ABB0D2319DDCD0098C52B /* DecryptViewController.h */,
 				8D7ABB0E2319DDCD0098C52B /* DecryptViewController.m */,
 				8D73E988232635580016335E /* SuccessionHelper */,
+				8DF4B8C423AF1AE3009EAB13 /* attach */,
 				8D980C982303D26C009717B4 /* hdik-arm64 */,
 				8D40BF0E231261F300240454 /* hdik-arm64e */,
 				8D980C962303D125009717B4 /* hdik-armv7 */,
@@ -415,6 +418,7 @@
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,
 				8D40BF0F231261F300240454 /* hdik-arm64e in Resources */,
 				8D73E989232635580016335E /* SuccessionHelper in Resources */,
+				8DF4B8C523AF1AE3009EAB13 /* attach in Resources */,
 				8D24F5062325C67D00215579 /* (null) in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
