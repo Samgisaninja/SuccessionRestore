@@ -70,12 +70,14 @@ do
             rm /Applications/SuccessionRestore.app/binaryinfo.txt
         elif [ "$MAJORVERSION" -lt 16 ]
         then
-            echo "***ERROR! This version of Succession is not compatible with 32-bit devices on iOS 9.0 or older. Please add https://samgisaninja.github.io/ to your sources and downgrade to an older version. Sorry about that :/***"
-            echo "***ERROR! This version of Succession is not compatible with 32-bit devices on iOS 9.0 or older. Please add https://samgisaninja.github.io/ to your sources and downgrade to an older version. Sorry about that :/***"
-            echo "***ERROR! This version of Succession is not compatible with 32-bit devices on iOS 9.0 or older. Please add https://samgisaninja.github.io/ to your sources and downgrade to an older version. Sorry about that :/***"
-            echo "***ERROR! This version of Succession is not compatible with 32-bit devices on iOS 9.0 or older. Please add https://samgisaninja.github.io/ to your sources and downgrade to an older version. Sorry about that :/***"
-            echo "***ERROR! This version of Succession is not compatible with 32-bit devices on iOS 9.0 or older. Please add https://samgisaninja.github.io/ to your sources and downgrade to an older version. Sorry about that :/***"
-            rm -r /Applications/SuccessionRestore.app/
+            echo "Succession has detected iOS 9.3.5 or lower!"
+            rm /Applications/SuccessionRestore.app/SuccessionRestore
+            mv /Applications/SuccessionRestore.app/SuccessionRestore32 /Applications/SuccessionRestore.app/SuccessionRestore_
+            mv /Applications/SuccessionRestore.app/SuccessionHelper /Applications/SuccessionRestore.app/SuccessionRestore
+            rm /Applications/SuccessionRestore.app/hdik-arm64
+            rm /Applications/SuccessionRestore.app/hdik-arm64e
+            rm /Applications/SuccessionRestore.app/hdik-armv7
+            rm /Applications/SuccessionRestore.app/binaryinfo.txt
         fi
     fi
 done
