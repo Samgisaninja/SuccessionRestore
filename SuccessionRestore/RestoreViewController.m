@@ -201,28 +201,18 @@
         };
         [hdikTask launch];
         [hdikTask waitUntilExit];
-    } else if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"]] || [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64e"]] || [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"]]) {
-        [self errorAlert:@"Succession has not been configured. Please reinstall Succession using Cydia or Zebra. If you installed Succession manually, please extract Succession's postinst script and run it" atLineNumber:__LINE__];
-    } else {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/attach"]) {
-            [self logToFile:@"Using comex attach for attach" atLineNumber:__LINE__];
-            NSTask *attachTask = [[NSTask alloc] init];
-            [attachTask setLaunchPath:@"/usr/sbin/attach"];
-            NSPipe *outputPipe = [NSPipe pipe];
-            [attachTask setStandardOutput:outputPipe];
-            NSFileHandle *stdOutHandle = [outputPipe fileHandleForReading];
-            [stdOutHandle waitForDataInBackgroundAndNotify];
-            id observer;
-            observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification object:stdOutHandle queue:nil usingBlock:^(NSNotification *note) {
-                NSData *dataRead = [stdOutHandle availableData];
-                NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
-                [self logToFile:[NSString stringWithFormat:@"live attach output: %@", stringRead] atLineNumber:__LINE__];
-                [stdOutHandle waitForDataInBackgroundAndNotify];
-            }];
-            attachTask.terminationHandler = ^{
-                NSData *outData = [stdOutHandle readDataToEndOfFile];
-                NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
-                [self logToFile:[NSString stringWithFormat:@"attach output is: %@", outString] atLineNumber:__LINE__];
+    } else if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"attach"]]) {
+        [self logToFile:@"Using comex attach for attach" atLineNumber:__LINE__];
+        NSTask *attachTask = [[NSTask alloc] init];
+        [attachTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"attach"]];
+        NSPipe *stdOutPipe = [NSPipe pipe];
+        NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
+        [attachTask setStandardOutput:stdOutPipe];
+        attachTask.terminationHandler = ^{
+            NSData *outData = [outPipeRead readDataToEndOfFile];
+            NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
+            [self logToFile:[NSString stringWithFormat:@"attach output is: %@", outString] atLineNumber:__LINE__];
+            if ([outString containsString:@"disk"]) {
                 NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
                 [self logToFile:[NSString stringWithFormat:@"%@\n\n%lu", [outLines componentsJoinedByString:@", "], (unsigned long)[outLines count]] atLineNumber:__LINE__];
                 if ([outLines count] != 2) {
@@ -241,30 +231,14 @@
                     [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", theDiskString] atLineNumber:__LINE__];
                     [self prepareMountAttachedDisk:theDiskString];
                 }
-            };
-            [attachTask launch];
-            [attachTask waitUntilExit];
-        } else {
-            UIAlertController *needsAttach = [UIAlertController alertControllerWithTitle:@"Succession requires additional components to be installed" message:@"Please add http://pmbonneau.com/cydia to your sources and install 'attach' to continue." preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                exit(0);
-            }];
-            UIAlertAction *addRepoAction = [UIAlertAction actionWithTitle:@"Add repo to cydia" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                if (@available(iOS 10.0, *)) {
-                    NSDictionary *URLOptions = @{UIApplicationOpenURLOptionUniversalLinksOnly : @FALSE};
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=http://pmbonneau.com/cydia"] options:URLOptions completionHandler:nil];
-                } else {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=http://pmbonneau.com/cydia"]];
-                }
-                exit(0);
-            }];
-            NSString *sources = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/cydia.list" encoding:NSUTF8StringEncoding error:nil];
-            if (![sources containsString:@"pmbonneau.com/cydia"]) {
-                [needsAttach addAction:addRepoAction];
             }
-            [needsAttach addAction:exitAction];
-            [self presentViewController:needsAttach animated:TRUE completion:nil];
-        }
+        };
+        [attachTask launch];
+        [attachTask waitUntilExit];
+    } else if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"]] || [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64e"]] || [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"]]) {
+        [self errorAlert:@"Succession has not been configured. Please reinstall Succession using Cydia or Zebra. If you installed Succession manually, please extract Succession's postinst script and run it" atLineNumber:__LINE__];
+    } else {
+        [self errorAlert:@"Succession is missing hdik and attach and cannot continue. Please reinstall Succession using Cydia or Zebra." atLineNumber:__LINE__];
     }
 }
 
