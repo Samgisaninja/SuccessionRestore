@@ -205,36 +205,32 @@
         [self logToFile:@"Using comex attach for attach" atLineNumber:__LINE__];
         NSTask *attachTask = [[NSTask alloc] init];
         [attachTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"attach"]];
+        NSArray *attachArgs = [NSArray arrayWithObjects:@"/private/var/mobile/Media/Succession/rfs.dmg", nil];
+        [attachTask setArguments:attachArgs];
         NSPipe *stdOutPipe = [NSPipe pipe];
         NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
         [attachTask setStandardOutput:stdOutPipe];
-        attachTask.terminationHandler = ^{
-            NSData *outData = [outPipeRead readDataToEndOfFile];
-            NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
-            [self logToFile:[NSString stringWithFormat:@"attach output is: %@", outString] atLineNumber:__LINE__];
-            if ([outString containsString:@"disk"]) {
-                NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
-                [self logToFile:[NSString stringWithFormat:@"%@\n\n%lu", [outLines componentsJoinedByString:@", "], (unsigned long)[outLines count]] atLineNumber:__LINE__];
-                if ([outLines count] != 2) {
-                    for (NSString *line in outLines) {
-                        [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
-                        if ([line containsString:@"s3"]) {
-                            [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", line] atLineNumber:__LINE__];
-                            NSString *theDiskString = [NSMutableString stringWithString:line];
-                            [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", theDiskString] atLineNumber:__LINE__];
-                            [self prepareMountAttachedDisk:theDiskString];
-                            break;
-                        }
-                    }
-                } else {
-                    NSString *theDiskString = [outLines firstObject];
-                    [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", theDiskString] atLineNumber:__LINE__];
-                    [self prepareMountAttachedDisk:theDiskString];
-                }
-            }
-        };
         [attachTask launch];
         [attachTask waitUntilExit];
+        NSData *outData = [outPipeRead readDataToEndOfFile];
+        NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
+        [self logToFile:[NSString stringWithFormat:@"attach output is: %@", outString] atLineNumber:__LINE__];
+        NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+        [self logToFile:[NSString stringWithFormat:@"%@\n\n%lu", [outLines componentsJoinedByString:@", "], (unsigned long)[outLines count]] atLineNumber:__LINE__];
+        if ([outLines count] != 2) {
+            for (NSString *line in outLines) {
+                [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+                if ([line containsString:@"s3"]) {
+                    [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", line] atLineNumber:__LINE__];
+                    [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", line] atLineNumber:__LINE__];
+                    [self prepareMountAttachedDisk:line];
+                }
+            }
+        } else {
+            NSString *theDiskString = [outLines firstObject];
+            [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", theDiskString] atLineNumber:__LINE__];
+            [self prepareMountAttachedDisk:theDiskString];
+        }
     } else if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"]] || [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64e"]] || [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"]]) {
         [self errorAlert:@"Succession has not been configured. Please reinstall Succession using Cydia or Zebra. If you installed Succession manually, please extract Succession's postinst script and run it" atLineNumber:__LINE__];
     } else {
