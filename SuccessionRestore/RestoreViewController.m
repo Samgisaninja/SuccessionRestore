@@ -403,7 +403,7 @@
         [_areYouSureAlert addAction:cancelAction];
         [self presentViewController:_areYouSureAlert animated:TRUE completion:nil];
     } else {
-        
+        [self errorAlert:@"Can't restore, filesystem isn't mounted." atLineNumber:__LINE__];
     }
 }
 
