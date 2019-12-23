@@ -162,6 +162,7 @@
 
 -(void)attachDiskImage{
     [self logToFile:@"attachDiskImage called!" atLineNumber:__LINE__];
+    NSArray *beforeAttachDevContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil];
     if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSString stringWithFormat:@"%@", [[NSBundle mainBundle] bundlePath]] stringByAppendingPathComponent:@"hdik"]]) {
         [self logToFile:@"using hdik to attach disk image" atLineNumber:__LINE__];
         NSTask *hdikTask = [[NSTask alloc] init];
@@ -176,27 +177,56 @@
             NSData *outData = [outPipeRead readDataToEndOfFile];
             NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
             [self logToFile:[NSString stringWithFormat:@"hdik completed with\n%@",outString] atLineNumber:__LINE__];
-            NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
-            [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
-            if ([outLines count] > 1) {
-                for (NSString *line in outLines) {
-                    [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
-                    if ([line containsString:@"s2"]) {
-                        [self logToFile:[NSString stringWithFormat:@"found attached diskpath in %@", line] atLineNumber:__LINE__];
-                        NSArray *lineWords = [line componentsSeparatedByString:@" "];
-                        for (NSString *word in lineWords) {
-                            if ([word hasPrefix:@"/dev/disk"]) {
-                                [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", word] atLineNumber:__LINE__];
-                                [self prepareMountAttachedDisk:word];
-                                break;
+            if ([outString containsString:@"disk"]) {
+                NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+                [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
+                if ([outLines count] > 1) {
+                    for (NSString *line in outLines) {
+                        [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+                        if ([line containsString:@"s2"]) {
+                            [self logToFile:[NSString stringWithFormat:@"found attached diskpath in %@", line] atLineNumber:__LINE__];
+                            NSArray *lineWords = [line componentsSeparatedByString:@" "];
+                            for (NSString *word in lineWords) {
+                                if ([word hasPrefix:@"/dev/disk"]) {
+                                    [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", word] atLineNumber:__LINE__];
+                                    [self prepareMountAttachedDisk:word];
+                                    break;
+                                }
                             }
                         }
                     }
+                } else {
+                    NSString *diskPath = [outLines firstObject];
+                    [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", diskPath] atLineNumber:__LINE__];
+                    [self prepareMountAttachedDisk:diskPath];
                 }
             } else {
-                NSString *diskPath = [outLines firstObject];
-                [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", diskPath] atLineNumber:__LINE__];
-                [self prepareMountAttachedDisk:diskPath];
+                NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
+                [changedDevContents removeObjectsInArray:beforeAttachDevContents];
+                NSString *simulatedOutString = [changedDevContents componentsJoinedByString:[NSString stringWithFormat:@"\n/dev/"]];
+                [self logToFile:[NSString stringWithFormat:@"simulated hdik output: %@",simulatedOutString] atLineNumber:__LINE__];
+                NSArray *outLines = [simulatedOutString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+                [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
+                if ([outLines count] > 1) {
+                    for (NSString *line in outLines) {
+                        [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
+                        if ([line containsString:@"s2"]) {
+                            [self logToFile:[NSString stringWithFormat:@"found attached diskpath in %@", line] atLineNumber:__LINE__];
+                            NSArray *lineWords = [line componentsSeparatedByString:@" "];
+                            for (NSString *word in lineWords) {
+                                if ([word hasPrefix:@"/dev/disk"]) {
+                                    [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", word] atLineNumber:__LINE__];
+                                    [self prepareMountAttachedDisk:word];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    NSString *diskPath = [outLines firstObject];
+                    [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", diskPath] atLineNumber:__LINE__];
+                    [self prepareMountAttachedDisk:diskPath];
+                }
             }
         };
         [hdikTask launch];
