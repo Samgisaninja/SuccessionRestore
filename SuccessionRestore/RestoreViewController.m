@@ -221,14 +221,27 @@
             for (NSString *line in outLines) {
                 [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
                 if ([line containsString:@"s3"]) {
+                    NSString *theDiskString;
                     [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", line] atLineNumber:__LINE__];
-                    [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", line] atLineNumber:__LINE__];
+                    if (![line hasPrefix:@"/dev/"]) {
+                        theDiskString = [NSMutableString stringWithString:[NSString stringWithFormat:@"/dev/%@", line]];
+                    } else {
+                        theDiskString = line;
+                    }
+                    [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", theDiskString] atLineNumber:__LINE__];
                     [self prepareMountAttachedDisk:line];
                 }
             }
         } else {
-            NSString *theDiskString = [outLines firstObject];
-            [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", theDiskString] atLineNumber:__LINE__];
+            NSString *diskName = [outLines firstObject];
+            [self logToFile:[NSString stringWithFormat:@"found attached diskname %@", diskName] atLineNumber:__LINE__];
+            NSString *theDiskString;
+            if (![diskName hasPrefix:@"/dev/"]) {
+                theDiskString = [NSMutableString stringWithString:[NSString stringWithFormat:@"/dev/%@", diskName]];
+            } else {
+                theDiskString = diskName;
+            }
+            [self logToFile:[NSString stringWithFormat:@"sending %@ to mountRestoreDisk", theDiskString] atLineNumber:__LINE__];
             [self prepareMountAttachedDisk:theDiskString];
         }
     } else if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64"]] || [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-arm64e"]] || [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik-armv7"]]) {
