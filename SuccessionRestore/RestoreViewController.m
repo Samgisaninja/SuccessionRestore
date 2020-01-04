@@ -98,6 +98,7 @@
                 if (!error) {
                     [self attachDiskImage];
                 } else {
+                    [self logToFile:[NSString stringWithFormat:@"Got %@ when trying to create mountpoint, using bypass.", [error localizedDescription]] atLineNumber:__LINE__];
                     [self mountPointCreationBypass];
                 }
             } else {
@@ -110,6 +111,7 @@
         if (!error) {
             [self attachDiskImage];
         } else {
+            [self logToFile:[NSString stringWithFormat:@"Got %@ when trying to create mountpoint, using bypass.", [error localizedDescription]] atLineNumber:__LINE__];
             [self mountPointCreationBypass];
         }
     }
@@ -173,6 +175,7 @@
         NSPipe *stdOutPipe = [NSPipe pipe];
         NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
         [hdikTask setStandardOutput:stdOutPipe];
+        [hdikTask setStandardError:stdOutPipe];
         hdikTask.terminationHandler = ^{
             NSData *outData = [outPipeRead readDataToEndOfFile];
             NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
@@ -236,6 +239,7 @@
         NSPipe *stdOutPipe = [NSPipe pipe];
         NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
         [attachTask setStandardOutput:stdOutPipe];
+        [attachTask setStandardError:stdOutPipe];
         [attachTask launch];
         [attachTask waitUntilExit];
         NSData *outData = [outPipeRead readDataToEndOfFile];
@@ -575,6 +579,7 @@
         [rsyncTask setArguments:rsyncArgs];
         NSPipe *outputPipe = [NSPipe pipe];
         [rsyncTask setStandardOutput:outputPipe];
+        [rsyncTask setStandardError:outputPipe];
         NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
         [stdoutHandle waitForDataInBackgroundAndNotify];
         id observer;
