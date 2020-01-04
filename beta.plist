@@ -10709,6 +10709,8 @@
 		<string>Sorry, the IPSW file cannot be accessed without an Apple Developer account. Please download the IPSW for your device and iOS beta build manually and place it in /var/mobile/Media/Succession</string>
 		<key>iPhone9,4</key>
 		<string>Sorry, the IPSW file cannot be accessed without an Apple Developer account. Please download the IPSW for your device and iOS beta build manually and place it in /var/mobile/Media/Succession</string>
+		<key>iPod9,1</key>
+		<string>Sorry, the IPSW file cannot be accessed without an Apple Developer account. Please download the IPSW for your device and iOS beta build manually and place it in /var/mobile/Media/Succession</string>
 	</dict>
 	<key>17A5508m</key>
 	<dict>
@@ -10788,6 +10790,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-75009/49B7BD70-8F88-11E9-9C48-AB83B3BE89AA/iPhone_4.7_P3_13.0_17A5508m_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-75210/BB6E73F0-8F88-11E9-9EB4-A57152D9EEF6/iPhone_5.5_P3_13.0_17A5508m_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-75125/DE952E3C-8F88-11E9-AF1F-B34DE19F2288/iPodtouch_7_13.0_17A5508m_Restore.ipsw</string>
 	</dict>
 	<key>17A5522f</key>
 	<dict>
@@ -10867,6 +10871,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-81893/C15F2692-9BC2-11E9-B79C-BD2A024E608E/iPhone_4.7_P3_13.0_17A5522f_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-81822/EDF388B2-9BC0-11E9-BF53-2D1A024E608E/iPhone_5.5_P3_13.0_17A5522f_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-81814/0A9F5ACE-9BC4-11E9-896D-FE36024E608E/iPodtouch_7_13.0_17A5522f_Restore.ipsw</string>
 	</dict>
 	<key>17A5522g</key>
 	<dict>
@@ -10930,6 +10936,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-82337/2FA28900-9DA3-11E9-B943-A15DDF520A3F/iPhone11,2,iPhone11,6_13.0_17A5522g_Restore.ipsw</string>
 		<key>iPhone11,6</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-82337/2FA28900-9DA3-11E9-B943-A15DDF520A3F/iPhone11,2,iPhone11,6_13.0_17A5522g_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-82384/18D2E9B4-9DA2-11E9-84C7-8DCEB1202A3D/iPodtouch_7_13.0_17A5522g_Restore.ipsw</string>
 	</dict>
 	<key>17A5534f</key>
 	<dict>
@@ -11009,6 +11017,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-87500/9708B9C6-A70C-11E9-A168-DB41C9FE7D43/iPhone_4.7_P3_13.0_17A5534f_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-87693/46B33720-A70D-11E9-8D2A-EC50C9FE7D43/iPhone_5.5_P3_13.0_17A5534f_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-87645/08A70F92-A70D-11E9-A20C-804DC9FE7D43/iPodtouch_7_13.0_17A5534f_Restore.ipsw</string>
 	</dict>
 	<key>17A5547d</key>
 	<dict>
@@ -11088,6 +11098,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-93584/E1E992EA-AEF9-11E9-BA7A-F0457AFCF7F9/iPhone_4.7_P3_13.0_17A5547d_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-93549/06C667D0-AEF7-11E9-9C8A-DFA4B1CD1797/iPhone_5.5_P3_13.0_17A5547d_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-93655/732012B4-AEF7-11E9-B6CA-9E75599825F7/iPodtouch_7_13.0_17A5547d_Restore.ipsw</string>
 	</dict>
 	<key>17A5556d</key>
 	<dict>
@@ -11167,6 +11179,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-97727/78B9407A-B798-11E9-A6D2-9529E938C8A1/iPhone_4.7_P3_13.0_17A5556d_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-97653/51707E2C-B79B-11E9-BCC2-EC4BE938C8A1/iPhone_5.5_P3_13.0_17A5556d_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-97683/78F9334C-B798-11E9-888E-A029E938C8A1/iPodtouch_7_13.0_17A5556d_Restore.ipsw</string>
 	</dict>
 	<key>17A5565b</key>
 	<dict>
@@ -11246,6 +11260,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-99363/890B5948-BDF8-11E9-BA60-9018FC1A2FD1/iPhone_4.7_P3_13.0_17A5565b_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-99118/137CF17A-BDF6-11E9-AC86-E646CABE4C88/iPhone_5.5_P3_13.0_17A5565b_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/041-99230/BDA45C98-BDF5-11E9-AB9E-9114FFC0D2F9/iPodtouch_7_13.0_17A5565b_Restore.ipsw</string>
 	</dict>
 	<key>17A5572a</key>
 	<dict>
@@ -11325,6 +11341,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-02976/E53162AC-C2BD-11E9-9618-AAE736749189/iPhone_4.7_P3_13.0_17A5572a_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-03171/724FFA12-C2BF-11E9-83D5-2EF736749189/iPhone_5.5_P3_13.0_17A5572a_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-03049/BC294FB4-C2BD-11E9-A577-FFE136749189/iPodtouch_7_13.0_17A5572a_Restore.ipsw</string>
 	</dict>
 	<key>17A577</key>
 	<dict>
@@ -11429,6 +11447,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-07399/ECCB3742-C75C-11E9-9D08-C42CD78F8809/iPhone_4.7_P3_13.1_17A5821e_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-07464/35192AB6-C75A-11E9-B388-BF06D78F8809/iPhone_5.5_P3_13.1_17A5821e_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-07465/35158622-C75A-11E9-A17B-A306D78F8809/iPodtouch_7_13.1_17A5821e_Restore.ipsw</string>
 	</dict>
 	<key>17A5831c</key>
 	<dict>
@@ -11508,6 +11528,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-11448/BDB274A8-CD87-11E9-957D-EF9B90F3C0DA/iPhone_4.7_P3_13.1_17A5831c_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-11562/0AF77536-CD8A-11E9-A308-D0342A9F58CC/iPhone_5.5_P3_13.1_17A5831c_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-11507/AB482DB0-CD89-11E9-90C2-AF3D0FFCDF4B/iPodtouch_7_13.1_17A5831c_Restore.ipsw</string>
 	</dict>
 	<key>17A5837a</key>
 	<dict>
@@ -11587,6 +11609,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-12488/20EE7248-D197-11E9-9A8C-9860B00829E0/iPhone_4.7_P3_13.1_17A5837a_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-12423/8943DA08-D198-11E9-B130-9672B00829E0/iPhone_5.5_P3_13.1_17A5837a_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-12514/7410DF48-D196-11E9-94D3-6653B00829E0/iPodtouch_7_13.1_17A5837a_Restore.ipsw</string>
 	</dict>
 	<key>17A5844a</key>
 	<dict>
@@ -11666,6 +11690,8 @@
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-14067/D95C4178-D8BA-11E9-9B7F-8D08C8931DF2/iPhone_4.7_P3_13.1_17A5844a_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-14238/1B22D0BC-D8BC-11E9-B6AC-4016C8931DF2/iPhone_5.5_P3_13.1_17A5844a_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019SummerSeed/fullrestores/061-14010/2DAFDC42-D8BD-11E9-8468-CA23C8931DF2/iPodtouch_7_13.1_17A5844a_Restore.ipsw</string>
 	</dict>
 	<key>17A5844b</key>
 	<dict>
@@ -11760,6 +11786,8 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-26009/B14970E8-E3AF-11E9-8C7D-9E9BB0650572/iPhone_4.7_P3_13.2_17B5059g_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-25907/66544CA6-E3B0-11E9-92E6-C90ED7E74CC2/iPhone_5.5_P3_13.2_17B5059g_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-26039/20FC682A-E3AE-11E9-9DBC-D072FD9145A2/iPodtouch_7_13.2_17B5059g_Restore.ipsw</string>
 	</dict>
 	<key>17B5068e</key>
 	<dict>
@@ -11847,6 +11875,8 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-28684/15AAC5AC-EA2F-11E9-871D-86007F652FD3/iPhone_4.7_P3_13.2_17B5068e_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-28599/80022264-EA30-11E9-ADBD-AFCC360D18C1/iPhone_5.5_P3_13.2_17B5068e_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-28561/9EE45D92-EA2F-11E9-B0DD-90BDE8626143/iPodtouch_7_13.2_17B5068e_Restore.ipsw</string>
 	</dict>
 	<key>17B5077a</key>
 	<dict>
@@ -11934,6 +11964,8 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-32885/53EE261C-EF00-11E9-9963-CF9DD2743D75/iPhone_4.7_P3_13.2_17B5077a_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-32901/73DD41C2-EF02-11E9-A4D7-F91126B06492/iPhone_5.5_P3_13.2_17B5077a_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-32894/29B0CE0C-EF02-11E9-B3B9-D9097D0CBA1E/iPodtouch_7_13.2_17B5077a_Restore.ipsw</string>
 	</dict>
 	<key>17B5084a</key>
 	<dict>
@@ -12021,6 +12053,8 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-38695/B24BFE46-F432-11E9-B54E-C46E128F29D2/iPhone_4.7_P3_13.2_17B5084a_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-38638/C175D1D0-F432-11E9-8661-AE6F75C33002/iPhone_5.5_P3_13.2_17B5084a_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-38593/9B065254-F432-11E9-847C-9BFA05466EF2/iPodtouch_7_13.2_17B5084a_Restore.ipsw</string>
 	</dict>
 	<key>17C5032d</key>
 	<dict>
@@ -12096,6 +12130,10 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-46121/43568E84-FE55-11E9-A119-35902FFB422E/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5032d_Restore.ipsw</string>
 		<key>iPhone11,6</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-46121/43568E84-FE55-11E9-A119-35902FFB422E/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5032d_Restore.ipsw</string>
+		<key>iPhone11,8</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-46030/C7E04030-FE57-11E9-9251-E62B2EFB422E/iPhone11,8,iPhone12,1_13.3_17C5032d_Restore.ipsw</string>
+		<key>iPhone12,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-46030/C7E04030-FE57-11E9-9251-E62B2EFB422E/iPhone11,8,iPhone12,1_13.3_17C5032d_Restore.ipsw</string>
 		<key>iPhone12,3</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-46121/43568E84-FE55-11E9-A119-35902FFB422E/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5032d_Restore.ipsw</string>
 		<key>iPhone12,5</key>
@@ -12108,10 +12146,8 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-46021/F82279DC-FE54-11E9-9E53-D2882FFB422E/iPhone_4.7_P3_13.3_17C5032d_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-46048/F814EB00-FE54-11E9-978F-DF882FFB422E/iPhone_5.5_P3_13.3_17C5032d_Restore.ipsw</string>
-		<key>iPhone11,8</key>
-		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-46030/C7E04030-FE57-11E9-9251-E62B2EFB422E/iPhone11,8,iPhone12,1_13.3_17C5032d_Restore.ipsw</string>
-		<key>iPhone12,1</key>
-		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-46030/C7E04030-FE57-11E9-9251-E62B2EFB422E/iPhone11,8,iPhone12,1_13.3_17C5032d_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-46221/DCE8C22C-FE57-11E9-8F74-982C2EFB422E/iPodtouch_7_13.3_17C5032d_Restore.ipsw</string>
 	</dict>
 	<key>17C5038a</key>
 	<dict>
@@ -12187,6 +12223,10 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-47466/3B1A2098-0272-11EA-8184-8EA229D4906D/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5038a_Restore.ipsw</string>
 		<key>iPhone11,6</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-47466/3B1A2098-0272-11EA-8184-8EA229D4906D/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5038a_Restore.ipsw</string>
+		<key>iPhone11,8</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-47616/8A58C9AA-0274-11EA-AAB6-C9673E8C18DD/iPhone11,8,iPhone12,1_13.3_17C5038a_Restore.ipsw</string>
+		<key>iPhone12,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-47616/8A58C9AA-0274-11EA-AAB6-C9673E8C18DD/iPhone11,8,iPhone12,1_13.3_17C5038a_Restore.ipsw</string>
 		<key>iPhone12,3</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-47466/3B1A2098-0272-11EA-8184-8EA229D4906D/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5038a_Restore.ipsw</string>
 		<key>iPhone12,5</key>
@@ -12199,10 +12239,8 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-47610/F505F46A-0271-11EA-AF4E-E97629795F39/iPhone_4.7_P3_13.3_17C5038a_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-47419/F51ED1E2-0271-11EA-B12F-96154EAD596B/iPhone_5.5_P3_13.3_17C5038a_Restore.ipsw</string>
-		<key>iPhone11,8</key>
-		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-47616/8A58C9AA-0274-11EA-AAB6-C9673E8C18DD/iPhone11,8,iPhone12,1_13.3_17C5038a_Restore.ipsw</string>
-		<key>iPhone12,1</key>
-		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-47616/8A58C9AA-0274-11EA-AAB6-C9673E8C18DD/iPhone11,8,iPhone12,1_13.3_17C5038a_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-47591/9B4A8FAA-0274-11EA-A26F-BC74B13E29E2/iPodtouch_7_13.3_17C5038a_Restore.ipsw</string>
 	</dict>
 	<key>17C5046a</key>
 	<dict>
@@ -12278,6 +12316,10 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-52365/D83D6A5A-0A25-11EA-BE69-9305C13A5CD7/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5046a_Restore.ipsw</string>
 		<key>iPhone11,6</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-52365/D83D6A5A-0A25-11EA-BE69-9305C13A5CD7/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5046a_Restore.ipsw</string>
+		<key>iPhone11,8</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-52544/F6A1C9CA-0A28-11EA-9177-0C27C13A5CD7/iPhone11,8,iPhone12,1_13.3_17C5046a_Restore.ipsw</string>
+		<key>iPhone12,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-52544/F6A1C9CA-0A28-11EA-9177-0C27C13A5CD7/iPhone11,8,iPhone12,1_13.3_17C5046a_Restore.ipsw</string>
 		<key>iPhone12,3</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-52365/D83D6A5A-0A25-11EA-BE69-9305C13A5CD7/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5046a_Restore.ipsw</string>
 		<key>iPhone12,5</key>
@@ -12290,10 +12332,8 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-52403/9DC4F9F6-0A25-11EA-AA1D-9784C23A5CD7/iPhone_4.7_P3_13.3_17C5046a_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-52412/9DAC8394-0A25-11EA-A927-A484C23A5CD7/iPhone_5.5_P3_13.3_17C5046a_Restore.ipsw</string>
-		<key>iPhone11,8</key>
-		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-52544/F6A1C9CA-0A28-11EA-9177-0C27C13A5CD7/iPhone11,8,iPhone12,1_13.3_17C5046a_Restore.ipsw</string>
-		<key>iPhone12,1</key>
-		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-52544/F6A1C9CA-0A28-11EA-9177-0C27C13A5CD7/iPhone11,8,iPhone12,1_13.3_17C5046a_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-52490/0EE12AE4-0A29-11EA-9F62-2F28C13A5CD7/iPodtouch_7_13.3_17C5046a_Restore.ipsw</string>
 	</dict>
 	<key>17C5053a</key>
 	<dict>
@@ -12369,6 +12409,10 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-60459/536C8EFA-1669-11EA-A872-9C650EA20AA6/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5053a_Restore.ipsw</string>
 		<key>iPhone11,6</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-60459/536C8EFA-1669-11EA-A872-9C650EA20AA6/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5053a_Restore.ipsw</string>
+		<key>iPhone11,8</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-60564/9A63015C-166B-11EA-AF76-E49F08A6F539/iPhone11,8,iPhone12,1_13.3_17C5053a_Restore.ipsw</string>
+		<key>iPhone12,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-60564/9A63015C-166B-11EA-AF76-E49F08A6F539/iPhone11,8,iPhone12,1_13.3_17C5053a_Restore.ipsw</string>
 		<key>iPhone12,3</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-60459/536C8EFA-1669-11EA-A872-9C650EA20AA6/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3_17C5053a_Restore.ipsw</string>
 		<key>iPhone12,5</key>
@@ -12381,10 +12425,8 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-60544/2D63E758-1669-11EA-8A07-8BCA16EB40C8/iPhone_4.7_P3_13.3_17C5053a_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-60586/2D6E44E6-1669-11EA-B72F-FC7A63102940/iPhone_5.5_P3_13.3_17C5053a_Restore.ipsw</string>
-		<key>iPhone11,8</key>
-		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-60564/9A63015C-166B-11EA-AF76-E49F08A6F539/iPhone11,8,iPhone12,1_13.3_17C5053a_Restore.ipsw</string>
-		<key>iPhone12,1</key>
-		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-60564/9A63015C-166B-11EA-AF76-E49F08A6F539/iPhone11,8,iPhone12,1_13.3_17C5053a_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-60432/A46091BA-166B-11EA-877B-E6AAFA3DEBD2/iPodtouch_7_13.3_17C5053a_Restore.ipsw</string>
 	</dict>
 	<key>17D5026c</key>
 	<dict>
@@ -12460,6 +12502,10 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-48726/9971E57A-1D45-11EA-9772-59989742F446/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3.1_17D5026c_Restore.ipsw</string>
 		<key>iPhone11,6</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-48726/9971E57A-1D45-11EA-9772-59989742F446/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3.1_17D5026c_Restore.ipsw</string>
+		<key>iPhone11,8</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-48329/EE1E6CE0-1D47-11EA-A350-C5B69742F446/iPhone11,8,iPhone12,1_13.3.1_17D5026c_Restore.ipsw</string>
+		<key>iPhone12,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-48329/EE1E6CE0-1D47-11EA-A350-C5B69742F446/iPhone11,8,iPhone12,1_13.3.1_17D5026c_Restore.ipsw</string>
 		<key>iPhone12,3</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-48726/9971E57A-1D45-11EA-9772-59989742F446/iPhone11,2,iPhone11,6,iPhone12,3,iPhone12,5_13.3.1_17D5026c_Restore.ipsw</string>
 		<key>iPhone12,5</key>
@@ -12472,10 +12518,8 @@
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-48627/5A426294-1D45-11EA-82F1-E2919742F446/iPhone_4.7_P3_13.3.1_17D5026c_Restore.ipsw</string>
 		<key>iPhone9,4</key>
 		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-48833/5A41912A-1D45-11EA-86CD-EF919742F446/iPhone_5.5_P3_13.3.1_17D5026c_Restore.ipsw</string>
-		<key>iPhone11,8</key>
-		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-48329/EE1E6CE0-1D47-11EA-A350-C5B69742F446/iPhone11,8,iPhone12,1_13.3.1_17D5026c_Restore.ipsw</string>
-		<key>iPhone12,1</key>
-		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-48329/EE1E6CE0-1D47-11EA-A350-C5B69742F446/iPhone11,8,iPhone12,1_13.3.1_17D5026c_Restore.ipsw</string>
+		<key>iPod9,1</key>
+		<string>https://updates.cdn-apple.com/2019FallSeed/fullrestores/061-48848/000A374A-1D48-11EA-8295-D1B89742F446/iPodtouch_7_13.3.1_17D5026c_Restore.ipsw</string>
 	</dict>
 </dict>
 </plist>
