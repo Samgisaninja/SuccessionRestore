@@ -6757,6 +6757,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/091-63139/11A3DDE8-AC8E-11E8-BBBB-EAD81D048BD9/iPad_64bit_TouchID_12.0_16A366_Restore.ipsw iPad_64bit_TouchID_12.0_16A366_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/091-63139/11A3DDE8-AC8E-11E8-BBBB-EAD81D048BD9/iPad_64bit_TouchID_12.0_16A366_Restore.ipsw iPad_64bit_TouchID_12.0_16A366_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/091-63166/11A02C16-AC8E-11E8-8517-DF16F89DBF7B/iPadPro_9.7_12.0_16A366_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/091-63166/11A02C16-AC8E-11E8-8517-DF16F89DBF7B/iPadPro_9.7_12.0_16A366_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/091-62871/118D5BA4-AC8E-11E8-AFC2-A753C7CC9026/iPadPro_12.9_12.0_16A366_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/091-62871/118D5BA4-AC8E-11E8-AFC2-A753C7CC9026/iPadPro_12.9_12.0_16A366_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/091-63070/11855120-AC8E-11E8-8110-D73611761120/iPhone_4.7_P3_12.0_16A366_Restore.ipsw iPhone_4.7_P3_12.0_16A366_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -6794,6 +6802,17 @@
 		<key>iPod7,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/091-62942/117CFD40-AC8E-11E8-9643-BCDC62B531BE/iPodtouch_12.0_16A366_Restore.ipsw iPodtouch_12.0_16A366_Restore.ipsw</string>
 	</dict>
+	<key>16A5288q</key>
+	<dict>
+		<key>iPad6,3</key>
+		<string>https://download.developer.apple.com/WWDC_2017/iOS_and_tvOS_IPSWs_for_Jun_4_2018_Seed/iPadPro_9.7_12.0_16A5288q_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>https://download.developer.apple.com/WWDC_2017/iOS_and_tvOS_IPSWs_for_Jun_4_2018_Seed/iPadPro_9.7_12.0_16A5288q_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>https://download.developer.apple.com/WWDC_2017/iOS_and_tvOS_IPSWs_for_Jun_4_2018_Seed/iPadPro_12.9_12.0_16A5288q_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>https://download.developer.apple.com/WWDC_2017/iOS_and_tvOS_IPSWs_for_Jun_4_2018_Seed/iPadPro_12.9_12.0_16A5288q_Restore.ipsw</string>
+	</dict>
 	<key>16A5308e</key>
 	<dict>
 		<key>iPad4,1</key>
@@ -6822,6 +6841,14 @@
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-88184-20180618-A95A3816-70E4-11E8-828F-7E1B8896EC1B/iPad_64bit_TouchID_12.0_16A5308e_Restore.ipsw iPad_64bit_TouchID_12.0_16A5308e_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-88184-20180618-A95A3816-70E4-11E8-828F-7E1B8896EC1B/iPad_64bit_TouchID_12.0_16A5308e_Restore.ipsw iPad_64bit_TouchID_12.0_16A5308e_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-88211-20180618-A95BFCFA-70E4-11E8-8866-801B8896EC1B/iPadPro_9.7_12.0_16A5308e_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-88211-20180618-A95BFCFA-70E4-11E8-8866-801B8896EC1B/iPadPro_9.7_12.0_16A5308e_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-88165-20180618-A9597DE0-70E4-11E8-8006-7C1B8896EC1B/iPadPro_12.9_12.0_16A5308e_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-88165-20180618-A9597DE0-70E4-11E8-8006-7C1B8896EC1B/iPadPro_12.9_12.0_16A5308e_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-88094-20180618-A95B300E-70E4-11E8-A901-761B8896EC1B/iPhone_4.7_P3_12.0_16A5308e_Restore.ipsw iPhone_4.7_P3_12.0_16A5308e_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -6887,6 +6914,14 @@
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-92858-20180705-9A3E687C-7BA0-11E8-A42E-5672DA3C085A/iPad_64bit_TouchID_12.0_16A5318d_Restore.ipsw iPad_64bit_TouchID_12.0_16A5318d_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-92858-20180705-9A3E687C-7BA0-11E8-A42E-5672DA3C085A/iPad_64bit_TouchID_12.0_16A5318d_Restore.ipsw iPad_64bit_TouchID_12.0_16A5318d_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-92891-20180705-9A499AC6-7BA0-11E8-955A-5A72DA3C085A/iPadPro_9.7_12.0_16A5318d_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-92891-20180705-9A499AC6-7BA0-11E8-955A-5A72DA3C085A/iPadPro_9.7_12.0_16A5318d_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-92932-20180705-9A3B209A-7BA0-11E8-84AC-5F72DA3C085A/iPadPro_12.9_12.0_16A5318d_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-92932-20180705-9A3B209A-7BA0-11E8-84AC-5F72DA3C085A/iPadPro_12.9_12.0_16A5318d_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-92758-20180705-9A40809E-7BA0-11E8-8384-4C72DA3C085A/iPhone_4.7_P3_12.0_16A5318d_Restore.ipsw iPhone_4.7_P3_12.0_16A5318d_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -6952,6 +6987,14 @@
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-95741-20180716-AD4BCA0E-8771-11E8-A5B2-31ADAFD6420E/iPad_64bit_TouchID_12.0_16A5327f_Restore.ipsw iPad_64bit_TouchID_12.0_16A5327f_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-95741-20180716-AD4BCA0E-8771-11E8-A5B2-31ADAFD6420E/iPad_64bit_TouchID_12.0_16A5327f_Restore.ipsw iPad_64bit_TouchID_12.0_16A5327f_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-95724-20180716-AD44BD18-8771-11E8-952F-2BADAFD6420E/iPadPro_9.7_12.0_16A5327f_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-95724-20180716-AD44BD18-8771-11E8-952F-2BADAFD6420E/iPadPro_9.7_12.0_16A5327f_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-95721-20180716-AD436C1A-8771-11E8-B423-28ADAFD6420E/iPadPro_12.9_12.0_16A5327f_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-95721-20180716-AD436C1A-8771-11E8-B423-28ADAFD6420E/iPadPro_12.9_12.0_16A5327f_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-95744-20180716-AD511CFC-8771-11E8-9B98-34ADAFD6420E/iPhone_4.7_P3_12.0_16A5327f_Restore.ipsw iPhone_4.7_P3_12.0_16A5327f_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7017,6 +7060,14 @@
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-97495-20180730-1AC8BF76-927E-11E8-9BFF-476101208DCC/iPad_64bit_TouchID_12.0_16A5339e_Restore.ipsw iPad_64bit_TouchID_12.0_16A5339e_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-97495-20180730-1AC8BF76-927E-11E8-9BFF-476101208DCC/iPad_64bit_TouchID_12.0_16A5339e_Restore.ipsw iPad_64bit_TouchID_12.0_16A5339e_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-97521-20180730-1ACD6260-927E-11E8-BDB6-486101208DCC/iPadPro_9.7_12.0_16A5339e_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-97521-20180730-1ACD6260-927E-11E8-BDB6-486101208DCC/iPadPro_9.7_12.0_16A5339e_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-97588-20180730-1ACDC8E0-927E-11E8-BEEC-526101208DCC/iPadPro_12.9_12.0_16A5339e_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-97588-20180730-1ACDC8E0-927E-11E8-BEEC-526101208DCC/iPadPro_12.9_12.0_16A5339e_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-97426-20180730-1AC9A72E-927E-11E8-890D-456101208DCC/iPhone_4.7_P3_12.0_16A5339e_Restore.ipsw iPhone_4.7_P3_12.0_16A5339e_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7082,6 +7133,14 @@
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-98530-20180806-373648DA-96DA-11E8-AD03-C38EFF4EAF9D/iPad_64bit_TouchID_12.0_16A5345f_Restore.ipsw iPad_64bit_TouchID_12.0_16A5345f_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-98530-20180806-373648DA-96DA-11E8-AD03-C38EFF4EAF9D/iPad_64bit_TouchID_12.0_16A5345f_Restore.ipsw iPad_64bit_TouchID_12.0_16A5345f_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-98623-20180806-373CAC02-96DA-11E8-87C4-CB8EFF4EAF9D/iPadPro_9.7_12.0_16A5345f_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-98623-20180806-373CAC02-96DA-11E8-87C4-CB8EFF4EAF9D/iPadPro_9.7_12.0_16A5345f_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-98631-20180806-37377D36-96DA-11E8-9BB8-CD8EFF4EAF9D/iPadPro_12.9_12.0_16A5345f_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-98631-20180806-37377D36-96DA-11E8-9BB8-CD8EFF4EAF9D/iPadPro_12.9_12.0_16A5345f_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018/iosseed/091-98569-20180806-3734712C-96DA-11E8-9CD1-C78EFF4EAF9D/iPhone_4.7_P3_12.0_16A5345f_Restore.ipsw iPhone_4.7_P3_12.0_16A5345f_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7147,6 +7206,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/091-99943/E47E8BFA-9CB7-11E8-94B0-E27A04695046/iPad_64bit_TouchID_12.0_16A5354b_Restore.ipsw iPad_64bit_TouchID_12.0_16A5354b_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/091-99943/E47E8BFA-9CB7-11E8-94B0-E27A04695046/iPad_64bit_TouchID_12.0_16A5354b_Restore.ipsw iPad_64bit_TouchID_12.0_16A5354b_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/091-99986/E487E34E-9CB7-11E8-A50D-86F82947FC98/iPadPro_9.7_12.0_16A5354b_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/091-99986/E487E34E-9CB7-11E8-A50D-86F82947FC98/iPadPro_9.7_12.0_16A5354b_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/091-99801/E472FF38-9CB7-11E8-9CBC-DCC9A819028E/iPadPro_12.9_12.0_16A5354b_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/091-99801/E472FF38-9CB7-11E8-9CBC-DCC9A819028E/iPadPro_12.9_12.0_16A5354b_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/091-99843/E468BB2C-9CB7-11E8-8673-D70A9BC111D6/iPhone_4.7_P3_12.0_16A5354b_Restore.ipsw iPhone_4.7_P3_12.0_16A5354b_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7212,6 +7279,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-00303/09826C20-9FD1-11E8-A9EC-8F4050B295B7/iPad_64bit_TouchID_12.0_16A5357b_Restore.ipsw iPad_64bit_TouchID_12.0_16A5357b_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-00303/09826C20-9FD1-11E8-A9EC-8F4050B295B7/iPad_64bit_TouchID_12.0_16A5357b_Restore.ipsw iPad_64bit_TouchID_12.0_16A5357b_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-00306/09695604-9FD1-11E8-99A6-8EF7A6657A62/iPadPro_9.7_12.0_16A5357b_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-00306/09695604-9FD1-11E8-99A6-8EF7A6657A62/iPadPro_9.7_12.0_16A5357b_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-00451/097BE7BA-9FD1-11E8-A81A-E4D3FBED3BCF/iPadPro_12.9_12.0_16A5357b_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-00451/097BE7BA-9FD1-11E8-A81A-E4D3FBED3BCF/iPadPro_12.9_12.0_16A5357b_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-00426/097E33B2-9FD1-11E8-BAD5-92B415F1E86C/iPhone_4.7_P3_12.0_16A5357b_Restore.ipsw iPhone_4.7_P3_12.0_16A5357b_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7277,6 +7352,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01168/ADB8FF48-A305-11E8-9535-AAA5CF6B4D63/iPad_64bit_TouchID_12.0_16A5362a_Restore.ipsw iPad_64bit_TouchID_12.0_16A5362a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01168/ADB8FF48-A305-11E8-9535-AAA5CF6B4D63/iPad_64bit_TouchID_12.0_16A5362a_Restore.ipsw iPad_64bit_TouchID_12.0_16A5362a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01146/ADBBF00E-A305-11E8-8D80-C0A2B653858D/iPadPro_9.7_12.0_16A5362a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01146/ADBBF00E-A305-11E8-8D80-C0A2B653858D/iPadPro_9.7_12.0_16A5362a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01066/ADB0CD46-A305-11E8-A9D1-AEDA6112FDD2/iPadPro_12.9_12.0_16A5362a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01066/ADB0CD46-A305-11E8-A9D1-AEDA6112FDD2/iPadPro_12.9_12.0_16A5362a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01056/ADADD4EC-A305-11E8-93DF-8A2296EF341E/iPhone_4.7_P3_12.0_16A5362a_Restore.ipsw iPhone_4.7_P3_12.0_16A5362a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7342,6 +7425,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01839/19ACEF80-A661-11E8-82D8-BFDFD8131D8D/iPad_64bit_TouchID_12.0_16A5364a_Restore.ipsw iPad_64bit_TouchID_12.0_16A5364a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01839/19ACEF80-A661-11E8-82D8-BFDFD8131D8D/iPad_64bit_TouchID_12.0_16A5364a_Restore.ipsw iPad_64bit_TouchID_12.0_16A5364a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01848/19B0252E-A661-11E8-9CFA-E8B1969D1679/iPadPro_9.7_12.0_16A5364a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01848/19B0252E-A661-11E8-9CFA-E8B1969D1679/iPadPro_9.7_12.0_16A5364a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01963/19ABCEC0-A661-11E8-A650-9C1C9822ADF0/iPadPro_12.9_12.0_16A5364a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01963/19ABCEC0-A661-11E8-A650-9C1C9822ADF0/iPadPro_12.9_12.0_16A5364a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-01860/1993E558-A661-11E8-B7CA-AECE825CFFE4/iPhone_4.7_P3_12.0_16A5364a_Restore.ipsw iPhone_4.7_P3_12.0_16A5364a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7407,6 +7498,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03164/FECDCA7A-A829-11E8-B5CA-DE48F206FB19/iPad_64bit_TouchID_12.0_16A5365b_Restore.ipsw iPad_64bit_TouchID_12.0_16A5365b_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03164/FECDCA7A-A829-11E8-B5CA-DE48F206FB19/iPad_64bit_TouchID_12.0_16A5365b_Restore.ipsw iPad_64bit_TouchID_12.0_16A5365b_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03134/FED930A4-A829-11E8-81EC-8FA771100A94/iPadPro_9.7_12.0_16A5365b_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03134/FED930A4-A829-11E8-81EC-8FA771100A94/iPadPro_9.7_12.0_16A5365b_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03186/FED79988-A829-11E8-9F76-E9FD2FF4719A/iPadPro_12.9_12.0_16A5365b_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03186/FED79988-A829-11E8-9F76-E9FD2FF4719A/iPadPro_12.9_12.0_16A5365b_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03268/FEDD3FE6-A829-11E8-89F8-C82BA01EC256/iPhone_4.7_P3_12.0_16A5365b_Restore.ipsw iPhone_4.7_P3_12.0_16A5365b_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7472,6 +7571,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03485/B73ED544-ABF5-11E8-9BB5-9EBFFAC7C09F/iPad_64bit_TouchID_12.0_16A5366a_Restore.ipsw iPad_64bit_TouchID_12.0_16A5366a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03485/B73ED544-ABF5-11E8-9BB5-9EBFFAC7C09F/iPad_64bit_TouchID_12.0_16A5366a_Restore.ipsw iPad_64bit_TouchID_12.0_16A5366a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03689/B740B51C-ABF5-11E8-B38D-907F3FC52CDC/iPadPro_9.7_12.0_16A5366a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03689/B740B51C-ABF5-11E8-B38D-907F3FC52CDC/iPadPro_9.7_12.0_16A5366a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03474/B74C3D38-ABF5-11E8-BE1F-F99B1F5D5D6F/iPadPro_12.9_12.0_16A5366a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03474/B74C3D38-ABF5-11E8-BE1F-F99B1F5D5D6F/iPadPro_12.9_12.0_16A5366a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-03591/B72EFDC2-ABF5-11E8-AF2F-9D85F8347B0E/iPhone_4.7_P3_12.0_16A5366a_Restore.ipsw iPhone_4.7_P3_12.0_16A5366a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7537,6 +7644,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-06818/1A4BE2D0-B83F-11E8-81B1-F085CF759ACF/iPad_64bit_TouchID_12.1_16B5059d_Restore.ipsw iPad_64bit_TouchID_12.1_16B5059d_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-06818/1A4BE2D0-B83F-11E8-81B1-F085CF759ACF/iPad_64bit_TouchID_12.1_16B5059d_Restore.ipsw iPad_64bit_TouchID_12.1_16B5059d_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-06888/1A38ED60-B83F-11E8-96CA-A02A38D8EF44/iPadPro_9.7_12.1_16B5059d_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-06888/1A38ED60-B83F-11E8-96CA-A02A38D8EF44/iPadPro_9.7_12.1_16B5059d_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-06852/1A501A9E-B83F-11E8-8C2F-E2321574DB0B/iPadPro_12.9_12.1_16B5059d_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-06852/1A501A9E-B83F-11E8-8C2F-E2321574DB0B/iPadPro_12.9_12.1_16B5059d_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-06825/1A4D8E82-B83F-11E8-8652-879A4E3FB1C9/iPhone_4.7_P3_12.1_16B5059d_Restore.ipsw iPhone_4.7_P3_12.1_16B5059d_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7606,6 +7721,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-09849/1A297074-C5A5-11E8-BA1A-A0E36C2878E5/iPad_64bit_TouchID_12.1_16B5068i_Restore.ipsw iPad_64bit_TouchID_12.1_16B5068i_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-09849/1A297074-C5A5-11E8-BA1A-A0E36C2878E5/iPad_64bit_TouchID_12.1_16B5068i_Restore.ipsw iPad_64bit_TouchID_12.1_16B5068i_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-09920/1A1CA146-C5A5-11E8-AA4E-9AE36C2878E5/iPadPro_9.7_12.1_16B5068i_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-09920/1A1CA146-C5A5-11E8-AA4E-9AE36C2878E5/iPadPro_9.7_12.1_16B5068i_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-09862/1A18EF56-C5A5-11E8-AA85-A2E36C2878E5/iPadPro_12.9_12.1_16B5068i_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-09862/1A18EF56-C5A5-11E8-AA85-A2E36C2878E5/iPadPro_12.9_12.1_16B5068i_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-09852/19F51EC8-C5A5-11E8-89F8-8FE36C2878E5/iPhone_4.7_P3_12.1_16B5068i_Restore.ipsw iPhone_4.7_P3_12.1_16B5068i_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7675,6 +7798,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12350/A5F16D7C-C8EE-11E8-B618-0BD06D2878E5/iPad_64bit_TouchID_12.1_16B5077c_Restore.ipsw iPad_64bit_TouchID_12.1_16B5077c_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12350/A5F16D7C-C8EE-11E8-B618-0BD06D2878E5/iPad_64bit_TouchID_12.1_16B5077c_Restore.ipsw iPad_64bit_TouchID_12.1_16B5077c_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12365/A5F5A946-C8EE-11E8-8101-05D06D2878E5/iPadPro_9.7_12.1_16B5077c_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12365/A5F5A946-C8EE-11E8-8101-05D06D2878E5/iPadPro_9.7_12.1_16B5077c_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-10264/A5F278D4-C8EE-11E8-A4CD-0ED06D2878E5/iPadPro_12.9_12.1_16B5077c_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-10264/A5F278D4-C8EE-11E8-A4CD-0ED06D2878E5/iPadPro_12.9_12.1_16B5077c_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12432/A5DDED56-C8EE-11E8-9238-FACF6D2878E5/iPhone_4.7_P3_12.1_16B5077c_Restore.ipsw iPhone_4.7_P3_12.1_16B5077c_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7744,6 +7875,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-13605/2424B5B0-CD85-11E8-A878-85E830AAA4AF/iPad_64bit_TouchID_12.1_16B5084a_Restore.ipsw iPad_64bit_TouchID_12.1_16B5084a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-13605/2424B5B0-CD85-11E8-A878-85E830AAA4AF/iPad_64bit_TouchID_12.1_16B5084a_Restore.ipsw iPad_64bit_TouchID_12.1_16B5084a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-13506/2419DCF8-CD85-11E8-8642-F4F7CBCE34CB/iPadPro_9.7_12.1_16B5084a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-13506/2419DCF8-CD85-11E8-8642-F4F7CBCE34CB/iPadPro_9.7_12.1_16B5084a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-13779/24292898-CD85-11E8-89D5-C9DF07AF9B02/iPadPro_12.9_12.1_16B5084a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-13779/24292898-CD85-11E8-89D5-C9DF07AF9B02/iPadPro_12.9_12.1_16B5084a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-13548/241D76A6-CD85-11E8-B2A8-A9D118276CDF/iPhone_4.7_P3_12.1_16B5084a_Restore.ipsw iPhone_4.7_P3_12.1_16B5084a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7813,6 +7952,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-15955/6EBA7EF4-D2EC-11E8-8685-0DA33504D6F4/iPad_64bit_TouchID_12.1_16B5089b_Restore.ipsw iPad_64bit_TouchID_12.1_16B5089b_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-15955/6EBA7EF4-D2EC-11E8-8685-0DA33504D6F4/iPad_64bit_TouchID_12.1_16B5089b_Restore.ipsw iPad_64bit_TouchID_12.1_16B5089b_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-16132/6EBA7A08-D2EC-11E8-84DE-07A33504D6F4/iPadPro_9.7_12.1_16B5089b_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-16132/6EBA7A08-D2EC-11E8-84DE-07A33504D6F4/iPadPro_9.7_12.1_16B5089b_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-16037/6EB7CA6A-D2EC-11E8-A822-0EA33504D6F4/iPadPro_12.9_12.1_16B5089b_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-16037/6EB7CA6A-D2EC-11E8-A822-0EA33504D6F4/iPadPro_12.9_12.1_16B5089b_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-16197/6EA2A590-D2EC-11E8-A163-FAA23504D6F4/iPhone_4.7_P3_12.1_16B5089b_Restore.ipsw iPhone_4.7_P3_12.1_16B5089b_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7882,6 +8029,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12729/6F0699DE-DC7D-11E8-BCAC-F293487A0AC4/iPad_64bit_TouchID_12.1.1_16C5036c_Restore.ipsw iPad_64bit_TouchID_12.1.1_16C5036c_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12729/6F0699DE-DC7D-11E8-BCAC-F293487A0AC4/iPad_64bit_TouchID_12.1.1_16C5036c_Restore.ipsw iPad_64bit_TouchID_12.1.1_16C5036c_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12868/6F0CDA24-DC7D-11E8-80BC-CBDFB5FF0DAB/iPadPro_9.7_12.1.1_16C5036c_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12868/6F0CDA24-DC7D-11E8-80BC-CBDFB5FF0DAB/iPadPro_9.7_12.1.1_16C5036c_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12750/6F0EDC34-DC7D-11E8-9295-BB47B53B09FA/iPadPro_12.9_12.1.1_16C5036c_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12750/6F0EDC34-DC7D-11E8-9295-BB47B53B09FA/iPadPro_12.9_12.1.1_16C5036c_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-12732/6EFD799E-DC7D-11E8-8094-F2FAA8DE6C61/iPhone_4.7_P3_12.1.1_16C5036c_Restore.ipsw iPhone_4.7_P3_12.1.1_16C5036c_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -7953,6 +8108,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-20123/4912AEB0-E1F6-11E8-A54D-DEDF8D57A354/iPad_64bit_TouchID_12.1.1_16C5043b_Restore.ipsw iPad_64bit_TouchID_12.1.1_16C5043b_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-20123/4912AEB0-E1F6-11E8-A54D-DEDF8D57A354/iPad_64bit_TouchID_12.1.1_16C5043b_Restore.ipsw iPad_64bit_TouchID_12.1.1_16C5043b_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-20157/49117D9C-E1F6-11E8-9C99-80DAED3222D6/iPadPro_9.7_12.1.1_16C5043b_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-20157/49117D9C-E1F6-11E8-9C99-80DAED3222D6/iPadPro_9.7_12.1.1_16C5043b_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-20153/492ED86A-E1F6-11E8-A20A-C51EF6840082/iPadPro_12.9_12.1.1_16C5043b_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-20153/492ED86A-E1F6-11E8-A20A-C51EF6840082/iPadPro_12.9_12.1.1_16C5043b_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-20362/4925EB1A-E1F6-11E8-B276-FB478987BB9E/iPhone_4.7_P3_12.1.1_16C5043b_Restore.ipsw iPhone_4.7_P3_12.1.1_16C5043b_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8024,6 +8187,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24786/D0F879B4-E786-11E8-9035-179D55D8F596/iPad_64bit_TouchID_12.1.1_16C5050a_Restore.ipsw iPad_64bit_TouchID_12.1.1_16C5050a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24786/D0F879B4-E786-11E8-9035-179D55D8F596/iPad_64bit_TouchID_12.1.1_16C5050a_Restore.ipsw iPad_64bit_TouchID_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24739/D0E6340C-E786-11E8-9230-0E9D55D8F596/iPadPro_9.7_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24739/D0E6340C-E786-11E8-9230-0E9D55D8F596/iPadPro_9.7_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24939/D0E55D84-E786-11E8-9E86-189D55D8F596/iPadPro_12.9_12.1.1_16C5050a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24939/D0E55D84-E786-11E8-9E86-189D55D8F596/iPadPro_12.9_12.1.1_16C5050a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-24949/D0EE494E-E786-11E8-B551-029D55D8F596/iPhone_4.7_P3_12.1.1_16C5050a_Restore.ipsw iPhone_4.7_P3_12.1.1_16C5050a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8095,6 +8266,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-21917/008174CE-F993-11E8-8D42-AA16F8CB124F/iPad_64bit_TouchID_12.1.2_16D5024a_Restore.ipsw iPad_64bit_TouchID_12.1.2_16D5024a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-21917/008174CE-F993-11E8-8D42-AA16F8CB124F/iPad_64bit_TouchID_12.1.2_16D5024a_Restore.ipsw iPad_64bit_TouchID_12.1.2_16D5024a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-22053/007432A0-F993-11E8-B74B-ACCD12A1BAC1/iPadPro_9.7_12.1.2_16D5024a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-22053/007432A0-F993-11E8-B74B-ACCD12A1BAC1/iPadPro_9.7_12.1.2_16D5024a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-22055/00968ADA-F993-11E8-AE71-F9D421CD3581/iPadPro_12.9_12.1.2_16D5024a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-22055/00968ADA-F993-11E8-AE71-F9D421CD3581/iPadPro_12.9_12.1.2_16D5024a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-21673/005E76A4-F993-11E8-9C02-F527A3E92C80/iPhone_4.7_P3_12.1.2_16D5024a_Restore.ipsw iPhone_4.7_P3_12.1.2_16D5024a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8166,6 +8345,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-27083/FDCB187E-0258-11E9-A27A-B69125D66CB6/iPad_64bit_TouchID_12.1.3_16D5032a_Restore.ipsw iPad_64bit_TouchID_12.1.3_16D5032a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-27083/FDCB187E-0258-11E9-A27A-B69125D66CB6/iPad_64bit_TouchID_12.1.3_16D5032a_Restore.ipsw iPad_64bit_TouchID_12.1.3_16D5032a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-27040/FDEE9114-0258-11E9-ACCC-CFF44A1EE728/iPadPro_9.7_12.1.3_16D5032a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-27040/FDEE9114-0258-11E9-ACCC-CFF44A1EE728/iPadPro_9.7_12.1.3_16D5032a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-27037/FDD8B5D8-0258-11E9-952B-C849551C0377/iPadPro_12.9_12.1.3_16D5032a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-27037/FDD8B5D8-0258-11E9-952B-C849551C0377/iPadPro_12.9_12.1.3_16D5032a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-26897/FDDBB1AC-0258-11E9-BD44-E1EF70262B79/iPhone_4.7_P3_12.1.3_16D5032a_Restore.ipsw iPhone_4.7_P3_12.1.3_16D5032a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8237,6 +8424,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-29823/C2977E10-105D-11E9-8522-71E83DF199C7/iPad_64bit_TouchID_12.1.3_16D5037a_Restore.ipsw iPad_64bit_TouchID_12.1.3_16D5037a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-29823/C2977E10-105D-11E9-8522-71E83DF199C7/iPad_64bit_TouchID_12.1.3_16D5037a_Restore.ipsw iPad_64bit_TouchID_12.1.3_16D5037a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-29834/C29DD2E2-105D-11E9-8655-67E83DF199C7/iPadPro_9.7_12.1.3_16D5037a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-29834/C29DD2E2-105D-11E9-8655-67E83DF199C7/iPadPro_9.7_12.1.3_16D5037a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-29827/C294DACA-105D-11E9-8163-72E83DF199C7/iPadPro_12.9_12.1.3_16D5037a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-29827/C294DACA-105D-11E9-8163-72E83DF199C7/iPadPro_12.9_12.1.3_16D5037a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-29750/C26A86A8-105D-11E9-A668-5FE83DF199C7/iPhone_4.7_P3_12.1.3_16D5037a_Restore.ipsw iPhone_4.7_P3_12.1.3_16D5037a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8308,6 +8503,14 @@
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-30437/CA023C52-1383-11E9-98CD-0C104CC90A65/iPad_64bit_TouchID_12.1.3_16D5039a_Restore.ipsw iPad_64bit_TouchID_12.1.3_16D5039a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-30437/CA023C52-1383-11E9-98CD-0C104CC90A65/iPad_64bit_TouchID_12.1.3_16D5039a_Restore.ipsw iPad_64bit_TouchID_12.1.3_16D5039a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-30394/CA32A82E-1383-11E9-B6A2-03104CC90A65/iPadPro_9.7_12.1.3_16D5039a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-30394/CA32A82E-1383-11E9-B6A2-03104CC90A65/iPadPro_9.7_12.1.3_16D5039a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-30426/CA051576-1383-11E9-B207-0E104CC90A65/iPadPro_12.9_12.1.3_16D5039a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-30426/CA051576-1383-11E9-B207-0E104CC90A65/iPadPro_12.9_12.1.3_16D5039a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2018FallSeed/fullrestores/041-30238/C9EA8B8E-1383-11E9-AF6A-F80F4CC90A65/iPhone_4.7_P3_12.1.3_16D5039a_Restore.ipsw iPhone_4.7_P3_12.1.3_16D5039a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8379,6 +8582,14 @@
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-31683/1400C530-1E65-11E9-A797-DCDE00051C86/iPad_64bit_TouchID_12.2_16E5181f_Restore.ipsw iPad_64bit_TouchID_12.2_16E5181f_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-31683/1400C530-1E65-11E9-A797-DCDE00051C86/iPad_64bit_TouchID_12.2_16E5181f_Restore.ipsw iPad_64bit_TouchID_12.2_16E5181f_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-31572/13E3D61E-1E65-11E9-82BA-85E71670E2FC/iPadPro_9.7_12.2_16E5181f_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-31572/13E3D61E-1E65-11E9-82BA-85E71670E2FC/iPadPro_9.7_12.2_16E5181f_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-31634/13E3DC90-1E65-11E9-BF6C-8A89C5E9C899/iPadPro_12.9_12.2_16E5181f_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-31634/13E3DC90-1E65-11E9-BF6C-8A89C5E9C899/iPadPro_12.9_12.2_16E5181f_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-31624/13DBB736-1E65-11E9-BB82-FBEF5857BCF5/iPhone_4.7_P3_12.2_16E5181f_Restore.ipsw iPhone_4.7_P3_12.2_16E5181f_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8450,6 +8661,14 @@
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-34138/7EEE7628-2651-11E9-9166-B93479FACB62/iPad_64bit_TouchID_12.2_16E5191d_Restore.ipsw iPad_64bit_TouchID_12.2_16E5191d_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-34138/7EEE7628-2651-11E9-9166-B93479FACB62/iPad_64bit_TouchID_12.2_16E5191d_Restore.ipsw iPad_64bit_TouchID_12.2_16E5191d_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-34058/7EF9940E-2651-11E9-B0CE-B1D71EAD8A47/iPadPro_9.7_12.2_16E5191d_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-34058/7EF9940E-2651-11E9-B0CE-B1D71EAD8A47/iPadPro_9.7_12.2_16E5191d_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-34176/7F0FA096-2651-11E9-8521-9B1697792E8D/iPadPro_12.9_12.2_16E5191d_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-34176/7F0FA096-2651-11E9-8521-9B1697792E8D/iPadPro_12.9_12.2_16E5191d_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-34216/7ED133D8-2651-11E9-B4B6-E77C37539366/iPhone_4.7_P3_12.2_16E5191d_Restore.ipsw iPhone_4.7_P3_12.2_16E5191d_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8521,6 +8740,14 @@
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-41277/2BFA1D52-32DE-11E9-8990-F064425B7260/iPad_64bit_TouchID_12.2_16E5201e_Restore.ipsw iPad_64bit_TouchID_12.2_16E5201e_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-41277/2BFA1D52-32DE-11E9-8990-F064425B7260/iPad_64bit_TouchID_12.2_16E5201e_Restore.ipsw iPad_64bit_TouchID_12.2_16E5201e_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-41441/0D395CE8-32DE-11E9-B6BD-8DD6D5B2A3C2/iPadPro_9.7_12.2_16E5201e_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-41441/0D395CE8-32DE-11E9-B6BD-8DD6D5B2A3C2/iPadPro_9.7_12.2_16E5201e_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-41296/30F2A356-32DE-11E9-80E0-F5A8E20C0ED4/iPadPro_12.9_12.2_16E5201e_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-41296/30F2A356-32DE-11E9-80E0-F5A8E20C0ED4/iPadPro_12.9_12.2_16E5201e_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-41445/80F98668-32DD-11E9-8469-DD525344A2DC/iPhone_4.7_P3_12.2_16E5201e_Restore.ipsw iPhone_4.7_P3_12.2_16E5201e_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8592,6 +8819,14 @@
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-43332/2E167E0C-3C55-11E9-BB9C-2A1B1C255DFD/iPad_64bit_TouchID_12.2_16E5212f_Restore.ipsw iPad_64bit_TouchID_12.2_16E5212f_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-43332/2E167E0C-3C55-11E9-BB9C-2A1B1C255DFD/iPad_64bit_TouchID_12.2_16E5212f_Restore.ipsw iPad_64bit_TouchID_12.2_16E5212f_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-43380/2E0EE688-3C55-11E9-9066-231B1C255DFD/iPadPro_9.7_12.2_16E5212f_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-43380/2E0EE688-3C55-11E9-9066-231B1C255DFD/iPadPro_9.7_12.2_16E5212f_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-43254/2E10197C-3C55-11E9-B58B-2C1B1C255DFD/iPadPro_12.9_12.2_16E5212f_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-43254/2E10197C-3C55-11E9-B58B-2C1B1C255DFD/iPadPro_12.9_12.2_16E5212f_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-43408/2DE29C72-3C55-11E9-9843-171B1C255DFD/iPhone_4.7_P3_12.2_16E5212f_Restore.ipsw iPhone_4.7_P3_12.2_16E5212f_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8663,6 +8898,14 @@
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-45787/CE43BB6C-42AC-11E9-B7C1-9BD641B4EF79/iPad_64bit_TouchID_12.2_16E5223a_Restore.ipsw iPad_64bit_TouchID_12.2_16E5223a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-45787/CE43BB6C-42AC-11E9-B7C1-9BD641B4EF79/iPad_64bit_TouchID_12.2_16E5223a_Restore.ipsw iPad_64bit_TouchID_12.2_16E5223a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-45953/CE3FC232-42AC-11E9-B32F-99A8AC443722/iPadPro_9.7_12.2_16E5223a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-45953/CE3FC232-42AC-11E9-B32F-99A8AC443722/iPadPro_9.7_12.2_16E5223a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-46019/CE375BB0-42AC-11E9-9639-FDB6CB488857/iPadPro_12.9_12.2_16E5223a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-46019/CE375BB0-42AC-11E9-9639-FDB6CB488857/iPadPro_12.9_12.2_16E5223a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-45811/CE2540CE-42AC-11E9-9CCF-B9AC8E28F955/iPhone_4.7_P3_12.2_16E5223a_Restore.ipsw iPhone_4.7_P3_12.2_16E5223a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8734,6 +8977,14 @@
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-47641/34A1D2A0-4793-11E9-B07D-F8AF2919BE41/iPad_64bit_TouchID_12.2_16E5227a_Restore.ipsw iPad_64bit_TouchID_12.2_16E5227a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-47641/34A1D2A0-4793-11E9-B07D-F8AF2919BE41/iPad_64bit_TouchID_12.2_16E5227a_Restore.ipsw iPad_64bit_TouchID_12.2_16E5227a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-47462/34A22A34-4793-11E9-9D37-B7A0327DB32E/iPadPro_9.7_12.2_16E5227a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-47462/34A22A34-4793-11E9-9D37-B7A0327DB32E/iPadPro_9.7_12.2_16E5227a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-47471/34A84B8A-4793-11E9-940F-A89FC3FDB2B0/iPadPro_12.9_12.2_16E5227a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-47471/34A84B8A-4793-11E9-940F-A89FC3FDB2B0/iPadPro_12.9_12.2_16E5227a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019WinterSeed/fullrestores/041-47653/34B07328-4793-11E9-8E95-A18F6807BF9E/iPhone_4.7_P3_12.2_16E5227a_Restore.ipsw iPhone_4.7_P3_12.2_16E5227a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8813,6 +9064,14 @@
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-49821/FB1670E4-4DBF-11E9-A87A-84CFDE9B343E/iPad_64bit_TouchID_12.3_16F5117h_Restore.ipsw iPad_64bit_TouchID_12.3_16F5117h_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-49821/FB1670E4-4DBF-11E9-A87A-84CFDE9B343E/iPad_64bit_TouchID_12.3_16F5117h_Restore.ipsw iPad_64bit_TouchID_12.3_16F5117h_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-49952/FB0837AE-4DBF-11E9-9CC3-94633F600025/iPadPro_9.7_12.3_16F5117h_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-49952/FB0837AE-4DBF-11E9-9CC3-94633F600025/iPadPro_9.7_12.3_16F5117h_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-49740/FB0093A0-4DBF-11E9-9412-B8AE3EDA2E66/iPadPro_12.9_12.3_16F5117h_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-49740/FB0093A0-4DBF-11E9-9412-B8AE3EDA2E66/iPadPro_12.9_12.3_16F5117h_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-49927/FADFFD3E-4DBF-11E9-90A5-9F898CEA2753/iPhone_4.7_P3_12.3_16F5117h_Restore.ipsw iPhone_4.7_P3_12.3_16F5117h_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -8858,6 +9117,14 @@
 	</dict>
 	<key>16F5129d</key>
 	<dict>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-54578/475B6926-5812-11E9-9DAB-F598B320B41E/iPadPro_9.7_12.3_16F5129d_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-54578/475B6926-5812-11E9-9DAB-F598B320B41E/iPadPro_9.7_12.3_16F5129d_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-54708/47504230-5812-11E9-B801-FA8607E090ED/iPadPro_12.9_12.3_16F5129d_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-54708/47504230-5812-11E9-B801-FA8607E090ED/iPadPro_12.9_12.3_16F5129d_Restore.ipsw</string>
 		<key>iPhone10,3</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-54591/4763627A-5812-11E9-9AF9-F4205422A3FE/iPhone10,3,iPhone10,6_12.3_16F5129d_Restore.ipsw iPhone10,3,iPhone10,6_12.3_16F5129d_Restore.ipsw</string>
 		<key>iPhone10,6</key>
@@ -8940,6 +9207,14 @@
 	</dict>
 	<key>16F5139e</key>
 	<dict>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-55847/1F78A66C-62CB-11E9-9269-CD3C20DEBCAB/iPadPro_9.7_12.3_16F5139e_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-55847/1F78A66C-62CB-11E9-9269-CD3C20DEBCAB/iPadPro_9.7_12.3_16F5139e_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-55830/1F993BDE-62CB-11E9-85B3-DB3C20DEBCAB/iPadPro_12.9_12.3_16F5139e_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-55830/1F993BDE-62CB-11E9-85B3-DB3C20DEBCAB/iPadPro_12.9_12.3_16F5139e_Restore.ipsw</string>
 		<key>iPhone10,3</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-55748/1F42ADBE-62CB-11E9-9337-C53C20DEBCAB/iPhone10,3,iPhone10,6_12.3_16F5139e_Restore.ipsw iPhone10,3,iPhone10,6_12.3_16F5139e_Restore.ipsw</string>
 		<key>iPhone10,6</key>
@@ -9022,6 +9297,14 @@
 	</dict>
 	<key>16F5148a</key>
 	<dict>
+		<key>iPad6,11</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-57872/F671E3A4-687A-11E9-91F2-D76277A6FCC2/iPadPro_12.9_12.3_16F5148a_Restore.ipsw</string>
+		<key>iPad6,12</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-57872/F671E3A4-687A-11E9-91F2-D76277A6FCC2/iPadPro_12.9_12.3_16F5148a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-57995/F6B6AA8E-687A-11E9-9D54-CB6277A6FCC2/iPadPro_9.7_12.3_16F5148a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-57995/F6B6AA8E-687A-11E9-9D54-CB6277A6FCC2/iPadPro_9.7_12.3_16F5148a_Restore.ipsw</string>
 		<key>iPhone10,3</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-58012/F6B37620-687A-11E9-88D5-C26277A6FCC2/iPhone10,3,iPhone10,6_12.3_16F5148a_Restore.ipsw iPhone10,3,iPhone10,6_12.3_16F5148a_Restore.ipsw</string>
 		<key>iPhone10,6</key>
@@ -9104,6 +9387,14 @@
 	</dict>
 	<key>16F5155a</key>
 	<dict>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-60253/06DC10D0-6F73-11E9-8933-2425B6DDD32B/iPadPro_9.7_12.3_16F5155a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-60253/06DC10D0-6F73-11E9-8933-2425B6DDD32B/iPadPro_9.7_12.3_16F5155a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-60310/06C7FC12-6F73-11E9-AD36-2F25B6DDD32B/iPadPro_12.9_12.3_16F5155a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-60310/06C7FC12-6F73-11E9-AD36-2F25B6DDD32B/iPadPro_12.9_12.3_16F5155a_Restore.ipsw</string>
 		<key>iPhone10,3</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-60201/069EA2D6-6F73-11E9-ADBF-1A25B6DDD32B/iPhone10,3,iPhone10,6_12.3_16F5155a_Restore.ipsw iPhone10,3,iPhone10,6_12.3_16F5155a_Restore.ipsw</string>
 		<key>iPhone10,6</key>
@@ -9186,6 +9477,14 @@
 	</dict>
 	<key>16F5156a</key>
 	<dict>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-62465/311A9288-71CE-11E9-B90B-DA5F412A1E9F/iPadPro_9.7_12.3_16F5156a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-62465/311A9288-71CE-11E9-B90B-DA5F412A1E9F/iPadPro_9.7_12.3_16F5156a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-62513/3136C2BE-71CE-11E9-A237-E55F412A1E9F/iPadPro_12.9_12.3_16F5156a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-62513/3136C2BE-71CE-11E9-A237-E55F412A1E9F/iPadPro_12.9_12.3_16F5156a_Restore.ipsw</string>
 		<key>iPhone10,3</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-62443/31152834-71CE-11E9-B89D-D15F412A1E9F/iPhone10,3,iPhone10,6_12.3_16F5156a_Restore.ipsw iPhone10,3,iPhone10,6_12.3_16F5156a_Restore.ipsw</string>
 		<key>iPhone10,6</key>
@@ -9268,6 +9567,14 @@
 	</dict>
 	<key>16G5027g</key>
 	<dict>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-63236/9961E354-7594-11E9-9F04-F1E6DFE6B16E/iPadPro_9.7_12.4_16G5027g_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-63236/9961E354-7594-11E9-9F04-F1E6DFE6B16E/iPadPro_9.7_12.4_16G5027g_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-63300/99509284-7594-11E9-BDD0-95BB3685384B/iPadPro_12.9_12.4_16G5027g_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-63300/99509284-7594-11E9-BDD0-95BB3685384B/iPadPro_12.9_12.4_16G5027g_Restore.ipsw</string>
 		<key>iPhone10,3</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-63211/992FD288-7594-11E9-8220-B569C29064BC/iPhone10,3,iPhone10,6_12.4_16G5027g_Restore.ipsw iPhone10,3,iPhone10,6_12.4_16G5027g_Restore.ipsw</string>
 		<key>iPhone10,6</key>
@@ -9384,6 +9691,14 @@
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-65990/ED09C122-78AD-11E9-AA4F-A9C4A68CA014/iPad_64bit_TouchID_12.4_16G5027i_Restore.ipsw iPad_64bit_TouchID_12.4_16G5027i_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-65990/ED09C122-78AD-11E9-AA4F-A9C4A68CA014/iPad_64bit_TouchID_12.4_16G5027i_Restore.ipsw iPad_64bit_TouchID_12.4_16G5027i_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-66293/ECFB520E-78AD-11E9-9653-8F813A510DB0/iPadPro_9.7_12.4_16G5027i_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-66293/ECFB520E-78AD-11E9-9653-8F813A510DB0/iPadPro_9.7_12.4_16G5027i_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-65969/ED188CFC-78AD-11E9-88D8-EB59705AF2ED/iPadPro_12.9_12.4_16G5027i_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-65969/ED188CFC-78AD-11E9-88D8-EB59705AF2ED/iPadPro_12.9_12.4_16G5027i_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-65974/ECD61CBE-78AD-11E9-85DC-D36336627A6E/iPhone_4.7_P3_12.4_16G5027i_Restore.ipsw iPhone_4.7_P3_12.4_16G5027i_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -9463,6 +9778,14 @@
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-69910/623E34DE-7E29-11E9-B4F3-85A2AACA3927/iPad_64bit_TouchID_12.4_16G5038d_Restore.ipsw iPad_64bit_TouchID_12.4_16G5038d_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-69910/623E34DE-7E29-11E9-B4F3-85A2AACA3927/iPad_64bit_TouchID_12.4_16G5038d_Restore.ipsw iPad_64bit_TouchID_12.4_16G5038d_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-69707/625CAFEA-7E29-11E9-9FFA-7AA2AACA3927/iPadPro_9.7_12.4_16G5038d_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-69707/625CAFEA-7E29-11E9-9FFA-7AA2AACA3927/iPadPro_9.7_12.4_16G5038d_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-69697/626B5F68-7E29-11E9-87AD-86A2AACA3927/iPadPro_12.9_12.4_16G5038d_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-69697/626B5F68-7E29-11E9-87AD-86A2AACA3927/iPadPro_12.9_12.4_16G5038d_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-69823/622696D0-7E29-11E9-A90B-6FA2AACA3927/iPhone_4.7_P3_12.4_16G5038d_Restore.ipsw iPhone_4.7_P3_12.4_16G5038d_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -9542,6 +9865,14 @@
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-70816/6F90331C-88E7-11E9-A56F-99524B5EADE5/iPad_64bit_TouchID_12.4_16G5046d_Restore.ipsw iPad_64bit_TouchID_12.4_16G5046d_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-70816/6F90331C-88E7-11E9-A56F-99524B5EADE5/iPad_64bit_TouchID_12.4_16G5046d_Restore.ipsw iPad_64bit_TouchID_12.4_16G5046d_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-70620/6FCCB300-88E7-11E9-BD8E-ED4168E38C31/iPadPro_9.7_12.4_16G5046d_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-70620/6FCCB300-88E7-11E9-BD8E-ED4168E38C31/iPadPro_9.7_12.4_16G5046d_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-70567/6FBC8F98-88E7-11E9-BC13-89FDE28569CD/iPadPro_12.9_12.4_16G5046d_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-70567/6FBC8F98-88E7-11E9-BC13-89FDE28569CD/iPadPro_12.9_12.4_16G5046d_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-70716/6FDA8E30-88E7-11E9-B093-F2AC35C0B5B3/iPhone_4.7_P3_12.4_16G5046d_Restore.ipsw iPhone_4.7_P3_12.4_16G5046d_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -9623,6 +9954,14 @@
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-76155/5B3E476E-944A-11E9-AFB4-C513E257CB6B/iPad_64bit_TouchID_12.4_16G5056d_Restore.ipsw iPad_64bit_TouchID_12.4_16G5056d_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-76155/5B3E476E-944A-11E9-AFB4-C513E257CB6B/iPad_64bit_TouchID_12.4_16G5056d_Restore.ipsw iPad_64bit_TouchID_12.4_16G5056d_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-76317/5B0F2ED4-944A-11E9-980A-BA13E257CB6B/iPadPro_9.7_12.4_16G5056d_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-76317/5B0F2ED4-944A-11E9-980A-BA13E257CB6B/iPadPro_9.7_12.4_16G5056d_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-76411/5B4DA8BC-944A-11E9-A151-C613E257CB6B/iPadPro_12.9_12.4_16G5056d_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-76411/5B4DA8BC-944A-11E9-A151-C613E257CB6B/iPadPro_12.9_12.4_16G5056d_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019SpringSeed/fullrestores/041-76335/5AEACB52-944A-11E9-ACC9-AE13E257CB6B/iPhone_4.7_P3_12.4_16G5056d_Restore.ipsw iPhone_4.7_P3_12.4_16G5056d_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -9704,6 +10043,14 @@
 		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-76672/E93E4EA4-9DC5-11E9-A060-01FBF0B1EEAE/iPad_64bit_TouchID_12.4_16G5069a_Restore.ipsw iPad_64bit_TouchID_12.4_16G5069a_Restore.ipsw</string>
 		<key>iPad5,4</key>
 		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-76672/E93E4EA4-9DC5-11E9-A060-01FBF0B1EEAE/iPad_64bit_TouchID_12.4_16G5069a_Restore.ipsw iPad_64bit_TouchID_12.4_16G5069a_Restore.ipsw</string>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-76688/757B9FEC-9DC7-11E9-A2AF-FC0EF1B1EEAE/iPadPro_9.7_12.4_16G5069a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-76688/757B9FEC-9DC7-11E9-A2AF-FC0EF1B1EEAE/iPadPro_9.7_12.4_16G5069a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-76587/5AC0959A-9DC7-11E9-AD71-860CF1B1EEAE/iPadPro_12.9_12.4_16G5069a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-76587/5AC0959A-9DC7-11E9-AD71-860CF1B1EEAE/iPadPro_12.9_12.4_16G5069a_Restore.ipsw</string>
 		<key>iPhone10,1</key>
 		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-76701/4FC09C46-9DC5-11E9-A9E0-14EFF0B1EEAE/iPhone_4.7_P3_12.4_16G5069a_Restore.ipsw iPhone_4.7_P3_12.4_16G5069a_Restore.ipsw</string>
 		<key>iPhone10,2</key>
@@ -9748,6 +10095,17 @@
 		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-76534/E04EAC58-9DC5-11E9-8A47-B4FAF0B1EEAE/iPodtouch_12.4_16G5069a_Restore.ipsw iPodtouch_12.4_16G5069a_Restore.ipsw</string>
 		<key>iPod9,1</key>
 		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-76581/36ACA216-9DC7-11E9-93E7-F107F1B1EEAE/iPodtouch_7_12.4_16G5069a_Restore.ipsw iPodtouch_7_12.4_16G5069a_Restore.ipsw</string>
+	</dict>
+	<key>16G5077a</key>
+	<dict>
+		<key>iPad6,3</key>
+		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-87332/B873DA2C-A66D-11E9-A071-EC98F82FDE53/iPadPro_9.7_12.4_16G5077a_Restore.ipsw</string>
+		<key>iPad6,4</key>
+		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-87332/B873DA2C-A66D-11E9-A071-EC98F82FDE53/iPadPro_9.7_12.4_16G5077a_Restore.ipsw</string>
+		<key>iPad6,7</key>
+		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-87467/B516E478-A66D-11E9-8068-6898F82FDE53/iPadPro_12.9_12.4_16G5077a_Restore.ipsw</string>
+		<key>iPad6,8</key>
+		<string>http://updates-http.cdn-apple.com/2019SummerSeed/fullrestores/041-87467/B516E478-A66D-11E9-8068-6898F82FDE53/iPadPro_12.9_12.4_16G5077a_Restore.ipsw</string>
 	</dict>
 </dict>
 </plist>
