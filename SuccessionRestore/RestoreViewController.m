@@ -364,7 +364,7 @@
     [self logToFile:@"tappedRestoreButton called" atLineNumber:__LINE__];
     if ([[_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)] || [[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
         [self logToFile:@"snappy operations enabled" atLineNumber:__LINE__];
-        if (kCFCoreFoundationVersionNumber > 1349.56) {
+        if (kCFCoreFoundationVersionNumber >= 1349.56) {
             [self logToFile:@"ios version compatible with snappy" atLineNumber:__LINE__];
             if (![[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/snappy"]) {
                 [self logToFile:@"snappy not installed, asking to install it" atLineNumber:__LINE__];
