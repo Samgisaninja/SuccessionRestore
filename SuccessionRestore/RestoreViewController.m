@@ -711,7 +711,7 @@
         }];
         [self logToFile:@"Updating UI to prepare for restore" atLineNumber:__LINE__];
         [[self titleLabel] setText:@"Working, do not leave the app..."];
-        [[self subtitleLabel] setText:@""];
+        [[self subtitleLabel] setText:@"This should take less than 10 seconds."];
         [[self eraseButton] setTitle:@"Restore in progress..." forState:UIControlStateNormal];
         [[self eraseButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [[self eraseButton] setEnabled:FALSE];
