@@ -556,6 +556,10 @@
             [self logToFile:@"user elected to create new orig-fs after restore, excluding snappy" atLineNumber:__LINE__];
             [rsyncMutableArgs addObject:@"--exclude=/usr/bin/snappy"];
         }
+        if ([[_successionPrefs objectForKey:@"unofficial_tethered_downgrade_compatibility"] isEqual:@(1)]) {
+            [self logToFile:@"using unsupported tethered downgrade as requested" atLineNumber:__LINE__];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/"];
+        }
         [self logToFile:[NSString stringWithFormat:@"rsync %@", [rsyncMutableArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
         NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         NSTask *rsyncTask = [[NSTask alloc] init];

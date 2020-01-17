@@ -124,6 +124,11 @@
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
+    if (![successionPrefs objectForKey:@"unofficial_tethered_downgrade_compatibility"]) {
+        [successionPrefs setObject:@(0) forKey:@"unofficial_tethered_downgrade_compatibility"];
+        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
+        [successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
+    }
 }
 
 - (void) viewDidAppear:(BOOL)animated{
