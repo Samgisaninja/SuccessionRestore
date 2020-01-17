@@ -558,7 +558,7 @@
         }
         if ([[_successionPrefs objectForKey:@"unofficial_tethered_downgrade_compatibility"] isEqual:@(1)]) {
             [self logToFile:@"using unsupported tethered downgrade as requested" atLineNumber:__LINE__];
-            [rsyncMutableArgs addObject:@"--exclude=/usr/"];
+            [rsyncMutableArgs addObject:@"--exclude=/usr/share/firmware/"];
         }
         [self logToFile:[NSString stringWithFormat:@"rsync %@", [rsyncMutableArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
         NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
