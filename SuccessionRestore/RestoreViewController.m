@@ -51,7 +51,7 @@
         [[self restoreProgressBar] setHidden:TRUE];
     } else {
         [[self titleLabel] setText:@"Attaching..."];
-        [[self subtitleLabel] setText:@""];
+        [[self subtitleLabel] setText:@"This should take less than 10 seconds"];
         [[self eraseButton] setTitle:@"Please Wait..." forState:UIControlStateNormal];
         if (@available(iOS 13.0, *)) {
             [[self eraseButton] setTitleColor:[UIColor labelColor] forState:UIControlStateNormal];
