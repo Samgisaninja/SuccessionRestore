@@ -183,6 +183,7 @@
             if ([outString containsString:@"disk"]) {
                 NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
                 [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
+                [self logToFile:[NSString stringWithFormat:@"outlines count: %lu", (unsigned long)[outLines count]] atLineNumber:__LINE__];
                 if ([outLines count] > 1) {
                     for (NSString *line in outLines) {
                         [self logToFile:[NSString stringWithFormat:@"current line is %@", line]  atLineNumber:__LINE__];
