@@ -500,7 +500,9 @@
             }];
             [ipswDoesntMatch addAction:overrideAction];
             [ipswDoesntMatch addAction:cancelAction];
-            [self presentViewController:ipswDoesntMatch animated:TRUE completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:ipswDoesntMatch animated:TRUE completion:nil];
+            });
         }
     } else {
         UIAlertController *ipswDoesntMatch = [UIAlertController alertControllerWithTitle:@"Provided IPSW does not appear to match this device" message:@"The IPSW you provided does not appear to match this device/iOS version. You may override this warning, but you will most likely bootloop." preferredStyle:UIAlertControllerStyleAlert];
