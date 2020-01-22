@@ -372,7 +372,7 @@
 		8D5BA26D1F7C792E00A169BF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Sam Gardner";
 				TargetAttributes = {
 					8D5BA2741F7C792E00A169BF = {
@@ -620,7 +620,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
-				MARKETING_VERSION = "1.4.8~b1";
+				MARKETING_VERSION = "1.4.8~b3";
 				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -646,7 +646,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SuccessionRestore",
 				);
-				MARKETING_VERSION = "1.4.8~b1";
+				MARKETING_VERSION = "1.4.8~b3";
 				PRODUCT_BUNDLE_IDENTIFIER = com.samgisaninja.SuccessionRestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

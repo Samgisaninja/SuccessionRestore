@@ -354,9 +354,8 @@
 
 - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     // so this method gets executed when "a download finished, and it's located at the NSString returned by [location path]". This presents the problem of, "well, was it a beta version, and it just downloaded the beta information plist from my github, or did it just finish downloading an IPSW?". The filename and extension are not preserved, so the best way I could think of to determine which was to check if the file was big (IPSW) or small (plist).
-    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:[location path] error:nil] fileSize];
-    // the smallest IPSW ever to exist, the iPhone 2G on iPhone OS 1.0, was a whopping 96 MB (wow). This is tiny by today's standards of 3GB IPSWs (and that number continues to grow with each update), but 96 MB is still massive compared to the beta plist.
-    if (fileSize < 96000000) {
+    NSString *downloadTaskURL = [[[downloadTask currentRequest] URL] absoluteString];
+    if ([downloadTaskURL containsString:@".plist"]) {
         // Create a dictionary with the contents of the downloaded plist
         NSDictionary *betaLinks = [NSDictionary dictionaryWithContentsOfFile:[location path]];
         // If the beta plist contains the device's build number...
