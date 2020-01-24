@@ -33,7 +33,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 11;
+    return 10;
 }
 
 
@@ -77,18 +77,6 @@
             break;
         }
         case 4: {
-            cell.textLabel.text = @"\"Hacktivate\" device after restore (delete Setup.app and move activation records to /var/mobile/Media/activation_records.plist) [Coming soon]";
-            cell.textLabel.numberOfLines = 0;
-            [cell.textLabel sizeToFit];
-            /*
-            UISwitch *hacktivationSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-            cell.accessoryView = hacktivationSwitch;
-            [hacktivationSwitch setOn:[[_successionPrefs objectForKey:@"hacktivation"] boolValue] animated:NO];
-            [hacktivationSwitch addTarget:self action:@selector(hacktivationSwitchChanged) forControlEvents:UIControlEventValueChanged];
-             */
-            break;
-        }
-        case 5: {
             cell.textLabel.text = @"Create APFS snapshot 'orig-fs' after restore (requires snappy from Bingner's repo and iOS 10.3 or higher)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
@@ -98,7 +86,7 @@
             [_createAPFSorigfsSwitch addTarget:self action:@selector(createAPFSorigfsSwitchChanged) forControlEvents:UIControlEventValueChanged];
             break;
         }
-        case 6: {
+        case 5: {
             cell.textLabel.text = @"Create APFS snapshot 'succession-prerestore' before restore for use with SnapBack to 'undo restore' (requires snappy from Bingner's repo and iOS 10.3 or higher)";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
@@ -108,27 +96,27 @@
             [_createAPFSsuccessionprerestoreSwitch addTarget:self action:@selector(createAPFSsuccessionprerestoreSwitchChanged) forControlEvents:UIControlEventValueChanged];
             break;
         }
-        case 7: {
+        case 6: {
             cell.textLabel.text = @"Use custom rsync path";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             break;
         }
-        case 8: {
+        case 7: {
             cell.textLabel.text = @"Use custom IPSW path";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             cell.accessoryView = nil;
             break;
         }
-        case 9: {
+        case 8: {
             cell.textLabel.text = @"Reset all settings to defaults";
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
             cell.accessoryView = nil;
             break;
         }
-        case 10: {
+        case 9: {
             cell.textLabel.text = [NSString stringWithFormat:@"Succession version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
             cell.textLabel.numberOfLines = 0;
             [cell.textLabel sizeToFit];
@@ -262,18 +250,6 @@
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     } else {
         [_successionPrefs setObject:@(0) forKey:@"log-file"];
-        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
-        [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-    }
-}
-
--(void)hacktivationSwitchChanged{
-    if ([[_successionPrefs objectForKey:@"hacktivation"] isEqual:@(0)]) {
-        [_successionPrefs setObject:@(1) forKey:@"hacktivation"];
-        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
-        [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
-    } else {
-        [_successionPrefs setObject:@(0) forKey:@"hacktivation"];
         [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" error:nil];
         [_successionPrefs writeToFile:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist" atomically:TRUE];
     }
