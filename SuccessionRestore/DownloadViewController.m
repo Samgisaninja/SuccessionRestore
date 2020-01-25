@@ -201,7 +201,7 @@
         [getBetaTask resume];
     } else {
         // ipsw.me has an API that provides the apple download link to an ipsw for a specific device/iOS build number. If you want, you can try this, typing https://api.ipsw.me/v2/iPhone10,3/16C104/url/ into a web broswer returns http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/041-28434/A2958D62-02EA-11E9-9292-C8F3416D60E4/iPhone10,3,iPhone10,6_12.1.2_16C104_Restore.ipsw
-        NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
+        NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/iPhone11,8/16G77/url/"];
         // to use the API mentioned above, I create a string that incorporates the iOS buildnumber and device model, then it is converted into an NSURL...
         NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
         // and after a little UI config...
@@ -413,6 +413,13 @@
             [self presentViewController:requestBetaSupportAlert animated:TRUE completion:nil];
         }
     } else {
+        unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:[location path] error:nil] fileSize];
+        if (fileSize < 96000000) {
+            if ([[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[location path]] encoding:NSUTF8StringEncoding] containsString:@"Denied"]) {
+                [self errorAlert:@"Apple has blocked access to the ipsw for your device. Please provide the ipsw yourself to /private/var/mobile/Media/Succession/ipsw.ipsw"];
+                return;
+            }
+        }
         // so, the IPSW download is now complete, but it's in... well we don't really know. but iOS knows! to be specific, it exists at [location path]. [location path] is not nearly as easy to work with as /var/mobile/Media/Succession/ipsw.ipsw, so let's move it there.
         dispatch_async(dispatch_get_main_queue(), ^{
             [[self downloadProgressBar] setHidden:TRUE];
