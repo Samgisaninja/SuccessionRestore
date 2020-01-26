@@ -150,7 +150,7 @@
         
     } else {
         // If the iOS version isn't in the dict above, then :rip:
-        [self errorAlert:[NSString stringWithFormat:@"Couldn't get codename for your iOS %@\nPlease email me stgardner4@att.net or dm me on reddit u/Samg_is_a_Ninja", _deviceBuild]];
+        [self errorAlert:[NSString stringWithFormat:@"Couldn't get codename for your iOS %@\nPlease email me samgisaninja@unc0ver.dev or dm me on reddit u/Samg_is_a_Ninja", _deviceBuild]];
         return @"Failed.";
     }
 }

@@ -316,7 +316,7 @@
         
     } else {
         // If the iOS version isn't in the dict above, then :rip:
-        [self errorAlert:[NSString stringWithFormat:@"Couldn't get codename for your iOS %@\nPlease email me stgardner4@att.net or dm me on reddit u/Samg_is_a_Ninja", deviceBuild]];
+        [self errorAlert:[NSString stringWithFormat:@"Couldn't get codename for your iOS %@\nPlease email me samgisaninja@unc0ver.dev or dm me on reddit u/Samg_is_a_Ninja", deviceBuild]];
         return @"Failed.";
     }
 }
@@ -378,7 +378,7 @@
                 [task resume];
             } else {
                 // if the device's model isn't in the beta list, then present an alert with an action to send an email to me requesting beta support
-                UIAlertController *requestBetaSupportAlert = [UIAlertController alertControllerWithTitle:@"Your device is not currently supported" message:@"Please send an email with your device model and iOS build number to stgardner4@att.net request support" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController *requestBetaSupportAlert = [UIAlertController alertControllerWithTitle:@"Your device is not currently supported" message:@"Please send an email with your device model and iOS build number to samgisaninja@unc0ver.dev request support" preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
                 [requestBetaSupportAlert addAction:dismissAction];
                 // check to see if the device can send email using the stock mail app
@@ -386,7 +386,7 @@
                     UIAlertAction *sendMailAction = [UIAlertAction actionWithTitle:@"Send email" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         MFMailComposeViewController* composeVC = [[MFMailComposeViewController alloc] init];
                         composeVC.mailComposeDelegate = self;
-                        [composeVC setToRecipients:@[@"stgardner4@att.net"]];
+                        [composeVC setToRecipients:@[@"samgisaninja@unc0ver.dev"]];
                         [composeVC setSubject:@"Succession: Add beta support request"];
                         [composeVC setMessageBody:[NSString stringWithFormat:@"%@\n%@", self->deviceBuild, self->deviceModel] isHTML:NO];
                         [self presentViewController:composeVC animated:YES completion:nil];
@@ -396,14 +396,14 @@
                 [self presentViewController:requestBetaSupportAlert animated:TRUE completion:nil];
             }
         } else {
-            UIAlertController *requestBetaSupportAlert = [UIAlertController alertControllerWithTitle:@"Your device is not currently supported" message:@"Please send an email with your device model and iOS build number to stgardner4@att.net request support" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *requestBetaSupportAlert = [UIAlertController alertControllerWithTitle:@"Your device is not currently supported" message:@"Please send an email with your device model and iOS build number to samgisaninja@unc0ver.dev request support" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
             [requestBetaSupportAlert addAction:dismissAction];
             if ([MFMailComposeViewController canSendMail]) {
                 UIAlertAction *sendMailAction = [UIAlertAction actionWithTitle:@"Send email" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     MFMailComposeViewController* composeVC = [[MFMailComposeViewController alloc] init];
                     composeVC.mailComposeDelegate = self;
-                    [composeVC setToRecipients:@[@"stgardner4@att.net"]];
+                    [composeVC setToRecipients:@[@"samgisaninja@unc0ver.dev"]];
                     [composeVC setSubject:@"Succession: Add beta support request"];
                     [composeVC setMessageBody:[NSString stringWithFormat:@"%@\n%@", self->deviceBuild, self->deviceModel] isHTML:NO];
                     [self presentViewController:composeVC animated:YES completion:nil];
@@ -535,7 +535,9 @@
         }];
         [ipswDoesntMatch addAction:overrideAction];
         [ipswDoesntMatch addAction:cancelAction];
-        [self presentViewController:ipswDoesntMatch animated:TRUE completion:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentViewController:ipswDoesntMatch animated:TRUE completion:nil];
+        });
     }
 }
 
