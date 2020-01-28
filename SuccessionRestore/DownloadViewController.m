@@ -201,7 +201,7 @@
         [getBetaTask resume];
     } else {
         // ipsw.me has an API that provides the apple download link to an ipsw for a specific device/iOS build number. If you want, you can try this, typing https://api.ipsw.me/v2/iPhone10,3/16C104/url/ into a web broswer returns http://updates-http.cdn-apple.com/2018FallFCS/fullrestores/041-28434/A2958D62-02EA-11E9-9292-C8F3416D60E4/iPhone10,3,iPhone10,6_12.1.2_16C104_Restore.ipsw
-        NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/iPhone11,8/16G77/url/"];
+        NSString *ipswAPIURLString = [NSString stringWithFormat:@"https://api.ipsw.me/v2/%@/%@/url/", deviceModel, deviceBuild];
         // to use the API mentioned above, I create a string that incorporates the iOS buildnumber and device model, then it is converted into an NSURL...
         NSURL *ipswAPIURL = [NSURL URLWithString:ipswAPIURLString];
         // and after a little UI config...
@@ -234,6 +234,7 @@
             // - (void) URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
             //
             // when finished, which is where I have my code for what to do once the download is finished
+            NSLog(@"SUCCESSIONTESTING: STARTED!");
             [task resume];
         }];
         [getDownloadLinkTask resume];
@@ -416,7 +417,7 @@
         unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:[location path] error:nil] fileSize];
         if (fileSize < 96000000) {
             if ([[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[location path]] encoding:NSUTF8StringEncoding] containsString:@"Denied"]) {
-                [self errorAlert:@"Apple has blocked access to the ipsw for your device. Please provide the ipsw yourself to /private/var/mobile/Media/Succession/ipsw.ipsw"];
+                [self errorAlert:[[[downloadTask currentRequest] URL] absoluteString]];
                 return;
             }
         }
