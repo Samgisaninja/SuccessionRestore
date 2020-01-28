@@ -10,6 +10,7 @@
 #import "RestoreViewController.h"
 #include <sys/sysctl.h>
 #import "NSTask.h"
+#import <spawn.h>
 
 @interface RestoreViewController ()
 
@@ -203,6 +204,32 @@
                     NSString *diskPath = [outLines firstObject];
                     [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", diskPath] atLineNumber:__LINE__];
                     [self prepareMountAttachedDisk:diskPath];
+                }
+            } else if ([outString containsString:@"must be run by root"]) {
+                pid_t pid;
+                const char* args[] = {"hdik", "/var/mobile/Media/Succession/rfs.dmg", NULL};
+                posix_spawn(&pid, "/Applications/SuccessionRestore.app/hdik", NULL, NULL, (char* const*)args, NULL);
+                NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
+                [changedDevContents removeObjectsInArray:beforeAttachDevContents];
+                [self logToFile:[NSString stringWithFormat:@"changedDevContents: %@", [changedDevContents componentsJoinedByString:@" "]] atLineNumber:__LINE__];
+                if ([[changedDevContents componentsJoinedByString:@" "] containsString:@"s2"]) {
+                    for (NSString *attachedDisk in changedDevContents) {
+                        if (![attachedDisk containsString:@"r"]) {
+                            if ([attachedDisk containsString:@"s2"]) {
+                                NSString *diskPath = [NSString stringWithFormat:@"/dev/%@", attachedDisk];
+                                [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", diskPath] atLineNumber:__LINE__];
+                                [self prepareMountAttachedDisk:diskPath];
+                            }
+                        }
+                    }
+                } else {
+                    for (NSString *attachedDisk in changedDevContents) {
+                        if ([attachedDisk hasPrefix:@"disk"]) {
+                            NSString *diskPath = [NSString stringWithFormat:@"/dev/%@", attachedDisk];
+                            [self logToFile:[NSString stringWithFormat:@"found attached diskpath %@", diskPath] atLineNumber:__LINE__];
+                            [self prepareMountAttachedDisk:diskPath];
+                        }
+                    }
                 }
             } else {
                 NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
