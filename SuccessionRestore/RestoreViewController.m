@@ -206,9 +206,12 @@
                     [self prepareMountAttachedDisk:diskPath];
                 }
             } else if ([outString containsString:@"must be run by root"]) {
+                [self logToFile:[NSString stringWithFormat:@"I am: %d", getuid()] atLineNumber:__LINE__];
                 pid_t pid;
+                int i;
                 const char* args[] = {"hdik", "/var/mobile/Media/Succession/rfs.dmg", NULL};
                 posix_spawn(&pid, "/Applications/SuccessionRestore.app/hdik", NULL, NULL, (char* const*)args, NULL);
+                waitpid(pid, &i, 0);
                 NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
                 [changedDevContents removeObjectsInArray:beforeAttachDevContents];
                 [self logToFile:[NSString stringWithFormat:@"changedDevContents: %@", [changedDevContents componentsJoinedByString:@" "]] atLineNumber:__LINE__];
