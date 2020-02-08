@@ -417,7 +417,7 @@
         unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:[location path] error:nil] fileSize];
         if (fileSize < 96000000) {
             if ([[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[location path]] encoding:NSUTF8StringEncoding] containsString:@"Denied"]) {
-                [self errorAlert:[[[downloadTask currentRequest] URL] absoluteString]];
+                [self errorAlert:@"Apple has blocked access to the ipsw for your device. Please provide the ipsw yourself to /private/var/mobile/Media/Succession/ipsw.ipsw"];
                 return;
             }
         }
