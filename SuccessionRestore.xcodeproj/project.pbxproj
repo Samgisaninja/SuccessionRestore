@@ -43,7 +43,6 @@
 		8D5BA2821F7C792E00A169BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2811F7C792E00A169BF /* Assets.xcassets */; };
 		8D5BA2851F7C792E00A169BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5BA2831F7C792E00A169BF /* LaunchScreen.storyboard */; };
 		8D5BA2881F7C792E00A169BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2871F7C792E00A169BF /* main.m */; };
-		8D73E989232635580016335E /* SuccessionHelper in Resources */ = {isa = PBXBuildFile; fileRef = 8D73E988232635580016335E /* SuccessionHelper */; };
 		8D7ABB0F2319DDCD0098C52B /* DecryptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D7ABB0E2319DDCD0098C52B /* DecryptViewController.m */; };
 		8D876122202679E2004A6F27 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D876121202679E2004A6F27 /* DownloadViewController.m */; };
 		8D8F2FAA2264095D0044CF00 /* SpecialThanksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */; };
@@ -147,7 +146,6 @@
 		8D5BA2841F7C792E00A169BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D5BA2861F7C792E00A169BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D5BA2871F7C792E00A169BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		8D73E988232635580016335E /* SuccessionHelper */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = SuccessionHelper; sourceTree = "<group>"; };
 		8D73E98A232636B70016335E /* compile64.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = compile64.xcconfig; sourceTree = "<group>"; };
 		8D7ABB0D2319DDCD0098C52B /* DecryptViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DecryptViewController.h; sourceTree = "<group>"; };
 		8D7ABB0E2319DDCD0098C52B /* DecryptViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DecryptViewController.m; sourceTree = "<group>"; };
@@ -320,7 +318,6 @@
 				8D876121202679E2004A6F27 /* DownloadViewController.m */,
 				8D7ABB0D2319DDCD0098C52B /* DecryptViewController.h */,
 				8D7ABB0E2319DDCD0098C52B /* DecryptViewController.m */,
-				8D73E988232635580016335E /* SuccessionHelper */,
 				8DF4B8C423AF1AE3009EAB13 /* attach */,
 				8D980C982303D26C009717B4 /* hdik-arm64 */,
 				8D40BF0E231261F300240454 /* hdik-arm64e */,
@@ -417,7 +414,6 @@
 				8D980C992303D26C009717B4 /* hdik-arm64 in Resources */,
 				8D5BA2801F7C792E00A169BF /* Main.storyboard in Resources */,
 				8D40BF0F231261F300240454 /* hdik-arm64e in Resources */,
-				8D73E989232635580016335E /* SuccessionHelper in Resources */,
 				8DF4B8C523AF1AE3009EAB13 /* attach in Resources */,
 				8D24F5062325C67D00215579 /* (null) in Resources */,
 			);

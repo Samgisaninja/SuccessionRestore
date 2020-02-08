@@ -1,3 +1,0 @@
-#!/bin/bash
-myAppPath=$(dirname "$0")
-exec "$myAppPath"/SuccessionRestore_ "$@"
