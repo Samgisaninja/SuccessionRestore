@@ -36,7 +36,7 @@ $ brew install ldid
 $ brew install dpkg
 ```
 
-As of Succession 1.4.12, you will need a fairly recent version of [theos] set up, you can follow their install tutorial [here](https://github.com/theos/theos/wiki/Installation-macOS)
+As of Succession 1.4.12, you will need a fairly recent version of theos set up, you can follow their install tutorial [here](https://github.com/theos/theos/wiki/Installation-macOS)
 
 Once you have these dependencies, clone Succession using [Git](https://git-scm.com/downloads):
 ```
