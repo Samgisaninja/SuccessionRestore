@@ -169,10 +169,10 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSString stringWithFormat:@"%@", [[NSBundle mainBundle] bundlePath]] stringByAppendingPathComponent:@"hdik"]]) {
         [self logToFile:@"using hdik to attach disk image" atLineNumber:__LINE__];
         NSTask *hdikTask = [[NSTask alloc] init];
-        [hdikTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"]];
-        NSArray *hdikArgs = [NSArray arrayWithObjects:@"/private/var/mobile/Media/Succession/rfs.dmg", nil];
+        [hdikTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
+        NSArray *hdikArgs = [NSArray arrayWithObjects:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"], @"/private/var/mobile/Media/Succession/rfs.dmg", nil];
         [hdikTask setArguments:hdikArgs];
-        [self logToFile:[NSString stringWithFormat:@"hdik %@", [hdikArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
+        [self logToFile:[NSString stringWithFormat:@"/Applications/SuccessionRestore.app/succdatroot %@", [hdikArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
         NSPipe *stdOutPipe = [NSPipe pipe];
         NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
         [hdikTask setStandardOutput:stdOutPipe];
@@ -264,8 +264,8 @@
     } else if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"attach"]]) {
         [self logToFile:@"Using comex attach for attach" atLineNumber:__LINE__];
         NSTask *attachTask = [[NSTask alloc] init];
-        [attachTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"attach"]];
-        NSArray *attachArgs = [NSArray arrayWithObjects:@"/private/var/mobile/Media/Succession/rfs.dmg", nil];
+        [attachTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
+        NSArray *attachArgs = [NSArray arrayWithObjects:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"attach"], @"/private/var/mobile/Media/Succession/rfs.dmg", nil];
         [attachTask setArguments:attachArgs];
         NSPipe *stdOutPipe = [NSPipe pipe];
         NSFileHandle *outPipeRead = [stdOutPipe fileHandleForReading];
@@ -367,8 +367,8 @@
         [[self subtitleLabel] setText:@"This should take less than 10 seconds."];
     });
     NSTask *mountTask = [[NSTask alloc] init];
-    [mountTask setLaunchPath:@"/sbin/mount"];
-    NSArray *mountArgs = [NSArray arrayWithObjects:@"-t", filesystemType, @"-o", @"ro", diskPath, @"/private/var/MobileSoftwareUpdate/mnt1", nil];
+    [mountTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
+    NSArray *mountArgs = [NSArray arrayWithObjects:@"mount", @"-t", filesystemType, @"-o", @"ro", diskPath, @"/private/var/MobileSoftwareUpdate/mnt1", nil];
     [mountTask setArguments:mountArgs];
     NSPipe *stdOutPipe = [NSPipe pipe];
     NSFileHandle *stdOutFileRead = [stdOutPipe fileHandleForReading];
@@ -513,15 +513,15 @@
     }
     if ([[self->_successionPrefs objectForKey:@"create_APFS_succession-prerestore"] isEqual:@(1)]) {
         NSTask *deletePreviousBackupSnapTask = [[NSTask alloc] init];
-        [deletePreviousBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
-        NSArray *deletePreviousBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"succession-prerestore", nil];
+        [deletePreviousBackupSnapTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
+        NSArray *deletePreviousBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"snappy", @"-f", @"/", @"-d", @"succession-prerestore", nil];
         [deletePreviousBackupSnapTask setArguments:deletePreviousBackupSnapTaskArgs];
         [self logToFile:@"user elected to create succession-prerestore snapshot, deleting already present succession-prerestore" atLineNumber:__LINE__];
         [deletePreviousBackupSnapTask launch];
         [deletePreviousBackupSnapTask waitUntilExit];
         NSTask *createBackupSnapTask = [[NSTask alloc] init];
-        [createBackupSnapTask setLaunchPath:@"/usr/bin/snappy"];
-        NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"succession-prerestore", nil];
+        [createBackupSnapTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
+        NSArray *createBackupSnapTaskArgs = [[NSArray alloc] initWithObjects:@"snappy", @"-f", @"/", @"-c", @"succession-prerestore", nil];
         [createBackupSnapTask setArguments:createBackupSnapTaskArgs];
         [self logToFile:@"creating new succession-prerestore" atLineNumber:__LINE__];
         [createBackupSnapTask launch];
@@ -534,7 +534,8 @@
     [self logToFile:@"successionRestore called!" atLineNumber:__LINE__];
     if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1"] stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
         [self logToFile:@"verified filesystem is mounted" atLineNumber:__LINE__];
-        NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:@"-vaxcH",
+        NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:
+                                            @"-vaxcH",
                                             @"--delete",
                                             @"--progress",
                                             @"--ignore-errors",
@@ -586,26 +587,28 @@
         if ([[_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
             [self logToFile:@"user elected to create new orig-fs after restore, excluding snappy" atLineNumber:__LINE__];
             [rsyncMutableArgs addObject:@"--exclude=/usr/bin/snappy"];
+            [rsyncMutableArgs addObject:[NSString stringWithFormat:@"--exclude=%@", [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]]];
         }
         if ([[_successionPrefs objectForKey:@"unofficial_tethered_downgrade_compatibility"] isEqual:@(1)]) {
             [self logToFile:@"using unsupported tethered downgrade as requested" atLineNumber:__LINE__];
             [rsyncMutableArgs addObject:@"--exclude=/usr/share/firmware/"];
         }
-        [self logToFile:[NSString stringWithFormat:@"rsync %@", [rsyncMutableArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
+        [self logToFile:[NSString stringWithFormat:@"/Applications/SuccessionRestore.app/succdatroot %@", [rsyncMutableArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
         NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         NSTask *rsyncTask = [[NSTask alloc] init];
+        [rsyncTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:[_successionPrefs objectForKey:@"custom_rsync_path"]]) {
             [self logToFile:[NSString stringWithFormat:@"found rsync at path: %@", [_successionPrefs objectForKey:@"custom_rsync_path"]] atLineNumber:__LINE__];
-            [rsyncTask setLaunchPath:[_successionPrefs objectForKey:@"custom_rsync_path"]];
+            [rsyncMutableArgs insertObject:[_successionPrefs objectForKey:@"custom_rsync_path"] atIndex:0];
         } else {
             [self logToFile:[NSString stringWithFormat:@"couldnt find rsync at path %@, checking /usr/bin/rsync to see if user accidentally changed preferences", [_successionPrefs objectForKey:@"custom_rsync_path"]] atLineNumber:__LINE__];
             if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/rsync"]) {
-                UIAlertController *rsyncNotFound = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Unable to find rsync at custom path %@", [_successionPrefs objectForKey:@"custom_rsync_path"]]message:@"/usr/bin/rsync will be used" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController *rsyncNotFound = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Unable to find rsync at custom path %@", [_successionPrefs objectForKey:@"custom_rsync_path"]] message:@"/usr/bin/rsync will be used" preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *useDefualtPathAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
                 [rsyncNotFound addAction:useDefualtPathAction];
                 [self presentViewController:rsyncNotFound animated:TRUE completion:nil];
                 [self logToFile:@"found rsync at default path, using /usr/bin/rsync" atLineNumber:__LINE__];
-                [rsyncTask setLaunchPath:@"/usr/bin/rsync"];
+                [rsyncMutableArgs insertObject:@"rsync" atIndex:0];
             } else {
                 [self logToFile:@"unable to find rysnc at user-specified path or custom path, asking to reinstall rsync" atLineNumber:__LINE__];
                 [self errorAlert:[NSString stringWithFormat:@"Unable to find rsync at custom path %@\nPlease check your custom path in Succession's settings or install rsync from Cydia", [_successionPrefs objectForKey:@"custom_rsync_path"]] atLineNumber:__LINE__];
@@ -683,21 +686,21 @@
                         if ([[self->_successionPrefs objectForKey:@"create_APFS_orig-fs"] isEqual:@(1)]) {
                             [self logToFile:@"user elected to replace orig-fs, deleting old orig-fs now" atLineNumber:__LINE__];
                             NSTask *deleteOrigFS = [[NSTask alloc] init];
-                            [deleteOrigFS setLaunchPath:@"/usr/bin/snappy"];
-                            NSArray *deleteOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-d", @"orig-fs", nil];
+                            [deleteOrigFS setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
+                            NSArray *deleteOrigFSArgs = [[NSArray alloc] initWithObjects:@"snappy", @"-f", @"/", @"-d", @"orig-fs", nil];
                             [deleteOrigFS setArguments:deleteOrigFSArgs];
                             [deleteOrigFS launch];
                             [self logToFile:@"user elected to replace orig-fs, creating new orig-fs now" atLineNumber:__LINE__];
                             NSTask *createNewOrigFS = [[NSTask alloc] init];
-                            [createNewOrigFS setLaunchPath:@"/usr/bin/snappy"];
-                            NSArray *createNewOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-c", @"orig-fs", nil];
+                            [createNewOrigFS setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
+                            NSArray *createNewOrigFSArgs = [[NSArray alloc] initWithObjects:@"snappy", @"-f", @"/", @"-c", @"orig-fs", nil];
                             [createNewOrigFS setArguments:createNewOrigFSArgs];
                             [createNewOrigFS launch];
                             [createNewOrigFS waitUntilExit];
                             [self logToFile:@"renaming newly created orig-fs to system snapshot name" atLineNumber:__LINE__];
                             NSTask *renameOrigFS = [[NSTask alloc] init];
-                            [renameOrigFS setLaunchPath:@"/usr/bin/snappy"];
-                            NSArray *renameOrigFSArgs = [[NSArray alloc] initWithObjects:@"-f", @"/", @"-r", @"orig-fs", @"-x", nil];
+                            [renameOrigFS setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
+                            NSArray *renameOrigFSArgs = [[NSArray alloc] initWithObjects:@"snappy", @"-f", @"/", @"-r", @"orig-fs", @"-x", nil];
                             [renameOrigFS setArguments:renameOrigFSArgs];
                             [renameOrigFS launch];
                             [self logToFile:@"ok, we're done with snappy, deleting now" atLineNumber:__LINE__];

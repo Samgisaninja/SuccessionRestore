@@ -42,7 +42,7 @@
     _deviceBuild = [NSString stringWithUTF8String:buildChar];
     free(buildChar);
         NSTask *decryptDMGTask = [[NSTask alloc] init];
-        [decryptDMGTask setArguments:[NSArray arrayWithObjects:@"extract", @"/var/mobile/Media/Succession/encrypted.dmg", @"/var/mobile/Media/Succession/rfs.dmg", @"-k", [self getRFSKey], nil]];
+        [decryptDMGTask setArguments:[NSArray arrayWithObjects:@"dmg", @"extract", @"/var/mobile/Media/Succession/encrypted.dmg", @"/var/mobile/Media/Succession/rfs.dmg", @"-k", [self getRFSKey], nil]];
         NSPipe *outputPipe = [NSPipe pipe];
         [decryptDMGTask setStandardOutput:outputPipe];
         NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
@@ -59,7 +59,7 @@
                         [[self activityLabel] setText:stringRead];
                         [stdoutHandle waitForDataInBackgroundAndNotify];
                     }];
-    [decryptDMGTask setLaunchPath:@"/usr/bin/dmg"];
+    [decryptDMGTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
     [self logToFile:@"launchpath set" atLineNumber:__LINE__];
     decryptDMGTask.terminationHandler = ^{
         // Let the user know that download is now complete
