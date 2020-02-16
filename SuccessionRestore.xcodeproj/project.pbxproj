@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8D175B5B224429CB00FF7DFD /* NSTask.h in Sources */ = {isa = PBXBuildFile; fileRef = 8D4C260B21BF57C700BBA404 /* NSTask.h */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8D24F5062325C67D00215579 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		8D28F62E23F7F4B800D9CFD0 /* Zebra.md in Resources */ = {isa = PBXBuildFile; fileRef = 8D28F62D23F7F49E00D9CFD0 /* Zebra.md */; };
 		8D40BF0F231261F300240454 /* hdik-arm64e in Resources */ = {isa = PBXBuildFile; fileRef = 8D40BF0E231261F300240454 /* hdik-arm64e */; };
 		8D5BA27A1F7C792E00A169BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA2791F7C792E00A169BF /* AppDelegate.m */; };
 		8D5BA27D1F7C792E00A169BF /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BA27C1F7C792E00A169BF /* HomePageViewController.m */; };
@@ -71,6 +72,7 @@
 /* Begin PBXFileReference section */
 		8D13280020F2CFB800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../Downloads/IOKit.framework; sourceTree = "<group>"; };
 		8D13280620F2F3A800C72D10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = SuccessionRestore/IOKit.framework; sourceTree = "<group>"; };
+		8D28F62D23F7F49E00D9CFD0 /* Zebra.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Zebra.md; sourceTree = "<group>"; };
 		8D40BF0E231261F300240454 /* hdik-arm64e */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "hdik-arm64e"; sourceTree = "<group>"; };
 		8D4C260B21BF57C700BBA404 /* NSTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTask.h; sourceTree = "<group>"; };
 		8D5BA2751F7C792E00A169BF /* SuccessionRestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuccessionRestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,6 +246,7 @@
 				8D8F2FA92264095D0044CF00 /* SpecialThanksTableViewController.m */,
 				8DFBE80022442FEB00A96C2C /* SpringBoardServices.framework */,
 				8DCED5FA234134F800B8DD4F /* binaryinfo.txt */,
+				8D28F62D23F7F49E00D9CFD0 /* Zebra.md */,
 			);
 			path = SuccessionRestore;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				8DF4B8C523AF1AE3009EAB13 /* attach in Resources */,
 				8DBB34A023F722EC009C64AD /* README.md in Resources */,
 				8D24F5062325C67D00215579 /* (null) in Resources */,
+				8D28F62E23F7F4B800D9CFD0 /* Zebra.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -593,7 +593,6 @@
             [self logToFile:@"using unsupported tethered downgrade as requested" atLineNumber:__LINE__];
             [rsyncMutableArgs addObject:@"--exclude=/usr/share/firmware/"];
         }
-        [self logToFile:[NSString stringWithFormat:@"/Applications/SuccessionRestore.app/succdatroot %@", [rsyncMutableArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
         NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         NSTask *rsyncTask = [[NSTask alloc] init];
         [rsyncTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
@@ -614,6 +613,7 @@
                 [self errorAlert:[NSString stringWithFormat:@"Unable to find rsync at custom path %@\nPlease check your custom path in Succession's settings or install rsync from Cydia", [_successionPrefs objectForKey:@"custom_rsync_path"]] atLineNumber:__LINE__];
             }
         }
+        [self logToFile:[NSString stringWithFormat:@"/Applications/SuccessionRestore.app/succdatroot %@", [rsyncMutableArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
         [rsyncTask setArguments:rsyncArgs];
         NSPipe *outputPipe = [NSPipe pipe];
         [rsyncTask setStandardOutput:outputPipe];
