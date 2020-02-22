@@ -593,15 +593,12 @@
             [self logToFile:@"using unsupported tethered downgrade as requested" atLineNumber:__LINE__];
             [rsyncMutableArgs addObject:@"--exclude=/usr/share/firmware/"];
         }
+        NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         NSTask *rsyncTask = [[NSTask alloc] init];
         [rsyncTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:[_successionPrefs objectForKey:@"custom_rsync_path"]]) {
             [self logToFile:[NSString stringWithFormat:@"found rsync at path: %@", [_successionPrefs objectForKey:@"custom_rsync_path"]] atLineNumber:__LINE__];
-            if ([(NSString *)[_successionPrefs objectForKey:@"custom_rsync_path"] isEqualToString:@"/usr/bin/rsync"]) {
-                [rsyncMutableArgs insertObject:@"rsync" atIndex:0];
-            } else {
-                [rsyncMutableArgs insertObject:[_successionPrefs objectForKey:@"custom_rsync_path"] atIndex:0];
-            }
+            [rsyncMutableArgs insertObject:[_successionPrefs objectForKey:@"custom_rsync_path"] atIndex:0];
         } else {
             [self logToFile:[NSString stringWithFormat:@"couldnt find rsync at path %@, checking /usr/bin/rsync to see if user accidentally changed preferences", [_successionPrefs objectForKey:@"custom_rsync_path"]] atLineNumber:__LINE__];
             if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/rsync"]) {
@@ -617,7 +614,6 @@
             }
         }
         [self logToFile:[NSString stringWithFormat:@"/Applications/SuccessionRestore.app/succdatroot %@", [rsyncMutableArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
-        NSArray *rsyncArgs = [NSArray arrayWithArray:rsyncMutableArgs];
         [rsyncTask setArguments:rsyncArgs];
         NSPipe *outputPipe = [NSPipe pipe];
         [rsyncTask setStandardOutput:outputPipe];
