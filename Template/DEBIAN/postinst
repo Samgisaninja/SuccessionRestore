@@ -1,6 +1,7 @@
 #!/bin/bash
 mkdir /var/mobile/Media/Succession/
 chmod 0777 /var/mobile/Media/Succession/
+chmod 6755 /Applications/SuccessionRestore.app/succdatroot
 killall SuccessionRestore
 KERNELVERSION=$(uname -r)
 searchstring="."
