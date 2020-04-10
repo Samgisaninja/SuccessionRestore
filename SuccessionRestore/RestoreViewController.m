@@ -78,7 +78,7 @@
 
 -(BOOL)isMounted{
     // if this file doesnt exist, the disk isnt mounted, and the chances of someone creating it "just for fun" is astronomically low
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mnt/succ/sbin/launchd"]) {
         return TRUE;
     } else {
         return FALSE;
@@ -87,81 +87,35 @@
 
 -(void)checkMountPoint{
     BOOL isDirectory;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" isDirectory:&isDirectory]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mnt/succ/" isDirectory:&isDirectory]) {
         if (isDirectory) {
             [self logToFile:@"Mountpoint exists, continuing" atLineNumber:__LINE__];
             [self attachDiskImage];
         } else {
             NSError *error;
-            [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" error:&error];
+            [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mnt/succ" error:&error];
             if (!error) {
-                [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&error];
+                [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/mnt/succ/" withIntermediateDirectories:TRUE attributes:nil error:&error];
                 if (!error) {
                     [self attachDiskImage];
                 } else {
-                    [self logToFile:[NSString stringWithFormat:@"Got %@ when trying to create mountpoint, using bypass.", [error localizedDescription]] atLineNumber:__LINE__];
-                    [self mountPointCreationBypass];
+                    [self logToFile:[NSString stringWithFormat:@"Got %@ when trying to create mountpoint after deleting present file.", [error localizedDescription]] atLineNumber:__LINE__];
                 }
             } else {
-                [self errorAlert:@"Please delete the file located at /private/var/MobileSoftwareUpdate/mnt1" atLineNumber:__LINE__];
+                [self errorAlert:@"Please delete the file located at /private/var/mnt/succ" atLineNumber:__LINE__];
             }
         }
     } else {
         NSError *error;
-        [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&error];
+        [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/mnt/succ" withIntermediateDirectories:TRUE attributes:nil error:&error];
         if (!error) {
             [self attachDiskImage];
         } else {
-            [self logToFile:[NSString stringWithFormat:@"Got %@ when trying to create mountpoint, using bypass.", [error localizedDescription]] atLineNumber:__LINE__];
-            [self mountPointCreationBypass];
+            [self logToFile:[NSString stringWithFormat:@"Got %@ when trying to create mountpoint.", [error localizedDescription]] atLineNumber:__LINE__];
         }
     }
 }
 
--(void)mountPointCreationBypass{
-    NSError *error;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[self titleLabel] setText:@"Using bypass technique to create mountpoint..."];
-    });
-    [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/COPY/" error:nil];
-    [self logToFile:@"Using bypass technique to create mountpoint..." atLineNumber:__LINE__];
-    [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/COPY/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&error];
-    if (!error) {
-        NSArray *contentsOfMSU = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/private/var/MobileSoftwareUpdate/" error:&error];
-        if (!error) {
-            for (NSString *file in contentsOfMSU) {
-                NSString *filePath = [NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/%@", file];
-                [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:[NSString stringWithFormat:@"/private/var/COPY/%@", file] error:&error];
-                if (error) {
-                    [self errorAlert:[NSString stringWithFormat:@"Failed to copy file %@ to COPY directory", file] atLineNumber:__LINE__];
-                }
-                [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/COPY/mnt1" withIntermediateDirectories:TRUE attributes:nil error:&error];
-                if (!error) {
-                    [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/MobileSoftwareUpdate/" error:&error];
-                    if (!error) {
-                        [[NSFileManager defaultManager] moveItemAtPath:@"/private/var/COPY/" toPath:@"/private/var/MobileSoftwareUpdate/" error:&error];
-                        if (!error) {
-                            [self logToFile:@"Successfully exploited mountpoint creation, continuing" atLineNumber:__LINE__];
-                            [self attachDiskImage];
-                        } else {
-                            [self errorAlert:@"Failed to rename COPY directory to MSU" atLineNumber:__LINE__];
-                        }
-                    } else {
-                        [self errorAlert:@"Failed to remove old MSU directory" atLineNumber:__LINE__];
-                    }
-                } else {
-                    [self errorAlert:@"Failed to create mnt1 in COPY directory" atLineNumber:__LINE__];
-                }
-            }
-        } else {
-            [self errorAlert:[NSString stringWithFormat:@"Failed to list contents of /private/var/MobileSoftwareUpdate"] atLineNumber:__LINE__];
-        }
-    } else {
-        [self errorAlert:[NSString stringWithFormat:@"Failed to create /private/var/COPY/mnt1, %@", [error localizedDescription]] atLineNumber:__LINE__];
-    }
-    
-    
-}
 
 -(void)attachDiskImage{
     [self logToFile:@"attachDiskImage called!" atLineNumber:__LINE__];
@@ -368,7 +322,7 @@
     });
     NSTask *mountTask = [[NSTask alloc] init];
     [mountTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
-    NSArray *mountArgs = [NSArray arrayWithObjects:@"mount", @"-t", filesystemType, @"-o", @"ro", diskPath, @"/private/var/MobileSoftwareUpdate/mnt1", nil];
+    NSArray *mountArgs = [NSArray arrayWithObjects:@"mount", @"-t", filesystemType, @"-o", @"ro", diskPath, @"/private/var/mnt/succ", nil];
     [mountTask setArguments:mountArgs];
     NSPipe *stdOutPipe = [NSPipe pipe];
     NSFileHandle *stdOutFileRead = [stdOutPipe fileHandleForReading];
@@ -442,7 +396,7 @@
 
 - (void)showRestoreAlert{
     [self logToFile:@"showRestoreAlert called!" atLineNumber:__LINE__];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1/sbin/launchd"]]) {
+    if ([self isMounted]) {
         [self logToFile:@"filesystem is mounted, asking user to confirm they are ready to restore" atLineNumber:__LINE__];
         if ([_deviceModel containsString:@"iPad"]) {
             _areYouSureAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you would like to begin restoring" message:@"You will not be able to leave the app during the process" preferredStyle:UIAlertControllerStyleAlert];
@@ -532,7 +486,7 @@
 
 -(void)successionRestore{
     [self logToFile:@"successionRestore called!" atLineNumber:__LINE__];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSString stringWithFormat:@"/private/var/MobileSoftwareUpdate/mnt1"] stringByAppendingPathComponent:@"sbin"] stringByAppendingPathComponent:@"launchd"]]) {
+    if ([self isMounted]) {
         [self logToFile:@"verified filesystem is mounted" atLineNumber:__LINE__];
         NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:
                                             @"-vaxcH",
@@ -546,7 +500,7 @@
                                             @"--exclude=/System/Library/Caches/com.apple.factorydata/",
                                             @"--exclude=/usr/standalone/firmware/sep-firmware.img4",
                                             @"--exclude=/usr/local/standalone/firmware/Baseband",
-                                            @"--exclude=/private/var/MobileSoftwareUpdate/mnt1/",
+                                            @"--exclude=/private/var/mnt/succ/",
                                             @"--exclude=/private/etc/fstab",
                                             @"--exclude=/etc/fstab",
                                             @"--exclude=/usr/standalone/firmware/FUD/",
@@ -561,7 +515,7 @@
                                             @"--exclude=/devicetree",
                                             @"--exclude=/kernelcache",
                                             @"--exclude=/ramdisk",
-                                            @"/private/var/MobileSoftwareUpdate/mnt1/.",
+                                            @"/private/var/mnt/succ/.",
                                             @"/", nil];
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/Caches/xpcproxy"] || [[NSFileManager defaultManager] fileExistsAtPath:@"/var/tmp/xpcproxy"]) {
             [rsyncMutableArgs addObject:@"--exclude=/Library/Caches/"];

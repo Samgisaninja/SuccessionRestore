@@ -9,7 +9,7 @@ Special thanks to [comex](https://github.com/comex) for generously providing att
 Succession is both an IPSW downloader/extractor and DMG mounter, allowing the ability to perform a restore on your device by:
 - Downloading an IPSW from Apple's servers for your device/iOS version
 - Extracting the largest DMG file from the downloaded IPSW
-- Mounting the extracted DMG file on your filesystem (at `/var/MobileSoftwareUpdate/mnt1`)
+- Mounting the extracted DMG file on your filesystem (at `/var/mnt/succ`)
 - Using [rsync](https://rsync.samba.org/) to replace any modified file with a clean versions from the mounted DMG file while deleting additional files
 
 Once this occurs, `mobile_obliterator` (aka "Erase all Content and Settings") is called to complete the restore. **This is NOT dangerous, as files have been correctly replaced with cleaner versions and your device is unjailbroken at this point.**
