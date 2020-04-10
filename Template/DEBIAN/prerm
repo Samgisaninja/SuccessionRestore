@@ -4,4 +4,6 @@ if [ "$1" != "upgrade" ]; then
     rm -rf /private/var/mobile/Media/Succession/
     rm -rf /Applications/SuccessionRestore.app/hdik
     rm -rf /Applications/SuccessionRestore.app/attach
+    umount -f /var/mnt/succ/
+    rm -rf /var/mnt/succ/
 fi
