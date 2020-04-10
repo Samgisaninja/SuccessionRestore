@@ -95,24 +95,37 @@
             NSError *error;
             [[NSFileManager defaultManager] removeItemAtPath:@"/private/var/mnt/succ" error:&error];
             if (!error) {
-                [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/mnt/succ/" withIntermediateDirectories:TRUE attributes:nil error:&error];
-                if (!error) {
-                    [self attachDiskImage];
-                } else {
-                    [self logToFile:[NSString stringWithFormat:@"Got %@ when trying to create mountpoint after deleting present file.", [error localizedDescription]] atLineNumber:__LINE__];
-                }
+                NSTask *mkdirMntPt = [[NSTask alloc] init];
+                [mkdirMntPt setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
+                NSArray *mkdirMntPtArgs = [NSArray arrayWithObjects:@"/bin/mkdir", @"/private/var/mnt/succ", nil];
+                [mkdirMntPt setArguments:mkdirMntPtArgs];
+                NSPipe *stdOutPipe = [NSPipe pipe];
+                NSFileHandle *stdOutFileRead = [stdOutPipe fileHandleForReading];
+                mkdirMntPt.terminationHandler = ^{
+                    NSData *outData = [stdOutFileRead readDataToEndOfFile];
+                    NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
+                    [self logToFile:[NSString stringWithFormat:@"Created mountpoint with output: %@", outString] atLineNumber:__LINE__];
+                };
+                [mkdirMntPt launch];
+                [mkdirMntPt waitUntilExit];
             } else {
                 [self errorAlert:@"Please delete the file located at /private/var/mnt/succ" atLineNumber:__LINE__];
             }
         }
     } else {
-        NSError *error;
-        [[NSFileManager defaultManager] createDirectoryAtPath:@"/private/var/mnt/succ" withIntermediateDirectories:TRUE attributes:nil error:&error];
-        if (!error) {
-            [self attachDiskImage];
-        } else {
-            [self logToFile:[NSString stringWithFormat:@"Got %@ when trying to create mountpoint.", [error localizedDescription]] atLineNumber:__LINE__];
-        }
+        NSTask *mkdirMntPt = [[NSTask alloc] init];
+        [mkdirMntPt setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
+        NSArray *mkdirMntPtArgs = [NSArray arrayWithObjects:@"/bin/mkdir", @"/private/var/mnt/succ", nil];
+        [mkdirMntPt setArguments:mkdirMntPtArgs];
+        NSPipe *stdOutPipe = [NSPipe pipe];
+        NSFileHandle *stdOutFileRead = [stdOutPipe fileHandleForReading];
+        mkdirMntPt.terminationHandler = ^{
+            NSData *outData = [stdOutFileRead readDataToEndOfFile];
+            NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
+            [self logToFile:[NSString stringWithFormat:@"Created mountpoint with output: %@", outString] atLineNumber:__LINE__];
+        };
+        [mkdirMntPt launch];
+        [mkdirMntPt waitUntilExit];
     }
 }
 
