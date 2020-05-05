@@ -603,7 +603,7 @@
             [[self titleLabel] setText:@"Restoring, please wait..."];
             [[self subtitleLabel] setText:@"Progress bar may freeze for long periods of time, it's still working, leave it alone until your device reboots."];
             [[self titleLabel] setHidden:FALSE];
-            if ([stringRead containsString:@"cannot delete non-empty directory"] && [stringRead containsString:@"Applications/"]) {
+            if ([stringRead containsString:@"cannot delete non-empty directory"] && [stringRead containsString:@"Applications/"] && ![stringRead containsString:@"SuccessionRestore"]) {
                 [self errorAlert:@"Succession has failed due to an issue with rsync. I don't know what caused this, sorry. You can follow the discussion of this issue at https://github.com/SuccessionRestore/issues/44" atLineNumber:__LINE__];
                 [rsyncTask terminate];
             }
