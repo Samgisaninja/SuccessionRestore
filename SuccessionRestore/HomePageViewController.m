@@ -67,6 +67,10 @@
         [pwnproxyError addAction:exitAction];
         [self presentViewController:pwnproxyError animated:TRUE completion:nil];
     }
+    // At launch, if both rfs.dmg and ipsw.ipsw exist, that probably means extraction failed, so delete rfs.dmg to force a retry
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw"] && [[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/Succession/rfs.dmg"]) {
+        [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/rfs.dmg" error:nil];
+    }
     // Checks if the app has ever been run before
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/com.samgisaninja.SuccessionRestore.plist"]) {
         // Present an alert asking the user to consider donating.
