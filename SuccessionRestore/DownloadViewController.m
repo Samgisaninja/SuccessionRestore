@@ -612,7 +612,6 @@
     [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/ipsw.ipsw" error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Media/Succession/BuildManifest.plist" error:nil];
     [self logToFile:@"extraction complete" atLineNumber:__LINE__];
-    // If the DMG needs decryption, decrypt it now.
     // Let the user know that download is now complete
     NSString *message;
     if (_needsDecryption) {
@@ -626,7 +625,9 @@
         [[self navigationController] popToRootViewControllerAnimated:TRUE];
     }];
     [downloadComplete addAction:backToHomePage];
-    [self presentViewController:downloadComplete animated:TRUE completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:downloadComplete animated:TRUE completion:nil];
+    });
 }
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller
