@@ -1,7 +1,7 @@
 # SuccessionRestore
 Modern alternative to Cydia Eraser, a tool that allows users to restore their jailbroken device(s) back to stock iOS without a firmware update or the use of SHSH2 blobs.
 
-Unlike Cydia Eraser, Succession uses rootfilesystem DMGs that can be dumped to perform a restore, making Succession more reliable and easier to update, while always maintaining support for modern iOS devices/firnwares.
+Unlike Cydia Eraser, Succession uses rootfilesystem DMGs that can be dumped to perform a restore, making Succession more reliable and easier to update, while always maintaining support for modern iOS devices/firmwares.
 
 Special thanks to [comex](https://github.com/comex) for generously providing attach, a component that allows DMGs to be attached for use on older devices.
 
