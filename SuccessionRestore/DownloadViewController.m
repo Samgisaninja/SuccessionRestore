@@ -365,17 +365,6 @@
             if ([[betaLinks objectForKey:deviceBuild] objectForKey:deviceModel]) {
                 // then get the matching link.
                 NSString *downloadLinkString = [NSString stringWithFormat:@"%@", [[betaLinks objectForKey:deviceBuild] objectForKey:deviceModel]];
-                // Unfortunately, over a year after creating the beta.plist service, I realized that in many of the beta "links", I had accidentally left them formatted as "[LINK] [FILENAME]". Yes, with a literal space in the middle. This happened on over 3000 of the links, and I was too lazy to go back and fix that server side when I could just do it once, here. **THIS IS BAD PRACTICE** I don't care :/
-                if ([downloadLinkString containsString:@" "]){
-                    // Create an NSArray by splitting the invalid downloadLinkString wherever there's a space
-                    NSArray *splitDownloadLink = [downloadLinkString componentsSeparatedByString:@" "];
-                    // Loop through the contents of that array and check to see if the component contains "https://". If so, that's the correct link
-                    for (NSString *possibleLink in splitDownloadLink) {
-                        if ([possibleLink containsString:@"https://"]) {
-                            downloadLinkString = [possibleLink stringByReplacingOccurrencesOfString:@" " withString:@""];
-                        }
-                    }
-                }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[self activityLabel] setText:[NSString stringWithFormat:@"Found IPSW at %@", downloadLinkString]];
                 });
