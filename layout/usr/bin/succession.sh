@@ -1,23 +1,16 @@
 #!/bin/bash
 #We are going to create a resources folder in the User’s var directory 
 mkdir /var/mobile/Media/Succession/
-#We are going to copy and paste these two files into our resources folder so we can identify the device, we do this instead of reading the values directly, just to be safe.  
-cp /System/Library/CoreServices/SystemVersion.plist /var/mobile/Media/Succession/ 
-cp /var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist /var/mobile/Media/Succession/ 
-
-#We’re now going to read the plist files we just copied, so we can identify and download the correct IPSW for the current device.
-  #we are going to get the ProductVersion for example, iOS 13.3 and set it as a variable 
-
-ProductVersion=`plutil -key ProductVersion /var/mobile/Media/Succession/SystemVersion.plist`
+#Contact helper tool to get iOS version and device model
+ProductVersion=`SuccessionCLIhelper --deviceVersion`
 #we are now going to get the product buildversion for example, 17c54 and set it as a variable   
-ProductBuildVersion=`plutil -key ProductBuildVersion /var/mobile/Media/Succession/SystemVersion.plist`
-#we now get the device name for example, if the device is an iPad and set it as a variable   
-DeviceName=`plutil -key CacheExtra -key Z/dqyWS6OZTRy10UcmUAhw /var/mobile/Media/Succession/com.apple.MobileGestalt.plist`
-DeviceIdentifier=`plutil   -key CacheExtra -key h9jDsbgj7xIVeIQ8S3/X3Q /var/mobile/Media/Succession/com.apple.MobileGestalt.plist`
+ProductBuildVersion=`SuccessionCLIhelper --deviceBuildNumber`
+#we now get the machine ID, (for example iPhone9,4), and store it as a variable
+DeviceIdentifier=`SuccessionCLIhelper --deviceModel`
 #We’ll print these values that we have retrieved  
- echo your $DeviceName $DeviceIdentifier is running iOS $ProductVersion $ProductBuildVersion
+echo your $DeviceIdentifier is running iOS version $ProductVersion build $ProductBuildVersion
+echo please make sure this information is accurate before continuing
 
-   
 echo succession will download the correct IPSW for your device: press enter to proceed
 read varblank2
 
