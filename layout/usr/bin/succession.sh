@@ -1,4 +1,4 @@
-#!bash
+#!/bin/bash
 #We are going to create a resources folder in the User’s var directory 
 mkdir /var/mobile/Media/Succession/
 #We are going to copy and paste these two files into our resources folder so we can identify the device, we do this instead of reading the values directly, just to be safe.  
