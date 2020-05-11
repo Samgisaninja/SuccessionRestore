@@ -12,6 +12,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <spawn.h>
 #include <sys/stat.h>
+#import <CommonCrypto/CommonDigest.h>
 
 @interface HomePageViewController ()
 
@@ -60,10 +61,8 @@
     }
     // Don't run on unc0ver 4.0-4.2.X because of restore hang
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/libexec/pwnproxy"]) {
-        UIAlertController *pwnproxyError = [UIAlertController alertControllerWithTitle:@"Succession is disabled" message:@"Succession is not compatible with unc0ver 4.0-4.2.1" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            exit(0);
-        }];
+        UIAlertController *pwnproxyError = [UIAlertController alertControllerWithTitle:@"Warning" message:@"Succession is not compatible with unc0ver 4.0-4.2.1. Please make sure that you are running unc0ver 4.3 or higher." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:nil];
         [pwnproxyError addAction:exitAction];
         [self presentViewController:pwnproxyError animated:TRUE completion:nil];
     }
@@ -340,6 +339,45 @@
             [self presentViewController:motdAlert animated:TRUE completion:nil];
         }
     }
+}
+
+int sha1_to_str(const unsigned char *hash, size_t hashlen, char *buf, size_t buflen)
+{
+    if (buflen < (hashlen*2+1)) {
+        return -1;
+    }
+    
+    int i;
+    for (i=0; i<hashlen; i++) {
+        sprintf(buf+i*2, "%02X", hash[i]);
+    }
+    buf[i*2] = 0;
+    return 0;
+}
+
+NSString *sha1sum(NSString *file)
+{
+    uint8_t buffer[0x1000];
+    unsigned char md[CC_SHA1_DIGEST_LENGTH];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:file])
+        return nil;
+    
+    NSInputStream *fileStream = [NSInputStream inputStreamWithFileAtPath:file];
+    [fileStream open];
+    
+    CC_SHA1_CTX c;
+    CC_SHA1_Init(&c);
+    while ([fileStream hasBytesAvailable]) {
+        NSInteger read = [fileStream read:buffer maxLength:0x1000];
+        CC_SHA1_Update(&c, buffer, (CC_LONG)read);
+    }
+    
+    CC_SHA1_Final(md, &c);
+    
+    char checksum[CC_SHA1_DIGEST_LENGTH * 2 + 1];
+    if (sha1_to_str(md, CC_SHA1_DIGEST_LENGTH, checksum, sizeof(checksum)) != 0)
+        return nil;
+    return @(checksum);
 }
 
 @end
