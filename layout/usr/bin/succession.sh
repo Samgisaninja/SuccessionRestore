@@ -1,4 +1,10 @@
 #!/bin/bash
+echo "Welcome to SuccessionCLI! Written by Samg_is_a_Ninja and demhademha"
+checkRoot=`whoami`
+if [ $checkRoot != "root" ]; then
+    echo "SuccessionCLI needs to be run as root. Please su and try again."
+    exit
+fi
 #We are going to create a resources folder in the User’s var directory 
 mkdir -p /private/var/mobile/Media/Succession/
 #Contact helper tool to get iOS version and device model
@@ -9,15 +15,28 @@ ProductBuildVersion=`SuccessionCLIhelper --deviceBuildNumber`
 DeviceIdentifier=`SuccessionCLIhelper --deviceModel`
 #We’ll print these values that we have retrieved  
 echo your $DeviceIdentifier is running iOS version $ProductVersion build $ProductBuildVersion
-echo please make sure this information is accurate before continuing
+echo please make sure this information is accurate before continuing.
+shouldExtractIPSW=true
+if [ -f /private/var/mobile/Media/Succession/rfs.dmg ]; then
+    while true; do
+        read -p "Detected provided rootfilesystem disk image, would you like to use it? (y/n) " yn
+        case $yn in
+            [Yy]* ) shouldExtractIPSW=false; break;;
+            [Nn]* ) shouldExtractIPSW=true; break;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
+fi
 shouldDownloadIPSW=true
 if [ -f /private/var/mobile/Media/Succession/ipsw.ipsw ]; then
-    read -p "Detected provided ipsw, would you like to use it? (y/n)" $wantsToUseProvidedIPSW
-    case $wantsToUseProvidedIPSW in
-        [Yy]* ) shouldDownloadIPSW=false;;
-        [Nn]* ) shouldDownloadIPSW=true;;
-        * ) echo "Please answer yes or no.";;
-    esac
+    while true; do
+        read -p "Detected provided ipsw, would you like to use it? (y/n) " yn
+        case $yn in
+            [Yy]* ) shouldDownloadIPSW=false; break;;
+            [Nn]* ) shouldDownloadIPSW=true; break;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
 fi
 
 if $shouldDownloadIPSW; then
@@ -34,10 +53,10 @@ if $shouldDownloadIPSW; then
     echo preparing to download IPSW...
     echo downloading IPSW...
     #we download the ipsw from apple’s servers through ipsw.me’s api    
-    curl  -# -L -o partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl
+    curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl
     #now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
-    mv partial.ipsw ipsw.ipsw
-
+    mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
+fi
 #we create a new directory to put the ipsw that is going to be extracted   
 mkdir /private/var/mobile/Media/Succession/ipsw/
 echo extracting IPSW...
@@ -46,7 +65,10 @@ cd /private/var/mobile/Media/Succession/ipsw/
 unzip /private/var/mobile/Media/Succession/ipsw.ipsw
 #we create a variable called dmg as we need to find and use the largest dmg later   
 echo moving extracted files... 
- 
+ # List all extracted files and move the largest one to /private/var/mobile/Media/Succession/rfs.dmg
 dmg=`ls -S | head -1`
-mv /private/var/mobile/Media/Succession/ipsw/$dmg /var/mobile/Media/Succession/rfs.dmg
+mv /private/var/mobile/Media/Succession/ipsw/$dmg /private/var/mobile/Media/Succession/rfs.dmg
+# Clean up
+rm -rf /private/var/mobile/Media/Succession/ipsw/
+rm /private/var/mobile/Media/Succession/ipsw.ipsw
 #needs completing 
