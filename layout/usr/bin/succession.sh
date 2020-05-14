@@ -14,9 +14,11 @@ ProductBuildVersion=`SuccessionCLIhelper --deviceBuildNumber`
 #we now get the machine ID, (for example iPhone9,4), and store it as a variable
 DeviceIdentifier=`SuccessionCLIhelper --deviceModel`
 #We’ll print these values that we have retrieved  
-echo your $DeviceIdentifier is running iOS version $ProductVersion build $ProductBuildVersion
-echo please make sure this information is accurate before continuing.
+echo Your $DeviceIdentifier is running iOS version $ProductVersion build $ProductBuildVersion
+echo "Please make sure this information is accurate before continuing. Press enter to confirm or exit if inaccurate."
+read varblank
 shouldExtractIPSW=true
+shouldDownloadIPSW=true
 if [ -f /private/var/mobile/Media/Succession/rfs.dmg ]; then
     while true; do
         read -p "Detected provided rootfilesystem disk image, would you like to use it? (y/n) " yn
@@ -27,7 +29,10 @@ if [ -f /private/var/mobile/Media/Succession/rfs.dmg ]; then
         esac
     done
 fi
-shouldDownloadIPSW=true
+if ! $shouldExtractIPSW; then
+    rm -rf /private/var/mobile/Media/Succession/ipsw*
+    shouldDownloadIPSW=false
+fi
 if [ -f /private/var/mobile/Media/Succession/ipsw.ipsw ]; then
     while true; do
         read -p "Detected provided ipsw, would you like to use it? (y/n) " yn
@@ -52,23 +57,41 @@ if $shouldDownloadIPSW; then
     #we tell bash where to save the IPSW 
     echo preparing to download IPSW...
     echo downloading IPSW...
-    #we download the ipsw from apple’s servers through ipsw.me’s api    
+    # Clean up any files from previous runs
+    rm -rf /private/var/mobile/Media/Succession/*
+    #we download the ipsw from apple’s servers through ipsw.me’s api
+    #TODO: add pzb to just download what we need instead of the entire IPSW
     curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl
     #now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
     mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
 fi
-#we create a new directory to put the ipsw that is going to be extracted   
-mkdir /private/var/mobile/Media/Succession/ipsw/
-echo extracting IPSW...
-#we now navigate to the directory that we just created in order to save our extracted ipsw there after unzipping it   
-cd /private/var/mobile/Media/Succession/ipsw/
-unzip /private/var/mobile/Media/Succession/ipsw.ipsw
-#we create a variable called dmg as we need to find and use the largest dmg later   
-echo moving extracted files... 
- # List all extracted files and move the largest one to /private/var/mobile/Media/Succession/rfs.dmg
-dmg=`ls -S | head -1`
-mv /private/var/mobile/Media/Succession/ipsw/$dmg /private/var/mobile/Media/Succession/rfs.dmg
-# Clean up
-rm -rf /private/var/mobile/Media/Succession/ipsw/
-rm /private/var/mobile/Media/Succession/ipsw.ipsw
+if $shouldExtractIPSW; then
+    #we create a new directory to put the ipsw that is going to be extracted   
+    echo extracting IPSW...
+    # Clean up partially extracted ipsws from previous runs
+    rm -rf /private/var/mobile/Media/Succession/ipsw/*
+    # If this is the first run, we need a destination folder to dump to
+    mkdir /private/var/mobile/Media/Succession/ipsw/
+    # 7z is a much faster and more advanced zip tool, and most devices will have it.
+    pathToSevenZ=`which 7z`
+    if [ -x $pathToSevenZ ]; then
+        #TODO: use 7z l to list, then bash magic to parse, and then extract just the files we need rather than everything
+        # 7z l /private/var/mobile/Media/Succession/ipsw.ipsw
+        7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
+    else 
+        #we now navigate to the directory that we just created in order to save our extracted ipsw there after unzipping it   
+        cd /private/var/mobile/Media/Succession/ipsw/
+        unzip /private/var/mobile/Media/Succession/ipsw.ipsw
+        cd ~
+    fi
+    #we create a variable called dmg as we need to find and use the largest dmg later   
+    echo moving extracted files... 
+    # List all extracted files and move the largest one to /private/var/mobile/Media/Succession/rfs.dmg
+    dmg=`ls -S /private/var/mobile/Media/Succession/ipsw/ | head -1`
+    mv /private/var/mobile/Media/Succession/ipsw/$dmg /private/var/mobile/Media/Succession/rfs.dmg
+    # Clean up
+    rm -rf /private/var/mobile/Media/Succession/ipsw/
+    rm /private/var/mobile/Media/Succession/ipsw.ipsw
+fi
+echo "Rootfilesystem dmg successfully extracted!"
 #needs completing 
