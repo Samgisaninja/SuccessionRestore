@@ -75,15 +75,16 @@ if $shouldExtractIPSW; then
     # 7z is a much faster and more advanced zip tool, and most devices will have it.
     pathToSevenZ=`which 7z`
     if [ -x $pathToSevenZ ]; then
-        #TODO: use 7z l to list, then bash magic to parse, and then extract just the files we need rather than everything
-        # 7z l /private/var/mobile/Media/Succession/ipsw.ipsw
-        7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
+        nameOfDMG=`7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 -r | awk 'END {print $NF}'`
+        7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
+        7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw BuildManifest.plist
     else 
         #we now navigate to the directory that we just created in order to save our extracted ipsw there after unzipping it   
         cd /private/var/mobile/Media/Succession/ipsw/
         unzip /private/var/mobile/Media/Succession/ipsw.ipsw
         cd ~
     fi
+    # TODO: verify version and integrity of IPSW from BuildManfiest
     #we create a variable called dmg as we need to find and use the largest dmg later   
     echo moving extracted files... 
     # List all extracted files and move the largest one to /private/var/mobile/Media/Succession/rfs.dmg
