@@ -46,13 +46,10 @@ fi
 
 if $shouldDownloadIPSW; then
     echo succession will download the correct IPSW for your device: press enter to proceed
-    read varblank2
-
     #print a warning message 
-
     echo once you press enter again, succession will begin the download 
-    echo  DO NOT LEAVE TERMINAL 
-    echo  DO NOT POWER OFF YOUR DEVICE 
+    echo DO NOT LEAVE TERMINAL 
+    echo DO NOT POWER OFF YOUR DEVICE 
     read varblank2   
     #we tell bash where to save the IPSW 
     echo preparing to download IPSW...
