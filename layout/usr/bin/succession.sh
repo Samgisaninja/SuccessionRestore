@@ -5,16 +5,17 @@ if [ $checkRoot != "root" ]; then
     echo "SuccessionCLI needs to be run as root. Please su and try again."
     exit
 fi
-#We are going to create a resources folder in the User’s var directory 
-mkdir -p /private/var/mobile/Media/Succession/
+
 #Contact helper tool to get iOS version and device model
 ProductVersion=`SuccessionCLIhelper --deviceVersion`
 #we are now going to get the product buildversion for example, 17c54 and set it as a variable   
 ProductBuildVersion=`SuccessionCLIhelper --deviceBuildNumber`
 #we now get the machine ID, (for example iPhone9,4), and store it as a variable
 DeviceIdentifier=`SuccessionCLIhelper --deviceModel`
+#we now need to get the actual device identifier for example, iPad 7,11 is iPad 7th generation 
+DeviceName=`plutil -key $DeviceIdentifier /var/mobile/Media/Succession
 #We’ll print these values that we have retrieved  
-echo Your $DeviceIdentifier is running iOS version $ProductVersion build $ProductBuildVersion
+echo Your $DeviceIdentifier $DeviceName is running iOS version $ProductVersion build $ProductBuildVersion
 echo "Please make sure this information is accurate before continuing. Press enter to confirm or exit if inaccurate."
 read varblank
 shouldExtractIPSW=true
