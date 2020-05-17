@@ -1,11 +1,8 @@
-SuccessionCle restore 
-this tool works in a similar way to succession although, it only uses cle: this means that this tool can only be accessed from the terminal. 
-if you would like to compile yourself, you will need the following: 
-Plutil (used to read values) found on Bingner's repo 
-automaticssh (used to prevent disconnection of ssh) found on Bingner's repo
-curl (used to download IPSW) found on Bingner's repo
-rsync (used during restore process) found on Bingner's repo 
-
-
-ONLY ASK FOR SUPPORT ON GITHUB BY CREATING AN ISSUE
-
+#SuccessionCLIRestore 
+Well, if your here, you’ve probably heard of Succession: a tool used to reset devices with rootfilesystem DMG. However you now may be wondering what this does?
+#What does SuccessionCLIRestore do?
+SuccessionCLIRestore is basically succession, accept that it is in CLI. 
+#Why might someone use this?
+A very good question indeed, this tool can be used to restore many devices at once through ssh over WiFi or USB, or to reset a checkra1n supported  device that isn’t fully working. 
+#extra 
+If you would like to help with this project, then by all means, please submit a pull request.      
