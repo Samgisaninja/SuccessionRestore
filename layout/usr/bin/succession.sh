@@ -72,7 +72,7 @@ if $shouldExtractIPSW; then
     # 7z is a much faster and more advanced zip tool, and most devices will have it.
     pathToSevenZ=`which 7z`
     if [ -x $pathToSevenZ ]; then
-        nameOfDMG=`7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 -r | awk 'END {print $NF}'`
+        nameOfDMG=`7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
         7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
         7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw BuildManifest.plist
     else 
