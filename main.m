@@ -28,6 +28,28 @@ int main(int argc, char *argv[], char *envp[]) {
 		NSString *deviceModelString = [NSString stringWithUTF8String:modelChar];
 		free(modelChar);
 		printf("%s\n", [deviceModelString UTF8String]);
+	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--freeSpace"]) {
+		if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
+		NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:@"/private/var/"];
+		NSError *error = nil;
+		NSDictionary *results = [fileURL resourceValuesForKeys:@[NSURLVolumeAvailableCapacityForImportantUsageKey] error:&error];
+		if (!results) {
+			NSLog(@"Error retrieving resource keys: %@\n%@", [error localizedDescription], [error userInfo]);
+		    printf("Error\n");
+		}
+		NSString *freeSpace = [NSByteCountFormatter stringFromByteCount:[results[NSURLVolumeAvailableCapacityForImportantUsageKey] longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
+		printf("%s\n", [freeSpace UTF8String]);
+#pragma clang diagnostic pop
+	} else {
+		NSDictionary *fattributes = [[NSDictionary alloc] init];
+		fattributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:@"/private/var/" error:nil];
+		NSNumber *fure = [fattributes objectForKey:NSFileSystemFreeSize];
+		NSString *forFure = [NSByteCountFormatter stringFromByteCount:[fure longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
+		printf("%s\n", [forFure UTF8String]);
+		
+	}
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--beginRestore"]) {
 		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mnt/succ/sbin/launchd"]) {
 			// DO DANGER
