@@ -24,7 +24,11 @@ rm /private/var/mobile/Media/Succession/devices.json
 #We’ll print these values that we have retrieved  
 echo ""
 echo -e "\e[1;32mYour $DeviceIdentifier aka $DeviceName is running iOS version $ProductVersion build $ProductBuildVersion\e[0m"
-sleep 2
+if [[ $ProductVersion == "9"* ]]; then
+    if [[ $DeviceIdentifier == "iPhone8,1" ]] || [[ $DeviceIdentifier == "iPhone8,2" ]]; then
+        echo -e "\e[1;31mSuccession is disabled: the iPhone 6s cannot be activated on iOS 9.\e[0m"
+    fi
+fi
 echo -e "\e[1;32mPlease make sure this information is accurate before continuing. Press enter to confirm or exit if inaccurate.\e[0m"
 read varblank
 shouldExtractIPSW=true
