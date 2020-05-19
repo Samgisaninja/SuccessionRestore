@@ -1,13 +1,13 @@
 #!/bin/bash
-#TextEnding=` \e[0m"`
+#TextEnding=`\e[0m"`
 #RedText=`"\e[1;31m`
 #GreenText=`"\e[1;32m`
-/bin/echo -e "\e[1;32m  Welcome to SuccessionCLI! Written by Samg_is_a_Ninja and Hassan’s Tech (demhademha) \e[0m"
-/bin/echo -e "\e[1;32m  Special thanks to pwn20wnd (mountpoint and rsync args) and wh0ba (storage space utils) \e[0m"
+echo -e "\e[1;32mWelcome to SuccessionCLI! Written by Samg_is_a_Ninja and Hassan’s Tech (demhademha)\e[0m"
+echo -e "\e[1;32mSpecial thanks to pwn20wnd (mountpoint and rsync args) and wh0ba (storage space utils)\e[0m"
 sleep 3
 checkRoot=`whoami`
 if [ $checkRoot != "root" ]; then
-    /bin/echo -e "\e[1;31m SuccessionCLI needs to be run as root. Please \"su\" and try again. Alternatively, try \"ssh root@[IP Address]\" \e[0m"
+    echo -e "\e[1;31mSuccessionCLI needs to be run as root. Please \"su\" and try again. Alternatively, try \"ssh root@[IP Address]\"\e[0m"
     exit
 fi
 
@@ -20,18 +20,18 @@ DeviceIdentifier=`SuccessionCLIhelper --deviceModel`
 #we now need to get the actual device identifier for example, iPad 7,11 is iPad 7th generation 
 DeviceName=`plutil -key $DeviceIdentifier /var/mobile/Media/Succession`
 #We’ll print these values that we have retrieved  
-/bin/echo "\e[1;32m     Your $DeviceIdentifier $DeviceName is running iOS version $ProductVersion build $ProductBuildVersion \e[0m"  
-/bin/echo "\[1;32  Please make sure this information is accurate before continuing. Press enter to confirm or exit if inaccurate. \e[0m"
+echo -e "\e[1;32mYour $DeviceIdentifier $DeviceName is running iOS version $ProductVersion build $ProductBuildVersion\e[0m"  
+echo -e "\e[1;32mPlease make sure this information is accurate before continuing. Press enter to confirm or exit if inaccurate.\e[0m"
 read varblank
 shouldExtractIPSW=true
 shouldDownloadIPSW=true
 if [ -f /private/var/mobile/Media/Succession/rfs.dmg ]; then
     while true; do
-read -p "Detected provided rootfilesystem disk image, would you like to use it? (y/n) " yn
+        read -p $'\e[1;32mDetected provided rootfilesystem disk image, would you like to use it? (y/n) \e[0m' yn
         case $yn in
             [Yy]* ) shouldExtractIPSW=false; break;;
             [Nn]* ) shouldExtractIPSW=true; break;;
-            * ) echo "Please answer yes or no.";;
+            * ) echo -e "\e[1;31mPlease answer yes or no.\e[0m";;
         esac
     done
 fi
@@ -41,25 +41,23 @@ if ! $shouldExtractIPSW; then
 fi
 if [ -f /private/var/mobile/Media/Succession/ipsw.ipsw ]; then
     while true; do
-        read -p "Detected provided ipsw, would you like to use it? (y/n) " yn
+        read -p $'\e[1;32mDetected provided ipsw, would you like to use it? (y/n) \e[0m' yn
         case $yn in
             [Yy]* ) shouldDownloadIPSW=false; break;;
             [Nn]* ) shouldDownloadIPSW=true; break;;
-            * ) echo "Please answer yes or no.";;
+            * ) echo -e "\e[1;31mPlease answer yes or no.\e[0m";;
         esac
     done
 fi
 
 if $shouldDownloadIPSW; then
-    echo  succession will download the correct IPSW for your device: press enter to proceed \e[0m"
+    echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
     #print a warning message 
-/bin/echo -e "\e[1;32m once you press enter again, succession will begin the download \e[0m"  
-/bin/echo -e "\[1;31m DO NOT LEAVE TERMINAL \e[1;32"
-/bin/echo -e "\e[1;32m  DO NOT POWER OFF YOUR DEVICE \e[0m"  
+    echo -e "\e[1;32mOnce you press enter again, Succession will begin the download\e[0m"  
+    echo -e "\[1;32mDO NOT LEAVE TERMINAL\e[0m"
+    echo -e "\e[1;32mDO NOT POWER OFF YOUR DEVICE\e[0m"  
     read varblank2   
-    #we tell bash where to save the IPSW 
-    /bin/echo -e \e[1;32m  preparing to download IPSW... \e[0m 
-    /bin/echo -e \e[1;32m downloading IPSW... \e[0m" 
+    echo -e "\e[1;32mDownloading IPSW...\e[0m" 
     # Clean up any files from previous runs
     rm -rf /private/var/mobile/Media/Succession/*
     #we download the ipsw from apple’s servers through ipsw.me’s api
@@ -77,69 +75,69 @@ if $shouldExtractIPSW; then
     # 7z is a much faster and more advanced zip tool, and most devices will have it.
     pathToSevenZ=`which 7z`
     if [ -x $pathToSevenZ ]; then
-        echo "Verifying IPSW..."
+        echo -e "\e[1;32mVerifying IPSW...\e[0m"
         7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw BuildManifest.plist
         buildManifestString=$(</private/var/mobile/Media/Succession/ipsw/BuildManifest.plist)
-        if [[ $buildManifestString = *$deviceBuildNumber* ]]; then
-            echo "IPSW verified, extracting root filesystem..."
+        if grep -q "$ProductBuildVersion" "/private/var/mobile/Media/Succession/ipsw/BuildManifest.plist"; then
+            echo -e "\e[1;32mIPSW verified, extracting root filesystem...\e[0m"
             nameOfDMG=`7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
             7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
-            echo moving extracted files...
+            echo -e "\e[1;32mMoving extracted files...\e[0m"
             mv /private/var/mobile/Media/Succession/ipsw/$nameOfDMG /private/var/mobile/Media/Succession/rfs.dmg
         else
             versionCheckOverride=false
-            echo "**********WARNING!**********"
-            echo "The IPSW provided does not appear to match the iOS version of this device"
-            echo "ATTEMPTING TO CHANGE YOUR iOS VERSION USING THIS TOOL WILL RESULT IN A BOOTLOOP"
+            echo -e "\e[1;31m**********WARNING!**********\e[0m"
+            echo -e "\e[1;31mThe IPSW provided does not appear to match the iOS version of this device\e[0m"
+            echo -e "\e[1;31mATTEMPTING TO CHANGE YOUR iOS VERSION USING THIS TOOL WILL RESULT IN A BOOTLOOP\e[0m"
             while true; do
-                read -p "Would you like to override this check and continue anyway? (y/n)" yn
+                read -p $'\e[1;31mWould you like to override this check and continue anyway? (y/n) \e[0m' yn
                 case $yn in
                     [Yy]* ) versionCheckOverride=true; break;;
                     [Nn]* ) versionCheckOverride=false; break;;
-                    * ) echo "Please answer yes or no.";;
+                    * ) echo -e "\e[1;31mPlease answer yes or no.\e[0m";;
                 esac
             done
             if $versionCheckOverride; then
+                    echo -e "\e[1;31mVersion check overridden, continuing as if nothing went wrong...\e[0m"
                     nameOfDMG=`7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
                     7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
                     echo moving extracted files...
                     mv /private/var/mobile/Media/Succession/ipsw/$nameOfDMG /private/var/mobile/Media/Succession/rfs.dmg
             else
-                    echo "Good choice. Succession will now quit."
+                    echo -e "\e[1;32mGood choice. Succession will now quit.\e[0m"
                     exit
             fi
         fi
     else 
         #we now navigate to the directory that we just created in order to save our extracted ipsw there after unzipping it 
-        echo "Extracting IPSW..."  
+        echo -e "\e[1;32mExtracting IPSW...\e[0m"  
         cd /private/var/mobile/Media/Succession/ipsw/
         unzip /private/var/mobile/Media/Succession/ipsw.ipsw
         cd ~
-        echo "Verifying IPSW..."
-        buildManifestString=$(</private/var/mobile/Media/Succession/ipsw/BuildManifest.plist)
-        if [[ $buildManifestString = *$deviceBuildNumber* ]]; then
-            echo "IPSW verified, moving files..."
+        echo -e "\e[1;32mVerifying IPSW...\e[0m"
+        if grep -q "$ProductBuildVersion" "/private/var/mobile/Media/Succession/ipsw/BuildManifest.plist"; then
+            echo -e "\e[1;32mIPSW verified, moving files...\e[0m"
             dmg=`ls -S /private/var/mobile/Media/Succession/ipsw/ | head -1`
             mv /private/var/mobile/Media/Succession/ipsw/$dmg /private/var/mobile/Media/Succession/rfs.dmg
         else
             versionCheckOverride=false
-            echo "**********WARNING!**********"
-            echo "The IPSW provided does not appear to match the iOS version of this device"
-            echo "ATTEMPTING TO CHANGE YOUR iOS VERSION USING THIS TOOL WILL RESULT IN A BOOTLOOP"
+            echo -e "\e[1;31m**********WARNING!**********\e[0m"
+            echo -e "\e[1;31mThe IPSW provided does not appear to match the iOS version of this device\e[0m"
+            echo -e "\e[1;31mATTEMPTING TO CHANGE YOUR iOS VERSION USING THIS TOOL WILL RESULT IN A BOOTLOOP\e[0m"
             while true; do
-                read -p "Would you like to override this check and continue anyway? (y/n)" yn
+                read -p $'\e[1;31mWould you like to override this check and continue anyway? (y/n) \e[0m' yn
                 case $yn in
                     [Yy]* ) versionCheckOverride=true; break;;
                     [Nn]* ) versionCheckOverride=false; break;;
-                    * ) echo "Please answer yes or no.";;
+                    * ) echo -e "\e[1;31mPlease answer yes or no.\e[0m";;
                 esac
             done
             if $versionCheckOverride; then
-                    echo "IPSW verified, moving files..."
+                    echo -e "\e[1;31mVersion check overridden, continuing as if nothing went wrong...\e[0m"
                     dmg=`ls -S /private/var/mobile/Media/Succession/ipsw/ | head -1`
                     mv /private/var/mobile/Media/Succession/ipsw/$dmg /private/var/mobile/Media/Succession/rfs.dmg
             else
-                    echo "Good choice. Succession will now quit."
+                    echo -e "\e[1;32mGood choice. Succession will now quit.\e[0m"
                     exit
             fi
         fi
@@ -148,6 +146,6 @@ if $shouldExtractIPSW; then
     rm -rf /private/var/mobile/Media/Succession/ipsw/
     rm /private/var/mobile/Media/Succession/ipsw.ipsw
 fi
-/bin/echo "\e[1;32m  Rootfilesystem dmg successfully extracted! \e[0m" 
+echo "\e[1;32mRootfilesystem dmg successfully extracted!\e[0m" 
 #needs completing
 #end
