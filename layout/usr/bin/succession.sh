@@ -10,7 +10,7 @@ if [ $checkRoot != "root" ]; then
     echo -e "\e[1;31mSuccessionCLI needs to be run as root. Please \"su\" and try again. Alternatively, try \"ssh root@[IP Address]\"\e[0m"
     exit
 fi
-
+mkdir -p /private/var/mobile/Media/Succession/
 #Contact helper tool to get iOS version and device model
 ProductVersion=`SuccessionCLIhelper --deviceVersion`
 #we are now going to get the product buildversion for example, 17c54 and set it as a variable   
@@ -18,9 +18,13 @@ ProductBuildVersion=`SuccessionCLIhelper --deviceBuildNumber`
 #we now get the machine ID, (for example iPhone9,4), and store it as a variable
 DeviceIdentifier=`SuccessionCLIhelper --deviceModel`
 #we now need to get the actual device identifier for example, iPad 7,11 is iPad 7th generation 
-DeviceName=`plutil -key $DeviceIdentifier /var/mobile/Media/Succession`
+curl --silent 'https://api.ipsw.me/v4/devices' -o /private/var/mobile/Media/Succession/devices.json
+DeviceName=`SuccessionCLIhelper --deviceCommonName`
+rm /private/var/mobile/Media/Succession/devices.json
 #We’ll print these values that we have retrieved  
-echo -e "\e[1;32mYour $DeviceIdentifier $DeviceName is running iOS version $ProductVersion build $ProductBuildVersion\e[0m"  
+echo ""
+echo -e "\e[1;32mYour $DeviceIdentifier aka $DeviceName is running iOS version $ProductVersion build $ProductBuildVersion\e[0m"
+sleep 2
 echo -e "\e[1;32mPlease make sure this information is accurate before continuing. Press enter to confirm or exit if inaccurate.\e[0m"
 read varblank
 shouldExtractIPSW=true
@@ -71,7 +75,7 @@ if $shouldExtractIPSW; then
     # Clean up partially extracted ipsws from previous runs
     rm -rf /private/var/mobile/Media/Succession/ipsw/*
     # If this is the first run, we need a destination folder to dump to
-    mkdir /private/var/mobile/Media/Succession/ipsw/
+    mkdir -p /private/var/mobile/Media/Succession/ipsw/
     # 7z is a much faster and more advanced zip tool, and most devices will have it.
     pathToSevenZ=`which 7z`
     if [ -x $pathToSevenZ ]; then
