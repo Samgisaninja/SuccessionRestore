@@ -8,8 +8,6 @@ int main(int argc, char *argv[], char *envp[]) {
 		[argumentsArray addObject:[NSString stringWithCString:argv[i] encoding:NSASCIIStringEncoding]];
 	}
 	[argumentsArray removeObject:@"SuccessionCLIhelper"];
-
-
 	if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceVersion"]) {
 		printf("%s\n", [[[UIDevice currentDevice] systemVersion] UTF8String]);
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceBuildNumber"]) {
@@ -50,6 +48,24 @@ int main(int argc, char *argv[], char *envp[]) {
 		printf("%s\n", [forFure UTF8String]);
 		
 	}
+	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceCommonName"]) {
+		size_t size;
+    	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+		char *modelChar = malloc(size);
+		sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
+		NSString *deviceModelString = [NSString stringWithUTF8String:modelChar];
+		free(modelChar);
+		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mobile/Media/Succession/devices.json"]) {
+			NSArray *devicesArray = [NSJSONSerialization JSONObjectWithData:[[NSData alloc] initWithContentsOfFile:@"/private/var/mobile/Media/Succession/devices.json"] options:kNilOptions error:nil];
+            for (NSDictionary *deviceInfo in devicesArray) {
+				if ([[deviceInfo objectForKey:@"identifier"] isEqualToString:deviceModelString]) {
+					printf("%s\n", [[deviceInfo objectForKey:@"name"] UTF8String]);
+				}
+            }
+		} else {
+			printf("ERROR! No API data available for parsing!\n");
+		}
+	
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--beginRestore"]) {
 		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mnt/succ/sbin/launchd"]) {
 			// DO DANGER
