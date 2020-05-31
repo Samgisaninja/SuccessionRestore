@@ -17,7 +17,7 @@ int main(int argc, char *argv[], char *envp[]) {
     	sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     	NSString *deviceBuildString = [NSString stringWithUTF8String:buildChar];
 		printf("%s\n", [deviceBuildString UTF8String]);
-    free(buildChar);
+		free(buildChar);
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceModel"]) {
 		size_t size;
     	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
@@ -66,6 +66,49 @@ int main(int argc, char *argv[], char *envp[]) {
 			printf("ERROR! No API data available for parsing!\n");
 		}
 	
+	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--shouldIRun"]) {
+		NSDictionary *motd = [NSDictionary dictionaryWithContentsOfFile:@"/private/var/mobile/Media/Succession/motd.plist"];
+		size_t size;
+    	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+		char *modelChar = malloc(size);
+		sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
+		NSString *deviceModelString = [NSString stringWithUTF8String:modelChar];
+		free(modelChar);
+		size_t size;
+    	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+		char *buildChar = malloc(size);
+    	sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
+    	NSString *deviceBuildString = [NSString stringWithUTF8String:buildChar];
+		printf("%s\n", [deviceBuildString UTF8String]);
+		free(buildChar);
+		NSString *dpkgStatus = [NSString stringWithContentsOfFile:@"/Library/dpkg/status" encoding:NSUTF8StringEncoding error:nil];
+		NSString *myVersion;
+		if ([dpkgStatus containsString:@"com.samgisaninja.successioncli"]) {
+			NSArray *dpkgStatusArray = [dpkgStatus componentsSeparatedByString:@"Package: "];
+			for (NSString *dpkgPackageStatus in dpkgStatusArray) {
+				if ([dpkgPackageStatus containsString:@"com.samgisaninja.successioncli"]) {
+					NSArray *statusLines = [dpkgPackageStatus componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+					for (NSString *line in statusLines) {
+						if ([line hasPrefix:@"Version: "]) {
+							myVersion = [line stringByReplacingOccurrencesOfString:@"Version: " withString:@""];
+						}
+					}
+				}
+			}
+		} else {
+			myVersion = @"1.0~alpha1"
+    	}
+        if ([[[motd objectForKey:@"all"] objectForKey:@"disabled"] isEqual:@(1)]) {
+            printf("false\n");
+		} else if ([[[[motd objectForKey:@"successionVersions"] objectForKey:myVersion] objectForKey:@"disabled"] isEqual:@(1)]) {
+			printf("false\n")
+		} else if ([[[[motd objectForKey:@"deviceModels"] objectForKey:deviceModelString] objectForKey:@"disabled"] isEqual: @(1)]) { 
+			printf("false\n");
+		} else if ([[[[motd objectForKey:@"iOSVersions"] objectForKey:deviceBuildString] objectForKey:@"disabled"] isEqual: @(1)]) {
+			printf("false\n");
+		} else {
+			printf("true\n");
+		}
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--beginRestore"]) {
 		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mnt/succ/sbin/launchd"]) {
 			// DO DANGER
