@@ -35,7 +35,7 @@ if [[ $shouldIRun == "false" ]]; then
     echo -e "\e[1;31mFor your safety, Succession has been remotely disabled. Please try again at a later time.\e[0m"
 fi
 remoteMessage=`SuccessionCLIhelper --getMOTD`
-if [[ $remoteMessage != "No MOTD" ]]
+if [[ $remoteMessage != "No MOTD" ]]; then
     echo $remoteMessage
 fi
 rm /private/var/mobile/Media/Succession/motd.plist

@@ -68,19 +68,17 @@ int main(int argc, char *argv[], char *envp[]) {
 	
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--shouldIRun"]) {
 		NSDictionary *motd = [NSDictionary dictionaryWithContentsOfFile:@"/private/var/mobile/Media/Succession/motd.plist"];
-		size_t size;
+    	size_t size;
     	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-		char *modelChar = malloc(size);
-		sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
-		NSString *deviceModelString = [NSString stringWithUTF8String:modelChar];
-		free(modelChar);
-		size_t size;
-    	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-		char *buildChar = malloc(size);
+    	char *modelChar = malloc(size);
+    	sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
+    	NSString *deviceModelString = [NSString stringWithUTF8String:modelChar];
+    	free(modelChar);
+    	sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
+    	char *buildChar = malloc(size);
     	sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
     	NSString *deviceBuildString = [NSString stringWithUTF8String:buildChar];
-		printf("%s\n", [deviceBuildString UTF8String]);
-		free(buildChar);
+    	free(buildChar);
 		NSString *dpkgStatus = [NSString stringWithContentsOfFile:@"/Library/dpkg/status" encoding:NSUTF8StringEncoding error:nil];
 		NSString *myVersion;
 		if ([dpkgStatus containsString:@"com.samgisaninja.successioncli"]) {
@@ -96,18 +94,59 @@ int main(int argc, char *argv[], char *envp[]) {
 				}
 			}
 		} else {
-			myVersion = @"1.0~alpha1"
+			myVersion = @"1.0~alpha1";
     	}
         if ([[[motd objectForKey:@"all"] objectForKey:@"disabled"] isEqual:@(1)]) {
             printf("false\n");
 		} else if ([[[[motd objectForKey:@"successionVersions"] objectForKey:myVersion] objectForKey:@"disabled"] isEqual:@(1)]) {
-			printf("false\n")
-		} else if ([[[[motd objectForKey:@"deviceModels"] objectForKey:deviceModelString] objectForKey:@"disabled"] isEqual: @(1)]) { 
 			printf("false\n");
-		} else if ([[[[motd objectForKey:@"iOSVersions"] objectForKey:deviceBuildString] objectForKey:@"disabled"] isEqual: @(1)]) {
+		} else if ([[[[motd objectForKey:@"deviceModels"] objectForKey:deviceModelString] objectForKey:@"disabled"] isEqual:@(1)]) { 
+			printf("false\n");
+		} else if ([[[[motd objectForKey:@"iOSVersions"] objectForKey:deviceBuildString] objectForKey:@"disabled"] isEqual:@(1)]) {
 			printf("false\n");
 		} else {
 			printf("true\n");
+		}
+	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--getMOTD"]) {
+		NSDictionary *motd = [NSDictionary dictionaryWithContentsOfFile:@"/private/var/mobile/Media/Succession/motd.plist"];
+    	size_t size;
+    	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    	char *modelChar = malloc(size);
+    	sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
+    	NSString *deviceModelString = [NSString stringWithUTF8String:modelChar];
+    	free(modelChar);
+    	sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
+    	char *buildChar = malloc(size);
+    	sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
+    	NSString *deviceBuildString = [NSString stringWithUTF8String:buildChar];
+    	free(buildChar);
+		NSString *dpkgStatus = [NSString stringWithContentsOfFile:@"/Library/dpkg/status" encoding:NSUTF8StringEncoding error:nil];
+		NSString *myVersion;
+		if ([dpkgStatus containsString:@"com.samgisaninja.successioncli"]) {
+			NSArray *dpkgStatusArray = [dpkgStatus componentsSeparatedByString:@"Package: "];
+			for (NSString *dpkgPackageStatus in dpkgStatusArray) {
+				if ([dpkgPackageStatus containsString:@"com.samgisaninja.successioncli"]) {
+					NSArray *statusLines = [dpkgPackageStatus componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
+					for (NSString *line in statusLines) {
+						if ([line hasPrefix:@"Version: "]) {
+							myVersion = [line stringByReplacingOccurrencesOfString:@"Version: " withString:@""];
+						}
+					}
+				}
+			}
+		} else {
+			myVersion = @"1.0~alpha1";
+    	}
+        if ([[motd objectForKey:@"all"] objectForKey:@"messageContent"] && ![[[motd objectForKey:@"all"] objectForKey:@"messageContent"] isEqualToString:@"No MOTD"]) {
+            printf("%s\n", [[[motd objectForKey:@"all"] objectForKey:@"messageContent"] UTF8String]);
+		} else if ([[[motd objectForKey:@"successionVersions"] objectForKey:myVersion] objectForKey:@"messageContent"] && ![[[[motd objectForKey:@"successionVersions"] objectForKey:myVersion] objectForKey:@"messageContent"] isEqualToString:@"No MOTD"]) {
+			printf("%s\n", [[[[motd objectForKey:@"successionVersions"] objectForKey:myVersion] objectForKey:@"messageContent"] UTF8String]);
+		} else if ([[[motd objectForKey:@"deviceModels"] objectForKey:deviceModelString] objectForKey:@"messageContent"] && ![[[[motd objectForKey:@"deviceModels"] objectForKey:deviceModelString] objectForKey:@"messageContent"] isEqualToString:@"No MOTD"]) { 
+			printf("%s\n", [[[[motd objectForKey:@"deviceModels"] objectForKey:deviceModelString] objectForKey:@"messageContent"] UTF8String]);
+		} else if ([[[motd objectForKey:@"iOSVersions"] objectForKey:deviceBuildString] objectForKey:@"messageContent"] && ![[[[motd objectForKey:@"iOSVersions"] objectForKey:deviceBuildString] objectForKey:@"messageContent"] isEqualToString:@"No MOTD"]) {
+			printf("%s\n", [[[[motd objectForKey:@"iOSVersions"] objectForKey:deviceBuildString] objectForKey:@"messageContent"] UTF8String]);
+		} else {
+			printf("No MOTD\n");
 		}
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--beginRestore"]) {
 		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mnt/succ/sbin/launchd"]) {
