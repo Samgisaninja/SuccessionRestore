@@ -10,7 +10,7 @@ if [ $checkRoot != "root" ]; then
     echo -e "\e[1;31mSuccessionCLI needs to be run as root. Please \"su\" and try again. Alternatively, try \"ssh root@[IP Address]\"\e[0m"
     exit
 fi
-mkdir -p /private/var/mobile/Media/Succession
+mkdir -p /private/var/mobile/Media/Succession/
 #Contact helper tool to get iOS version and device model
 ProductVersion=`SuccessionCLIhelper --deviceVersion`
 #we are now going to get the product buildversion for example, 17c54 and set it as a variable   
@@ -69,12 +69,8 @@ if $shouldDownloadIPSW; then
     # Clean up any files from previous runs
     rm -rf /private/var/mobile/Media/Succession/*
     #we download the ipsw from apple’s servers through ipsw.me’s api
-    #TODO: add parcial  zip browser  to just download what we need instead of the entire IPSW
-curl http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -LO /private/var/mobile/Media/Succession
-
-      
-
-curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl
+    #TODO: add pzb to just download what we need instead of the entire IPSW
+    curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl
     #now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
     mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
 fi
