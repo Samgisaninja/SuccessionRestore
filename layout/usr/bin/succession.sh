@@ -155,5 +155,24 @@ if $shouldExtractIPSW; then
     rm /private/var/mobile/Media/Succession/ipsw.ipsw
 fi
 echo "\e[1;32mRootfilesystem dmg successfully extracted!\e[0m" 
-#needs completing
-#end
+if grep -q "apfs" "/private/etc/fstab"; then
+    echo -e "\e[1;32mDetected APFS filesystem!\e[0m"
+    filesystemType="apfs"
+else if grep -q "hfs" "/private/etc/fstab"; then
+    echo -e "\e[1;32mDetected HFS+ filesystem!\e[0m"
+    filesystemType="hfs"
+else
+    echo -e "\e[1;31mError! Unable to detect filesystem type.\e[0m"
+    exit
+fi
+if [ -f /usr/bin/hdik ]; then
+    hdikOutput=`hdik /private/var/mobile/Media/Succession/rfs.dmg`
+    echo $hdikOutput
+else if [ -f /usr/bin/attach ]; then
+    attachOutput=`attach /private/var/mobile/Media/Succession/rfs.dmg`
+    echo $attachOutput
+fi
+mkdir -p /private/var/mnt/succ/
+#mount -t $filesystemType -o ro $attachedDiskPath /private/var/mnt/succ/
+#SuccessionCLIhelper --beginRestore
+exit 0
