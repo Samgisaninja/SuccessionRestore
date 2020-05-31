@@ -29,6 +29,16 @@ if [[ $ProductVersion == "9"* ]]; then
         echo -e "\e[1;31mSuccession is disabled: the iPhone 6s cannot be activated on iOS 9.\e[0m"
     fi
 fi
+curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/motd-cli.plist -o /private/var/mobile/Media/Succession/motd.plist
+shouldIRun=`SuccessionCLIhelper --shouldIRun`
+if [[ $shouldIRun == "false" ]]; then
+    echo -e "\e[1;31mFor your safety, Succession has been remotely disabled. Please try again at a later time.\e[0m"
+fi
+remoteMessage=`SuccessionCLIhelper --getMOTD`
+if [[ $remoteMessage != "No MOTD" ]]
+    echo $remoteMessage
+fi
+rm /private/var/mobile/Media/Succession/motd.plist
 echo -e "\e[1;32mPlease make sure this information is accurate before continuing. Press enter to confirm or exit if inaccurate.\e[0m"
 read varblank
 shouldExtractIPSW=true
