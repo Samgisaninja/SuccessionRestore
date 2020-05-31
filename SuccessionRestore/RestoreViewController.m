@@ -43,7 +43,7 @@
     //Set up UI
     if ([self isMounted]) {
         [[self titleLabel] setText:@"WARNING!!!"];
-        [[self subtitleLabel] setText:@"Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones and cellular iPads."];
+        [[self subtitleLabel] setText:@"Running this tool will immediately delete all data from your device. Please make a backup of any data that you want to keep. This will also return your device to the setup screen.  A valid SIM card may be needed for activation on iPhones and cellular iPads. please note, that if your device is stuck on the restore line for greater than ten minutes, then force reboot your device."];
         [[self eraseButton] setTitle:[NSString stringWithFormat:@"Erase %@", _deviceType] forState:UIControlStateNormal];
         [[self eraseButton] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [[self eraseButton] setEnabled:TRUE];
