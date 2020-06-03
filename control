@@ -3,7 +3,7 @@ Name: SuccessionCLI
 Version: 1.0~alpha1
 Architecture: iphoneos-arm
 Description: Restore without updating via rootfilesystem DMG
-Maintainer: Samg_is_a_Ninja
-Author: Samg_is_a_Ninja <samgisaninja@unc0ver.dev>, demhademha
+Maintainer: Samg_is_a_Ninja, demhademha
+Author: Samg_is_a_Ninja <samgisaninja@unc0ver.dev>, demhademha, demhademha
 Section: Utilities
 Depends: coreutils-bin, coreutils, firmware-sbin, rsync, curl, p7zip, grep
