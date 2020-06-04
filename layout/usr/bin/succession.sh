@@ -76,7 +76,21 @@ if $shouldDownloadIPSW; then
     echo -e "\e[1;32mDO NOT LEAVE TERMINAL\e[0m"
     echo -e "\e[1;32mDO NOT POWER OFF YOUR DEVICE\e[0m"  
     read varblank2
-curl --silent http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -LO /private/var/mobile/Media/Succession/IPSWSize
+
+#we first need to get the size of the IPSW from ipsw.me because we can’t have the user run out of storage
+
+curl --silent http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -LO /private/var/mobile/Media/Succession/IPSWSize.txt
+
+#we now retrieve the size of the IPSW
+ IPSWFileSize=`cat /private/var/mobile/Media/Succession/IPSWSize.txt`
+
+#we now use the bc command to convert the size from bites to GB 
+
+IPSWSizeInGb=`echo "IPSWFileSize" / 1000000000  | bc -l`
+
+#we print this value (for now) but it should be silent for the user 
+
+echo $IPSWSizeInGb 
     echo -e "\e[1;32mDownloading IPSW...\e[0m" 
     # Clean up any files from previous runs
     rm -rf /private/var/mobile/Media/Succession/*
