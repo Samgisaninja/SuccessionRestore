@@ -180,12 +180,47 @@ else
 fi
 if [ -f /usr/bin/hdik ]; then
     hdikOutput=`hdik /private/var/mobile/Media/Succession/rfs.dmg`
-    echo $hdikOutput
+    if [[ $hdikOutput == *"s2s1"* ]]; then
+        for disk in $hdikOutput
+        do
+            if [[ $disk == *"s2s1" ]]; then
+                attachedDiskPath=$disk
+            fi
+        done
+    elif [[ $hdikOutput == *"s2"* ]]; then
+        for disk in $hdikOutput
+        do
+            if [[ $disk == *"s2" ]]; then
+                attachedDiskPath=$disk
+            fi
+        done
+    else
+        rm -r /private/var/mobile/Media/Succession/*
+        echo -e "\e[1;31mError! IPSW download/extract was corrupted. Please rerun this script.\e[0m"
+    fi
 elif [ -f /usr/bin/attach ]; then
     attachOutput=`attach /private/var/mobile/Media/Succession/rfs.dmg`
-    echo $attachOutput
+    if [[ $attachOutput == *"s2s1"* ]]; then
+        for disk in $attachOutput
+        do
+            if [[ $disk == *"s2s1" ]]; then
+                attachedDiskPath=$disk
+            fi
+        done
+    elif [[ $attachOutput == *"s2"* ]]; then
+        for disk in $attachOutput
+        do
+            if [[ $disk == *"s2" ]]; then
+                attachedDiskPath=$disk
+            fi
+        done
+    else
+        rm -r /private/var/mobile/Media/Succession/*
+        echo -e "\e[1;31mError! IPSW download/extract was corrupted. Please rerun this script.\e[0m"
+    fi
 fi
 mkdir -p /private/var/mnt/succ/
-#mount -t $filesystemType -o ro $attachedDiskPath /private/var/mnt/succ/
+mount -t $filesystemType -o ro $attachedDiskPath /private/var/mnt/succ/
+#rm -r /private/var/mobile/Media/Succession/*
 #SuccessionCLIhelper --beginRestore
 exit 0
