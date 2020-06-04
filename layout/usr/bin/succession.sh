@@ -2,6 +2,7 @@
 #TextEnding=`\e[0m"`
 #RedText=`"\e[1;31m`
 #GreenText=`"\e[1;32m`
+
 echo -e "\e[1;32mWelcome to SuccessionCLI! Written by Samg_is_a_Ninja and Hassan’s Tech (demhademha)\e[0m"
 echo -e "\e[1;32mSpecial thanks to pwn20wnd (mountpoint and rsync args) and wh0ba (storage space utils)\e[0m"
 sleep 3
@@ -74,13 +75,15 @@ if $shouldDownloadIPSW; then
     echo -e "\e[1;32mOnce you press enter again, Succession will begin the download\e[0m"  
     echo -e "\[1;32mDO NOT LEAVE TERMINAL\e[0m"
     echo -e "\e[1;32mDO NOT POWER OFF YOUR DEVICE\e[0m"  
-    read varblank2   
+    read varblank2
+curl --silent http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -LO /private/var/mobile/Media/Succession/IPSWSize
     echo -e "\e[1;32mDownloading IPSW...\e[0m" 
     # Clean up any files from previous runs
     rm -rf /private/var/mobile/Media/Succession/*
     #we download the ipsw from apple’s servers through ipsw.me’s api
     #TODO: add pzb to just download what we need instead of the entire IPSW
-    curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl
+    
+curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl
     #now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
     mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
 fi
