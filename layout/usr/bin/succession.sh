@@ -72,7 +72,7 @@ if $shouldDownloadIPSW; then
     echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
     #print a warning message 
     echo -e "\e[1;32mOnce you press enter again, Succession will begin the download\e[0m"  
-    echo -e "\[1;32mDO NOT LEAVE TERMINAL\e[0m"
+    echo -e "\e[1;32mDO NOT LEAVE TERMINAL\e[0m"
     echo -e "\e[1;32mDO NOT POWER OFF YOUR DEVICE\e[0m"  
     read varblank2   
     echo -e "\e[1;32mDownloading IPSW...\e[0m" 

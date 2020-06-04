@@ -38,14 +38,14 @@ int main(int argc, char *argv[], char *envp[]) {
 		    printf("Error\n");
 		}
 		NSString *freeSpace = [NSByteCountFormatter stringFromByteCount:[results[NSURLVolumeAvailableCapacityForImportantUsageKey] longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
-		printf("%s\n", [freeSpace UTF8String]);
+		printf("%s\n", [[freeSpace UTF8String] stringByReplacingOccurrencesOfString:@" GB" withString:@""]);
 #pragma clang diagnostic pop
 	} else {
 		NSDictionary *fattributes = [[NSDictionary alloc] init];
 		fattributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:@"/private/var/" error:nil];
 		NSNumber *fure = [fattributes objectForKey:NSFileSystemFreeSize];
 		NSString *forFure = [NSByteCountFormatter stringFromByteCount:[fure longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
-		printf("%s\n", [forFure UTF8String]);
+		printf("%s\n", [[forFure UTF8String] stringByReplacingOccurrencesOfString:@" GB" withString:@""]);
 		
 	}
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceCommonName"]) {
