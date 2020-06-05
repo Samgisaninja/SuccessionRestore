@@ -79,18 +79,18 @@ if $shouldDownloadIPSW; then
 
 #we first need to get the size of the IPSW from ipsw.me because we can’t have the user run out of storage
 
-curl --silent http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -LO /private/var/mobile/Media/Succession/IPSWSize.txt
+curl --silent http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -o/private/var/mobile/Media/Succession/IPSWSize.txt
 
 #we now retrieve the size of the IPSW
- IPSWFileSize=`cat /private/var/mobile/Media/Succession/IPSWSize.txt`
+ IPSWFileSize=`head -1 /private/var/mobile/Media/Succession/IPSWSize.txt`
 
 #we now use the bc command to convert the size from bites to GB 
 
-IPSWSizeInGb=`echo "IPSWFileSize" / 1000000000  | bc -l`
+IPSWSizeInGb=`echo "$IPSWFileSize" / 1000000000 | bc -l`
 
 #we print this value (for now) but it should be silent for the user 
 
-echo $IPSWSizeInGb 
+echo $IPSWSizeInGb of storage will be used to download the IPSW  
     echo -e "\e[1;32mDownloading IPSW...\e[0m" 
     # Clean up any files from previous runs
     rm -rf /private/var/mobile/Media/Succession/*
