@@ -81,7 +81,7 @@ if $shouldDownloadIPSW; then
     read varblank2
 #we need to get the size of the IPSW, to ensure that the user has enough storage
  
-curl --silent -L http://api.ipsw.me/v2.1/iPad7,11/17F75/filesize -o /private/var/mobile/Media/Succession/IPSWFileSize.txt
+curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -o /private/var/mobile/Media/Succession/IPSWFileSize.txt
 #we now read the size of the IPSW
 IPSWFileSize=`head -1 /private/var/mobile/Media/Succession/IPSWFileSize.txt`
 #we’ll print this value for now, but in reality, it will be silent 
