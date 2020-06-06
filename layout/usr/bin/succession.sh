@@ -1,7 +1,18 @@
 #!/bin/bash
+
 #TextEnding=`\e[0m"`
 #RedText=`"\e[1;31m`
 #GreenText=`"\e[1;32m`
+mkdir -p /private/var/mobile/Media/Succession/
+curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/motd-cli.plist -o /private/var/mobile/Media/Succession/motd.plist
+shouldIRun=`SuccessionCLIhelper --shouldIRun`
+if [[ $shouldIRun == "false" ]]; then
+    echo -e "\e[1;31mFor your safety, Succession has been remotely disabled. Please try again at a later time.\e[0m"
+fi
+remoteMessage=`SuccessionCLIhelper --getMOTD`
+if [[ $remoteMessage != "No MOTD" ]]; then
+    echo $remoteMessage
+fi
 
 echo -e "\e[1;32mWelcome to SuccessionCLI! Written by Samg_is_a_Ninja and Hassan’s Tech (demhademha)\e[0m"
 echo -e "\e[1;32mSpecial thanks to pwn20wnd (mountpoint and rsync args) and wh0ba (storage space utils)\e[0m"
@@ -29,15 +40,6 @@ if [[ $ProductVersion == "9"* ]]; then
     if [[ $DeviceIdentifier == "iPhone8,1" ]] || [[ $DeviceIdentifier == "iPhone8,2" ]]; then
         echo -e "\e[1;31mSuccession is disabled: the iPhone 6s cannot be activated on iOS 9.\e[0m"
     fi
-fi
-curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/motd-cli.plist -o /private/var/mobile/Media/Succession/motd.plist
-shouldIRun=`SuccessionCLIhelper --shouldIRun`
-if [[ $shouldIRun == "false" ]]; then
-    echo -e "\e[1;31mFor your safety, Succession has been remotely disabled. Please try again at a later time.\e[0m"
-fi
-remoteMessage=`SuccessionCLIhelper --getMOTD`
-if [[ $remoteMessage != "No MOTD" ]]; then
-    echo $remoteMessage
 fi
 rm /private/var/mobile/Media/Succession/motd.plist
 echo -e "\e[1;32mPlease make sure this information is accurate before continuing. Press enter to confirm or exit if inaccurate.\e[0m"
