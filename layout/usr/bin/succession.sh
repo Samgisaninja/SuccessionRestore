@@ -32,10 +32,11 @@ DeviceIdentifier=`SuccessionCLIhelper --deviceModel`
 #we now need to get the actual device identifier for example, iPad 7,11 is iPad 7th generation 
 curl --silent 'https://api.ipsw.me/v4/devices' -o /private/var/mobile/Media/Succession/devices.json
 DeviceName=`SuccessionCLIhelper --deviceCommonName`
+FreeSpace=`SuccessionCLIhelper --freeSpace`
 rm /private/var/mobile/Media/Succession/devices.json
 #We’ll print these values that we have retrieved  
 echo ""
-echo -e "\e[1;32mYour $DeviceIdentifier aka $DeviceName is running iOS version $ProductVersion build $ProductBuildVersion\e[0m"
+echo -e "\e[1;32mYour $DeviceIdentifier aka $DeviceName is running iOS version $ProductVersion build $ProductBuildVersion and $FreeSpace of storage is available\e[0m"
 if [[ $ProductVersion == "9"* ]]; then
     if [[ $DeviceIdentifier == "iPhone8,1" ]] || [[ $DeviceIdentifier == "iPhone8,2" ]]; then
         echo -e "\e[1;31mSuccession is disabled: the iPhone 6s cannot be activated on iOS 9.\e[0m"
