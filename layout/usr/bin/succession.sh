@@ -4,7 +4,7 @@
 #RedText=`"\e[1;31m`
 #GreenText=`"\e[1;32m`
 mkdir -p /private/var/mobile/Media/Succession/
-curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/motd-cli.plist -o /private/var/mobile/Media/Succession/motd.plist
+curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/motd-cli.plist -o /private/var/mobile/Media/Succession/motd.plist -k
 shouldIRun=`SuccessionCLIhelper --shouldIRun`
 remoteMessage=`SuccessionCLIhelper --getMOTD`
 if [[ $remoteMessage != "No MOTD" ]]; then
@@ -31,7 +31,7 @@ ProductBuildVersion=`SuccessionCLIhelper --deviceBuildNumber`
 #we now get the machine ID, (for example iPhone9,4), and store it as a variable
 DeviceIdentifier=`SuccessionCLIhelper --deviceModel`
 #we now need to get the actual device identifier for example, iPad 7,11 is iPad 7th generation 
-curl --silent 'https://api.ipsw.me/v4/devices' -o /private/var/mobile/Media/Succession/devices.json
+curl --silent 'https://api.ipsw.me/v4/devices' -o /private/var/mobile/Media/Succession/devices.json -k
 DeviceName=`SuccessionCLIhelper --deviceCommonName`
 FreeSpace=`SuccessionCLIhelper --freeSpace`
 rm /private/var/mobile/Media/Succession/devices.json
@@ -77,7 +77,7 @@ if $shouldDownloadIPSW; then
 
 #we need to get the size of the IPSW, to ensure that the user has enough storage
 #we now read the size of the IPSW
-IPSWFileSize=`curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize`
+IPSWFileSize=`curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -k`
 if [[ $IPSWFileSize > $FreeSpace ]];
 then
     echo -e "\e[1;31mError! There is not enough free storage space available to download the IPSW. Please free some space and try again.\e[0m"     
@@ -95,7 +95,7 @@ echo -e "\e[1;32mSuccession will download the correct IPSW for your device: pres
     #we download the ipsw from apple’s servers through ipsw.me’s api
     #TODO: add pzb to just download what we need instead of the entire IPSW
     
-curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl
+curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl -k
     #now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
     mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
 fi
