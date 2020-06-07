@@ -8,6 +8,7 @@ curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github
 shouldIRun=`SuccessionCLIhelper --shouldIRun`
 if [[ $shouldIRun == "false" ]]; then
     echo -e "\e[1;31mFor your safety, Succession has been remotely disabled. Please try again at a later time.\e[0m"
+    exit 0
 fi
 remoteMessage=`SuccessionCLIhelper --getMOTD`
 if [[ $remoteMessage != "No MOTD" ]]; then
