@@ -72,13 +72,8 @@ if [ -f /private/var/mobile/Media/Succession/ipsw.ipsw ]; then
     done
 fi
 
-if $shouldDownloadIPSW; then
-    echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
-    #print a warning message 
-    echo -e "\e[1;32mOnce you press enter again, Succession will begin the download\e[0m"  
-    echo -e "\e[1;32mDO NOT LEAVE TERMINAL\e[0m"
-    echo -e "\e[1;32mDO NOT POWER OFF YOUR DEVICE\e[0m"  
-    read varblank2
+if $shouldDownloadIPSW; then 
+
 #we need to get the size of the IPSW, to ensure that the user has enough storage
  
 curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -o /private/var/mobile/Media/Succession/IPSWFileSize.txt
@@ -87,7 +82,14 @@ IPSWFileSize=`head -1 /private/var/mobile/Media/Succession/IPSWFileSize.txt`
 #we’ll print this value for now, but in reality, it will be silent 
 echo "$IPSWFileSize" / 1000000000 | bc -l 
 
-   echo -e "\e[1;32mDownloading IPSW...\e[0m" 
+
+    echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
+    #print a warning message 
+    echo -e "\e[1;32mOnce you press enter again, Succession will begin the download\e[0m"  
+    echo -e "\e[1;32mDO NOT LEAVE TERMINAL\e[0m"
+    echo -e "\e[1;32mDO NOT POWER OFF YOUR DEVICE\e[0m"  
+    read varblank2
+  echo -e "\e[1;32mDownloading IPSW...\e[0m" 
     # Clean up any files from previous runs
     rm -rf /private/var/mobile/Media/Succession/*
     #we download the ipsw from apple’s servers through ipsw.me’s api
