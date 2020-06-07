@@ -139,7 +139,7 @@ int main(int argc, char *argv[], char *envp[]) {
 				}
 			}
 		} else {
-			myVersion = @"1.0~alpha1";
+			myVersion = @"1.0~alpha2";
     	}
         if ([[motd objectForKey:@"all"] objectForKey:@"messageContent"] && ![[[motd objectForKey:@"all"] objectForKey:@"messageContent"] isEqualToString:@"No MOTD"]) {
             printf("%s\n", [[[motd objectForKey:@"all"] objectForKey:@"messageContent"] UTF8String]);
