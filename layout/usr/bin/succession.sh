@@ -6,13 +6,13 @@
 mkdir -p /private/var/mobile/Media/Succession/
 curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/motd-cli.plist -o /private/var/mobile/Media/Succession/motd.plist
 shouldIRun=`SuccessionCLIhelper --shouldIRun`
-if [[ $shouldIRun == "false" ]]; then
-    echo -e "\e[1;31mFor your safety, Succession has been remotely disabled. Please try again at a later time.\e[0m"
-    exit 0
-fi
 remoteMessage=`SuccessionCLIhelper --getMOTD`
 if [[ $remoteMessage != "No MOTD" ]]; then
     echo $remoteMessage
+fi
+if [[ $shouldIRun == "false" ]]; then
+    echo -e "\e[1;31mFor your safety, Succession has been remotely disabled. Please try again at a later time.\e[0m"
+    exit 0
 fi
 
 echo -e "\e[1;32mWelcome to SuccessionCLI! Written by Samg_is_a_Ninja and Hassan’s Tech (demhademha)\e[0m"
