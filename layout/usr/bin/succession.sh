@@ -76,15 +76,11 @@ fi
 if $shouldDownloadIPSW; then 
 
 #we need to get the size of the IPSW, to ensure that the user has enough storage
- 
-curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -o /private/var/mobile/Media/Succession/IPSWFileSize.txt
 #we now read the size of the IPSW
-IPSWFileSize=`head -1 /private/var/mobile/Media/Succession/IPSWFileSize.txt`
-
-IPSWSizeInGb=`echo "$IPSWFileSize" / 1000000000 | bc -l` 
-if [[ $IPSWSizeInGb > $FreeSpace ]];
+IPSWFileSize=`curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize`
+if [[ $IPSWFileSize > $FreeSpace ]];
 then
-echo "\e[1;31mYOU DO NOT HAVE SUFFICIENT STORAGE TO DOWNLOAD THE IPSW, REMOVE SOME STORAGE AND TRY AGAIN!\e[0m"     
+echo "\e[1;31mError! There is not enough free storage space available to download the IPSW. Please free some space and try again.\e[0m"     
 end
 fi   
 echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"

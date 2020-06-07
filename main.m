@@ -38,14 +38,18 @@ int main(int argc, char *argv[], char *envp[]) {
 		    printf("Error\n");
 		}
 		NSString *freeSpace = [NSByteCountFormatter stringFromByteCount:[results[NSURLVolumeAvailableCapacityForImportantUsageKey] longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
-		printf("%s\n", [[freeSpace stringByReplacingOccurrencesOfString:@" GB" withString:@""] UTF8String]);
+		NSString *freeGigabytes = [freeSpace stringByReplacingOccurrencesOfString:@" GB" withString:@""];
+		float freeBytesFloat = [freeGigabytes floatValue] * 1000000000;
+		printf("%f\n", freeBytesFloat);
 #pragma clang diagnostic pop
 	} else {
 		NSDictionary *fattributes = [[NSDictionary alloc] init];
 		fattributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:@"/private/var/" error:nil];
 		NSNumber *fure = [fattributes objectForKey:NSFileSystemFreeSize];
 		NSString *forFure = [NSByteCountFormatter stringFromByteCount:[fure longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
-		printf("%s\n", [[forFure stringByReplacingOccurrencesOfString:@" GB" withString:@""] UTF8String]);
+		NSString *freeGigabytes = [forFure stringByReplacingOccurrencesOfString:@" GB" withString:@""];
+		float freeBytesFloat = [freeGigabytes floatValue] * 1000000000;
+		printf("%f\n", freeBytesFloat);
 		
 	}
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceCommonName"]) {
@@ -94,7 +98,7 @@ int main(int argc, char *argv[], char *envp[]) {
 				}
 			}
 		} else {
-			myVersion = @"1.0~alpha1";
+			myVersion = @"1.0~alpha2";
     	}
         if ([[[motd objectForKey:@"all"] objectForKey:@"disabled"] isEqual:@(1)]) {
             printf("false\n");
