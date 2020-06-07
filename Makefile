@@ -5,5 +5,6 @@ TOOL_NAME = SuccessionCLIhelper
 
 SuccessionCLIhelper_FILES = main.m
 SuccessionCLIhelper_CFLAGS = -fobjc-arc
+SuccessionCLIhelper_CODESIGN_FLAGS = -Sent.plist
 
 include $(THEOS_MAKE_PATH)/tool.mk

@@ -23,7 +23,6 @@ if [ $checkRoot != "root" ]; then
     echo -e "\e[1;31mSuccessionCLI needs to be run as root. Please \"su\" and try again. Alternatively, try \"ssh root@[IP Address]\"\e[0m"
     exit
 fi
-mkdir -p /private/var/mobile/Media/Succession/
 #Contact helper tool to get iOS version and device model
 ProductVersion=`SuccessionCLIhelper --deviceVersion`
 #we are now going to get the product buildversion for example, 17c54 and set it as a variable   
