@@ -82,12 +82,11 @@ IPSWFileSize=`head -1 /private/var/mobile/Media/Succession/IPSWFileSize.txt`
 
 IPSWSizeInGb=`echo "$IPSWFileSize" / 1000000000 | bc -l` 
 if [[ $IPSWSizeInGb > $FreeSpace ]];
-then 
-echo you don’t have enough storage to run succession 
+then
+echo "\e[1;31mYOU DO NOT HAVE SUFFICIENT STORAGE TO DOWNLOAD THE IPSW, REMOVE SOME STORAGE AND TRY AGAIN!\e[0m"     
 end
 fi   
-
-    echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
+echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
     #print a warning message 
     echo -e "\e[1;32mOnce you press enter again, Succession will begin the download\e[0m"  
     echo -e "\e[1;32mDO NOT LEAVE TERMINAL\e[0m"
