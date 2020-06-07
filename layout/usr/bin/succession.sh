@@ -3,7 +3,6 @@
 #TextEnding=`\e[0m"`
 #RedText=`"\e[1;31m`
 #GreenText=`"\e[1;32m`
-rm -r /private/var/mobile/Media/Succession/*
 mkdir -p /private/var/mobile/Media/Succession/
 curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/motd-cli.plist -o /private/var/mobile/Media/Succession/motd.plist -k
 shouldIRun=`SuccessionCLIhelper --shouldIRun`
@@ -108,7 +107,7 @@ if $shouldExtractIPSW; then
     # If this is the first run, we need a destination folder to dump to
     mkdir -p /private/var/mobile/Media/Succession/ipsw/
     # 7z is a much faster and more advanced zip tool, and most devices will have it.
-    pathToSevenZ=`which 7z`
+    pathToSevenZ="/usr/lib/p7zip/7z"
     if [ -x $pathToSevenZ ]; then
         echo -e "\e[1;32mVerifying IPSW...\e[0m"
         7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw BuildManifest.plist
