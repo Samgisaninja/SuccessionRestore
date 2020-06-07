@@ -79,9 +79,13 @@ if $shouldDownloadIPSW; then
 curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -o /private/var/mobile/Media/Succession/IPSWFileSize.txt
 #we now read the size of the IPSW
 IPSWFileSize=`head -1 /private/var/mobile/Media/Succession/IPSWFileSize.txt`
-#we’ll print this value for now, but in reality, it will be silent 
-echo "$IPSWFileSize" / 1000000000 | bc -l 
 
+IPSWSizeInGb=`echo "$IPSWFileSize" / 1000000000 | bc -l` 
+if [[ $IPSWSizeInGb > $FreeSpace ]];
+then 
+echo you don’t have enough storage to run succession 
+end
+fi   
 
     echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
     #print a warning message 
