@@ -80,8 +80,8 @@ if $shouldDownloadIPSW; then
 IPSWFileSize=`curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize`
 if [[ $IPSWFileSize > $FreeSpace ]];
 then
-echo "\e[1;31mError! There is not enough free storage space available to download the IPSW. Please free some space and try again.\e[0m"     
-end
+    echo -e "\e[1;31mError! There is not enough free storage space available to download the IPSW. Please free some space and try again.\e[0m"     
+    exit
 fi   
 echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
     #print a warning message 
