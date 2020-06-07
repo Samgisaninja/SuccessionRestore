@@ -3,15 +3,18 @@
 #TextEnding=`\e[0m"`
 #RedText=`"\e[1;31m`
 #GreenText=`"\e[1;32m`
+rm -r /private/var/mobile/Media/Succession/*
 mkdir -p /private/var/mobile/Media/Succession/
 curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/motd-cli.plist -o /private/var/mobile/Media/Succession/motd.plist -k
 shouldIRun=`SuccessionCLIhelper --shouldIRun`
 remoteMessage=`SuccessionCLIhelper --getMOTD`
 if [[ $remoteMessage != "No MOTD" ]]; then
     echo $remoteMessage
+    rm /private/var/mobile/Media/Succession/motd.plist
 fi
 if [[ $shouldIRun == "false" ]]; then
     echo -e "\e[1;31mFor your safety, Succession has been remotely disabled. Please try again at a later time.\e[0m"
+    rm /private/var/mobile/Media/Succession/motd.plist
     exit 0
 fi
 
