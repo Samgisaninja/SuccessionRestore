@@ -110,12 +110,12 @@ if $shouldExtractIPSW; then
     pathToSevenZ="/usr/lib/p7zip/7z"
     if [ -x $pathToSevenZ ]; then
         echo -e "\e[1;32mVerifying IPSW...\e[0m"
-        7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw BuildManifest.plist
+        /usr/lib/p7zip/7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw BuildManifest.plist
         buildManifestString=$(</private/var/mobile/Media/Succession/ipsw/BuildManifest.plist)
         if grep -q "$ProductBuildVersion" "/private/var/mobile/Media/Succession/ipsw/BuildManifest.plist"; then
             echo -e "\e[1;32mIPSW verified, extracting root filesystem...\e[0m"
-            nameOfDMG=`7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
-            7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
+            nameOfDMG=`/usr/lib/p7zip/7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
+            /usr/lib/p7zip/7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
             echo -e "\e[1;32mMoving extracted files...\e[0m"
             mv /private/var/mobile/Media/Succession/ipsw/$nameOfDMG /private/var/mobile/Media/Succession/rfs.dmg
         else
@@ -133,8 +133,8 @@ if $shouldExtractIPSW; then
             done
             if $versionCheckOverride; then
                     echo -e "\e[1;31mVersion check overridden, continuing as if nothing went wrong...\e[0m"
-                    nameOfDMG=`7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
-                    7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
+                    nameOfDMG=`/usr/lib/p7zip/7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
+                    /usr/lib/p7zip/7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
                     echo moving extracted files...
                     mv /private/var/mobile/Media/Succession/ipsw/$nameOfDMG /private/var/mobile/Media/Succession/rfs.dmg
             else
