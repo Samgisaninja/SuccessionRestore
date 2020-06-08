@@ -10,29 +10,27 @@ echo "COMPILING 64-BIT..."
 xcodebuild -target SuccessionRestore -xcconfig compile64.xcconfig -configuration Debug >> /dev/null
 mv ./build/Debug-iphoneos/SuccessionRestore.app ./
 mv ./SuccessionRestore32 ./SuccessionRestore.app/SuccessionRestore32
+mv ./SuccessionRestore.app/SuccessionRestore ./SuccessionRestore.app/SuccessionRestore64
+lipo ./SuccessionRestore.app/SuccessionRestore64 ./SuccessionRestore.app/SuccessionRestore32 -create -output ./SuccessionRestore.app/SuccessionRestore
+rm ./SuccessionRestore.app/SuccessionRestore32
+rm ./SuccessionRestore.app/SuccessionRestore64
 echo "COMPILING SUCCDATROOT..."
 cd ./succdatroot/ && make
 cd ..
 cp ./succdatroot/.theos/obj/debug/succdatroot ./SuccessionRestore.app/succdatroot
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore
-ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/SuccessionRestore32
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/succdatroot
 ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/attach
-ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-armv7
-ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-arm64
-ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik-arm64e
+ldid -SSuccessionEntitlements.plist ./SuccessionRestore.app/hdik
 rm -f ./SuccessionRestore.app/embedded.mobileprovision
 mkdir ./com.samgisaninja.SuccessionRestore
 cp -r ./Template/* ./com.samgisaninja.SuccessionRestore/
 mkdir com.samgisaninja.SuccessionRestore/Applications/
 mv SuccessionRestore.app com.samgisaninja.SuccessionRestore/Applications/
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore
-sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/SuccessionRestore32
 sudo fakeroot chmod 6755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/succdatroot
 sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/attach
-sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-armv7
-sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-arm64
-sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik-arm64e
+sudo fakeroot chmod 0755 com.samgisaninja.SuccessionRestore/Applications/SuccessionRestore.app/hdik
 rm -rf ./build
 rm -rf ./Index
 find . -type f -name .DS_Store -delete && xattr -cr *
