@@ -155,8 +155,8 @@ int main(int argc, char *argv[], char *envp[]) {
 		}
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--beginRestore"]) {
 		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mnt/succ/sbin/launchd"]) {
-			printf("successionRestore called!");
-			printf("verified filesystem is mounted");
+			printf("successionRestore called!\n");
+			printf("verified filesystem is mounted\n");
 			NSMutableArray *rsyncMutableArgs = [NSMutableArray arrayWithObjects:
 												@"-vaxcH",
 												@"--delete",
@@ -202,13 +202,13 @@ int main(int argc, char *argv[], char *envp[]) {
 				} else if ([fstabString containsString:@"hfs"]){
 					filesystemType = @"hfs";
 				} else {
-					printf("%s", [[NSString stringWithFormat:@"Error! Failed to identify filesystem, read fstab successfully, but fstab did not contain filesystem type: %@", fstabString] UTF8String]);
+					printf("%s\n", [[NSString stringWithFormat:@"Error! Failed to identify filesystem, read fstab successfully, but fstab did not contain filesystem type: %@", fstabString] UTF8String]);
 				}
 			} else {
-				printf("%s", [[NSString stringWithFormat:@"Failed to read fstab: %@", [error localizedDescription]] UTF8String]);
+				printf("%s\n", [[NSString stringWithFormat:@"Failed to read fstab: %@", [error localizedDescription]] UTF8String]);
 			}
 			if (![filesystemType isEqualToString:@"apfs"]) {
-				printf("non-APFS detected, excluding dyld-shared-cache to prevent running out of storage");
+				printf("non-APFS detected, excluding dyld-shared-cache to prevent running out of storage\n");
 				[rsyncMutableArgs addObject:@"--exclude=/System/Library/Caches/com.apple.dyld/"];
 			}
 			NSTask *rsyncTask = [[NSTask alloc] init];
@@ -221,30 +221,27 @@ int main(int argc, char *argv[], char *envp[]) {
 			NSFileHandle *stdoutHandle = [outputPipe fileHandleForReading];
 			[stdoutHandle waitForDataInBackgroundAndNotify];
 			id observer;
-			observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
-																		 object:stdoutHandle queue:nil
-																	 usingBlock:^(NSNotification *note)
-						{
-				
+			observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification object:stdoutHandle queue:nil usingBlock:^(NSNotification *note){
 				NSData *dataRead = [stdoutHandle availableData];
 				NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
-				printf("%s", [stringRead UTF8String]);
+				printf("%s\n", [stringRead UTF8String]);
 				if ([stringRead containsString:@"speedup is"] && [stringRead containsString:@"bytes"] && [stringRead containsString:@"sent"] && [stringRead containsString:@"received"]) {
-					printf("Restore has completed!");
+					printf("Restore has completed!\n");
 					[[NSNotificationCenter defaultCenter] removeObserver:observer];
 					extern int SBDataReset(mach_port_t, int);
 					extern mach_port_t SBSSpringBoardServerPort(void);
-					printf("Calling SBDataReset now...");
+					printf("Calling SBDataReset now...\n");
 					SBDataReset(SBSSpringBoardServerPort(), 5);
 				}
 				[stdoutHandle waitForDataInBackgroundAndNotify];
 			}];
-			printf("Updating UI to prepare for restore");
+			printf("Updating UI to prepare for restore\n");
 			if ([rsyncTask launchPath]) {
-				printf("rsyncTask has a valid launchPath, lets go!");
+				printf("rsyncTask has a valid launchPath, lets go!\n");
 				[rsyncTask launch];
+				[rsyncTask waitUntilExit];
 			} else {
-				printf("Unable to apply launchPath to rsyncTask. Please (re)install rsync from Cydia.");
+				printf("Unable to apply launchPath to rsyncTask. Please (re)install rsync from Cydia.\n");
 			}
 		} else {
 			printf("ERROR! Filesystem not mounted.\n");
