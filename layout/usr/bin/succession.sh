@@ -230,6 +230,7 @@ elif [ -f /usr/bin/attach ]; then
     else
         rm -r /private/var/mobile/Media/Succession/*
         echo -e "\e[1;31mError! IPSW download/extract was corrupted. Please rerun this script.\e[0m"
+		exit 0
     fi
 fi
 mkdir -p /private/var/mnt/succ/
