@@ -225,17 +225,16 @@ int main(int argc, char *argv[], char *envp[]) {
 				NSData *dataRead = [stdoutHandle availableData];
 				NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
 				printf("%s\n", [stringRead UTF8String]);
-				if ([stringRead containsString:@"speedup is"] && [stringRead containsString:@"bytes"] && [stringRead containsString:@"sent"] && [stringRead containsString:@"received"]) {
-					printf("Restore has completed!\n");
-					[[NSNotificationCenter defaultCenter] removeObserver:observer];
-					extern int SBDataReset(mach_port_t, int);
-					extern mach_port_t SBSSpringBoardServerPort(void);
-					printf("Calling SBDataReset now...\n");
-					SBDataReset(SBSSpringBoardServerPort(), 5);
-				}
 				[stdoutHandle waitForDataInBackgroundAndNotify];
 			}];
-			printf("Updating UI to prepare for restore\n");
+			rsyncTask.terminationHandler = ^{
+				printf("Restore has completed!\n");
+				[[NSNotificationCenter defaultCenter] removeObserver:observer];
+				extern int SBDataReset(mach_port_t, int);
+				extern mach_port_t SBSSpringBoardServerPort(void);
+				printf("Calling SBDataReset now...\n");
+				SBDataReset(SBSSpringBoardServerPort(), 5);
+    		};
 			if ([rsyncTask launchPath]) {
 				printf("rsyncTask has a valid launchPath, lets go!\n");
 				[rsyncTask launch];
