@@ -97,7 +97,9 @@ echo -e "\e[1;32mSuccession will download the correct IPSW for your device: pres
     #TODO: add pzb to just download what we need instead of the entire IPSW
     
 curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl -k
-    #now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
+#make the user comfirm that    they want to extract the IPSW
+ read -p echo -e "\e[1;32mthe IPSW has successfully downloaded, please press enter to extract it\e[0m" 
+#now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
     mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
 fi
 if $shouldExtractIPSW; then
