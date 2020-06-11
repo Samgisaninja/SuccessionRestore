@@ -1,5 +1,6 @@
 #!/bin/bash
-
+#declare the current version of Succession here
+CurrentSuccessionCLIVersion=1.0
 #TextEnding=`\e[0m"`
 #RedText=`"\e[1;31m`
 #GreenText=`"\e[1;32m`
@@ -16,7 +17,13 @@ if [[ $shouldIRun == "false" ]]; then
     rm /private/var/mobile/Media/Succession/motd.plist
     exit 0
 fi
-
+curl --silent -L  https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/SuccessionCLIVersion.txt -o /github/SuccessionRestore/layout/usr/bin/LatestSuccessionCLIVersion.txt -k
+LatestSuccessionCLIVersion=`head -1 /github/SuccessionRestore/layout/usr/bin/CurrentSuccessionCLIVersion.txt`
+if [ $LatestSuccessionCLIVersion > $CurrentSuccessionCLIVersion ]; 
+then
+echo Succession can be updated, please visit your package manager or github to update
+fi 
+#add the ability to directly update from here in the future  
 echo -e "\e[1;32mWelcome to SuccessionCLI! Written by Samg_is_a_Ninja and Hassan’s Tech (demhademha)\e[0m"
 echo -e "\e[1;32mSpecial thanks to pwn20wnd (mountpoint and rsync args) and wh0ba (storage space utils)\e[0m"
 sleep 3
