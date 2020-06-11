@@ -17,8 +17,8 @@ if [[ $shouldIRun == "false" ]]; then
     rm /private/var/mobile/Media/Succession/motd.plist
     exit 0
 fi
-curl --silent -L  https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/SuccessionCLIVersion.txt -o /github/SuccessionRestore/layout/usr/bin/LatestSuccessionCLIVersion.txt -k
-LatestSuccessionCLIVersion=`head -1 /github/SuccessionRestore/layout/usr/bin/CurrentSuccessionCLIVersion.txt`
+curl --silent -L  https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/SuccessionCLIVersion.txt -o /private/var/mobile/Media/Succession/LatestSuccessionCLIVersion.txt -k
+LatestSuccessionCLIVersion=`head -1 /private/var/mobile/Media/Succession/CurrentSuccessionCLIVersion.txt`
 if [ $LatestSuccessionCLIVersion > $CurrentSuccessionCLIVersion ]; 
 then
 echo Succession can be updated, please visit your package manager or github to update
