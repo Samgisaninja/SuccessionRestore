@@ -17,13 +17,13 @@ if [[ $shouldIRun == "false" ]]; then
     rm /private/var/mobile/Media/Succession/motd.plist
     exit 0
 fi
-curl --silent -L  https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/SuccessionCLIVersion.txt -o /private/var/mobile/Media/Succession/LatestSuccessionCLIVersion.txt -k
-LatestSuccessionCLIVersion=`head -1 /private/var/mobile/Media/Succession/CurrentSuccessionCLIVersion.txt`
+curl -L --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/SuccessionCLIVersion.txt -o /private/var/mobile/Media/Succession/LatestSuccessionCLIVersion.txt -k
+LatestSuccessionCLIVersion=`head -1 /private/var/mobile/Media/Succession/LatestSuccessionCLIVersion.txt`
 if [ $LatestSuccessionCLIVersion > $CurrentSuccessionCLIVersion ]; 
 then
-echo Succession can be updated, please visit your package manager or github to update
-fi 
-#add the ability to directly update from here in the future  
+echo -e "\e[1;31mThe current version of Succession that you are running is $CurrentSuccessionCLIVersion however, the latest version of SuccessionCLI is $LatestSuccessionCLIVersion: we strongly suggest that you  update through either your package manager or by visiting SuccessionCLI’s github page\e[0m"
+#add the ability to directly update from here in the future
+fi  
 echo -e "\e[1;32mWelcome to SuccessionCLI! Written by Samg_is_a_Ninja and Hassan’s Tech (demhademha)\e[0m"
 echo -e "\e[1;32mSpecial thanks to pwn20wnd (mountpoint and rsync args) and wh0ba (storage space utils)\e[0m"
 sleep 3
