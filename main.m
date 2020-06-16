@@ -9,7 +9,9 @@ int main(int argc, char *argv[], char *envp[]) {
 		[argumentsArray addObject:[NSString stringWithCString:argv[i] encoding:NSASCIIStringEncoding]];
 	}
 	[argumentsArray removeObject:@"SuccessionCLIhelper"];
-	if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceVersion"]) {
+	if ([argumentsArray count] < 1) {
+		printf("This is a helper tool for succession.sh and cannot do anything on its own. If you'd like to erase your device, please run succession.sh\n");
+	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceVersion"]) {
 		printf("%s\n", [[[UIDevice currentDevice] systemVersion] UTF8String]);
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceBuildNumber"]) {
 		size_t size;
@@ -35,13 +37,12 @@ int main(int argc, char *argv[], char *envp[]) {
 			NSError *error = nil;
 			NSDictionary *results = [fileURL resourceValuesForKeys:@[NSURLVolumeAvailableCapacityForImportantUsageKey] error:&error];
 			if (!results) {
-				NSLog(@"Error retrieving resource keys: %@\n%@", [error localizedDescription], [error userInfo]);
-				printf("Error\n");
+				printf("Error!\n");
 			}
 			NSString *freeSpace = [NSByteCountFormatter stringFromByteCount:[results[NSURLVolumeAvailableCapacityForImportantUsageKey] longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
 			NSString *freeGigabytes = [freeSpace stringByReplacingOccurrencesOfString:@" GB" withString:@""];
 			float freeBytesFloat = [freeGigabytes floatValue] * 1000000000;
-			printf("%f\n", freeBytesFloat);
+			printf("%d\n", (int)freeBytesFloat);
 #pragma clang diagnostic pop
 		} else {
 			NSDictionary *fattributes = [[NSDictionary alloc] init];
@@ -50,7 +51,7 @@ int main(int argc, char *argv[], char *envp[]) {
 			NSString *forFure = [NSByteCountFormatter stringFromByteCount:[fure longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
 			NSString *freeGigabytes = [forFure stringByReplacingOccurrencesOfString:@" GB" withString:@""];
 			float freeBytesFloat = [freeGigabytes floatValue] * 1000000000;
-			printf("%f\n", freeBytesFloat);
+			printf("%d\n", (int)freeBytesFloat);
 			
 		}
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceCommonName"]) {
@@ -68,7 +69,7 @@ int main(int argc, char *argv[], char *envp[]) {
 				}
 			}
 		} else {
-			printf("ERROR! No API data available for parsing!\n");
+			printf("Error! No API data available for parsing!\n");
 		}
 		
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--shouldIRun"]) {
@@ -153,6 +154,92 @@ int main(int argc, char *argv[], char *envp[]) {
 		} else {
 			printf("No MOTD\n");
 		}
+	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--needsDecryption"]) {
+		if (kCFCoreFoundationVersionNumber < 1300) {
+			printf("TRUE\n");
+		} else {
+			printf("FALSE\n");
+		}
+	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--getKeyPageLink"]) {
+		NSString *deviceVersion = [[UIDevice currentDevice] systemVersion];
+		size_t size;
+		sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+		char *modelChar = malloc(size);
+		sysctlbyname("hw.machine", modelChar, &size, NULL, 0);
+		NSString *deviceModel = [NSString stringWithUTF8String:modelChar];
+		free(modelChar);
+		sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
+		char *buildChar = malloc(size);
+		sysctlbyname("kern.osversion", buildChar, &size, NULL, 0);
+		NSString *deviceBuild = [NSString stringWithUTF8String:buildChar];
+		free(buildChar);
+		// Let's fetch the rootfilesystem decryption key from theiphonewiki. TheiPhoneWiki's URLs are annoyingly machine unfriendly, formatted as https://www.theiphonewiki.com/wiki/<iOS_Codename>_<Buildnumber>_(<Machine ID>)
+		// The hard part here is the version codename. Muirey03 suggested to me that it might be possible to obtain the codename from MobileGestalt, but every time I tried to call it, Succession would crash. So, hardcoding! Hooray for lack of future-proofing! (or in this case, past-proofing? idk.)
+		NSDictionary *codenameForVersion = @{
+											@"7.0" : @"Innsbruck",
+											@"7.0.1" : @"Innsbruck",
+											@"7.0.2" : @"Innsbruck",
+											@"7.0.3" : @"InnsbruckTaos",
+											@"7.0.4" : @"InnsbruckTaos",
+	 										@"7.0.5" : @"InnsbruckTaos",
+	 										@"7.0.6" : @"InnsbruckTaos",
+											@"7.1" : @"Sochi",
+											@"7.1.1" : @"SUSochi",
+											@"7.1.2" : @"Sochi",
+											@"8.0" : @"Okemo",
+											@"8.0.1" : @"Okemo",
+											@"8.0.2" : @"Okemo",
+											@"8.1" : @"OkemoTaos",
+											@"8.1.1" : @"SUOkemoTaos",
+											@"8.1.2" : @"SUOkemoTaos",
+											@"8.1.3" : @"SUOkemoTaosTwo",
+											@"8.2" : @"OkemoZurs",
+											@"8.3" : @"Stowe",
+											@"8.4" : @"Copper",
+											@"8.4.1" : @"Donner",
+											@"9.0" : @"Monarch",
+											@"9.0.1" : @"Monarch",
+											@"9.0.2" : @"Monarch",
+											@"9.1" : @"Boulder",
+											@"9.2" : @"Castlerock",
+											@"9.2.1" : @"Dillon",
+											@"9.3" : @"Eagle",
+											@"9.3.1" : @"Eagle",
+											@"9.3.2" : @"Frisco",
+											@"9.3.3" : @"Genoa",
+											@"9.3.4" : @"Genoa",
+											@"9.3.5" : @"Genoa",
+											@"9.3.6" : @"Genoa"
+											};
+		// Hopefully that's accurate, if it isnt... welp.
+		// SO! back to what we were doing, let's figure out what codename goes with this iOS version.
+		// First let's check to make sure there isn't some edge case where I don't have the codename for the user's iOS version, getting the value for a nonexistent key results in a crash.
+		if ([[codenameForVersion allKeys] containsObject:deviceVersion]) {
+			// yay, I have the codename for the user's iOS version. Let's make it useful.
+			NSString *codename = [codenameForVersion objectForKey:deviceVersion];
+			// Now, the easiest way I could think of to obtain the decryption keys was to download the HTML page of theiphonewiki, convert it to a string, and parse, like so:
+			NSString *keyPageURL = [NSString stringWithFormat:@"https://theiphonewiki.com/wiki/%@_%@_(%@)", codename, deviceBuild, deviceModel];
+			printf("%s\n", [keyPageURL UTF8String]);
+		} else {
+			// If the iOS version isn't in the dict above, then :rip:
+			printf("%s\n", [[NSString stringWithFormat:@"Error! Couldn't get codename for your iOS %@\nPlease email me samgisaninja@unc0ver.dev or dm me on reddit u/Samg_is_a_Ninja", deviceBuild] UTF8String]);
+		}
+	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--getDecryptionKey"]) {
+		// Convert the data to a string
+		NSString *keyPageString = [NSString stringWithContentsOfFile:@"/private/var/mobile/Media/Succession/keypage.txt" encoding:NSUTF8StringEncoding error:nil];			// Now let's check to see if theiphonewiki actually has the key we need
+		if ([keyPageString containsString:@"<code id=\"keypage-rootfs-key\">"]) {
+			// yay! it does. Lets parse now.
+			// separate the into an array to isolate the rfs key
+			NSArray *keyPageStringSeparated = [keyPageString componentsSeparatedByString:@"<code id=\"keypage-rootfs-key\">"];
+			// get all the text after "keypage-rootfs-key>"
+			NSString *theFunPartOfKeyPageString = [keyPageStringSeparated objectAtIndex:1];
+			// trim it down further
+			NSArray *theFunPartSeparated = [theFunPartOfKeyPageString componentsSeparatedByString:@"</code>"];
+			printf("%s\n", [[theFunPartSeparated firstObject] UTF8String]);
+		} else {
+			// oof. key isnt available. :rip:
+			printf("Error! Key for your device not available.\n");
+		}
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--beginRestore"]) {
 		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mnt/succ/sbin/launchd"]) {
 			printf("successionRestore called!\n");
@@ -234,7 +321,7 @@ int main(int argc, char *argv[], char *envp[]) {
 				extern mach_port_t SBSSpringBoardServerPort(void);
 				printf("Calling SBDataReset now...\n");
 				SBDataReset(SBSSpringBoardServerPort(), 5);
-    		};
+			};
 			if ([rsyncTask launchPath]) {
 				printf("rsyncTask has a valid launchPath, lets go!\n");
 				[rsyncTask launch];
@@ -243,7 +330,7 @@ int main(int argc, char *argv[], char *envp[]) {
 				printf("Unable to apply launchPath to rsyncTask. Please (re)install rsync from Cydia.\n");
 			}
 		} else {
-			printf("ERROR! Filesystem not mounted.\n");
+			printf("Error! Filesystem not mounted.\n");
 		}
 	} else {
 		printf("This is a helper tool for succession.sh and cannot do anything on its own. If you'd like to erase your device, please run succession.sh\n");

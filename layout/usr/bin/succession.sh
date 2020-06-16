@@ -51,6 +51,16 @@ if [[ $ProductVersion == "9"* ]]; then
         echo -e "\e[1;31mSuccession is disabled: the iPhone 6s cannot be activated on iOS 9.\e[0m"
     fi
 fi
+needsDecryptionString=`SuccessionCLIhelper --needsDecryption`
+if [[ $needsDecryptionString == "TRUE" ]]; then
+	needsDecryption=true
+	if [ ! -f /usr/bin/dmg ]; then
+		echo -e "\e[1;31mError! You need to install \"XPwn\" to continue. Please search and install XPwn in your package manager.\e[0m"
+		exit 0
+	fi
+else
+	needsDecryption=false
+fi
 rm /private/var/mobile/Media/Succession/motd.plist
 echo -e "\e[1;32mPlease make sure this information is accurate before continuing. Press enter to confirm or exit if inaccurate.\e[0m"
 read varblank
@@ -86,7 +96,7 @@ if $shouldDownloadIPSW; then
 #we need to get the size of the IPSW, to ensure that the user has enough storage
 #we now read the size of the IPSW
 IPSWFileSize=`curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -k`
-if [[ $IPSWFileSize > $FreeSpace ]];
+if (( $IPSWFileSize > $FreeSpace ));
 then
     echo -e "\e[1;31mError! There is not enough free storage space available to download the IPSW. Please free some space and try again.\e[0m"     
     exit
@@ -104,10 +114,11 @@ echo -e "\e[1;32mSuccession will download the correct IPSW for your device: pres
     #TODO: add pzb to just download what we need instead of the entire IPSW
     
 curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl -k
-#make the user comfirm that    they want to extract the IPSW
- read -p echo -e "\e[1;32mthe IPSW has successfully downloaded, please press enter to extract it\e[0m" 
 #now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
-    mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
+mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
+#make the user comfirm that they want to extract the IPSW
+echo -e "\e[1;32mThe IPSW has successfully downloaded, please press enter to extract it"
+read varblank3
 fi
 if $shouldExtractIPSW; then
     #we create a new directory to put the ipsw that is going to be extracted   
@@ -126,7 +137,7 @@ if $shouldExtractIPSW; then
             nameOfDMG=`/usr/lib/p7zip/7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
             /usr/lib/p7zip/7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
             echo -e "\e[1;32mMoving extracted files...\e[0m"
-            mv /private/var/mobile/Media/Succession/ipsw/$nameOfDMG /private/var/mobile/Media/Succession/rfs.dmg
+            mv /private/var/mobile/Media/Succession/ipsw/$nameOfDMG /private/var/mobile/Media/Succession/encrypted.dmg
         else
             versionCheckOverride=false
             echo -e "\e[1;31m**********WARNING!**********\e[0m"
@@ -145,7 +156,7 @@ if $shouldExtractIPSW; then
                     nameOfDMG=`/usr/lib/p7zip/7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
                     /usr/lib/p7zip/7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
                     echo moving extracted files...
-                    mv /private/var/mobile/Media/Succession/ipsw/$nameOfDMG /private/var/mobile/Media/Succession/rfs.dmg
+                    mv /private/var/mobile/Media/Succession/ipsw/$nameOfDMG /private/var/mobile/Media/Succession/encrypted.dmg
             else
                     echo -e "\e[1;32mGood choice. Succession will now quit.\e[0m"
                     exit
@@ -161,7 +172,7 @@ if $shouldExtractIPSW; then
         if grep -q "$ProductBuildVersion" "/private/var/mobile/Media/Succession/ipsw/BuildManifest.plist"; then
             echo -e "\e[1;32mIPSW verified, moving files...\e[0m"
             dmg=`ls -S /private/var/mobile/Media/Succession/ipsw/ | head -1`
-            mv /private/var/mobile/Media/Succession/ipsw/$dmg /private/var/mobile/Media/Succession/rfs.dmg
+            mv /private/var/mobile/Media/Succession/ipsw/$dmg /private/var/mobile/Media/Succession/encrypted.dmg
         else
             versionCheckOverride=false
             echo -e "\e[1;31m**********WARNING!**********\e[0m"
@@ -178,7 +189,7 @@ if $shouldExtractIPSW; then
             if $versionCheckOverride; then
                     echo -e "\e[1;31mVersion check overridden, continuing as if nothing went wrong...\e[0m"
                     dmg=`ls -S /private/var/mobile/Media/Succession/ipsw/ | head -1`
-                    mv /private/var/mobile/Media/Succession/ipsw/$dmg /private/var/mobile/Media/Succession/rfs.dmg
+                    mv /private/var/mobile/Media/Succession/ipsw/$dmg /private/var/mobile/Media/Succession/encrypted.dmg
             else
                     echo -e "\e[1;32mGood choice. Succession will now quit.\e[0m"
                     exit
@@ -188,6 +199,26 @@ if $shouldExtractIPSW; then
     # Clean up
     rm -rf /private/var/mobile/Media/Succession/ipsw/
     rm /private/var/mobile/Media/Succession/ipsw.ipsw
+	if $needsDecryption; then
+		urlWithKey=`SuccessionCLIhelper --getKeyPageLink`
+		if [[ urlWithKey != "Error"* ]]; then
+			echo -e "\e[1;32mFetching decryption key...\e[0m"
+			curl -L -# $urlWithKey -o /private/var/mobile/Media/Succession/keypage.txt -k
+			decryptionKey=`SuccessionCLIhelper --getDecryptionKey`
+			if [[ decryptionKey != "Error"* ]]; then
+				echo -e "\e[1;32mDecrypting rootfilesystem...\e[0m"
+				dmg extract /private/var/mobile/Media/Succession/encrypted.dmg /private/var/mobile/Media/Succession/rfs.dmg -k $decryptionKey
+			else
+				echo $decryptionKey
+				exit 0
+			fi
+		else
+			echo $urlWithKey
+			exit 0
+		fi
+	else
+		mv /private/var/mobile/Media/Succession/ipsw/encrypted.dmg /private/var/mobile/Media/Succession/rfs.dmg
+	fi
 fi
 echo -e "\e[1;32mRootfilesystem dmg successfully extracted!\e[0m" 
 if grep -q "apfs" "/private/etc/fstab"; then
