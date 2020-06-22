@@ -1,9 +1,9 @@
 #!/bin/bash
 #declare the current version of Succession here
 CurrentSuccessionCLIVersion="1.0"
-#TextEnding=`\e[0m"`
-#RedText=`"\e[1;31m`
-#GreenText=`"\e[1;32m`
+#Text ending is presented by =`\e[0m"
+#Red Text is presented by "\e[1;31m
+#Green text is presented by "\e[1;32m`
 mkdir -p /private/var/mobile/Media/Succession/
 curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/motd-cli.plist -o /private/var/mobile/Media/Succession/motd.plist -k
 shouldIRun=`SuccessionCLIhelper --shouldIRun`
