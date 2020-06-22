@@ -1,6 +1,6 @@
 #!/bin/bash
 #declare the current version of Succession here
-CurrentSuccessionCLIVersion=1.0
+CurrentSuccessionCLIVersion="1.0"
 #TextEnding=`\e[0m"`
 #RedText=`"\e[1;31m`
 #GreenText=`"\e[1;32m`
@@ -19,13 +19,15 @@ if [[ $shouldIRun == "false" ]]; then
 fi
 curl -L --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/SuccessionCLIVersion.txt -o /private/var/mobile/Media/Succession/LatestSuccessionCLIVersion.txt -k
 LatestSuccessionCLIVersion=`head -1 /private/var/mobile/Media/Succession/LatestSuccessionCLIVersion.txt`
-if [ $LatestSuccessionCLIVersion > $CurrentSuccessionCLIVersion ]; 
+if [[ $LatestSuccessionCLIVersion > $CurrentSuccessionCLIVersion ]]; 
 then
-echo -e "\e[1;31mThe current version of Succession that you are running is $CurrentSuccessionCLIVersion however, the latest version of SuccessionCLI is $LatestSuccessionCLIVersion: we strongly suggest that you  update through either your package manager or by visiting SuccessionCLI’s github page\e[0m"
+echo -e "\e[1;31mThe current version of Succession that you are running is $CurrentSuccessionCLIVersion however, the latest version of SuccessionCLI is $LatestSuccessionCLIVersion: we strongly suggest that you  update through either your package manager or by visiting SuccessionCLI’s github page at https://github.com/Samgisaninja/SuccessionRestore/tree/SuccessionCLI\e[0m"
 #add the ability to directly update from here in the future
 fi  
 echo -e "\e[1;32mWelcome to SuccessionCLI! Written by Samg_is_a_Ninja and Hassan’s Tech (demhademha)\e[0m"
 echo -e "\e[1;32mSpecial thanks to pwn20wnd (mountpoint and rsync args) and wh0ba (storage space utils)\e[0m"
+echo -e "\e[1;32mIf you found this tool useful, then consider donating to demhademha at https://www.paypal.me/demhademha and to Samg_is_a_Ninja at     
+https://www.paypal.me/SamGardner4 In addition, you can visit https://github.com/Samgisaninja/SuccessionRestore/tree/SuccessionCLI to get support\e[0m" 
 sleep 3
 checkRoot=`whoami`
 if [ $checkRoot != "root" ]; then
