@@ -1,5 +1,5 @@
 #!/bin/bash
-mkdir /var/mobile/Media/Succession/
+mkdir -p /var/mobile/Media/Succession/
 chmod 0777 /var/mobile/Media/Succession/
 KERNELVERSION=$(uname -r)
 searchstring="."
@@ -53,4 +53,5 @@ do
 done
 echo "SuccessionCLI by Sam Gardner // Samg_is_a_Ninja and Hassan’s Tech // demhademha"
 echo "Special Thanks to pwn20wnd and wh0ba"
+echo "now run succession.sh to begin restoring"
 exit 0
