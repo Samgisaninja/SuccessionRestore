@@ -1,14 +1,17 @@
-# SuccessionCLI 
+# CAUTION: THIS TOOL IS NOT COMPLETE AND SHOULD NOT BE CURRENTLY USED AS IT'LL PROBABLY MESS UP YOUR DEVICE  
+# SuccessionCLI
+## restore your device from the command line 
+### this tool can be useful for many reasons
+* restore a bootlooped checkra1n device over ssh and keep the current version so you can keep using unc0ver or the upcoming odyssey jailbreak
+* restore multiple devices at once by using several terminal windows
+* supports a larger range of devices as it isn't dependant on a gui
+* uses the same  components to the  succession app (where appropriate)
+* works over both wifi and usb 
 
-Well, if you're here, you’ve probably heard of Succession: a tool used to reset devices with rootfilesystem DMG. 
+## contributing:
 
-# What does SuccessionCLI do?
+### fork the repo and then  create a pull request with the following:
+* what you have improved upon / fixed / added 
+* link to any issues
 
-SuccessionCLIRestore is basically succession, except that it is in CLI. 
-
-# Why might someone use this?
-
-A very good question indeed, this tool can be used to restore many devices at once through ssh over WiFi or USB, or to reset a checkra1n supported  device that isn’t fully working. 
-
-# extra 
-If you would like to help with this project, then by all means, please submit a pull request.
+* any major   rewrites, please discuss this with us first 
