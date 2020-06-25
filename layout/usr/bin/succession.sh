@@ -99,11 +99,16 @@ if $shouldDownloadIPSW; then
 #we now read the size of the IPSW
 IPSWFileSize=`curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -k`
 if (( $IPSWFileSize > $FreeSpace ));
-then
-    echo -e "\e[1;31mError! There is not enough free storage space available to download the IPSW. Please free some space and try again.\e[0m"     
-    exit
-fi   
-echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
+while true; do
+        read -p $'\e[1;31mIt appears you don't have enough storage to download the IPSW. Would you like to override this check?  (y/n) \e[0m' yn
+        case $yn in
+            [Yy]* ) break;;
+            [Nn]* )exit; break;;
+            * ) echo -e "\e[1;31mPlease answer yes or no.\e[0m";;
+        esac
+    done
+fi
+ echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
     #print a warning message 
     echo -e "\e[1;32mOnce you press enter again, Succession will begin the download\e[0m"  
     echo -e "\e[1;32mDO NOT LEAVE TERMINAL\e[0m"
