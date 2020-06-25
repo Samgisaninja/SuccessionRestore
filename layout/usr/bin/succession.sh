@@ -1,6 +1,7 @@
 #!/bin/bash
 #declare the current version of Succession here
-CurrentSuccessionCLIVersion="1.0"
+CurrentSuccessionCLIVersion="1.0~alpha1"
+
 #Text ending is presented by =`\e[0m"
 #Red Text is presented by "\e[1;31m
 #Green text is presented by "\e[1;32m`
@@ -19,7 +20,7 @@ if [[ $shouldIRun == "false" ]]; then
 fi
 curl -L --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/SuccessionCLIVersion.txt -o /private/var/mobile/Media/Succession/LatestSuccessionCLIVersion.txt -k
 LatestSuccessionCLIVersion=`head -1 /private/var/mobile/Media/Succession/LatestSuccessionCLIVersion.txt`
-if [[ $LatestSuccessionCLIVersion > $CurrentSuccessionCLIVersion ]]; 
+if [ "$LatestSuccessionCLIVersion" != "$CurrentSuccessionCLIVersion" ]; 
 then
 echo -e "\e[1;31mThe current version of Succession that you are running is $CurrentSuccessionCLIVersion however, the latest version of SuccessionCLI is $LatestSuccessionCLIVersion: we strongly suggest that you  update through either your package manager or by visiting SuccessionCLI’s github page at https://github.com/Samgisaninja/SuccessionRestore/tree/SuccessionCLI\e[0m"
 #add the ability to directly update from here in the future
