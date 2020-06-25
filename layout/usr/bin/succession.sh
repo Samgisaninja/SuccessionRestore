@@ -95,37 +95,37 @@ fi
 
 if $shouldDownloadIPSW; then 
 
-#we need to get the size of the IPSW, to ensure that the user has enough storage
-#we now read the size of the IPSW
-IPSWFileSize=`curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -k`
-if (( $IPSWFileSize > $FreeSpace ));
-while true; do
-        read -p $'\e[1;31mIt appears you don\'t have enough storage to download the IPSW. Would you like to override this check?  (y/n) \e[0m' yn
-        case $yn in
-            [Yy]* ) break;;
-            [Nn]* ) exit; break;;
-            * ) echo -e "\e[1;31mPlease answer yes or no.\e[0m";;
-        esac
-    done
-fi
- echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
+	#we need to get the size of the IPSW, to ensure that the user has enough storage
+	#we now read the size of the IPSW
+	IPSWFileSize=`curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -k`
+	if (( $IPSWFileSize > $FreeSpace )); then
+		while true; do
+    	    read -p $'\e[1;31mIt appears you don\'t have enough storage to download the IPSW. Would you like to override this check?  (y/n) \e[0m' yn
+        	case $yn in
+            	[Yy]* ) break;;
+            	[Nn]* ) exit; break;;
+            	* ) echo -e "\e[1;31mPlease answer yes or no.\e[0m";;
+        	esac
+    	done
+	fi
+ 	echo -e "\e[1;32mSuccession will download the correct IPSW for your device: press enter to proceed\e[0m"
     #print a warning message 
     echo -e "\e[1;32mOnce you press enter again, Succession will begin the download\e[0m"  
     echo -e "\e[1;32mDO NOT LEAVE TERMINAL\e[0m"
     echo -e "\e[1;32mDO NOT POWER OFF YOUR DEVICE\e[0m"  
     read varblank2
-  echo -e "\e[1;32mDownloading IPSW...\e[0m" 
+  	echo -e "\e[1;32mDownloading IPSW...\e[0m" 
     # Clean up any files from previous runs
     rm -rf /private/var/mobile/Media/Succession/*
     #we download the ipsw from apple’s servers through ipsw.me’s api
     #TODO: add pzb to just download what we need instead of the entire IPSW
     
-curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl -k
-#now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
-mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
-#make the user comfirm that they want to extract the IPSW
-echo -e "\e[1;32mThe IPSW has successfully downloaded, please press enter to extract it"
-read varblank3
+	curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl -k
+	#now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
+	mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
+	#make the user comfirm that they want to extract the IPSW
+	echo -e "\e[1;32mThe IPSW has successfully downloaded, please press enter to extract it"
+	read varblank3
 fi
 if $shouldExtractIPSW; then
     #we create a new directory to put the ipsw that is going to be extracted   
