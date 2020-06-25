@@ -133,7 +133,7 @@
 -(void)attachDiskImage{
     [self logToFile:@"attachDiskImage called!" atLineNumber:__LINE__];
     NSArray *beforeAttachDevContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSString stringWithFormat:@"%@", [[NSBundle mainBundle] bundlePath]] stringByAppendingPathComponent:@"hdik"]]) {
+    if (sizeof(void *) != 4) {
         [self logToFile:@"using hdik to attach disk image" atLineNumber:__LINE__];
         NSTask *hdikTask = [[NSTask alloc] init];
         [hdikTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
