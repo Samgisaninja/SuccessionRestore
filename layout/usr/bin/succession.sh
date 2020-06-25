@@ -83,7 +83,7 @@ if ! $shouldExtractIPSW; then
     rm -rf /private/var/mobile/Media/Succession/ipsw*
     shouldDownloadIPSW=false
 fi
-if [ -f /private/var/mobile/Media/Succession/ipsw.ipsw ]; then
+if [ -f /private/var/mobile/Media/Succession/*.ipsw ]; then
     while true; do
         read -p $'\e[1;32mDetected provided ipsw, would you like to use it? (y/n) \e[0m' yn
         case $yn in
@@ -124,7 +124,7 @@ if $shouldDownloadIPSW; then
 	curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl -k
 	#now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
 	mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
-	#make the user comfirm that they want to extract the IPSW
+	#make the user confirm  that they want to extract the IPSW
 	echo -e "\e[1;32mThe IPSW has successfully downloaded, please press enter to extract it"
 	read varblank3
 fi
@@ -134,6 +134,8 @@ if $shouldExtractIPSW; then
     rm -rf /private/var/mobile/Media/Succession/ipsw/*
     # If this is the first run, we need a destination folder to dump to
     mkdir -p /private/var/mobile/Media/Succession/ipsw/
+#let's rename the ipsw file as it could be called anything!
+mv /private/var/mobile/Media/Succession/*.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
     # 7z is a much faster and more advanced zip tool, and most devices will have it.
     pathToSevenZ="/usr/lib/p7zip/7z"
     if [ -x $pathToSevenZ ]; then
