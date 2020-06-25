@@ -100,10 +100,10 @@ if $shouldDownloadIPSW; then
 IPSWFileSize=`curl --silent -L http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/filesize -k`
 if (( $IPSWFileSize > $FreeSpace ));
 while true; do
-        read -p $'\e[1;31mIt appears you don't have enough storage to download the IPSW. Would you like to override this check?  (y/n) \e[0m' yn
+        read -p $'\e[1;31mIt appears you don\'t have enough storage to download the IPSW. Would you like to override this check?  (y/n) \e[0m' yn
         case $yn in
             [Yy]* ) break;;
-            [Nn]* )exit; break;;
+            [Nn]* ) exit; break;;
             * ) echo -e "\e[1;31mPlease answer yes or no.\e[0m";;
         esac
     done
