@@ -11,6 +11,9 @@ xcodebuild -target SuccessionRestore -xcconfig compile64.xcconfig -configuration
 mv ./build/Debug-iphoneos/SuccessionRestore.app ./
 mv ./SuccessionRestore32 ./SuccessionRestore.app/SuccessionRestore32
 mv ./SuccessionRestore.app/SuccessionRestore ./SuccessionRestore.app/SuccessionRestore64
+mv ./SuccessionRestore.app/SuccessionRestore32 ./SuccessionRestore.app/SuccessionRestore32stupid
+lipo ./SuccessionRestore.app/SuccessionRestore32stupid -remove arm64 -output ./SuccessionRestore.app/SuccessionRestore32
+rm ./SuccessionRestore.app/SuccessionRestore32stupid
 lipo ./SuccessionRestore.app/SuccessionRestore64 ./SuccessionRestore.app/SuccessionRestore32 -create -output ./SuccessionRestore.app/SuccessionRestore
 rm ./SuccessionRestore.app/SuccessionRestore32
 rm ./SuccessionRestore.app/SuccessionRestore64
