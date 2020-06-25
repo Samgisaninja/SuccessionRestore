@@ -163,7 +163,9 @@
         exit(0);
     }];
     [errorAlertController addAction:exitAction];
-    [self presentViewController:errorAlertController animated:TRUE completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:errorAlertController animated:TRUE completion:nil];
+    });
 }
 
 - (void)logToFile:(NSString *)message atLineNumber:(int)lineNum {

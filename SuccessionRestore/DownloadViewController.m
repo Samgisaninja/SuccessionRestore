@@ -63,12 +63,14 @@
                             [self postDownload];
                         }
                     } else {
-                        UIAlertController *needsXPwn = [UIAlertController alertControllerWithTitle:@"Succession requires additional components to be installed" message:@"Please install xpwn from the saurik/Telesphoreo repo." preferredStyle:UIAlertControllerStyleAlert];
-                        UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                            exit(0);
-                        }];
-                        [needsXPwn addAction:exitAction];
-                        [self presentViewController:needsXPwn animated:TRUE completion:nil];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            UIAlertController *needsXPwn = [UIAlertController alertControllerWithTitle:@"Succession requires additional components to be installed" message:@"Please install xpwn from the saurik/Telesphoreo repo." preferredStyle:UIAlertControllerStyleAlert];
+                            UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                                exit(0);
+                            }];
+                            [needsXPwn addAction:exitAction];
+                            [self presentViewController:needsXPwn animated:TRUE completion:nil];
+                        });
                     }
                 } else {
                     self->_needsDecryption = FALSE;
@@ -551,7 +553,7 @@
     if (sizeof(void *) == 4) {
         unzipIPSW = [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip legacy32BitMode:TRUE];
     } else {
-        unzipIPSW = [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip legacy32BitMode:TRUE];
+        unzipIPSW = [[OZZipFile alloc] initWithFileName:@"/var/mobile/Media/Succession/ipsw.ipsw" mode:OZZipFileModeUnzip legacy32BitMode:FALSE];
     }
     [unzipIPSW locateFileInZip:@"BuildManifest.plist"];
     NSMutableDictionary *namesAndSizes = [[NSMutableDictionary alloc] init];
@@ -642,7 +644,9 @@
         exit(0);
     }];
     [errorAlertController addAction:exitAction];
-    [self presentViewController:errorAlertController animated:TRUE completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:errorAlertController animated:TRUE completion:nil];
+    });
 }
 
 - (void)logToFile:(NSString *)message atLineNumber:(int)lineNum {
