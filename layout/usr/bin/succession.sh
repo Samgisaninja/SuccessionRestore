@@ -69,6 +69,21 @@ echo -e "\e[1;32mPlease make sure this information is accurate before continuing
 read varblank
 shouldExtractIPSW=true
 shouldDownloadIPSW=true
+
+if [ -f /private/var/mobile/Media/Succession/partial.ipsw ]; then
+    while true; do
+        read -p $'\e[1;32mIt looks that a previous IPSW download was interrupted! Would you like to continue the download? (y/n) \e[0m' yn
+        case $yn in
+            [Yy]* ) curl -# -L -C - https://api.ipsw.me/v4/ipsw/download/$DeviceIdentifier/$ProductBuildVersion -o /private/var/mobile/Media/Succession/partial.ipsw -k
+
+shouldExtractIPSW=true
+shouldDownloadIPSW=false; break;;
+            [Nn]* ) shouldExtractIPSW=true; break;;
+            * ) echo -e "\e[1;31mPlease answer yes or no.\e[0m";;
+        esac
+    done
+fi
+
 if [ -f /private/var/mobile/Media/Succession/rfs.dmg ]; then
     while true; do
         read -p $'\e[1;32mDetected provided rootfilesystem disk image, would you like to use it? (y/n) \e[0m' yn
