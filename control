@@ -1,6 +1,6 @@
 Package: com.samgisaninja.successioncli
 Name: SuccessionCLI
-Version: 1.0~alpha2
+Version: 1.0~alpha1
 Architecture: iphoneos-arm
 Description: Restore without updating via rootfilesystem DMG
 Maintainer: Samg_is_a_Ninja, demhademha

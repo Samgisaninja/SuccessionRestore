@@ -121,7 +121,7 @@ if $shouldDownloadIPSW; then
     #we download the ipsw from apple’s servers through ipsw.me’s api
     #TODO: add pzb to just download what we need instead of the entire IPSW
     
-	curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw http://api.ipsw.me/v2.1/$DeviceIdentifier/$ProductBuildVersion/url/dl -k
+	curl  -# -L -o /private/var/mobile/Media/Succession/partial.ipsw https://api.ipsw.me/v4/ipsw/download/$DeviceIdentifier/$ProductBuildVersion -k
 	#now that the download is complete, rename "partial.ipsw" to "ipsw.ipsw"
 	mv /private/var/mobile/Media/Succession/partial.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
 	#make the user confirm  that they want to extract the IPSW
