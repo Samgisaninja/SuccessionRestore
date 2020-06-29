@@ -1,9 +1,10 @@
 Package: com.demhademha.successionclitools
 Name: SuccessionCLITools
-Version: 1.0~alpha1
 Architecture: iphoneos-arm
 Description:Some tools for SuccessionCLI 
 Maintainer: demhademha
 Author: demhademha
 Section: Utilities
 Depends: com.samgisaninja.successioncli
+Version: 1.0~alpha1
+Installed-Size: 476

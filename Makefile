@@ -3,12 +3,11 @@ TARGET = iphone:13.5:8.0
 FINALPACKAGE = 1
 include $(THEOS)/makefiles/common.mk
 
-TOOL_NAME = SuccessionCLIhelper
+TOOL_NAME = SuccessionCLITools
 
-SuccessionCLIhelper_FILES = main.m
-SuccessionCLIhelper_CFLAGS = -fobjc-arc
-SuccessionCLIhelper_CODESIGN_FLAGS = -Sent.plist
-SuccessionCLIhelper_PRIVATE_FRAMEWORKS = SpringBoardServices
-
+SuccessionCLITools_FILES = main.m
+SuccessionCLITools_CFLAGS = -fobjc-arc
+SuccessionCLITools_CODESIGN_FLAGS = -Sentitlements.plist
+SuccessionCLITools_INSTALL_PATH = /usr/bin
 
 include $(THEOS_MAKE_PATH)/tool.mk
