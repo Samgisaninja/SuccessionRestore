@@ -2,6 +2,6 @@
 mkdir -p /var/mobile/Media/Succession/
 chmod 0777 /var/mobile/Media/Succession/
 echo "SuccessionCLI by Sam Gardner // Samg_is_a_Ninja and Hassan’s Tech // demhademha"
-echo "Special Thanks to pwn20wnd and wh0ba"
+echo "Special Thanks to pwn20wnd (mountpoint and rsync args) and shmoopi (iOS System Services, copyright 2012 Shmoopi LLC, MIT License)"
 echo "now run succession.sh to begin restoring"
 exit 0

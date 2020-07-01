@@ -2,6 +2,45 @@
 #include <sys/sysctl.h>
 #import "NSTask.h"
 
+@interface diskSpaceInfo : NSObject
+@end
+
+@implementation diskSpaceInfo
+
+// Get the total free disk space in long format
++ (long long)longFreeDiskSpace {
+    // Get the long total free disk space	
+	@try {
+        // Set up the variables
+        long long FreeDiskSpace = 0L;
+		NSError *error = nil;
+        NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:NSHomeDirectory() error:&error];
+		
+        // Get the file attributes of the home directory assuming no errors
+        if (error == nil) {
+            FreeDiskSpace = [[fileAttributes objectForKey:NSFileSystemFreeSize] longLongValue];
+        } else {
+            // There was an error
+            return -1;
+        }
+        
+        // Check for valid size
+        if (FreeDiskSpace <= 0) {
+            // Invalid size
+            return -1;
+        }
+        
+        // Successful
+        return FreeDiskSpace;
+	}
+	@catch (NSException *exception) {
+        // Error
+        return -1;
+	}
+}
+
+@end
+
 int main(int argc, char *argv[], char *envp[]) {
 	NSMutableArray *argumentsArray = [[NSMutableArray alloc] init];
 	int i;
@@ -30,29 +69,11 @@ int main(int argc, char *argv[], char *envp[]) {
 		free(modelChar);
 		printf("%s\n", [deviceModelString UTF8String]);
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--freeSpace"]) {
-		if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunguarded-availability-new"
-			NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:@"/private/var/"];
-			NSError *error = nil;
-			NSDictionary *results = [fileURL resourceValuesForKeys:@[NSURLVolumeAvailableCapacityForImportantUsageKey] error:&error];
-			if (!results) {
-				printf("Error!\n");
-			}
-			NSString *freeSpace = [NSByteCountFormatter stringFromByteCount:[results[NSURLVolumeAvailableCapacityForImportantUsageKey] longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
-			NSString *freeGigabytes = [freeSpace stringByReplacingOccurrencesOfString:@" GB" withString:@""];
-			float freeBytesFloat = [freeGigabytes floatValue] * 1000000000;
-			printf("%d\n", (int)freeBytesFloat);
-#pragma clang diagnostic pop
+		long long freeDiskSpace = [diskSpaceInfo longFreeDiskSpace];
+		if (freeDiskSpace != -1) {
+			printf("%lld\n", freeDiskSpace);
 		} else {
-			NSDictionary *fattributes = [[NSDictionary alloc] init];
-			fattributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:@"/private/var/" error:nil];
-			NSNumber *fure = [fattributes objectForKey:NSFileSystemFreeSize];
-			NSString *forFure = [NSByteCountFormatter stringFromByteCount:[fure longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
-			NSString *freeGigabytes = [forFure stringByReplacingOccurrencesOfString:@" GB" withString:@""];
-			float freeBytesFloat = [freeGigabytes floatValue] * 1000000000;
-			printf("%d\n", (int)freeBytesFloat);
-			
+			printf("Error! Getting free disk space failed.");
 		}
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--deviceCommonName"]) {
 		size_t size;
