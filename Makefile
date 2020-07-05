@@ -5,10 +5,10 @@ include $(THEOS)/makefiles/common.mk
 
 TOOL_NAME = SuccessionCLIhelper
 
+SuccessionCLIhelper_PRIVATE_FRAMEWORKS = SpringBoardServices
 SuccessionCLIhelper_FILES = main.m
 SuccessionCLIhelper_CFLAGS = -fobjc-arc
 SuccessionCLIhelper_CODESIGN_FLAGS = -Sent.plist
-SuccessionCLIhelper_PRIVATE_FRAMEWORKS = SpringBoardServices
 
 
 include $(THEOS_MAKE_PATH)/tool.mk

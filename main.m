@@ -339,9 +339,14 @@ int main(int argc, char *argv[], char *envp[]) {
 				printf("Restore has completed!\n");
 				[[NSNotificationCenter defaultCenter] removeObserver:observer];
 				extern int SBDataReset(mach_port_t, int);
-				extern mach_port_t SBSSpringBoardServerPort(void);
-				printf("Calling SBDataReset now...\n");
-				SBDataReset(SBSSpringBoardServerPort(), 5);
+			extern mach_port_t SBSSpringBoardServerPort(void);
+			printf("Calling SBDataReset now...\n");
+			int rv = SBDataReset(SBSSpringBoardServerPort(), 5);
+			if (rv == 0) {
+				printf("Success, iOS will handle the rest from here.");
+			} else {
+				printf("Error! Failed to erase all content and settings. If you are seeing this message, please go to settings->general->reset->erase all content and settings\n");
+			}
 			};
 			if ([rsyncTask launchPath]) {
 				printf("rsyncTask has a valid launchPath, lets go!\n");
