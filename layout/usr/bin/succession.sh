@@ -2,9 +2,14 @@
 #declare the current version of Succession here
 CurrentSuccessionCLIVersion="1.0~alpha1"
 
-#Text ending is presented by =`\e[0m"
+#Text ending is presented by =\e[0m"
 #Red Text is presented by "\e[1;31m
 #Green text is presented by "\e[1;32m`
+
+if [ ! -f /usr/bin/SuccessionCLIhelper ]; then
+echo -e "\e[1;31mIt looks like a component of SuccessionCLI is missing, please reinstall succession and do not modify any files\e[1;31m"  
+exit
+fi
 mkdir -p /private/var/mobile/Media/Succession/
 curl --silent https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/motd-cli.plist -o /private/var/mobile/Media/Succession/motd.plist -k
 shouldIRun=`SuccessionCLIhelper --shouldIRun`
