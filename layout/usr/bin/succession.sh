@@ -70,7 +70,7 @@ else
 	needsDecryption=false
 fi
 rm /private/var/mobile/Media/Succession/motd.plist
-echo -e "\e[1;32mPlease make sure this information is accurate before continuing. Press enter to confirm or exit if inaccurate.\e[0m"
+echo -e "\e[1;32mPlease make sure this information is accurate before continuing. Press enter to confirm or exit by pressing control + c if inaccurate.\e[0m"
 read varblank
 shouldExtractIPSW=true
 shouldDownloadIPSW=true
