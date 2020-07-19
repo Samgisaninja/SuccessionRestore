@@ -26,7 +26,7 @@ echo -e "\e[1;31mThe current version of Succession that you are running is $Curr
 #add the ability to directly update from here in the future
 fi  
 echo -e "\e[1;32mWelcome to SuccessionCLI! Written by Samg_is_a_Ninja and Hassan’s Tech (demhademha)\e[0m"
-echo -e "\e[1;32mSpecial thanks to pwn20wnd (mountpoint and rsync args) and wh0ba (storage space utils)\e[0m"
+echo -e "\e[1;32mSpecial thanks to pwn20wnd (mountpoint and rsync args) and shmoopi (for iOS System Services)\e[0m"
 echo -e "\e[1;32mIf you found this tool useful, then consider donating to demhademha at https://www.paypal.me/demhademha and to Samg_is_a_Ninja at     
 https://www.paypal.me/SamGardner4 In addition, you can visit https://github.com/Samgisaninja/SuccessionRestore/tree/SuccessionCLI to get support\e[0m" 
 sleep 3
