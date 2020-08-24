@@ -9,11 +9,11 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ];
 then
 echo usage:
 
-echo "-c (use curl rather than partial zip)"
-echo "-e (erase the device, remove all user data)"
-echo "-l (specify the location of the ipsw, or dmg) defaults to /var/mobile/Media/Succession)"
-echo "-r (restore the root filesystem (rootfs, keep user data))"
-echo "-v (be verbose)"
+echo "-c (--use-curl) (use curl rather than partial zip)"
+echo "-e (--erase) (erase the device, remove all user data)"
+echo "-l (--location) (specify the location of the ipsw, or dmg) defaults to /var/mobile/Media/Succession)"
+echo "-r (--restore) (restore the root filesystem (rootfs, keep user data))"
+echo "-v (--verbose) (be verbose)"
 exit
 fi
 elif [ "$1" == "-e" ] || [ "$1" == "--erase" ];  
