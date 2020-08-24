@@ -15,9 +15,12 @@ echo "-l (--location) (specify the location of the ipsw, or dmg) defaults to /va
 echo "-r (--restore) (restore the root filesystem (rootfs, keep user data))"
 echo "-v (--verbose) (be verbose)"
 exit
-fi
-elif [ "$1" == "-e" ] || [ "$1" == "--erase" ];  
+elif [ "$1" == "-e" ] || [ "$1" == "--erase" ];
 then
 e=true
 echo will erase the device 
+elif [ "$1" == "-c" ] || [ "$1" == "--use-curl" ];
+then 
+echo will use curl to download the ipsw 
+c=true
 fi
