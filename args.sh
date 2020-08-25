@@ -52,4 +52,8 @@ fi
 if [ "$1" == "-r" ] || [ "$1" == "--restore" ];
 then
  echo will keep user data
+
+elif [ "$1" == "-v" ] || [ "$1" == "--verbose" ];
+then
+echo will be verbose
 fi
