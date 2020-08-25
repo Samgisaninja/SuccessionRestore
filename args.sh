@@ -56,4 +56,8 @@ then
 elif [ "$1" == "-v" ] || [ "$1" == "--verbose" ];
 then
 echo will be verbose
+
+elif [ "$1" == "" ] || [ "$1" == "" ];
+then
+echo will use succession as normal 
 fi
