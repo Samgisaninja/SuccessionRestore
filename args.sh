@@ -59,5 +59,8 @@ echo will be verbose
 
 elif [ "$1" == "" ] || [ "$1" == "" ];
 then
-echo will use succession as normal 
+echo will use succession as normal
+elif [ "$1" != "-c" ] || [ "$1" != "--use-curl" ] || [ "$1" != "-e" ] || [ "$1" != "--erase" ] || [ "$1" != "-h" ] || [ "$1" != "--help" ] || [ "$1" != "-l" ] || [ "$1" != "--location" ] || [ "$1" != "-r" ] || [ "$1" != "--restore" ] || [ "$1" != "-v" ] || [ "$1" != "--verbose" ] || [ "$1" != "" ];
+then 
+echo invalid command!        
 fi
