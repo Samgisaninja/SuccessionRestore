@@ -49,3 +49,7 @@ exit
 fi
 fi
 fi
+if [ "$1" == "-r" ] || [ "$1" == "--restore" ];
+then
+ echo will keep user data
+fi
