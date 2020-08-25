@@ -1,8 +1,8 @@
-c=false
-e=false
-l=/var/mobile/Media/Succession
-r=false
-v=false
+UseCurl=false
+EraseDevice=false
+SetLocation=/var/mobile/Media/Succession
+RestoreDevice=false
+BeVerbose=false
 
 echo $1
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; 
@@ -22,5 +22,30 @@ echo will erase the device
 elif [ "$1" == "-c" ] || [ "$1" == "--use-curl" ];
 then 
 echo will use curl to download the ipsw 
-c=true
+UseCurl=true
+
+elif [ "$1" == "-l" ] || [ "$1" == "--location" ];
+then
+SetLocation=$2
+echo $SetLocation
+if [[ -f $SetLocation ]];
+then
+
+if [ "${location: -5}" == ".ipsw" ];
+then 
+mv $location /var/mobile/Media/Succession/ipsw.ipsw
+#ShouldDownloadIPSW=false
+#ShouldExtractIPSW=true
+echo the ipsw has been moved successfully
+elif [ "${location: -4}" == ".dmg" ];
+then 
+mv $location /var/mobile/Media/Succession/rfs.dmg
+#ShouldDownloadIPSW=false
+#ShouldExtractIPSW=false
+echo the dmg  has been moved successfully 
+else
+echo this is not a valid file format
+exit
+fi
+fi
 fi
