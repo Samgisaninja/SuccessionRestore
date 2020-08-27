@@ -86,7 +86,7 @@ UseCurl=true
 
 elif [[ -f $SetLocation ]];
 then 
-:
+SetLocation=$4
 elif [ "$2" == "-l" ] || [ "$2" == "--location" ];
 then
 SetLocation=$3
@@ -151,7 +151,7 @@ echo will use curl to download the ipsw
 UseCurl=true
 elif [[ -f $SetLocation ]];
 then 
-:
+SetLocation=$5
 elif [ "$3" == "-l" ] || [ "$3" == "--location" ];
 then
 SetLocation=$4
