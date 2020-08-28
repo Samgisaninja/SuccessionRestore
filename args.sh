@@ -19,8 +19,15 @@ echo erase device
 echo ShouldEraseDevice = $ShouldEraseDevice
 ;;
     -h | --help) H="$2"
-echo help
 
+echo usage:
+
+echo "-c (--use-curl) (use curl rather than partial zip)"
+echo "-e (--erase) (erase the device, remove all user data)"
+echo "-l (--location) (specify the location of the ipsw, or dmg) defaults to /var/mobile/Media/Succession)"
+echo "-r (--restore) (restore the root filesystem (rootfs, keep user data))"
+echo "-v (--verbose) (be verbose)"
+exit
 ;;
     -l | --location) L="$2"
 SetLocation=$2
