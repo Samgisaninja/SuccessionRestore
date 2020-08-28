@@ -31,7 +31,28 @@ exit
 ;;
     -l | --location) L="$2"
 SetLocation=$2
-echo file location is  $SetLocation 
+echo file location is  $SetLocation
+
+if [[ -f $SetLocation ]];
+then
+
+if [ "${location: -5}" == ".ipsw" ];
+then 
+mv $location /var/mobile/Media/Succession/ipsw.ipsw
+#ShouldDownloadIPSW=false
+#ShouldExtractIPSW=true
+echo the ipsw has been moved successfully
+elif [ "${location: -4}" == ".dmg" ];
+then 
+mv $location /var/mobile/Media/Succession/rfs.dmg
+#ShouldDownloadIPSW=false
+#ShouldExtractIPSW=false
+echo the dmg  has been moved successfully 
+else
+echo this is not a valid file format
+exit
+fi
+fi
 ;;
     -r | --restore) r="$2" 
 ShouldRestoreDevice=true
