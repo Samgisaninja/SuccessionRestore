@@ -158,14 +158,13 @@ if $shouldExtractIPSW; then
     #let's rename the ipsw file as it could be called anything!
     mv /private/var/mobile/Media/Succession/*.ipsw /private/var/mobile/Media/Succession/ipsw.ipsw
     echo -e "\e[1;32mVerifying IPSW...\e[0m"
-    /usr/bin/successionclitools/lib/p7zip/7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw BuildManifest.plist
-    buildManifestString=$(</private/var/mobile/Media/Succession/ipsw/BuildManifest.plist)
-    if grep -q "$ProductBuildVersion" "/private/var/mobile/Media/Succession/ipsw/BuildManifest.plist"; then
+    /usr/bin/successionclitools/lib/p7zip/7z x /private/var/mobile/Media/Succession/ipsw.ipsw -o/var/mobile/Media/Succession BuildManifest.plist -r
+
+buildManifestString=$(</private/var/mobile/Media/Succession/BuildManifest.plist)
+    if grep -q "$ProductBuildVersion" "/private/var/mobile/Media/Succession/BuildManifest.plist"; then
         echo -e "\e[1;32mIPSW verified, extracting root filesystem...\e[0m"
         nameOfDMG=`/usr/bin/successionclitools/lib/p7zip/7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
-        /usr/bin/successionclitools/lib/p7zip/7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
-        echo -e "\e[1;32mMoving extracted files...\e[0m"
-            mv /private/var/mobile/Media/Succession/ipsw/$nameOfDMG /private/var/mobile/Media/Succession/encrypted.dmg
+        /usr/bin/successionclitools/lib/p7zip/7z x /private/var/mobile/Media/Succession/ipsw.ipsw -o/var/mobile/Media/Succession/encrypted.dmg $nameOfDMG -r
     else
     versionCheckOverride=false
         echo -e "\e[1;31m**********WARNING!**********\e[0m"
@@ -182,9 +181,8 @@ if $shouldExtractIPSW; then
         if $versionCheckOverride; then
                 echo -e "\e[1;31mVersion check overridden, continuing as if nothing went wrong...\e[0m"
                 nameOfDMG=`/usr/bin/successionclitools/lib/p7zip/7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
-                /usr/bin/successionclitools/lib/p7zip/7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG
-                echo moving extracted files...
-                mv /private/var/mobile/Media/Succession/ipsw/$nameOfDMG /private/var/mobile/Media/Succession/encrypted.dmg
+                /usr/bin/successionclitools/lib/p7zip/7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG -r 
+                
         else
                 echo -e "\e[1;32mGood choice. Succession will now quit.\e[0m"
                 exit
