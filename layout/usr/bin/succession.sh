@@ -164,7 +164,8 @@ buildManifestString=$(</private/var/mobile/Media/Succession/BuildManifest.plist)
     if grep -q "$ProductBuildVersion" "/private/var/mobile/Media/Succession/BuildManifest.plist"; then
         echo -e "\e[1;32mIPSW verified, extracting root filesystem...\e[0m"
         nameOfDMG=`/usr/bin/successionclitools/lib/p7zip/7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
-        /usr/bin/successionclitools/lib/p7zip/7z x /private/var/mobile/Media/Succession/ipsw.ipsw -o/var/mobile/Media/Succession/encrypted.dmg $nameOfDMG -r
+        /usr/bin/successionclitools/lib/p7zip/7z x /private/var/mobile/Media/Succession/ipsw.ipsw -o/var/mobile/Media/Succession $nameOfDMG -r
+mv /private/var/mobile/Media/Succession/$nameOfDMG /private/var/mobile/Media/Succession//encrypted.dmg
     else
     versionCheckOverride=false
         echo -e "\e[1;31m**********WARNING!**********\e[0m"
@@ -209,7 +210,7 @@ buildManifestString=$(</private/var/mobile/Media/Succession/BuildManifest.plist)
 			exit 0
 		fi
 	else
-		mv /private/var/mobile/Media/Succession/ipsw/encrypted.dmg /private/var/mobile/Media/Succession/rfs.dmg
+		mv /private/var/mobile/Media/Succession/encrypted.dmg /private/var/mobile/Media/Succession/rfs.dmg
 	fi
 fi
 echo -e "\e[1;32mRootfilesystem dmg successfully extracted!\e[0m" 
