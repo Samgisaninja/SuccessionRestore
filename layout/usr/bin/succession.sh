@@ -179,10 +179,12 @@ mv /private/var/mobile/Media/Succession/$nameOfDMG /private/var/mobile/Media/Suc
                 * ) echo -e "\e[1;31mPlease answer yes or no.\e[0m";;
             esac
         done
-        if $versionCheckOverride; then
+        if [[ $versionCheckOverride = "true" ]];
+then
                 echo -e "\e[1;31mVersion check overridden, continuing as if nothing went wrong...\e[0m"
-                nameOfDMG=`/usr/bin/successionclitools/lib/p7zip/7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
-                /usr/bin/successionclitools/lib/p7zip/7z x -o/private/var/mobile/Media/Succession/ipsw /private/var/mobile/Media/Succession/ipsw.ipsw $nameOfDMG -r 
+        nameOfDMG=`/usr/bin/successionclitools/lib/p7zip/7z l /private/var/mobile/Media/Succession/ipsw.ipsw | grep "dmg" | sort -k 4 | awk 'END {print $NF}'`
+        /usr/bin/successionclitools/lib/p7zip/7z x /private/var/mobile/Media/Succession/ipsw.ipsw -o/var/mobile/Media/Succession $nameOfDMG -r
+mv /private/var/mobile/Media/Succession/$nameOfDMG /private/var/mobile/Media/Succession//encrypted.dmg
                 
         else
                 echo -e "\e[1;32mGood choice. Succession will now quit.\e[0m"
