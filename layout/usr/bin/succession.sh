@@ -192,7 +192,8 @@ mv /private/var/mobile/Media/Succession/$nameOfDMG /private/var/mobile/Media/Suc
     # Clean up
     rm -rf /private/var/mobile/Media/Succession/ipsw/
     rm /private/var/mobile/Media/Succession/ipsw.ipsw
-	if $needsDecryption; then
+	if [[ needsDecryption = "true" ]];
+then
 		urlWithKey=`SuccessionCLIhelper --getKeyPageLink`
 		if [[ urlWithKey != "Error"* ]]; then
 			echo -e "\e[1;32mFetching decryption key...\e[0m"
