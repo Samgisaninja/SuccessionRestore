@@ -137,7 +137,13 @@
         [self logToFile:@"using hdik to attach disk image" atLineNumber:__LINE__];
         NSTask *hdikTask = [[NSTask alloc] init];
         [hdikTask setLaunchPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"succdatroot"]];
-        NSArray *hdikArgs = [NSArray arrayWithObjects:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"], @"/private/var/mobile/Media/Succession/rfs.dmg", nil];
+        NSString *hdikPath;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/hdik"]) {
+            hdikPath = @"/usr/sbin/hdik";
+        } else {
+            hdikPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"];
+        }
+        NSArray *hdikArgs = [NSArray arrayWithObjects:hdikPath, @"/private/var/mobile/Media/Succession/rfs.dmg", nil];
         [hdikTask setArguments:hdikArgs];
         [self logToFile:[NSString stringWithFormat:@"/Applications/SuccessionRestore.app/succdatroot %@", [hdikArgs componentsJoinedByString:@" "]] atLineNumber:__LINE__];
         NSPipe *stdOutPipe = [NSPipe pipe];
@@ -176,8 +182,14 @@
                 [self logToFile:[NSString stringWithFormat:@"I am: %d", getuid()] atLineNumber:__LINE__];
                 pid_t pid;
                 int i;
-                const char* args[] = {"hdik", "/var/mobile/Media/Succession/rfs.dmg", NULL};
-                posix_spawn(&pid, "/Applications/SuccessionRestore.app/hdik", NULL, NULL, (char* const*)args, NULL);
+                NSString *hdikPath;
+                if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/hdik"]) {
+                    hdikPath = @"/usr/sbin/hdik";
+                } else {
+                    hdikPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"hdik"];
+                }
+                const char* args[] = {"succdatroot", [hdikPath UTF8String], "/var/mobile/Media/Succession/rfs.dmg", NULL};
+                posix_spawn(&pid, "/Applications/SuccessionRestore.app/succdatroot", NULL, NULL, (char* const*)args, NULL);
                 waitpid(pid, &i, 0);
                 NSMutableArray *changedDevContents = [NSMutableArray arrayWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/dev/" error:nil]];
                 [changedDevContents removeObjectsInArray:beforeAttachDevContents];
