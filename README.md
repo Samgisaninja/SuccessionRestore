@@ -2,7 +2,7 @@
 # SuccessionCLI
 ## restore your device from the command line 
 ### this tool can be useful for many reasons
-* restore a bootlooped checkra1n device over ssh and keep the current version so you can keep using unc0ver or the upcoming odyssey jailbreak
+* restore a bootlooped checkra1n device over ssh and keep the current version so you can keep using unc0ver or the  odyssey jailbreak
 * restore multiple devices at once by using several terminal windows
 * supports a larger range of devices as it isn't dependant on a gui
 * uses the same  components to the  succession app (where appropriate)
@@ -12,6 +12,6 @@
 
 ### fork the repo and then  create a pull request with the following:
 * what you have improved upon / fixed / added 
-* link to any issues
+* link to any issues that you have resolved 
 
-* any major   rewrites, please discuss this with us first 
+* any major   rewrites, please discuss this with us first
