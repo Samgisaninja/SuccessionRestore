@@ -339,6 +339,10 @@ elif [ -f /usr/bin/attach ]; then
 fi
 mkdir -p /private/var/mnt/succ/
 mount -t $filesystemType -o ro $attachedDiskPath /private/var/mnt/succ/
+if grep -q "$ProductBuildVersion" "/var/mnt/succ/System/Library/CoreServices/SystemVersion.plist"; 
+then
+echo the root file system dmg has successfully been verified
+fi   
 #rm -r /private/var/mobile/Media/Succession/*
 #SuccessionCLIhelper --beginRestore
 exit 0
