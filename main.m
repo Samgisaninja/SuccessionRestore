@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <sys/sysctl.h>
+#include <sys/mount.h>
 #import "NSTask.h"
 
 @interface diskSpaceInfo : NSObject
@@ -261,6 +262,10 @@ int main(int argc, char *argv[], char *envp[]) {
 			// oof. key isnt available. :rip:
 			printf("Error! Key for your device not available.\n");
 		}
+	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--getFSType"]) {
+		struct statfs fileStat;
+    	statfs("/Applications/SuccessionRestore.app/SuccessionRestore", &fileStat);
+		printf("%s\n", fileStat.f_fstypename);
 	} else if ([[argumentsArray objectAtIndex:0] isEqualToString:@"--beginRestore"]) {
 		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/private/var/mnt/succ/sbin/launchd"]) {
 			printf("successionRestore called!\n");
