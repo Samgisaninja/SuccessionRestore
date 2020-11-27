@@ -11,6 +11,7 @@
 #include <sys/sysctl.h>
 #import "NSTask.h"
 #import <spawn.h>
+#include <sys/mount.h>
 
 @interface RestoreViewController ()
 
@@ -154,7 +155,7 @@
             NSData *outData = [outPipeRead readDataToEndOfFile];
             NSString *outString = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding];
             [self logToFile:[NSString stringWithFormat:@"hdik completed with\n%@",outString] atLineNumber:__LINE__];
-            if ([outString containsString:@"disk"]) {
+            if ([outString containsString:@"/dev/disk"] && [outString containsString:@"s2"]) {
                 NSArray *outLines = [outString componentsSeparatedByString:[NSString stringWithFormat:@"\n"]];
                 [self logToFile:[outLines componentsJoinedByString:@",\n"] atLineNumber:__LINE__];
                 [self logToFile:[NSString stringWithFormat:@"outlines count: %lu", (unsigned long)[outLines count]] atLineNumber:__LINE__];
@@ -321,23 +322,11 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [[self titleLabel] setText:@"Identifying filesystem type..."];
     });
-    NSError *error;
-    NSString *fstabString = [NSString stringWithContentsOfFile:@"/private/etc/fstab" encoding:NSUTF8StringEncoding error:&error];
-    if (!error) {
-        if ([fstabString containsString:@"apfs"]) {
-            [self logToFile:@"Identified filesystem as APFS!" atLineNumber:__LINE__];
-            _filesystemType = @"apfs";
-            [self mountAttachedDisk:diskPath ofType:@"apfs"];
-        } else if ([fstabString containsString:@"hfs"]){
-            [self logToFile:@"Identified filesystem as HFS!" atLineNumber:__LINE__];
-            _filesystemType = @"hfs";
-            [self mountAttachedDisk:diskPath ofType:@"hfs"];
-        } else {
-            [self errorAlert:[NSString stringWithFormat:@"Failed to identify filesystem, read fstab successfully, but fstab did not contain filesystem type: %@", fstabString] atLineNumber:__LINE__];
-        }
-    } else {
-        [self errorAlert:[NSString stringWithFormat:@"Failed to read fstab: %@", [error localizedDescription]] atLineNumber:__LINE__];
-    }
+    struct statfs fileStat;
+    statfs("/Applications/SuccessionRestore.app/SuccessionRestore", &fileStat);
+    [self logToFile:[NSString stringWithFormat:@"%s", fileStat.f_fstypename] atLineNumber:__LINE__];
+    _filesystemType = [NSString stringWithFormat:@"%s", fileStat.f_fstypename];
+    [self mountAttachedDisk:diskPath ofType:_filesystemType];
 }
 
 -(void)mountAttachedDisk:(NSString *)diskPath ofType:(NSString *)filesystemType{
