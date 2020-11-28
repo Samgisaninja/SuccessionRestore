@@ -1,51 +1,68 @@
 #!/bin/bash
+# Define user variables, which the user can change by passing parameters to "succession.sh"
+
 $ShouldUseCurl
 $ShouldEraseDevice
 $SetLocation
+$SetLogLocation
 $ShouldRestoreDevice
 $SetVerbose
-
+# We need to see what the user has passed to "succession.sh"
 while [ $# -gt 0 ] ; do
   case $1 in
     -c | --use-curl) C="$2"
-ShouldUseCurl=true
+# Change the variable
+	ShouldUseCurl=true
+# This is only here for debugging, it should be removed later
 echo use curl
 echo ShouldUseCurl = $ShouldUseCurl
 ;;
     -e | --erase) E="$2"
-ShouldEraseDevice=true
+# Change the variable
+	ShouldEraseDevice=true
+	#This is for debugging only, it should be removed later 
 echo erase device
 echo ShouldEraseDevice = $ShouldEraseDevice
 ;;
     -h | --help) H="$2"
-
+# create a function called "ShowHelp"
+ShowHelp ()
+{
 echo usage:
 
 echo "-c (--use-curl) (use curl rather than partial zip)"
 echo "-e (--erase) (erase the device, remove all user data)"
 echo "-l (--location) (specify the location of the ipsw or dmg) defaults to /var/mobile/Media/Succession)"
+echo "-L (--set-log-location) (specify where   succession's log should go)"
 echo "-r (--restore) (restore the root filesystem (rootfs) keep user data)"
 echo "-v (--verbose) (be verbose)"
 exit
+}
+ShowHelp
 ;;
     -l | --location) L="$2"
-SetLocation=$2
+# SetLocation is the second parameter as we want to see the file the user provides  
+	SetLocation=$2
+	
 echo file location is  $SetLocation
-
-if [[ -f $SetLocation ]];
+# Check if the user has provided an IPSW and move it to the succession folder
+ if [[ -f $SetLocation ]];
 then
 
 if [ "${SetLocation: -5}" == ".ipsw" ];
 then 
 mv $SetLocation /var/mobile/Media/Succession/ipsw.ipsw
+# We no longer need to download the IPSW, but we need to extract it 
 #ShouldDownloadIPSW=false
 #ShouldExtractIPSW=true
 echo the ipsw has been moved successfully
+# If the file the user provides is a DMG 
 elif [ "${SetLocation: -4}" == ".dmg" ];
 then 
 mv $SetLocation /var/mobile/Media/Succession/rfs.dmg
-#ShouldDownloadIPSW=false
-#ShouldExtractIPSW=false
+# We don't need to download or extract the DMG 
+$ShouldDownloadIPSW=false
+$ShouldExtractIPSW=false
 echo the dmg  has been moved successfully 
 else
 echo this is not a valid file format
@@ -53,13 +70,24 @@ exit
 fi
 fi
 ;;
-    -r | --restore) r="$2" 
+    -L | --set-log-location) L="$2"
+	# Specify where the log should be written to
+	SetLogLocation=$2	
+	# This is for debugging purposes, it should be removed in the Final release 
+	echo $SetLogLocation
+	;;
+    -r | --restore) r="$2"
+# Change the variable 	
 ShouldRestoreDevice=true
+# This is for debugging purposes only, it should be removed in the final build
 echo will restore device
 echo should restore device is    $ShouldRestoreDevice
 ;;
     -v | --verbose) V="$2"
-SetVerbose=true
+	# change variable
+	SetVerbose=true
+	# This is only for debugging purposes, it should be removed in the final build 	
+	
 echo will be verbose
 echo SetVerbose = $SetVerbose 
 ;;
