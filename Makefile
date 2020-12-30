@@ -19,7 +19,7 @@ MEMO_TARGET          ?= iphoneos-arm64
 MEMO_CFVER           ?= 800
 # iOS 7.0 == 847.20
 CFVER_WHOLE          := $(shell echo $(MEMO_CFVER) | cut -d. -f1)
-ifeq ($(shell [ "$(CFVER_WHOLE)" -ge 800 ] && [ "$(CFVER_WHOLE)" -lt 900 ] && echo 1),1)
+ifeq ($(shell [ "$(CFVER_WHOLE)" -ge 800 ] && [ "$(CFVER_WHOLE)" -lt 1100 ] && echo 1),1)
 IPHONEOS_DEPLOYMENT_TARGET  := 7.0
 APPLETVOS_DEPLOYMENT_TARGET := XXX
 WATCHOS_DEPLOYMENT_TARGET   := 1.0
