@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" != "upgrade" ]; then
+    update-alternatives --remove editor /usr/bin/nano
+    update-alternatives --remove pico /usr/bin/nano
+fi
+
+

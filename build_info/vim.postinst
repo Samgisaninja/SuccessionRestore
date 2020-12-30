@@ -1,0 +1,33 @@
+#!/bin/sh
+set -e
+
+pkg=vim
+variant=basic
+mandir=/usr/share/man
+
+# add /usr/bin/vim.variant as alternative for /usr/bin/vim. Priority are
+# chosen accordingly to the principle: ``more features, higher priority''
+
+if [ "$variant" != "tiny" ]; then
+  update-alternatives --install /usr/bin/vim vim /usr/bin/vim.$variant 30
+  update-alternatives --install /usr/bin/vimdiff vimdiff /usr/bin/vim.$variant 30
+  update-alternatives --install /usr/bin/rvim rvim /usr/bin/vim.$variant 30
+fi
+update-alternatives --install /usr/bin/rview rview /usr/bin/vim.$variant 30
+# Since other packages provide these commands, we'll setup alternatives for
+# their manpages, too.
+for i in vi view ex editor ; do
+  update-alternatives \
+    --install /usr/bin/$i $i /usr/bin/vim.$variant 30 \
+    --slave $mandir/da/man1/$i.1.zst $i.da.1.zst $mandir/da/man1/vim.1.zst \
+    --slave $mandir/de/man1/$i.1.zst $i.de.1.zst $mandir/de/man1/vim.1.zst \
+    --slave $mandir/fr/man1/$i.1.zst $i.fr.1.zst $mandir/fr/man1/vim.1.zst \
+    --slave $mandir/it/man1/$i.1.zst $i.it.1.zst $mandir/it/man1/vim.1.zst \
+    --slave $mandir/ja/man1/$i.1.zst $i.ja.1.zst $mandir/ja/man1/vim.1.zst \
+    --slave $mandir/pl/man1/$i.1.zst $i.pl.1.zst $mandir/pl/man1/vim.1.zst \
+    --slave $mandir/ru/man1/$i.1.zst $i.ru.1.zst $mandir/ru/man1/vim.1.zst \
+    --slave $mandir/man1/$i.1.zst $i.1.zst \
+            $mandir/man1/vim.1.zst
+done
+
+exit 0

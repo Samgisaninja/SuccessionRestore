@@ -1,0 +1,16 @@
+Package: libnghttp2-14
+Version: @DEB_NGHTTP2_V@
+Architecture: @DEB_ARCH@
+Maintainer: @DEB_MAINTAINER@
+Conflicts: nghttp2 (<<1:0), libnghttp2 (<<1:0)
+Replaces: nghttp2, libnghttp2
+Provides: nghttp2, libnghttp2
+Section: Development
+Priority: standard
+Homepage: https://nghttp2.org/
+Description: library implementing HTTP/2 protocol (shared library)
+ This is an implementation of the Hypertext Transfer Protocol version
+ 2 in C. The framing layer of HTTP/2 is implemented as a reusable C
+ library.
+ .
+ This package installs a shared library.

@@ -1,0 +1,8 @@
+Package: openssh
+Version: 1:0
+Architecture: @DEB_ARCH@
+Maintainer: @DEB_MAINTAINER@
+Depends: openssh-client, openssh-server, openssh-sftp-server
+Section: Networking
+Priority: important
+Description: secure shell client and server (metapackage)
