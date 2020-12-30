@@ -16,15 +16,28 @@ $(error Please run `umask 022` before running this)
 endif
 
 MEMO_TARGET          ?= iphoneos-arm64
-MEMO_CFVER           ?= 800
-# iOS 7.0 == 847.20
+MEMO_CFVER           ?= 675
+# iOS 5.0 == 675.00
 CFVER_WHOLE          := $(shell echo $(MEMO_CFVER) | cut -d. -f1)
-ifeq ($(shell [ "$(CFVER_WHOLE)" -ge 800 ] && [ "$(CFVER_WHOLE)" -lt 1100 ] && echo 1),1)
+ifeq ($(shell [ "$(CFVER_WHOLE)" -ge 675 ] && [ "$(CFVER_WHOLE)" -lt 793 ] && echo 1),1)
+IPHONEOS_DEPLOYMENT_TARGET  := 5.0
+APPLETVOS_DEPLOYMENT_TARGET := XXX
+WATCHOS_DEPLOYMENT_TARGET   := 1.0
+MACOSX_DEPLOYMENT_TARGET    := 10.10
+override MEMO_CFVER         := 675
+else ifeq ($(shell [ "$(CFVER_WHOLE)" -ge 793 ] && [ "$(CFVER_WHOLE)" -lt 800 ] && echo 1),1)
+IPHONEOS_DEPLOYMENT_TARGET  := 6.0
+APPLETVOS_DEPLOYMENT_TARGET := XXX
+WATCHOS_DEPLOYMENT_TARGET   := 1.0
+MACOSX_DEPLOYMENT_TARGET    := 10.10
+override MEMO_CFVER         := 793
+else ifeq ($(shell [ "$(CFVER_WHOLE)" -ge 800 ] && [ "$(CFVER_WHOLE)" -lt 1100 ] && echo 1),1)
 IPHONEOS_DEPLOYMENT_TARGET  := 7.0
 APPLETVOS_DEPLOYMENT_TARGET := XXX
 WATCHOS_DEPLOYMENT_TARGET   := 1.0
 MACOSX_DEPLOYMENT_TARGET    := 10.10
-override MEMO_CFVER         := 1000
+override MEMO_CFVER         := 800
+
 else ifeq ($(shell [ "$(CFVER_WHOLE)" -ge 1100 ] && [ "$(CFVER_WHOLE)" -lt 1200 ] && echo 1),1)
 IPHONEOS_DEPLOYMENT_TARGET  := 8.0
 APPLETVOS_DEPLOYMENT_TARGET := XXX
