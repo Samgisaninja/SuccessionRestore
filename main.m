@@ -1,3 +1,4 @@
+#import "determine_file_system_type.h"
 #import "download.h"
 #import <sys/types.h>
 #import <sys/stat.h>
@@ -85,5 +86,6 @@ break;
 }
 }
 printf("%i \n", file_string_checker("file.txt", "aa"));
+printf("%s", determine_file_system_type());
 return 0;
 }
