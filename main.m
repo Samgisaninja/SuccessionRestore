@@ -53,6 +53,37 @@ else
 {
 download("/private/var/mobile/Media/Succession/SuccessionCLIVersion.txt", "https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/SuccessionCLIVersion.txt");
 }
+if ((file_exists_checker(SUCCESSION_FOLDER"succession.ipsw", "r") != -1 )) 
+{
+}
+else 
+{
+bool shouldExitResponse =false;
+while (shouldExitResponse == false )
+{
+printf("Succession has detected an ipsw, would you like succession to use it? Y(es)/N(o) \n");
+char response=getchar();
+putchar(response);
+switch (response)
+{
+case 'Y':
+shouldExitResponse=true;
+break;
+case 'y':
+shouldExitResponse=true;
+break;
+case 'N':
+shouldExitResponse=true;
+break;
+case 'n':
+shouldExitResponse=true;
+break;
+default:
+shouldExitResponse=false;
+break;
+}
+}
+}
 if ((file_exists_checker(SUCCESSION_FOLDER"rfs.dmg", "r") != -1 )) 
 {
 }
@@ -85,7 +116,7 @@ break;
  
 }
 }
-printf("%i \n", file_string_checker("file.txt", "aa"));
-printf("%s", determine_file_system_type());
+//printf("%i \n", file_string_checker("file.txt", "aa"));
+//printf("%s", determine_file_system_type());
 return 0;
 }
