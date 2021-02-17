@@ -16,6 +16,14 @@ output[counter]=ch;
 counter++;
 }
 printf("%s \n", output);
+pclose(zip);
+zip=popen("7z e /private/var/mobile/Media/Succession/succession.ipsw 'output' && 7z e /private/var/mobile/Media/Succession/succession.ipsw  BuildManifest.plist", "r");
+    while( (ch=fgetc(zip)) != EOF)
+putchar(ch);
+
+
+pclose(zip);
+
     pclose(zip);
 
 
