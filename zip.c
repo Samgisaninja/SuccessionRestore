@@ -1,3 +1,5 @@
+#include <string.h>
+#include "succession.h"
 
 #include <stdio.h>
 #include <sys/stat.h>
@@ -17,7 +19,8 @@ counter++;
 }
 printf("%s \n", output);
 pclose(zip);
-zip=popen("7z e /private/var/mobile/Media/Succession/succession.ipsw 'output' && 7z e /private/var/mobile/Media/Succession/succession.ipsw  BuildManifest.plist", "r");
+strcpy(output, output);
+zip=popen("7z x /private/var/mobile/Media/Succession/succession.ipsw -o/var/mobile/Media/Succession 'output' -r", "r+");
     while( (ch=fgetc(zip)) != EOF)
 putchar(ch);
 
