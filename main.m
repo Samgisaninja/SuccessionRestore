@@ -1,3 +1,4 @@
+#import "zip.h"
 #import "determine_file_system_type.h"
 #import "download.h"
 #import <sys/types.h>
@@ -8,9 +9,11 @@
 #import "hardware.h"
 #import "succession_cli_can_run.h"
 #import "file_string_checker.h"
+//#import "zip.h"
 int main()
 {
 int result;
+const char *fileSystemType=determine_file_system_type();
 if (succession_cli_can_run() ==false)
 {
 //we should exit
@@ -53,37 +56,6 @@ else
 {
 download("/private/var/mobile/Media/Succession/SuccessionCLIVersion.txt", "https://raw.githubusercontent.com/Samgisaninja/samgisaninja.github.io/master/SuccessionCLIVersion.txt");
 }
-if ((file_exists_checker(SUCCESSION_FOLDER"succession.ipsw", "r") != -1 )) 
-{
-}
-else 
-{
-bool shouldExitResponse =false;
-while (shouldExitResponse == false )
-{
-printf("Succession has detected an ipsw, would you like succession to use it? Y(es)/N(o) \n");
-char response=getchar();
-putchar(response);
-switch (response)
-{
-case 'Y':
-shouldExitResponse=true;
-break;
-case 'y':
-shouldExitResponse=true;
-break;
-case 'N':
-shouldExitResponse=true;
-break;
-case 'n':
-shouldExitResponse=true;
-break;
-default:
-shouldExitResponse=false;
-break;
-}
-}
-}
 if ((file_exists_checker(SUCCESSION_FOLDER"rfs.dmg", "r") != -1 )) 
 {
 }
@@ -94,16 +66,11 @@ while (shouldExitResponse == false )
 {
 printf("Succession has detected a root file system image (dmg), Would you like succession to use it? Y(es)/N(o) \n");
 char response=getchar();
+response=tolower(response);
 putchar(response);
 switch (response)
 {
-case 'Y':
-shouldExitResponse=true;
-break;
 case 'y':
-shouldExitResponse=true;
-break;
-case 'N':
 shouldExitResponse=true;
 break;
 case 'n':
@@ -113,7 +80,32 @@ default:
 shouldExitResponse=false;
 break;
 }
- 
+}
+}
+if ((file_exists_checker(SUCCESSION_FOLDER"succession.ipsw", "r") != -1 )) 
+{
+}
+else 
+{
+bool shouldExitResponse =false;
+while (shouldExitResponse == false )
+{
+printf("Succession has detected an ipsw, would you like succession to use it? Y(es)/N(o) \n");
+char response=getchar();
+response=tolower(response);
+putchar(response);
+switch (response)
+{
+case 'y':
+extract_manifest();
+extract_ipsw();
+shouldExitResponse=true;
+case 'n':
+//delete the ipsw somehow
+shouldExitResponse=true;
+default:
+break;
+}
 }
 }
 //printf("%i \n", file_string_checker("file.txt", "aa"));

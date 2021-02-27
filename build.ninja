@@ -1,0 +1,18 @@
+CC=cc
+CFLAGS=-framework UIKit -framework Foundation -I/usr/include
+LDFLAGS=-L/usr/lib
+rule compile
+    command=$CC $CFLAGS $LDFLAGS -c $in -o $out
+rule link 
+    command=$CC  $CFLAGS $LDFLAGS /usr/lib/libcurl* $in -o $out
+build download.o: compile download.c
+build log.o: compile log.c
+build hardware.o: compile hardware.m
+build main.o: compile main.m
+build succession_cli_can_run.o: compile succession_cli_can_run.m
+build file_exists_checker.o: compile file_exists_checker.c
+build folder_exists_checker.o: compile folder_exists_checker.c
+build determine_file_system_type.o: compile determine_file_system_type.c
+build zip.o: compile zip.c
+build file_string_checker.o: compile file_string_checker.c
+build succession_c: link hardware.o log.o main.o succession_cli_can_run.o download.o determine_file_system_type.o file_exists_checker.o folder_exists_checker.o zip.o file_string_checker.o
