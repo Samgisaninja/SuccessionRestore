@@ -1,8 +1,8 @@
 CC=cc
 CFLAGS=-framework UIKit -framework Foundation -I/usr/include
-LDFLAGS=-L/usr/lib
+LDFLAGS=-L/usr/lib -framework UIKit -framework Foundation
 rule compile
-    command=$CC $CFLAGS $LDFLAGS -c $in -o $out
+    command=$CC $CFLAGS -c $in -o $out
 rule link 
     command=$CC  $CFLAGS $LDFLAGS /usr/lib/libcurl* $in -o $out
 build download.o: compile download.c
