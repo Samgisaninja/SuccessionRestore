@@ -1,7 +1,7 @@
 #include "download.h"
 int progress_function(void *progress_callback, double total_to_download,   double now_downloaded,   double total_to_upload, double uploaded_now)
 {
-	printf("Downloading %i%% \r", (now_downloaded/total_to_download)*100);
+	printf("Downloading %f%% \r", (now_downloaded/total_to_download)*100);
 fflush(stdout);
 
 return 0;

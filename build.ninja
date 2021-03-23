@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=-framework UIKit -framework Foundation -I/usr/include
+CFLAGS=-I/usr/include -Wall -Werror 
 LDFLAGS=-L/usr/lib -framework UIKit -framework Foundation
 rule compile
     command=$CC $CFLAGS -c $in -o $out

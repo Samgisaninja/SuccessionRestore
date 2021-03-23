@@ -11,7 +11,6 @@
 #import "file_string_checker.h"
 int main()
 {
-int result=0;
 if (succession_cli_can_run() ==false)
 {
 //we should exit

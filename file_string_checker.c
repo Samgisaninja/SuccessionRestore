@@ -2,11 +2,9 @@
 #include "file_string_checker.h"
 int file_string_checker(char *file_name, char *string) {
 	FILE *fp;
-	int line_num = 1;
+
 	int find_result = 0;
 	char temp[512];
-	
-
 	if((fp = fopen(file_name, "r")) == NULL) {
 		return(-1);
 	}
